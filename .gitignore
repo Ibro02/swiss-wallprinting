@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Vite+ / Vitest
+coverage/
+.vite/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Logs
+*.log
+pnpm-debug.log*
+
+# Environment (CONTACT_TO and other secrets)
+.env
+.env.*
+!.env.example
+
+# Editor and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Obsidian per-device state
+swiss-wallprinting/.obsidian/workspace.json
+swiss-wallprinting/.obsidian/workspace-mobile.json
+
+# Claude Code per-user settings
+.claude/settings.local.json
+
+# Development form e-mails (src/lib/mail.ts)
+.mail-outbox/
+
+# The author's message to the client: private, stays on this machine (decided 2026-10-21)
+swiss-wallprinting/Poruka ponude.md

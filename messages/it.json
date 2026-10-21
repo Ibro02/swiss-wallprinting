@@ -1,0 +1,531 @@
+{
+  "Metadata": {
+    "title": "Swiss Wall Printing – Stampa diretta su pareti",
+    "description": "Stampiamo immagini direttamente su pareti interne ed esterne, senza pellicole né adesivi. Fino a 3,80 m di altezza, larghezza illimitata. Camignolo, Ticino."
+  },
+  "Nav": {
+    "label": "Navigazione principale",
+    "home": "Home",
+    "about": "Chi siamo",
+    "services": "Servizi",
+    "gallery": "Galleria",
+    "contact": "Contatti",
+    "tryYourWall": "Prova la tua parete",
+    "imprint": "Note legali",
+    "privacy": "Privacy",
+    "language": "Lingua",
+    "tryYourWallShort": "Prova",
+    "homeLink": "Swiss Wall Printing, pagina iniziale",
+    "menuOpen": "Apri il menu",
+    "menuClose": "Chiudi il menu",
+    "skipToContent": "Vai al contenuto"
+  },
+  "Pages": {
+    "home": {
+      "title": "Stampiamo direttamente sui muri"
+    },
+    "about": {
+      "title": "Chi siamo"
+    },
+    "services": {
+      "title": "Servizi"
+    },
+    "gallery": {
+      "title": "Galleria"
+    },
+    "contact": {
+      "title": "Contatti"
+    },
+    "tryYourWall": {
+      "title": "Prova la tua parete"
+    },
+    "imprint": {
+      "title": "Note legali"
+    },
+    "privacy": {
+      "title": "Informativa sulla privacy"
+    }
+  },
+  "NotFound": {
+    "title": "Pagina non trovata",
+    "body": "La pagina che cerchi non esiste o è stata spostata.",
+    "back": "Torna alla home"
+  },
+  "Footer": {
+    "claim": "Stampiamo direttamente sui muri.",
+    "intro": "Stampa diretta su pareti interne ed esterne, senza pellicole né adesivi. Da Camignolo, in Ticino.",
+    "navTitle": "Navigazione",
+    "contactTitle": "Contatti",
+    "followTitle": "Seguici",
+    "legalTitle": "Informazioni legali",
+    "rights": "Tutti i diritti riservati.",
+    "phoneLanguages": "Lingue: {languages}",
+    "region": "Ticino, Svizzera"
+  },
+  "WhatsApp": {
+    "label": "Scrivici su WhatsApp",
+    "message": "Buongiorno! Vorrei informazioni sulla stampa diretta su parete."
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Stampa diretta su parete · Ticino",
+      "title": "La tua immagine, stampata direttamente sul muro.",
+      "lead": "Nessuna pellicola, nessun adesivo: stampiamo loghi, foto e grafiche su pareti interne ed esterne. Fino a {height} di altezza, senza limiti di larghezza.",
+      "ctaConfigurator": "Provalo sulla tua parete",
+      "ctaQuote": "Preventivo gratuito",
+      "imageAlt": "Una stampante murale stampa una tigre in bianco e nero su una parete nera."
+    },
+    "testimonials": {
+      "eyebrow": "Recensioni",
+      "title": "Cosa dicono i nostri clienti",
+      "starsLabel": "{rating} su 5 stelle",
+      "band": {
+        "excellent": "Eccellente",
+        "veryGood": "Molto buono",
+        "good": "Buono",
+        "none": "Nessuna valutazione"
+      },
+      "basedOn": "Basato su {count, plural, one {# recensione} other {# recensioni}}",
+      "ownerReply": "Risposta di Swiss Wall Printing",
+      "mockBadge": "Esempio",
+      "mockNote": "Recensioni di esempio per l'anteprima: verranno sostituite da quelle reali dei clienti."
+    },
+    "why": {
+      "eyebrow": "Perché Swiss Wall Printing",
+      "title": "Ogni muro diventa una tela.",
+      "intro": "Con macchinari di ultima generazione stampiamo immagini di alta qualità direttamente sulla parete: colori brillanti e dettagli nitidi, anche su superfici ampie.",
+      "stats": {
+        "height": "Altezza massima di stampa",
+        "width": "Larghezza illimitata",
+        "durability": "Anni di colori brillanti, anche all'esterno",
+        "ink": "Inchiostri ecologici certificati"
+      },
+      "features": {
+        "noFilm": "Nessuna pellicola e nessun adesivo: la stampa è sulla parete.",
+        "inOut": "Pareti interne ed esterne.",
+        "anyDesign": "Loghi, immagini artistiche, frasi e grafiche su misura.",
+        "freeQuote": "Preventivo gratuito."
+      }
+    },
+    "process": {
+      "eyebrow": "Come funziona",
+      "title": "Dalla tua idea alla parete finita",
+      "configuratorLink": "Apri il configuratore 3D",
+      "steps": {
+        "idea": {
+          "title": "Idea e parete",
+          "text": "Raccontaci cosa vuoi stampare e mandaci le misure e una foto della parete."
+        },
+        "design": {
+          "title": "Progetto e anteprima",
+          "text": "Prepariamo la grafica e ti mostriamo il risultato prima della stampa. Puoi già provarlo nel nostro configuratore 3D."
+        },
+        "print": {
+          "title": "Stampa sul posto",
+          "text": "Stampiamo direttamente sulla tua parete, senza pellicole né adesivi."
+        },
+        "done": {
+          "title": "Parete finita",
+          "text": "Colori brillanti e dettagli nitidi per oltre {years} anni, anche all'esterno."
+        }
+      }
+    },
+    "areas": {
+      "eyebrow": "Applicazioni",
+      "title": "Dove stampiamo",
+      "intro": "Per aziende, ospitalità, scuole e case private: dentro e fuori.",
+      "tryIt": "Prova nel configuratore"
+    },
+    "question": {
+      "eyebrow": "Domande",
+      "title": "Hai una domanda o un progetto?",
+      "intro": "Scrivici: il preventivo è gratuito.",
+      "alternatives": "Preferisci parlarne?"
+    }
+  },
+  "QuestionForm": {
+    "fields": {
+      "name": "Nome e cognome",
+      "email": "E-mail",
+      "phone": "Telefono (facoltativo)",
+      "message": "Il tuo messaggio",
+      "messageHint": "Per esempio: misure della parete, città, interno o esterno.",
+      "consent": "Accetto che Swiss Wall Printing usi questi dati solo per rispondere alla mia richiesta. <link>Informativa sulla privacy</link>"
+    },
+    "submit": "Invia il messaggio",
+    "sending": "Invio in corso…",
+    "errors": {
+      "name": {
+        "required": "Scrivi il tuo nome, così sappiamo come rivolgerci a te.",
+        "tooLong": "Il nome è troppo lungo: al massimo {max} caratteri."
+      },
+      "email": {
+        "required": "Scrivi il tuo indirizzo e-mail: ti rispondiamo lì.",
+        "invalid": "Questo indirizzo e-mail sembra incompleto. Controlla la @ e il dominio, per esempio nome@esempio.ch.",
+        "tooLong": "L'indirizzo e-mail è troppo lungo: al massimo {max} caratteri."
+      },
+      "phone": {
+        "invalid": "Questo numero non sembra valido. Usa solo cifre, spazi e +, per esempio +41 79 123 45 67.",
+        "tooLong": "Il numero è troppo lungo: al massimo {max} caratteri."
+      },
+      "message": {
+        "required": "Scrivi la tua domanda o descrivi il progetto.",
+        "tooLong": "Il messaggio è troppo lungo: al massimo {max} caratteri. Accorcialo o mandaci il resto per e-mail."
+      },
+      "consent": {
+        "required": "Spunta la casella: senza il tuo consenso non possiamo usare i tuoi dati per risponderti."
+      }
+    },
+    "problem": {
+      "invalid": "Il messaggio non è ancora stato inviato. {count, plural, one {Un campo da correggere} other {# campi da correggere}}: li trovi segnati qui sotto.",
+      "tooFast": "Il messaggio non è stato inviato perché il modulo è partito troppo in fretta. Il testo è ancora qui: invialo di nuovo tra qualche secondo.",
+      "rateLimited": "Il messaggio non è stato inviato: hai mandato diversi messaggi in pochi minuti. Il testo è ancora qui. Riprova tra 10 minuti, oppure chiamaci al {phone}.",
+      "failed": "Il messaggio non è stato inviato per un problema da parte nostra. Il testo è ancora qui: riprova tra poco, oppure scrivici a {email} o chiamaci al {phone}."
+    },
+    "sent": {
+      "title": "Grazie, abbiamo ricevuto il tuo messaggio.",
+      "body": "Ti risponderemo all’indirizzo {email} il prima possibile.",
+      "again": "Scrivi un altro messaggio"
+    }
+  },
+  "Services": {
+    "eyebrow": "Servizi",
+    "title": "Stampa diretta su qualsiasi parete",
+    "lead": "Dall'ufficio alla facciata: scegli la situazione più vicina alla tua, guarda la differenza e provala nel configuratore 3D.",
+    "rooms": {
+      "title": "Scegli la tua situazione",
+      "mockNote": "Foto di esempio per l'anteprima: verranno sostituite da lavori reali.",
+      "sliderLabel": "{room}: prima e dopo",
+      "wallSize": "Misure della parete:",
+      "tryThisWall": "Prova questa parete"
+    },
+    "what": {
+      "eyebrow": "Cosa stampiamo",
+      "title": "Dal logo alla grafica su misura",
+      "intro": "Su pareti interne ed esterne, fino a {height} di altezza e senza limiti di larghezza, con colori brillanti per oltre {years} anni.",
+      "kinds": {
+        "logo": {
+          "title": "Logo aziendale",
+          "text": "Il marchio e i colori dell'azienda, nitidi su tutta la parete."
+        },
+        "art": {
+          "title": "Immagini artistiche",
+          "text": "Paesaggi, foto e opere d'arte, anche in grande formato."
+        },
+        "phrase": {
+          "title": "Frasi",
+          "text": "Una frase ispirazionale o un messaggio per clienti e collaboratori."
+        },
+        "custom": {
+          "title": "Grafica su misura",
+          "text": "Un progetto creato apposta per il tuo spazio."
+        }
+      }
+    }
+  },
+  "BeforeAfter": {
+    "before": "Prima",
+    "after": "Dopo",
+    "valueText": "{before}% parete vuota",
+    "valueAfter": "Solo la stampa",
+    "hintPointer": "Passa sopra per vedere il prima",
+    "hintTouch": "Trascina per confrontare"
+  },
+  "CtaBand": {
+    "title": "Metti la tua idea sulla parete",
+    "text": "Carica un'immagine, scegli la parete e le misure e guarda il risultato in 3D. Il preventivo è gratuito.",
+    "configurator": "Apri il configuratore",
+    "quote": "Chiedi un preventivo"
+  },
+  "About": {
+    "eyebrow": "Chi siamo",
+    "title": "Ogni muro può raccontare una storia",
+    "lead": "Swiss Wall Printing stampa immagini direttamente sulle pareti, da {locality} in Ticino.",
+    "imageAlt": "Una stampante murale stampa una tigre in bianco e nero su una parete nera.",
+    "story": {
+      "what": "Stampiamo loghi, immagini artistiche, frasi e grafiche su misura direttamente sulla parete: senza pellicole né adesivi, su pareti interne ed esterne.",
+      "how": "Con macchinari di ultima generazione stampiamo fino a {height} di altezza e senza limiti di larghezza. Gli inchiostri ecologici che usiamo sono certificati e mantengono colori brillanti e dettagli nitidi per oltre {years} anni, anche all’esterno.",
+      "who": "Lavoriamo per aziende, hotel, ristoranti, scuole, uffici e abitazioni private.",
+      "canvas": "Con la stampa diretta, ogni muro diventa una tela su cui raccontare la tua storia."
+    }
+  },
+  "Gallery": {
+    "eyebrow": "Galleria",
+    "title": "Pareti stampate",
+    "lead": "Una selezione di lavori: filtra per tipo di spazio e apri una foto per vederla in grande.",
+    "mockNote": "Quasi tutte le foto sono esempi per l'anteprima: verranno sostituite da lavori reali."
+  },
+  "GalleryGrid": {
+    "filterLabel": "Filtra per tipo di spazio",
+    "all": "Tutti",
+    "count": "{count, plural, one {# foto} other {# foto}}",
+    "mockBadge": "Esempio",
+    "dialogLabel": "Foto in grande",
+    "position": "{current} di {total}",
+    "previous": "Foto precedente",
+    "next": "Foto successiva",
+    "close": "Chiudi"
+  },
+  "Contact": {
+    "eyebrow": "Contatti",
+    "title": "Parliamo della tua parete",
+    "lead": "Scrivici, chiamaci o mandaci un messaggio su WhatsApp. Il preventivo è gratuito.",
+    "email": "E-mail",
+    "phone": "Telefono",
+    "location": "Dove siamo",
+    "openMap": "Apri la mappa",
+    "social": "Social",
+    "formTitle": "Scrivici un messaggio"
+  },
+  "Legal": {
+    "missing": "da completare",
+    "draft": "Bozza: alcune informazioni devono ancora arrivare dal cliente (segnate «da completare») e il testo va verificato prima della pubblicazione.",
+    "updated": "Ultimo aggiornamento: {date}"
+  },
+  "Imprint": {
+    "eyebrow": "Note legali",
+    "title": "Note legali",
+    "operator": "Gestore del sito",
+    "fields": {
+      "name": "Azienda",
+      "address": "Indirizzo",
+      "email": "E-mail",
+      "phone": "Telefono",
+      "responsible": "Responsabile dei contenuti",
+      "uid": "Numero IDI (UID)"
+    },
+    "liability": {
+      "title": "Esclusione di responsabilità",
+      "text": "Verifichiamo con cura i contenuti di questo sito, ma non possiamo garantire che siano sempre completi, esatti e aggiornati. I prezzi del configuratore sono stime: vale solo il preventivo scritto."
+    },
+    "links": {
+      "title": "Link esterni",
+      "text": "Non siamo responsabili dei contenuti dei siti esterni ai quali rimandiamo."
+    },
+    "copyright": {
+      "title": "Diritti d'autore",
+      "text": "Testi, immagini e grafiche di questo sito appartengono a Swiss Wall Printing o ai rispettivi autori. Per usarli serve il nostro consenso scritto."
+    },
+    "credits": {
+      "title": "Crediti",
+      "text": "Il sito usa queste opere di terzi. Le foto di esempio sono create con le texture dei modelli 3D."
+    }
+  },
+  "Privacy": {
+    "eyebrow": "Privacy",
+    "title": "Informativa sulla privacy",
+    "lead": "Come trattiamo i tuoi dati quando visiti il sito o ci contatti.",
+    "controller": {
+      "title": "Chi è responsabile",
+      "text": "Responsabile del trattamento dei dati è {company}. Per ogni domanda sulla protezione dei dati scrivici a {email}."
+    },
+    "data": {
+      "title": "Quali dati trattiamo",
+      "text": "Quando usi il modulo trattiamo nome, indirizzo e-mail, numero di telefono (se lo indichi) e il tuo messaggio. Quando ci scrivi o ci chiami direttamente, trattiamo i dati del messaggio o della chiamata. Quando visiti il sito, il server registra dati tecnici come indirizzo IP, data e ora, pagina visitata e tipo di browser."
+    },
+    "purpose": {
+      "title": "Perché li trattiamo",
+      "text": "Usiamo i dati del modulo e dei contatti solo per rispondere alla tua richiesta e preparare un preventivo. Usiamo i dati tecnici per far funzionare il sito in modo sicuro, per esempio per bloccare i messaggi automatici (spam)."
+    },
+    "recipients": {
+      "title": "A chi li comunichiamo",
+      "text": "Il sito è ospitato da {hosting}. I messaggi del modulo ci arrivano per e-mail tramite {mailProvider}. Questi fornitori trattano i dati solo per nostro conto. Non vendiamo i tuoi dati e non li usiamo per pubblicità."
+    },
+    "abroad": {
+      "title": "Dati all'estero",
+      "text": "Se un fornitore tratta i dati fuori dalla Svizzera, lo fa solo in Paesi con una protezione adeguata o con garanzie contrattuali, come previsto dalla legge."
+    },
+    "cookies": {
+      "title": "Cookie e statistiche",
+      "text": "Il sito non usa cookie di tracciamento né strumenti di statistica o pubblicità. I caratteri tipografici sono caricati dal nostro server, senza richieste a Google."
+    },
+    "links": {
+      "title": "Link ad altri servizi",
+      "text": "Il sito contiene link a WhatsApp, Instagram, Facebook e Google Maps. Solo se li apri, questi servizi ricevono dati da te; per loro valgono le rispettive informative sulla privacy."
+    },
+    "retention": {
+      "title": "Per quanto tempo",
+      "text": "Conserviamo i messaggi finché servono per la tua richiesta e per gli obblighi di legge, per esempio la contabilità di un incarico. I dati tecnici del server vengono cancellati dopo poco tempo."
+    },
+    "rights": {
+      "title": "I tuoi diritti",
+      "text": "Secondo la legge federale sulla protezione dei dati (LPD) puoi chiederci quali dati abbiamo su di te, correggerli, farli cancellare o opporti al loro trattamento. Se per te vale il GDPR, hai anche il diritto alla portabilità dei dati. Scrivici a {email}. Puoi anche rivolgerti all'Incaricato federale della protezione dei dati e della trasparenza (IFPDT)."
+    },
+    "changes": {
+      "title": "Modifiche",
+      "text": "Possiamo aggiornare questa informativa quando il sito cambia. Vale la versione pubblicata qui."
+    }
+  },
+  "Configurator": {
+    "eyebrow": "Configuratore 3D",
+    "title": "Prova la tua parete",
+    "lead": "Scegli un'immagine, inserisci le misure e vedi subito come viene e quanto costa, più o meno.",
+    "adjusted": "Adattato a {value} m.",
+    "panel": {
+      "open": "Impostazioni",
+      "close": "Chiudi le impostazioni"
+    },
+    "image": {
+      "title": "Immagine",
+      "presets": "Immagini pronte",
+      "example": "Esempi",
+      "upload": "Carica la tua immagine",
+      "opening": "Apro l'immagine…",
+      "uploaded": "Sulla parete: {name}",
+      "uploadHint": "JPG, PNG o WebP, fino a {max} MB. L'immagine resta sul tuo dispositivo: non la carichiamo da nessuna parte.",
+      "errors": {
+        "type": "Non possiamo usare questo file: funzionano solo immagini JPG, PNG o WebP. La stampa sulla parete non è cambiata. Salva l'immagine in uno di questi formati e riprova, oppure mandacela a {email}.",
+        "tooLarge": "Questo file pesa {size} MB, il limite è {max} MB. La stampa sulla parete non è cambiata. Riduci l'immagine e riprova, oppure mandacela a {email}: la prepariamo noi.",
+        "decode": "Non riusciamo ad aprire questa immagine: forse il file è danneggiato. La stampa sulla parete non è cambiata. Salvala di nuovo come JPG o PNG e riprova, oppure mandacela a {email}."
+      }
+    },
+    "wall": {
+      "title": "Parete",
+      "front": "Di fronte",
+      "right": "Destra",
+      "back": "Dietro",
+      "left": "Sinistra",
+      "size": "Parete scelta: {width} × {height} m.",
+      "hint": "Puoi anche cliccare una parete nella stanza."
+    },
+    "room": {
+      "title": "Misure della stanza",
+      "width": "Larghezza",
+      "length": "Profondità",
+      "height": "Altezza",
+      "range": "Da {min} a {max} m"
+    },
+    "print": {
+      "title": "Stampa",
+      "width": "Larghezza",
+      "height": "Altezza",
+      "maxWidth": "Al massimo {max} m: la larghezza della parete.",
+      "maxHeightWall": "Al massimo {max} m: l'altezza della parete.",
+      "maxHeightMachine": "Al massimo {max} m: la nostra macchina stampa fino a questa altezza.",
+      "fit": "Adattamento",
+      "cover": "Riempi l'area",
+      "contain": "Immagine intera",
+      "coverHint": "L'immagine copre tutta l'area: i bordi possono essere tagliati.",
+      "containHint": "Si vede tutta l'immagine: l'area stampata segue le sue proporzioni.",
+      "position": "Posizione",
+      "left": "Dal bordo sinistro",
+      "bottom": "Da terra",
+      "centre": "Centra sulla parete"
+    },
+    "environment": {
+      "title": "Dove si trova la parete?",
+      "interior": "All'interno",
+      "exterior": "All'esterno"
+    },
+    "price": {
+      "label": "Prezzo indicativo",
+      "example": "Esempio",
+      "area": "{area} m² di stampa · IVA inclusa",
+      "approx": "ca. {price}",
+      "details": "Come lo calcoliamo",
+      "print": "Stampa: {area} m² × {rate}/m²",
+      "minimum": "Stampa: prezzo minimo",
+      "fixed": "Preparazione e trasferta",
+      "vat": "IVA {rate}",
+      "total": "Totale con IVA",
+      "disclaimer": "È una stima. Il preventivo esatto dipende dalla parete, dall'accesso e dall'immagine.",
+      "exampleNote": "Le tariffe qui sono un esempio: i prezzi reali arrivano presto."
+    },
+    "stage": {
+      "hint": "Trascina per guardarti intorno, trascina la stampa per spostarla. Clicca una parete per stamparci sopra.",
+      "open3d": "Apri la vista 3D",
+      "canvasLabel": "Anteprima 3D della stanza, con la stampa sulla parete scelta",
+      "loading": "Prepariamo la stanza 3D…",
+      "viewLabel": "Vista",
+      "before": "Prima",
+      "after": "Dopo",
+      "error": {
+        "webgl": {
+          "title": "La vista 3D non si apre in questo browser",
+          "body": "Il browser o il dispositivo non mostra la grafica 3D (WebGL), oppure è disattivata. Le misure e il prezzo funzionano lo stesso. Per vedere la stanza, prova con un browser aggiornato come Chrome, Firefox, Safari o Edge."
+        },
+        "load": {
+          "title": "La stanza 3D non si è caricata",
+          "body": "Forse la connessione si è interrotta. Le misure e il prezzo funzionano lo stesso. Ricarica la pagina per riprovare."
+        },
+        "reload": "Ricarica la pagina",
+        "quote": "Chiedi un preventivo"
+      }
+    },
+    "quote": {
+      "open": "Richiedi un preventivo esatto",
+      "title": "Richiedi un preventivo esatto",
+      "lead": "Ti mandiamo il prezzo esatto per questa parete. Con la richiesta riceviamo la tua configurazione e l'anteprima 3D.",
+      "close": "Chiudi",
+      "summary": {
+        "title": "La tua configurazione",
+        "wall": "Parete",
+        "print": "Stampa",
+        "printValue": "{width} × {height} m ({area} m²)",
+        "image": "Immagine",
+        "price": "Prezzo indicativo",
+        "preview": "Anteprima 3D che inviamo con la richiesta",
+        "uploadNote": "La tua immagine non viene inviata: se ci serve il file originale, te lo chiediamo per e-mail."
+      },
+      "fields": {
+        "name": "Nome e cognome",
+        "email": "E-mail",
+        "phone": "Telefono (facoltativo)",
+        "place": "Località della parete (facoltativo)",
+        "notes": "Note (facoltativo)",
+        "notesHint": "Per esempio: tipo di parete, accesso, quando vorresti la stampa.",
+        "consent": "Accetto che Swiss Wall Printing usi questi dati solo per rispondere alla mia richiesta. <link>Informativa sulla privacy</link>"
+      },
+      "submit": "Invia la richiesta",
+      "sending": "Invio in corso…",
+      "errors": {
+        "name": {
+          "required": "Scrivi il tuo nome, così sappiamo come rivolgerci a te.",
+          "tooLong": "Il nome è troppo lungo: al massimo {max} caratteri."
+        },
+        "email": {
+          "required": "Scrivi il tuo indirizzo e-mail: ti rispondiamo lì.",
+          "invalid": "Questo indirizzo e-mail sembra incompleto. Controlla la @ e il dominio, per esempio nome@esempio.ch.",
+          "tooLong": "L'indirizzo e-mail è troppo lungo: al massimo {max} caratteri."
+        },
+        "phone": {
+          "invalid": "Questo numero non sembra valido. Usa solo cifre, spazi e +, per esempio +41 79 123 45 67.",
+          "tooLong": "Il numero è troppo lungo: al massimo {max} caratteri."
+        },
+        "place": {
+          "tooLong": "La località è troppo lunga: al massimo {max} caratteri."
+        },
+        "notes": {
+          "tooLong": "Le note sono troppo lunghe: al massimo {max} caratteri. Accorciale o mandaci il resto per e-mail."
+        },
+        "consent": {
+          "required": "Spunta la casella: senza il tuo consenso non possiamo usare i tuoi dati per risponderti."
+        }
+      },
+      "problem": {
+        "invalid": "La richiesta non è ancora stata inviata. {count, plural, one {Un campo da correggere} other {# campi da correggere}}: li trovi segnati qui sotto.",
+        "tooFast": "La richiesta non è stata inviata perché il modulo è partito troppo in fretta. I dati sono ancora qui: inviala di nuovo tra qualche secondo.",
+        "rateLimited": "La richiesta non è stata inviata: ne hai mandate diverse in pochi minuti. I dati sono ancora qui. Riprova tra 10 minuti, oppure chiamaci al {phone}.",
+        "failed": "La richiesta non è stata inviata per un problema da parte nostra. I dati e la configurazione sono ancora qui: riprova tra poco, oppure scrivici a {email} o chiamaci al {phone}."
+      },
+      "sent": {
+        "title": "Grazie, abbiamo ricevuto la tua richiesta.",
+        "body": "Ti mandiamo il preventivo esatto all'indirizzo {email} il prima possibile.",
+        "close": "Chiudi"
+      },
+      "alternatives": "Preferisci parlarne? Chiamaci al {phone} o <whatsapp>scrivici su WhatsApp</whatsapp>."
+    },
+    "share": {
+      "copy": "Copia il link di questa configurazione",
+      "copied": "Link copiato: puoi inviarlo o salvarlo. Apre la stessa parete con la stessa stampa.",
+      "copiedUpload": "Link copiato. La tua immagine non è nel link (resta sul tuo dispositivo): chi lo apre vede un'immagine di esempio.",
+      "failed": "Non riusciamo a copiare il link. La configurazione è già nella barra degli indirizzi: copiala da lì."
+    },
+    "resolution": {
+      "warning": "Questa immagine può risultare sfocata a questa misura: ha {ppc} pixel per centimetro, per una stampa nitida ne servono almeno {min}.",
+      "example": "(Soglia di esempio, da confermare.)",
+      "suggestion": "Nitida fino a circa {width} × {height} m. Oppure usa un file con più pixel.",
+      "apply": "Usa {width} × {height} m"
+    }
+  }
+}

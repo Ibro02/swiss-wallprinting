@@ -1,0 +1,531 @@
+{
+  "Metadata": {
+    "title": "Swiss Wall Printing – Direktdruck auf Wände",
+    "description": "Wir drucken Bilder direkt auf Innen- und Aussenwände, ohne Folie und ohne Kleber. Bis 3,80 m hoch, unbegrenzt breit. Camignolo, Tessin."
+  },
+  "Nav": {
+    "label": "Hauptnavigation",
+    "home": "Start",
+    "about": "Über uns",
+    "services": "Leistungen",
+    "gallery": "Galerie",
+    "contact": "Kontakt",
+    "tryYourWall": "Wand testen",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "language": "Sprache",
+    "tryYourWallShort": "Testen",
+    "homeLink": "Swiss Wall Printing, Startseite",
+    "menuOpen": "Menü öffnen",
+    "menuClose": "Menü schliessen",
+    "skipToContent": "Zum Inhalt springen"
+  },
+  "Pages": {
+    "home": {
+      "title": "Wir drucken direkt auf Wände"
+    },
+    "about": {
+      "title": "Über uns"
+    },
+    "services": {
+      "title": "Leistungen"
+    },
+    "gallery": {
+      "title": "Galerie"
+    },
+    "contact": {
+      "title": "Kontakt"
+    },
+    "tryYourWall": {
+      "title": "Wand testen"
+    },
+    "imprint": {
+      "title": "Impressum"
+    },
+    "privacy": {
+      "title": "Datenschutzerklärung"
+    }
+  },
+  "NotFound": {
+    "title": "Seite nicht gefunden",
+    "body": "Die gesuchte Seite gibt es nicht oder sie wurde verschoben.",
+    "back": "Zur Startseite"
+  },
+  "Footer": {
+    "claim": "Wir drucken direkt auf Wände.",
+    "intro": "Direktdruck auf Innen- und Aussenwände, ohne Folie und ohne Kleber. Aus Camignolo im Tessin.",
+    "navTitle": "Navigation",
+    "contactTitle": "Kontakt",
+    "followTitle": "Folgen Sie uns",
+    "legalTitle": "Rechtliches",
+    "rights": "Alle Rechte vorbehalten.",
+    "phoneLanguages": "Sprachen: {languages}",
+    "region": "Tessin, Schweiz"
+  },
+  "WhatsApp": {
+    "label": "Schreiben Sie uns auf WhatsApp",
+    "message": "Grüezi! Ich hätte gerne Informationen zum Direktdruck auf Wände."
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Direktdruck auf Wände · Tessin",
+      "title": "Ihr Bild, direkt auf die Wand gedruckt.",
+      "lead": "Ohne Folie, ohne Kleber: Wir drucken Logos, Fotos und Grafiken auf Innen- und Aussenwände. Bis {height} hoch, in unbegrenzter Breite.",
+      "ctaConfigurator": "An Ihrer Wand testen",
+      "ctaQuote": "Kostenlose Offerte",
+      "imageAlt": "Ein Wanddrucker druckt einen schwarz-weissen Tiger auf eine schwarze Wand."
+    },
+    "testimonials": {
+      "eyebrow": "Bewertungen",
+      "title": "Das sagen unsere Kundinnen und Kunden",
+      "starsLabel": "{rating} von 5 Sternen",
+      "band": {
+        "excellent": "Ausgezeichnet",
+        "veryGood": "Sehr gut",
+        "good": "Gut",
+        "none": "Keine Bewertung"
+      },
+      "basedOn": "Basierend auf {count, plural, one {# Bewertung} other {# Bewertungen}}",
+      "ownerReply": "Antwort von Swiss Wall Printing",
+      "mockBadge": "Beispiel",
+      "mockNote": "Beispielbewertungen für die Vorschau: Sie werden durch echte Kundenbewertungen ersetzt."
+    },
+    "why": {
+      "eyebrow": "Warum Swiss Wall Printing",
+      "title": "Jede Wand wird zur Leinwand.",
+      "intro": "Mit Maschinen der neuesten Generation drucken wir hochwertige Bilder direkt auf die Wand: leuchtende Farben und scharfe Details, auch auf grossen Flächen.",
+      "stats": {
+        "height": "Maximale Druckhöhe",
+        "width": "Unbegrenzte Breite",
+        "durability": "Jahre leuchtende Farben, auch draussen",
+        "ink": "Zertifizierte ökologische Tinten"
+      },
+      "features": {
+        "noFilm": "Keine Folie und kein Kleber: Der Druck ist auf der Wand.",
+        "inOut": "Innen- und Aussenwände.",
+        "anyDesign": "Logos, Kunstbilder, Sprüche und Grafiken nach Mass.",
+        "freeQuote": "Kostenlose Offerte."
+      }
+    },
+    "process": {
+      "eyebrow": "So funktioniert es",
+      "title": "Von Ihrer Idee zur fertigen Wand",
+      "configuratorLink": "3D-Konfigurator öffnen",
+      "steps": {
+        "idea": {
+          "title": "Idee und Wand",
+          "text": "Erzählen Sie uns, was Sie drucken möchten, und senden Sie uns die Masse und ein Foto der Wand."
+        },
+        "design": {
+          "title": "Entwurf und Vorschau",
+          "text": "Wir bereiten die Grafik vor und zeigen Ihnen das Ergebnis vor dem Druck. Im 3D-Konfigurator können Sie es schon jetzt testen."
+        },
+        "print": {
+          "title": "Druck vor Ort",
+          "text": "Wir drucken direkt auf Ihre Wand, ohne Folie und ohne Kleber."
+        },
+        "done": {
+          "title": "Fertige Wand",
+          "text": "Leuchtende Farben und scharfe Details für über {years} Jahre, auch draussen."
+        }
+      }
+    },
+    "areas": {
+      "eyebrow": "Anwendungen",
+      "title": "Wo wir drucken",
+      "intro": "Für Firmen, Hotellerie und Gastronomie, Schulen und Privathäuser: innen und aussen.",
+      "tryIt": "Im Konfigurator testen"
+    },
+    "question": {
+      "eyebrow": "Fragen",
+      "title": "Haben Sie eine Frage oder ein Projekt?",
+      "intro": "Schreiben Sie uns: Die Offerte ist kostenlos.",
+      "alternatives": "Lieber persönlich?"
+    }
+  },
+  "QuestionForm": {
+    "fields": {
+      "name": "Vor- und Nachname",
+      "email": "E-Mail",
+      "phone": "Telefon (freiwillig)",
+      "message": "Ihre Nachricht",
+      "messageHint": "Zum Beispiel: Masse der Wand, Ort, innen oder aussen.",
+      "consent": "Ich bin einverstanden, dass Swiss Wall Printing diese Daten nur zur Beantwortung meiner Anfrage verwendet. <link>Datenschutzerklärung</link>"
+    },
+    "submit": "Nachricht senden",
+    "sending": "Wird gesendet …",
+    "errors": {
+      "name": {
+        "required": "Bitte schreiben Sie Ihren Namen, damit wir Sie richtig ansprechen können.",
+        "tooLong": "Der Name ist zu lang: höchstens {max} Zeichen."
+      },
+      "email": {
+        "required": "Bitte geben Sie Ihre E-Mail-Adresse an: Wir antworten Ihnen dort.",
+        "invalid": "Diese E-Mail-Adresse scheint unvollständig. Prüfen Sie das @ und die Domain, zum Beispiel name@beispiel.ch.",
+        "tooLong": "Die E-Mail-Adresse ist zu lang: höchstens {max} Zeichen."
+      },
+      "phone": {
+        "invalid": "Diese Nummer scheint ungültig. Verwenden Sie nur Ziffern, Leerzeichen und +, zum Beispiel +41 79 123 45 67.",
+        "tooLong": "Die Nummer ist zu lang: höchstens {max} Zeichen."
+      },
+      "message": {
+        "required": "Bitte schreiben Sie Ihre Frage oder beschreiben Sie Ihr Projekt.",
+        "tooLong": "Die Nachricht ist zu lang: höchstens {max} Zeichen. Kürzen Sie sie oder senden Sie uns den Rest per E-Mail."
+      },
+      "consent": {
+        "required": "Bitte setzen Sie das Häkchen: Ohne Ihr Einverständnis dürfen wir Ihre Daten nicht für eine Antwort verwenden."
+      }
+    },
+    "problem": {
+      "invalid": "Die Nachricht wurde noch nicht gesendet. {count, plural, one {Ein Feld muss} other {# Felder müssen}} korrigiert werden: Sie sind unten markiert.",
+      "tooFast": "Die Nachricht wurde nicht gesendet, weil das Formular zu schnell abgeschickt wurde. Ihr Text ist noch da: Senden Sie ihn in ein paar Sekunden erneut.",
+      "rateLimited": "Die Nachricht wurde nicht gesendet: Sie haben in wenigen Minuten mehrere Nachrichten geschickt. Ihr Text ist noch da. Versuchen Sie es in 10 Minuten wieder, oder rufen Sie uns an: {phone}.",
+      "failed": "Die Nachricht wurde wegen eines Problems auf unserer Seite nicht gesendet. Ihr Text ist noch da: Versuchen Sie es gleich noch einmal, schreiben Sie an {email}, oder rufen Sie uns an: {phone}."
+    },
+    "sent": {
+      "title": "Danke, wir haben Ihre Nachricht erhalten.",
+      "body": "Wir antworten Ihnen so bald wie möglich an {email}.",
+      "again": "Weitere Nachricht schreiben"
+    }
+  },
+  "Services": {
+    "eyebrow": "Leistungen",
+    "title": "Direktdruck auf jede Wand",
+    "lead": "Vom Büro bis zur Fassade: Wählen Sie die Situation, die Ihrer am nächsten kommt, sehen Sie den Unterschied und testen Sie sie im 3D-Konfigurator.",
+    "rooms": {
+      "title": "Wählen Sie Ihre Situation",
+      "mockNote": "Beispielfotos für die Vorschau: Sie werden durch echte Arbeiten ersetzt.",
+      "sliderLabel": "{room}: vorher und nachher",
+      "wallSize": "Wandmasse:",
+      "tryThisWall": "Diese Wand testen"
+    },
+    "what": {
+      "eyebrow": "Was wir drucken",
+      "title": "Vom Logo bis zur Grafik nach Mass",
+      "intro": "Auf Innen- und Aussenwände, bis {height} hoch und in unbegrenzter Breite, mit leuchtenden Farben für über {years} Jahre.",
+      "kinds": {
+        "logo": {
+          "title": "Firmenlogo",
+          "text": "Marke und Firmenfarben, scharf über die ganze Wand."
+        },
+        "art": {
+          "title": "Kunstbilder",
+          "text": "Landschaften, Fotos und Kunstwerke, auch im Grossformat."
+        },
+        "phrase": {
+          "title": "Sprüche",
+          "text": "Ein inspirierender Satz oder eine Botschaft für Kundschaft und Team."
+        },
+        "custom": {
+          "title": "Grafik nach Mass",
+          "text": "Ein Entwurf, der eigens für Ihren Raum entsteht."
+        }
+      }
+    }
+  },
+  "BeforeAfter": {
+    "before": "Vorher",
+    "after": "Nachher",
+    "valueText": "{before} % leere Wand",
+    "valueAfter": "Nur der Druck",
+    "hintPointer": "Darüberfahren für das Vorher",
+    "hintTouch": "Ziehen zum Vergleichen"
+  },
+  "CtaBand": {
+    "title": "Bringen Sie Ihre Idee an die Wand",
+    "text": "Laden Sie ein Bild hoch, wählen Sie Wand und Masse und sehen Sie das Ergebnis in 3D. Die Offerte ist kostenlos.",
+    "configurator": "Konfigurator öffnen",
+    "quote": "Offerte anfragen"
+  },
+  "About": {
+    "eyebrow": "Über uns",
+    "title": "Jede Wand kann eine Geschichte erzählen",
+    "lead": "Swiss Wall Printing druckt Bilder direkt auf Wände, aus {locality} im Tessin.",
+    "imageAlt": "Ein Wanddrucker druckt einen schwarz-weissen Tiger auf eine schwarze Wand.",
+    "story": {
+      "what": "Wir drucken Logos, Kunstbilder, Sprüche und Grafiken nach Mass direkt auf die Wand: ohne Folie und ohne Kleber, auf Innen- und Aussenwände.",
+      "how": "Mit Maschinen der neuesten Generation drucken wir bis {height} hoch und in unbegrenzter Breite. Unsere ökologischen Tinten sind zertifiziert und halten Farben leuchtend und Details scharf, über {years} Jahre und auch draussen.",
+      "who": "Wir arbeiten für Firmen, Hotels, Restaurants, Schulen, Büros und Privathäuser.",
+      "canvas": "Mit dem Direktdruck wird jede Wand zur Leinwand für Ihre Geschichte."
+    }
+  },
+  "Gallery": {
+    "eyebrow": "Galerie",
+    "title": "Bedruckte Wände",
+    "lead": "Eine Auswahl unserer Arbeiten: Filtern Sie nach Raumtyp und öffnen Sie ein Foto in gross.",
+    "mockNote": "Fast alle Fotos sind Beispiele für die Vorschau: Sie werden durch echte Arbeiten ersetzt."
+  },
+  "GalleryGrid": {
+    "filterLabel": "Nach Raumtyp filtern",
+    "all": "Alle",
+    "count": "{count, plural, one {# Foto} other {# Fotos}}",
+    "mockBadge": "Beispiel",
+    "dialogLabel": "Foto in gross",
+    "position": "{current} von {total}",
+    "previous": "Vorheriges Foto",
+    "next": "Nächstes Foto",
+    "close": "Schliessen"
+  },
+  "Contact": {
+    "eyebrow": "Kontakt",
+    "title": "Sprechen wir über Ihre Wand",
+    "lead": "Schreiben Sie uns, rufen Sie an oder senden Sie eine WhatsApp-Nachricht. Die Offerte ist kostenlos.",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "location": "Standort",
+    "openMap": "Karte öffnen",
+    "social": "Soziale Medien",
+    "formTitle": "Schreiben Sie uns"
+  },
+  "Legal": {
+    "missing": "noch offen",
+    "draft": "Entwurf: Einige Angaben fehlen noch vom Kunden (markiert mit «noch offen»), und der Text muss vor der Veröffentlichung geprüft werden.",
+    "updated": "Letzte Aktualisierung: {date}"
+  },
+  "Imprint": {
+    "eyebrow": "Impressum",
+    "title": "Impressum",
+    "operator": "Betreiber der Website",
+    "fields": {
+      "name": "Firma",
+      "address": "Adresse",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "responsible": "Verantwortlich für den Inhalt",
+      "uid": "UID-Nummer"
+    },
+    "liability": {
+      "title": "Haftungsausschluss",
+      "text": "Wir prüfen die Inhalte dieser Website sorgfältig, können aber nicht garantieren, dass sie immer vollständig, richtig und aktuell sind. Die Preise im Konfigurator sind Schätzungen: Es gilt nur die schriftliche Offerte."
+    },
+    "links": {
+      "title": "Externe Links",
+      "text": "Für die Inhalte externer Websites, auf die wir verlinken, sind wir nicht verantwortlich."
+    },
+    "copyright": {
+      "title": "Urheberrecht",
+      "text": "Texte, Bilder und Grafiken dieser Website gehören Swiss Wall Printing oder den jeweiligen Urhebern. Für eine Verwendung braucht es unsere schriftliche Zustimmung."
+    },
+    "credits": {
+      "title": "Credits",
+      "text": "Die Website verwendet diese Werke Dritter. Die Beispielfotos entstehen aus den Texturen der 3D-Modelle."
+    }
+  },
+  "Privacy": {
+    "eyebrow": "Datenschutz",
+    "title": "Datenschutzerklärung",
+    "lead": "Wie wir Ihre Daten bearbeiten, wenn Sie die Website besuchen oder uns kontaktieren.",
+    "controller": {
+      "title": "Verantwortliche Stelle",
+      "text": "Verantwortlich für die Datenbearbeitung ist {company}. Für alle Fragen zum Datenschutz schreiben Sie uns an {email}."
+    },
+    "data": {
+      "title": "Welche Daten wir bearbeiten",
+      "text": "Wenn Sie das Formular nutzen, bearbeiten wir Name, E-Mail-Adresse, Telefonnummer (falls angegeben) und Ihre Nachricht. Wenn Sie uns direkt schreiben oder anrufen, bearbeiten wir die Daten der Nachricht oder des Anrufs. Beim Besuch der Website speichert der Server technische Daten wie IP-Adresse, Datum und Uhrzeit, besuchte Seite und Browsertyp."
+    },
+    "purpose": {
+      "title": "Wozu wir sie bearbeiten",
+      "text": "Die Daten aus dem Formular und aus Kontakten verwenden wir nur, um Ihre Anfrage zu beantworten und eine Offerte zu erstellen. Die technischen Daten brauchen wir für einen sicheren Betrieb der Website, zum Beispiel um automatische Nachrichten (Spam) abzuwehren."
+    },
+    "recipients": {
+      "title": "An wen wir sie weitergeben",
+      "text": "Die Website wird von {hosting} betrieben. Formularnachrichten erhalten wir per E-Mail über {mailProvider}. Diese Anbieter bearbeiten die Daten nur in unserem Auftrag. Wir verkaufen Ihre Daten nicht und verwenden sie nicht für Werbung."
+    },
+    "abroad": {
+      "title": "Daten im Ausland",
+      "text": "Bearbeitet ein Anbieter Daten ausserhalb der Schweiz, dann nur in Ländern mit angemessenem Schutz oder mit vertraglichen Garantien, wie es das Gesetz verlangt."
+    },
+    "cookies": {
+      "title": "Cookies und Statistik",
+      "text": "Die Website verwendet keine Tracking-Cookies, keine Statistik- und keine Werbewerkzeuge. Die Schriften werden von unserem Server geladen, ohne Anfragen an Google."
+    },
+    "links": {
+      "title": "Links zu anderen Diensten",
+      "text": "Die Website enthält Links zu WhatsApp, Instagram, Facebook und Google Maps. Erst wenn Sie diese öffnen, erhalten diese Dienste Daten von Ihnen; dafür gelten deren Datenschutzerklärungen."
+    },
+    "retention": {
+      "title": "Wie lange",
+      "text": "Wir bewahren Nachrichten auf, solange sie für Ihre Anfrage und für gesetzliche Pflichten nötig sind, zum Beispiel für die Buchhaltung eines Auftrags. Die technischen Daten des Servers werden nach kurzer Zeit gelöscht."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "text": "Nach dem Datenschutzgesetz (DSG) können Sie Auskunft über Ihre Daten verlangen, sie berichtigen oder löschen lassen und einer Bearbeitung widersprechen. Gilt für Sie die DSGVO, haben Sie zusätzlich das Recht auf Datenübertragbarkeit. Schreiben Sie uns an {email}. Sie können sich auch an den Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) wenden."
+    },
+    "changes": {
+      "title": "Änderungen",
+      "text": "Wir können diese Erklärung anpassen, wenn sich die Website ändert. Es gilt die hier veröffentlichte Fassung."
+    }
+  },
+  "Configurator": {
+    "eyebrow": "3D-Konfigurator",
+    "title": "Wand testen",
+    "lead": "Wählen Sie ein Bild, geben Sie die Masse ein und sehen Sie sofort, wie es aussieht und was es ungefähr kostet.",
+    "adjusted": "Angepasst auf {value} m.",
+    "panel": {
+      "open": "Einstellungen",
+      "close": "Einstellungen schliessen"
+    },
+    "image": {
+      "title": "Bild",
+      "presets": "Fertige Bilder",
+      "example": "Beispiele",
+      "upload": "Eigenes Bild hochladen",
+      "opening": "Bild wird geöffnet …",
+      "uploaded": "Auf der Wand: {name}",
+      "uploadHint": "JPG, PNG oder WebP, bis {max} MB. Das Bild bleibt auf Ihrem Gerät: Wir laden es nirgends hoch.",
+      "errors": {
+        "type": "Diese Datei können wir nicht verwenden: Es funktionieren nur JPG-, PNG- und WebP-Bilder. Der Druck auf der Wand bleibt unverändert. Speichern Sie das Bild in einem dieser Formate und versuchen Sie es noch einmal, oder senden Sie es an {email}.",
+        "tooLarge": "Diese Datei ist {size} MB gross, die Grenze liegt bei {max} MB. Der Druck auf der Wand bleibt unverändert. Verkleinern Sie das Bild und versuchen Sie es noch einmal, oder senden Sie es an {email}: Wir bereiten es für Sie vor.",
+        "decode": "Dieses Bild lässt sich nicht öffnen: Die Datei ist vielleicht beschädigt. Der Druck auf der Wand bleibt unverändert. Speichern Sie es neu als JPG oder PNG und versuchen Sie es noch einmal, oder senden Sie es an {email}."
+      }
+    },
+    "wall": {
+      "title": "Wand",
+      "front": "Vorne",
+      "right": "Rechts",
+      "back": "Hinten",
+      "left": "Links",
+      "size": "Gewählte Wand: {width} × {height} m.",
+      "hint": "Sie können auch im Raum auf eine Wand klicken."
+    },
+    "room": {
+      "title": "Raummasse",
+      "width": "Breite",
+      "length": "Tiefe",
+      "height": "Höhe",
+      "range": "{min} bis {max} m"
+    },
+    "print": {
+      "title": "Druck",
+      "width": "Breite",
+      "height": "Höhe",
+      "maxWidth": "Höchstens {max} m: die Breite der Wand.",
+      "maxHeightWall": "Höchstens {max} m: die Höhe der Wand.",
+      "maxHeightMachine": "Höchstens {max} m: Unsere Maschine druckt bis zu dieser Höhe.",
+      "fit": "Einpassen",
+      "cover": "Fläche füllen",
+      "contain": "Ganzes Bild",
+      "coverHint": "Das Bild füllt die ganze Fläche: Die Ränder können abgeschnitten werden.",
+      "containHint": "Das ganze Bild ist sichtbar: Die Druckfläche folgt seinen Proportionen.",
+      "position": "Position",
+      "left": "Vom linken Rand",
+      "bottom": "Vom Boden",
+      "centre": "Auf der Wand zentrieren"
+    },
+    "environment": {
+      "title": "Wo ist die Wand?",
+      "interior": "Innen",
+      "exterior": "Aussen"
+    },
+    "price": {
+      "label": "Richtpreis",
+      "example": "Beispiel",
+      "area": "{area} m² Druck · inkl. MWST",
+      "approx": "ca. {price}",
+      "details": "So rechnen wir",
+      "print": "Druck: {area} m² × {rate}/m²",
+      "minimum": "Druck: Mindestpreis",
+      "fixed": "Vorbereitung und Anfahrt",
+      "vat": "MWST {rate}",
+      "total": "Total inkl. MWST",
+      "disclaimer": "Das ist eine Schätzung. Die genaue Offerte hängt von der Wand, dem Zugang und dem Bild ab.",
+      "exampleNote": "Die Tarife hier sind ein Beispiel: Die echten Preise folgen bald."
+    },
+    "stage": {
+      "hint": "Ziehen, um sich umzusehen; den Druck ziehen, um ihn zu verschieben. Auf eine Wand klicken, um darauf zu drucken.",
+      "open3d": "3D-Ansicht öffnen",
+      "canvasLabel": "3D-Vorschau des Raums mit dem Druck auf der gewählten Wand",
+      "loading": "Der 3D-Raum wird vorbereitet …",
+      "viewLabel": "Ansicht",
+      "before": "Vorher",
+      "after": "Nachher",
+      "error": {
+        "webgl": {
+          "title": "Die 3D-Ansicht öffnet sich in diesem Browser nicht",
+          "body": "Der Browser oder das Gerät zeigt keine 3D-Grafik (WebGL), oder sie ist ausgeschaltet. Masse und Preis funktionieren trotzdem. Um den Raum zu sehen, versuchen Sie es mit einem aktuellen Browser wie Chrome, Firefox, Safari oder Edge."
+        },
+        "load": {
+          "title": "Der 3D-Raum wurde nicht geladen",
+          "body": "Vielleicht wurde die Verbindung unterbrochen. Masse und Preis funktionieren trotzdem. Laden Sie die Seite neu, um es noch einmal zu versuchen."
+        },
+        "reload": "Seite neu laden",
+        "quote": "Offerte anfragen"
+      }
+    },
+    "quote": {
+      "open": "Genaue Offerte anfragen",
+      "title": "Genaue Offerte anfragen",
+      "lead": "Wir senden Ihnen den genauen Preis für diese Wand. Mit der Anfrage erhalten wir Ihre Konfiguration und die 3D-Vorschau.",
+      "close": "Schliessen",
+      "summary": {
+        "title": "Ihre Konfiguration",
+        "wall": "Wand",
+        "print": "Druck",
+        "printValue": "{width} × {height} m ({area} m²)",
+        "image": "Bild",
+        "price": "Richtpreis",
+        "preview": "3D-Vorschau, die wir mit der Anfrage senden",
+        "uploadNote": "Ihr Bild wird nicht gesendet: Wenn wir die Originaldatei brauchen, fragen wir Sie per E-Mail danach."
+      },
+      "fields": {
+        "name": "Vor- und Nachname",
+        "email": "E-Mail",
+        "phone": "Telefon (freiwillig)",
+        "place": "Ort der Wand (freiwillig)",
+        "notes": "Bemerkungen (freiwillig)",
+        "notesHint": "Zum Beispiel: Art der Wand, Zugang, gewünschter Zeitpunkt.",
+        "consent": "Ich bin einverstanden, dass Swiss Wall Printing diese Daten nur zur Beantwortung meiner Anfrage verwendet. <link>Datenschutzerklärung</link>"
+      },
+      "submit": "Anfrage senden",
+      "sending": "Wird gesendet …",
+      "errors": {
+        "name": {
+          "required": "Bitte schreiben Sie Ihren Namen, damit wir Sie richtig ansprechen können.",
+          "tooLong": "Der Name ist zu lang: höchstens {max} Zeichen."
+        },
+        "email": {
+          "required": "Bitte geben Sie Ihre E-Mail-Adresse an: Wir antworten Ihnen dort.",
+          "invalid": "Diese E-Mail-Adresse scheint unvollständig. Prüfen Sie das @ und die Domain, zum Beispiel name@beispiel.ch.",
+          "tooLong": "Die E-Mail-Adresse ist zu lang: höchstens {max} Zeichen."
+        },
+        "phone": {
+          "invalid": "Diese Nummer scheint ungültig. Verwenden Sie nur Ziffern, Leerzeichen und +, zum Beispiel +41 79 123 45 67.",
+          "tooLong": "Die Nummer ist zu lang: höchstens {max} Zeichen."
+        },
+        "place": {
+          "tooLong": "Der Ort ist zu lang: höchstens {max} Zeichen."
+        },
+        "notes": {
+          "tooLong": "Die Bemerkungen sind zu lang: höchstens {max} Zeichen. Kürzen Sie sie, oder senden Sie uns den Rest per E-Mail."
+        },
+        "consent": {
+          "required": "Bitte setzen Sie das Häkchen: Ohne Ihr Einverständnis dürfen wir Ihre Daten nicht für eine Antwort verwenden."
+        }
+      },
+      "problem": {
+        "invalid": "Die Anfrage wurde noch nicht gesendet. {count, plural, one {Ein Feld muss} other {# Felder müssen}} korrigiert werden: Sie sind unten markiert.",
+        "tooFast": "Die Anfrage wurde nicht gesendet, weil das Formular zu schnell abgeschickt wurde. Ihre Angaben sind noch da: Senden Sie sie in ein paar Sekunden erneut.",
+        "rateLimited": "Die Anfrage wurde nicht gesendet: Sie haben in wenigen Minuten mehrere Anfragen geschickt. Ihre Angaben sind noch da. Versuchen Sie es in 10 Minuten wieder, oder rufen Sie uns an: {phone}.",
+        "failed": "Die Anfrage wurde wegen eines Problems auf unserer Seite nicht gesendet. Ihre Angaben und die Konfiguration sind noch da: Versuchen Sie es gleich noch einmal, schreiben Sie an {email}, oder rufen Sie uns an: {phone}."
+      },
+      "sent": {
+        "title": "Danke, wir haben Ihre Anfrage erhalten.",
+        "body": "Wir senden Ihnen die genaue Offerte so bald wie möglich an {email}.",
+        "close": "Schliessen"
+      },
+      "alternatives": "Lieber persönlich? Rufen Sie uns an: {phone}, oder <whatsapp>schreiben Sie uns auf WhatsApp</whatsapp>."
+    },
+    "share": {
+      "copy": "Link zu dieser Konfiguration kopieren",
+      "copied": "Link kopiert: Sie können ihn senden oder speichern. Er öffnet dieselbe Wand mit demselben Druck.",
+      "copiedUpload": "Link kopiert. Ihr Bild ist nicht im Link (es bleibt auf Ihrem Gerät): Wer ihn öffnet, sieht ein Beispielbild.",
+      "failed": "Der Link lässt sich nicht kopieren. Die Konfiguration steht schon in der Adresszeile: Kopieren Sie sie von dort."
+    },
+    "resolution": {
+      "warning": "Dieses Bild kann in dieser Grösse unscharf wirken: Es hat {ppc} Pixel pro Zentimeter, für einen scharfen Druck braucht es mindestens {min}.",
+      "example": "(Beispielwert, noch zu bestätigen.)",
+      "suggestion": "Scharf bis etwa {width} × {height} m. Oder verwenden Sie eine Datei mit mehr Pixeln.",
+      "apply": "{width} × {height} m verwenden"
+    }
+  }
+}

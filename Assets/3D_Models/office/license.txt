@@ -1,0 +1,8 @@
+Model Information:
+* title:	Room Blank
+* source:	https://sketchfab.com/3d-models/room-blank-4a3b97905f9549218525e14c49403e28
+* author:	Denkon (https://sketchfab.com/nykondenys)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

@@ -1,0 +1,531 @@
+{
+  "Metadata": {
+    "title": "Swiss Wall Printing – Direct wall printing",
+    "description": "We print images directly on interior and exterior walls, with no film and no stickers. Up to 3.80 m high, unlimited width. Camignolo, Ticino."
+  },
+  "Nav": {
+    "label": "Main navigation",
+    "home": "Home",
+    "about": "About us",
+    "services": "Services",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "tryYourWall": "Try your wall printing",
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "language": "Language",
+    "tryYourWallShort": "Try it",
+    "homeLink": "Swiss Wall Printing, home",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "skipToContent": "Skip to content"
+  },
+  "Pages": {
+    "home": {
+      "title": "We print directly on walls"
+    },
+    "about": {
+      "title": "About us"
+    },
+    "services": {
+      "title": "Services"
+    },
+    "gallery": {
+      "title": "Gallery"
+    },
+    "contact": {
+      "title": "Contact"
+    },
+    "tryYourWall": {
+      "title": "Try your wall printing"
+    },
+    "imprint": {
+      "title": "Imprint"
+    },
+    "privacy": {
+      "title": "Privacy policy"
+    }
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "The page you are looking for does not exist or has moved.",
+    "back": "Back to home"
+  },
+  "Footer": {
+    "claim": "We print directly on walls.",
+    "intro": "Direct printing on interior and exterior walls, with no film and no stickers. From Camignolo, Ticino.",
+    "navTitle": "Navigation",
+    "contactTitle": "Contact",
+    "followTitle": "Follow us",
+    "legalTitle": "Legal",
+    "rights": "All rights reserved.",
+    "phoneLanguages": "Languages: {languages}",
+    "region": "Ticino, Switzerland"
+  },
+  "WhatsApp": {
+    "label": "Chat with us on WhatsApp",
+    "message": "Hello! I would like information about direct wall printing."
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Direct wall printing · Ticino",
+      "title": "Your image, printed straight onto the wall.",
+      "lead": "No film, no stickers: we print logos, photos and graphics on interior and exterior walls. Up to {height} high, with no limit on width.",
+      "ctaConfigurator": "Try it on your wall",
+      "ctaQuote": "Free quote",
+      "imageAlt": "A wall printer prints a black-and-white tiger onto a black wall."
+    },
+    "testimonials": {
+      "eyebrow": "Reviews",
+      "title": "What our clients say",
+      "starsLabel": "{rating} out of 5 stars",
+      "band": {
+        "excellent": "Excellent",
+        "veryGood": "Very good",
+        "good": "Good",
+        "none": "No rating"
+      },
+      "basedOn": "Based on {count, plural, one {# review} other {# reviews}}",
+      "ownerReply": "Reply from Swiss Wall Printing",
+      "mockBadge": "Example",
+      "mockNote": "Example reviews for this preview: they will be replaced by real client reviews."
+    },
+    "why": {
+      "eyebrow": "Why Swiss Wall Printing",
+      "title": "Every wall becomes a canvas.",
+      "intro": "With state-of-the-art machines we print high-quality images directly on the wall: bright colours and sharp details, even on large surfaces.",
+      "stats": {
+        "height": "Maximum print height",
+        "width": "Unlimited width",
+        "durability": "Years of bright colours, also outdoors",
+        "ink": "Certified eco-friendly inks"
+      },
+      "features": {
+        "noFilm": "No film and no stickers: the print is on the wall.",
+        "inOut": "Interior and exterior walls.",
+        "anyDesign": "Logos, artistic images, phrases and custom graphics.",
+        "freeQuote": "Free quote."
+      }
+    },
+    "process": {
+      "eyebrow": "How it works",
+      "title": "From your idea to the finished wall",
+      "configuratorLink": "Open the 3D configurator",
+      "steps": {
+        "idea": {
+          "title": "Idea and wall",
+          "text": "Tell us what you want to print, and send us the measurements and a photo of the wall."
+        },
+        "design": {
+          "title": "Design and preview",
+          "text": "We prepare the artwork and show you the result before printing. You can already try it in our 3D configurator."
+        },
+        "print": {
+          "title": "Printing on site",
+          "text": "We print directly onto your wall, with no film and no stickers."
+        },
+        "done": {
+          "title": "Finished wall",
+          "text": "Bright colours and sharp details for more than {years} years, also outdoors."
+        }
+      }
+    },
+    "areas": {
+      "eyebrow": "Applications",
+      "title": "Where we print",
+      "intro": "For companies, hospitality, schools and private homes: indoors and outdoors.",
+      "tryIt": "Try it in the configurator"
+    },
+    "question": {
+      "eyebrow": "Questions",
+      "title": "Do you have a question or a project?",
+      "intro": "Write to us: the quote is free.",
+      "alternatives": "Prefer to talk?"
+    }
+  },
+  "QuestionForm": {
+    "fields": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "message": "Your message",
+      "messageHint": "For example: wall size, town, indoor or outdoor.",
+      "consent": "I agree that Swiss Wall Printing uses this data only to answer my request. <link>Privacy policy</link>"
+    },
+    "submit": "Send message",
+    "sending": "Sending…",
+    "errors": {
+      "name": {
+        "required": "Please write your name, so we know how to address you.",
+        "tooLong": "The name is too long: {max} characters at most."
+      },
+      "email": {
+        "required": "Please enter your email address: that is where we reply.",
+        "invalid": "This email address looks incomplete. Check the @ and the domain, for example name@example.ch.",
+        "tooLong": "The email address is too long: {max} characters at most."
+      },
+      "phone": {
+        "invalid": "This number does not look valid. Use only digits, spaces and +, for example +41 79 123 45 67.",
+        "tooLong": "The number is too long: {max} characters at most."
+      },
+      "message": {
+        "required": "Please write your question or describe your project.",
+        "tooLong": "The message is too long: {max} characters at most. Shorten it or send us the rest by email."
+      },
+      "consent": {
+        "required": "Please tick the box: without your consent we cannot use your data to reply."
+      }
+    },
+    "problem": {
+      "invalid": "Your message has not been sent yet. {count, plural, one {One field needs} other {# fields need}} a correction: they are marked below.",
+      "tooFast": "Your message was not sent because the form was submitted too quickly. Your text is still here: send it again in a few seconds.",
+      "rateLimited": "Your message was not sent: you sent several messages in a few minutes. Your text is still here. Try again in 10 minutes, or call us on {phone}.",
+      "failed": "Your message was not sent because of a problem on our side. Your text is still here: try again shortly, write to {email}, or call us on {phone}."
+    },
+    "sent": {
+      "title": "Thank you, we have received your message.",
+      "body": "We will reply to {email} as soon as possible.",
+      "again": "Write another message"
+    }
+  },
+  "Services": {
+    "eyebrow": "Services",
+    "title": "Direct printing on any wall",
+    "lead": "From the office to the facade: choose the situation closest to yours, see the difference, and try it in the 3D configurator.",
+    "rooms": {
+      "title": "Choose your situation",
+      "mockNote": "Example photos for this preview: they will be replaced by real work.",
+      "sliderLabel": "{room}: before and after",
+      "wallSize": "Wall size:",
+      "tryThisWall": "Try this wall"
+    },
+    "what": {
+      "eyebrow": "What we print",
+      "title": "From your logo to custom graphics",
+      "intro": "On interior and exterior walls, up to {height} high with no limit on width, with bright colours for more than {years} years.",
+      "kinds": {
+        "logo": {
+          "title": "Company logo",
+          "text": "Your brand and colours, sharp across the whole wall."
+        },
+        "art": {
+          "title": "Artistic images",
+          "text": "Landscapes, photos and works of art, also in large format."
+        },
+        "phrase": {
+          "title": "Phrases",
+          "text": "An inspiring phrase or a message for clients and staff."
+        },
+        "custom": {
+          "title": "Custom graphics",
+          "text": "A design made for your space."
+        }
+      }
+    }
+  },
+  "BeforeAfter": {
+    "before": "Before",
+    "after": "After",
+    "valueText": "{before}% empty wall",
+    "valueAfter": "The print only",
+    "hintPointer": "Hover to see the before",
+    "hintTouch": "Drag to compare"
+  },
+  "CtaBand": {
+    "title": "Put your idea on the wall",
+    "text": "Upload an image, choose the wall and the size, and see the result in 3D. The quote is free.",
+    "configurator": "Open the configurator",
+    "quote": "Ask for a quote"
+  },
+  "About": {
+    "eyebrow": "About us",
+    "title": "Every wall can tell a story",
+    "lead": "Swiss Wall Printing prints images directly onto walls, from {locality} in Ticino.",
+    "imageAlt": "A wall printer prints a black-and-white tiger onto a black wall.",
+    "story": {
+      "what": "We print logos, artistic images, phrases and custom graphics directly onto the wall: with no film and no stickers, on interior and exterior walls.",
+      "how": "With state-of-the-art machines we print up to {height} high with no limit on width. Our eco-friendly inks are certified and keep colours bright and details sharp for more than {years} years, also outdoors.",
+      "who": "We work for companies, hotels, restaurants, schools, offices and private homes.",
+      "canvas": "With direct printing, every wall becomes a canvas for your story."
+    }
+  },
+  "Gallery": {
+    "eyebrow": "Gallery",
+    "title": "Printed walls",
+    "lead": "A selection of our work: filter by type of space and open a photo to see it large.",
+    "mockNote": "Almost all photos are examples for this preview: they will be replaced by real work."
+  },
+  "GalleryGrid": {
+    "filterLabel": "Filter by type of space",
+    "all": "All",
+    "count": "{count, plural, one {# photo} other {# photos}}",
+    "mockBadge": "Example",
+    "dialogLabel": "Large photo",
+    "position": "{current} of {total}",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "close": "Close"
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about your wall",
+    "lead": "Write to us, call us or send a WhatsApp message. The quote is free.",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Where we are",
+    "openMap": "Open the map",
+    "social": "Social media",
+    "formTitle": "Write to us"
+  },
+  "Legal": {
+    "missing": "to be completed",
+    "draft": "Draft: some details have not come from the client yet (marked \"to be completed\"), and the text must be checked before publication.",
+    "updated": "Last updated: {date}"
+  },
+  "Imprint": {
+    "eyebrow": "Imprint",
+    "title": "Imprint",
+    "operator": "Website operator",
+    "fields": {
+      "name": "Company",
+      "address": "Address",
+      "email": "Email",
+      "phone": "Phone",
+      "responsible": "Responsible for the content",
+      "uid": "Business ID (UID)"
+    },
+    "liability": {
+      "title": "Disclaimer",
+      "text": "We check the content of this website carefully, but we cannot guarantee that it is always complete, correct and up to date. The prices in the configurator are estimates: only the written quote applies."
+    },
+    "links": {
+      "title": "External links",
+      "text": "We are not responsible for the content of external websites that we link to."
+    },
+    "copyright": {
+      "title": "Copyright",
+      "text": "The texts, images and graphics on this website belong to Swiss Wall Printing or to their authors. To use them, you need our written consent."
+    },
+    "credits": {
+      "title": "Credits",
+      "text": "The website uses these third-party works. The example photos are made from the textures of the 3D models."
+    }
+  },
+  "Privacy": {
+    "eyebrow": "Privacy",
+    "title": "Privacy policy",
+    "lead": "How we handle your data when you visit the website or contact us.",
+    "controller": {
+      "title": "Who is responsible",
+      "text": "{company} is responsible for the processing of your data. For any question about data protection, write to us at {email}."
+    },
+    "data": {
+      "title": "What data we process",
+      "text": "When you use the form, we process your name, email address, phone number (if you give it) and your message. When you write to us or call us directly, we process the data of the message or the call. When you visit the website, the server records technical data such as the IP address, date and time, the page visited and the browser type."
+    },
+    "purpose": {
+      "title": "Why we process it",
+      "text": "We use the data from the form and from contacts only to answer your request and to prepare a quote. We use the technical data to run the website safely, for example to block automated messages (spam)."
+    },
+    "recipients": {
+      "title": "Who we share it with",
+      "text": "The website is hosted by {hosting}. Form messages reach us by email through {mailProvider}. These providers process the data only on our behalf. We do not sell your data and do not use it for advertising."
+    },
+    "abroad": {
+      "title": "Data abroad",
+      "text": "If a provider processes data outside Switzerland, it does so only in countries with adequate protection or with contractual safeguards, as the law requires."
+    },
+    "cookies": {
+      "title": "Cookies and statistics",
+      "text": "The website uses no tracking cookies and no statistics or advertising tools. The fonts load from our own server, with no requests to Google."
+    },
+    "links": {
+      "title": "Links to other services",
+      "text": "The website contains links to WhatsApp, Instagram, Facebook and Google Maps. Only when you open them do these services receive data from you; their own privacy policies apply."
+    },
+    "retention": {
+      "title": "How long",
+      "text": "We keep messages as long as we need them for your request and for legal duties, for example the accounts of a job. The technical server data is deleted after a short time."
+    },
+    "rights": {
+      "title": "Your rights",
+      "text": "Under the Swiss Federal Act on Data Protection (FADP) you can ask what data we hold about you, have it corrected or deleted, and object to its processing. If the GDPR applies to you, you also have the right to data portability. Write to us at {email}. You can also contact the Federal Data Protection and Information Commissioner (FDPIC)."
+    },
+    "changes": {
+      "title": "Changes",
+      "text": "We may update this policy when the website changes. The version published here applies."
+    }
+  },
+  "Configurator": {
+    "eyebrow": "3D configurator",
+    "title": "Try your wall printing",
+    "lead": "Choose an image, enter the sizes, and see at once how it looks and roughly what it costs.",
+    "adjusted": "Changed to {value} m.",
+    "panel": {
+      "open": "Settings",
+      "close": "Close the settings"
+    },
+    "image": {
+      "title": "Image",
+      "presets": "Ready images",
+      "example": "Examples",
+      "upload": "Upload your image",
+      "opening": "Opening the image…",
+      "uploaded": "On the wall: {name}",
+      "uploadHint": "JPG, PNG, or WebP, up to {max} MB. The image stays on your device: we do not upload it anywhere.",
+      "errors": {
+        "type": "We can't use this file: only JPG, PNG, and WebP images work. The print on the wall has not changed. Save the image in one of these formats and try again, or send it to {email}.",
+        "tooLarge": "This file is {size} MB; the limit is {max} MB. The print on the wall has not changed. Make the image smaller and try again, or send it to {email} and we prepare it for you.",
+        "decode": "We can't open this image: the file may be damaged. The print on the wall has not changed. Save it again as JPG or PNG and try again, or send it to {email}."
+      }
+    },
+    "wall": {
+      "title": "Wall",
+      "front": "Front",
+      "right": "Right",
+      "back": "Back",
+      "left": "Left",
+      "size": "Selected wall: {width} × {height} m.",
+      "hint": "You can also click a wall in the room."
+    },
+    "room": {
+      "title": "Room size",
+      "width": "Width",
+      "length": "Depth",
+      "height": "Height",
+      "range": "{min} to {max} m"
+    },
+    "print": {
+      "title": "Print",
+      "width": "Width",
+      "height": "Height",
+      "maxWidth": "At most {max} m: the width of the wall.",
+      "maxHeightWall": "At most {max} m: the height of the wall.",
+      "maxHeightMachine": "At most {max} m: our machine prints up to this height.",
+      "fit": "Fit",
+      "cover": "Fill the area",
+      "contain": "Whole image",
+      "coverHint": "The image fills the whole area: the edges can be cut off.",
+      "containHint": "All of the image shows: the printed area follows its proportions.",
+      "position": "Position",
+      "left": "From the left edge",
+      "bottom": "From the floor",
+      "centre": "Centre on the wall"
+    },
+    "environment": {
+      "title": "Where is the wall?",
+      "interior": "Indoors",
+      "exterior": "Outdoors"
+    },
+    "price": {
+      "label": "Estimated price",
+      "example": "Example",
+      "area": "{area} m² of print · incl. VAT",
+      "approx": "approx. {price}",
+      "details": "How we calculate it",
+      "print": "Print: {area} m² × {rate}/m²",
+      "minimum": "Print: minimum price",
+      "fixed": "Set-up and travel",
+      "vat": "VAT {rate}",
+      "total": "Total incl. VAT",
+      "disclaimer": "This is an estimate. The exact quote depends on the wall, the access, and the image.",
+      "exampleNote": "These rates are an example: the real prices follow soon."
+    },
+    "stage": {
+      "hint": "Drag to look around; drag the print to move it. Click a wall to print on it.",
+      "open3d": "Open the 3D view",
+      "canvasLabel": "3D preview of the room, with the print on the selected wall",
+      "loading": "Preparing the 3D room…",
+      "viewLabel": "View",
+      "before": "Before",
+      "after": "After",
+      "error": {
+        "webgl": {
+          "title": "The 3D view does not open in this browser",
+          "body": "The browser or the device does not show 3D graphics (WebGL), or they are turned off. The sizes and the price still work. To see the room, try an up-to-date browser such as Chrome, Firefox, Safari, or Edge."
+        },
+        "load": {
+          "title": "The 3D room did not load",
+          "body": "The connection may have stopped. The sizes and the price still work. Reload the page to try again."
+        },
+        "reload": "Reload the page",
+        "quote": "Ask for a quote"
+      }
+    },
+    "quote": {
+      "open": "Request an exact quote",
+      "title": "Request an exact quote",
+      "lead": "We send you the exact price for this wall. With the request we receive your configuration and the 3D preview.",
+      "close": "Close",
+      "summary": {
+        "title": "Your configuration",
+        "wall": "Wall",
+        "print": "Print",
+        "printValue": "{width} × {height} m ({area} m²)",
+        "image": "Image",
+        "price": "Estimated price",
+        "preview": "3D preview that we send with the request",
+        "uploadNote": "Your image is not sent: if we need the original file, we ask you for it by email."
+      },
+      "fields": {
+        "name": "Full name",
+        "email": "Email",
+        "phone": "Phone (optional)",
+        "place": "Location of the wall (optional)",
+        "notes": "Notes (optional)",
+        "notesHint": "For example: type of wall, access, when you would like the print.",
+        "consent": "I agree that Swiss Wall Printing uses this data only to answer my request. <link>Privacy policy</link>"
+      },
+      "submit": "Send the request",
+      "sending": "Sending…",
+      "errors": {
+        "name": {
+          "required": "Please write your name, so we know how to address you.",
+          "tooLong": "The name is too long: {max} characters at most."
+        },
+        "email": {
+          "required": "Please enter your email address: that is where we reply.",
+          "invalid": "This email address looks incomplete. Check the @ and the domain, for example name@example.ch.",
+          "tooLong": "The email address is too long: {max} characters at most."
+        },
+        "phone": {
+          "invalid": "This number does not look valid. Use only digits, spaces and +, for example +41 79 123 45 67.",
+          "tooLong": "The number is too long: {max} characters at most."
+        },
+        "place": {
+          "tooLong": "The location is too long: at most {max} characters."
+        },
+        "notes": {
+          "tooLong": "The notes are too long: at most {max} characters. Shorten them or send us the rest by email."
+        },
+        "consent": {
+          "required": "Please tick the box: without your consent we cannot use your data to reply."
+        }
+      },
+      "problem": {
+        "invalid": "Your request has not been sent yet. {count, plural, one {One field needs} other {# fields need}} a correction: they are marked below.",
+        "tooFast": "Your request was not sent because the form was submitted too quickly. Your details are still here: send it again in a few seconds.",
+        "rateLimited": "Your request was not sent: you sent several requests in a few minutes. Your details are still here. Try again in 10 minutes, or call us on {phone}.",
+        "failed": "Your request was not sent because of a problem on our side. Your details and the configuration are still here: try again shortly, write to {email}, or call us on {phone}."
+      },
+      "sent": {
+        "title": "Thank you, we have received your request.",
+        "body": "We will send the exact quote to {email} as soon as possible.",
+        "close": "Close"
+      },
+      "alternatives": "Prefer to talk? Call us on {phone} or <whatsapp>write to us on WhatsApp</whatsapp>."
+    },
+    "share": {
+      "copy": "Copy the link to this configuration",
+      "copied": "Link copied: you can send it or keep it. It opens the same wall with the same print.",
+      "copiedUpload": "Link copied. Your image is not in the link (it stays on your device): whoever opens it sees an example image.",
+      "failed": "We can't copy the link. The configuration is already in the address bar: copy it from there."
+    },
+    "resolution": {
+      "warning": "This image may look soft at this size: it has {ppc} pixels per centimetre, and a sharp print needs at least {min}.",
+      "example": "(Example threshold, to be confirmed.)",
+      "suggestion": "Sharp up to about {width} × {height} m. Or use a file with more pixels.",
+      "apply": "Use {width} × {height} m"
+    }
+  }
+}

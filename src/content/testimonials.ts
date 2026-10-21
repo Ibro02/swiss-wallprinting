@@ -1,0 +1,75 @@
+// MOCK reviews for the layout (Development Plan 6.3). Names, places, and texts are
+// invented. Each item is `mock: true`: the site shows an "example" badge, and the
+// production build fails until the client's real reviews replace them (Q7).
+
+import type { Testimonial } from './schema.ts'
+
+export const testimonials: readonly Testimonial[] = [
+  {
+    id: 'mock-marco-lugano',
+    mock: true,
+    author: 'Marco R.',
+    place: 'Lugano',
+    rating: 5,
+    date: '2026-09-12',
+    language: 'it',
+    text: "La parete del nostro ufficio ora mostra il logo e i colori dell'azienda. Lavoro pulito, senza odori e senza pellicole. Consigliatissimi!",
+    source: 'google',
+  },
+  {
+    id: 'mock-sandra-bellinzona',
+    mock: true,
+    author: 'Sandra K.',
+    place: 'Bellinzona',
+    rating: 5,
+    date: '2026-08-28',
+    language: 'de',
+    text: 'Wir haben ein Familienfoto im Treppenhaus drucken lassen. Die Farben sind genau so geworden, wie wir sie wollten, und es gibt keine Folie, die sich ablösen kann.',
+    source: 'google',
+  },
+  {
+    id: 'mock-giulia-locarno',
+    mock: true,
+    author: 'Giulia M.',
+    place: 'Locarno',
+    rating: 5,
+    date: '2026-08-03',
+    language: 'it',
+    text: 'Per il nostro ristorante volevamo una parete con il lago e le montagne. Il risultato ha superato le aspettative: i clienti la fotografano ogni sera.',
+    ownerReply: 'Grazie Giulia! È stato un piacere stampare per voi.',
+    source: 'google',
+  },
+  {
+    id: 'mock-daniel-ascona',
+    mock: true,
+    author: 'Daniel W.',
+    place: 'Ascona',
+    rating: 4,
+    date: '2026-07-19',
+    language: 'en',
+    text: 'Great result on our living room wall. The team explained every step and left everything clean. The colours look even better in daylight.',
+    source: 'direct',
+  },
+  {
+    id: 'mock-thomas-mendrisio',
+    mock: true,
+    author: 'Thomas B.',
+    place: 'Mendrisio',
+    rating: 5,
+    date: '2026-06-30',
+    language: 'de',
+    text: 'Die Aussenwand unseres Geschäfts ist jetzt ein echter Blickfang. Sehr freundlicher Kontakt und eine saubere Ausführung.',
+    source: 'google',
+  },
+  {
+    id: 'mock-elena-camignolo',
+    mock: true,
+    author: 'Elena F.',
+    place: 'Camignolo',
+    rating: 5,
+    date: '2026-06-14',
+    language: 'it',
+    text: 'Abbiamo stampato una frase sulla parete della cameretta: nitida e bellissima. Grazie mille!',
+    source: 'google',
+  },
+]

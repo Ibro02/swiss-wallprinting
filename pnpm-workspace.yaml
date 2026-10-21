@@ -1,0 +1,12 @@
+# Install scripts are off unless a package needs one. Both packages below use
+# prebuilt binaries from their optional platform packages.
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false
+
+# Vite+ manual install: every package that imports vite or vitest gets the
+# Vite+ copies (https://viteplus.dev/guide/local-cli#manual-installation).
+# Keep both versions in step with the vite-plus version in package.json.
+overrides:
+  vite@*: npm:@voidzero-dev/vite-plus-core@1.3.0
+  vitest@*: 5.0.5

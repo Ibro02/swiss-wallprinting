@@ -1,0 +1,531 @@
+{
+  "Metadata": {
+    "title": "Swiss Wall Printing – Direktna štampa na zid",
+    "description": "Štampamo slike direktno na unutrašnje i vanjske zidove, bez folije i bez ljepila. Do 3,80 m visine, neograničena širina. Camignolo, Ticino."
+  },
+  "Nav": {
+    "label": "Glavna navigacija",
+    "home": "Početna",
+    "about": "O nama",
+    "services": "Usluge",
+    "gallery": "Galerija",
+    "contact": "Kontakt",
+    "tryYourWall": "Isprobaj svoj zid",
+    "imprint": "Impresum",
+    "privacy": "Privatnost",
+    "language": "Jezik",
+    "tryYourWallShort": "Isprobaj",
+    "homeLink": "Swiss Wall Printing, početna stranica",
+    "menuOpen": "Otvori meni",
+    "menuClose": "Zatvori meni",
+    "skipToContent": "Preskoči na sadržaj"
+  },
+  "Pages": {
+    "home": {
+      "title": "Štampamo direktno na zidove"
+    },
+    "about": {
+      "title": "O nama"
+    },
+    "services": {
+      "title": "Usluge"
+    },
+    "gallery": {
+      "title": "Galerija"
+    },
+    "contact": {
+      "title": "Kontakt"
+    },
+    "tryYourWall": {
+      "title": "Isprobaj svoj zid"
+    },
+    "imprint": {
+      "title": "Impresum"
+    },
+    "privacy": {
+      "title": "Politika privatnosti"
+    }
+  },
+  "NotFound": {
+    "title": "Stranica nije pronađena",
+    "body": "Stranica koju tražite ne postoji ili je premještena.",
+    "back": "Nazad na početnu"
+  },
+  "Footer": {
+    "claim": "Štampamo direktno na zidove.",
+    "intro": "Direktna štampa na unutrašnje i vanjske zidove, bez folije i bez ljepila. Iz Camignola, u Ticinu.",
+    "navTitle": "Navigacija",
+    "contactTitle": "Kontakt",
+    "followTitle": "Pratite nas",
+    "legalTitle": "Pravne informacije",
+    "rights": "Sva prava zadržana.",
+    "phoneLanguages": "Jezici: {languages}",
+    "region": "Ticino, Švicarska"
+  },
+  "WhatsApp": {
+    "label": "Pišite nam na WhatsApp",
+    "message": "Zdravo! Zanimaju me informacije o direktnoj štampi na zid."
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Direktna štampa na zid · Ticino",
+      "title": "Vaša slika, štampana direktno na zid.",
+      "lead": "Bez folije, bez ljepila: štampamo logotipe, fotografije i grafike na unutrašnje i vanjske zidove. Do {height} visine, bez ograničenja širine.",
+      "ctaConfigurator": "Isprobajte na svom zidu",
+      "ctaQuote": "Besplatna ponuda",
+      "imageAlt": "Zidni štampač štampa crno-bijelog tigra na crni zid."
+    },
+    "testimonials": {
+      "eyebrow": "Recenzije",
+      "title": "Šta kažu naši klijenti",
+      "starsLabel": "{rating} od 5 zvjezdica",
+      "band": {
+        "excellent": "Odlično",
+        "veryGood": "Vrlo dobro",
+        "good": "Dobro",
+        "none": "Nema ocjene"
+      },
+      "basedOn": "Na osnovu {count, plural, one {# recenzije} few {# recenzije} other {# recenzija}}",
+      "ownerReply": "Odgovor od Swiss Wall Printing",
+      "mockBadge": "Primjer",
+      "mockNote": "Primjeri recenzija za pregled: bit će zamijenjeni stvarnim recenzijama klijenata."
+    },
+    "why": {
+      "eyebrow": "Zašto Swiss Wall Printing",
+      "title": "Svaki zid postaje platno.",
+      "intro": "Mašinama najnovije generacije štampamo visokokvalitetne slike direktno na zid: žive boje i oštri detalji, i na velikim površinama.",
+      "stats": {
+        "height": "Maksimalna visina štampe",
+        "width": "Neograničena širina",
+        "durability": "Godina živih boja, i na otvorenom",
+        "ink": "Certificirane ekološke boje"
+      },
+      "features": {
+        "noFilm": "Bez folije i bez ljepila: štampa je na zidu.",
+        "inOut": "Unutrašnji i vanjski zidovi.",
+        "anyDesign": "Logotipi, umjetničke slike, rečenice i grafike po mjeri.",
+        "freeQuote": "Besplatna ponuda."
+      }
+    },
+    "process": {
+      "eyebrow": "Kako to funkcioniše",
+      "title": "Od vaše ideje do gotovog zida",
+      "configuratorLink": "Otvori 3D konfigurator",
+      "steps": {
+        "idea": {
+          "title": "Ideja i zid",
+          "text": "Recite nam šta želite štampati i pošaljite nam mjere i fotografiju zida."
+        },
+        "design": {
+          "title": "Dizajn i pregled",
+          "text": "Pripremamo grafiku i pokazujemo vam rezultat prije štampe. Već sada ga možete isprobati u našem 3D konfiguratoru."
+        },
+        "print": {
+          "title": "Štampa na licu mjesta",
+          "text": "Štampamo direktno na vaš zid, bez folije i bez ljepila."
+        },
+        "done": {
+          "title": "Gotov zid",
+          "text": "Žive boje i oštri detalji više od {years} godina, i na otvorenom."
+        }
+      }
+    },
+    "areas": {
+      "eyebrow": "Primjene",
+      "title": "Gdje štampamo",
+      "intro": "Za firme, ugostiteljstvo, škole i privatne kuće: unutra i vani.",
+      "tryIt": "Isprobaj u konfiguratoru"
+    },
+    "question": {
+      "eyebrow": "Pitanja",
+      "title": "Imate pitanje ili projekat?",
+      "intro": "Pišite nam: ponuda je besplatna.",
+      "alternatives": "Radije biste razgovarali?"
+    }
+  },
+  "QuestionForm": {
+    "fields": {
+      "name": "Ime i prezime",
+      "email": "E-mail",
+      "phone": "Telefon (neobavezno)",
+      "message": "Vaša poruka",
+      "messageHint": "Na primjer: dimenzije zida, grad, unutra ili vani.",
+      "consent": "Slažem se da Swiss Wall Printing koristi ove podatke samo za odgovor na moj upit. <link>Politika privatnosti</link>"
+    },
+    "submit": "Pošalji poruku",
+    "sending": "Slanje…",
+    "errors": {
+      "name": {
+        "required": "Napišite svoje ime, da znamo kako da vam se obratimo.",
+        "tooLong": "Ime je predugo: najviše {max} znakova."
+      },
+      "email": {
+        "required": "Upišite svoju e-mail adresu: tamo vam odgovaramo.",
+        "invalid": "Ova e-mail adresa izgleda nepotpuno. Provjerite @ i domenu, na primjer ime@primjer.ch.",
+        "tooLong": "E-mail adresa je preduga: najviše {max} znakova."
+      },
+      "phone": {
+        "invalid": "Ovaj broj ne izgleda ispravno. Koristite samo cifre, razmake i +, na primjer +41 79 123 45 67.",
+        "tooLong": "Broj je predug: najviše {max} znakova."
+      },
+      "message": {
+        "required": "Napišite svoje pitanje ili opišite projekat.",
+        "tooLong": "Poruka je preduga: najviše {max} znakova. Skratite je ili nam ostatak pošaljite e-mailom."
+      },
+      "consent": {
+        "required": "Označite polje: bez vaše saglasnosti ne možemo koristiti vaše podatke za odgovor."
+      }
+    },
+    "problem": {
+      "invalid": "Poruka još nije poslana. {count, plural, one {# polje treba} few {# polja trebaju} other {# polja trebaju}} ispravku: označena su ispod.",
+      "tooFast": "Poruka nije poslana jer je obrazac poslan prebrzo. Vaš tekst je još ovdje: pošaljite ga ponovo za nekoliko sekundi.",
+      "rateLimited": "Poruka nije poslana: poslali ste više poruka za nekoliko minuta. Vaš tekst je još ovdje. Pokušajte ponovo za 10 minuta ili nas nazovite na {phone}.",
+      "failed": "Poruka nije poslana zbog problema na našoj strani. Vaš tekst je još ovdje: pokušajte ponovo malo kasnije, pišite na {email} ili nas nazovite na {phone}."
+    },
+    "sent": {
+      "title": "Hvala, primili smo vašu poruku.",
+      "body": "Odgovorit ćemo vam na {email} što prije.",
+      "again": "Napišite novu poruku"
+    }
+  },
+  "Services": {
+    "eyebrow": "Usluge",
+    "title": "Direktna štampa na svaki zid",
+    "lead": "Od kancelarije do fasade: izaberite situaciju najbližu vašoj, pogledajte razliku i isprobajte je u 3D konfiguratoru.",
+    "rooms": {
+      "title": "Izaberite svoju situaciju",
+      "mockNote": "Primjeri fotografija za pregled: bit će zamijenjeni stvarnim radovima.",
+      "sliderLabel": "{room}: prije i poslije",
+      "wallSize": "Dimenzije zida:",
+      "tryThisWall": "Isprobaj ovaj zid"
+    },
+    "what": {
+      "eyebrow": "Šta štampamo",
+      "title": "Od logotipa do grafike po mjeri",
+      "intro": "Na unutrašnje i vanjske zidove, do {height} visine i bez ograničenja širine, sa živim bojama više od {years} godina.",
+      "kinds": {
+        "logo": {
+          "title": "Logo firme",
+          "text": "Brend i boje firme, oštri preko cijelog zida."
+        },
+        "art": {
+          "title": "Umjetničke slike",
+          "text": "Pejzaži, fotografije i umjetnička djela, i u velikom formatu."
+        },
+        "phrase": {
+          "title": "Rečenice",
+          "text": "Inspirativna rečenica ili poruka za klijente i saradnike."
+        },
+        "custom": {
+          "title": "Grafika po mjeri",
+          "text": "Dizajn napravljen baš za vaš prostor."
+        }
+      }
+    }
+  },
+  "BeforeAfter": {
+    "before": "Prije",
+    "after": "Poslije",
+    "valueText": "{before}% praznog zida",
+    "valueAfter": "Samo štampa",
+    "hintPointer": "Pređite mišem da vidite prije",
+    "hintTouch": "Povucite za poređenje"
+  },
+  "CtaBand": {
+    "title": "Stavite svoju ideju na zid",
+    "text": "Učitajte sliku, izaberite zid i dimenzije i pogledajte rezultat u 3D. Ponuda je besplatna.",
+    "configurator": "Otvori konfigurator",
+    "quote": "Zatraži ponudu"
+  },
+  "About": {
+    "eyebrow": "O nama",
+    "title": "Svaki zid može ispričati priču",
+    "lead": "Swiss Wall Printing štampa slike direktno na zidove, iz mjesta {locality} u Ticinu.",
+    "imageAlt": "Zidni štampač štampa crno-bijelog tigra na crni zid.",
+    "story": {
+      "what": "Štampamo logotipe, umjetničke slike, rečenice i grafike po mjeri direktno na zid: bez folije i bez ljepila, na unutrašnje i vanjske zidove.",
+      "how": "Mašinama najnovije generacije štampamo do {height} visine i bez ograničenja širine. Naše ekološke boje su certificirane i zadržavaju žive boje i oštre detalje više od {years} godina, i na otvorenom.",
+      "who": "Radimo za firme, hotele, restorane, škole, kancelarije i privatne kuće.",
+      "canvas": "Uz direktnu štampu, svaki zid postaje platno za vašu priču."
+    }
+  },
+  "Gallery": {
+    "eyebrow": "Galerija",
+    "title": "Odštampani zidovi",
+    "lead": "Izbor naših radova: filtrirajte po vrsti prostora i otvorite fotografiju u velikom formatu.",
+    "mockNote": "Gotovo sve fotografije su primjeri za pregled: bit će zamijenjene stvarnim radovima."
+  },
+  "GalleryGrid": {
+    "filterLabel": "Filtriraj po vrsti prostora",
+    "all": "Sve",
+    "count": "{count, plural, one {# fotografija} few {# fotografije} other {# fotografija}}",
+    "mockBadge": "Primjer",
+    "dialogLabel": "Velika fotografija",
+    "position": "{current} od {total}",
+    "previous": "Prethodna fotografija",
+    "next": "Sljedeća fotografija",
+    "close": "Zatvori"
+  },
+  "Contact": {
+    "eyebrow": "Kontakt",
+    "title": "Razgovarajmo o vašem zidu",
+    "lead": "Pišite nam, nazovite nas ili pošaljite poruku na WhatsApp. Ponuda je besplatna.",
+    "email": "E-mail",
+    "phone": "Telefon",
+    "location": "Gdje smo",
+    "openMap": "Otvori mapu",
+    "social": "Društvene mreže",
+    "formTitle": "Pišite nam"
+  },
+  "Legal": {
+    "missing": "nedostaje",
+    "draft": "Nacrt: neki podaci od klijenta još nedostaju (označeni sa «nedostaje»), a tekst treba provjeriti prije objave.",
+    "updated": "Posljednje ažuriranje: {date}"
+  },
+  "Imprint": {
+    "eyebrow": "Impresum",
+    "title": "Impresum",
+    "operator": "Vlasnik stranice",
+    "fields": {
+      "name": "Firma",
+      "address": "Adresa",
+      "email": "E-mail",
+      "phone": "Telefon",
+      "responsible": "Odgovorna osoba za sadržaj",
+      "uid": "UID broj"
+    },
+    "liability": {
+      "title": "Odricanje od odgovornosti",
+      "text": "Sadržaj ove stranice pažljivo provjeravamo, ali ne možemo garantovati da je uvijek potpun, tačan i ažuran. Cijene u konfiguratoru su procjene: vrijedi samo pismena ponuda."
+    },
+    "links": {
+      "title": "Vanjski linkovi",
+      "text": "Nismo odgovorni za sadržaj vanjskih stranica na koje upućujemo."
+    },
+    "copyright": {
+      "title": "Autorska prava",
+      "text": "Tekstovi, slike i grafike na ovoj stranici pripadaju firmi Swiss Wall Printing ili njihovim autorima. Za korištenje je potrebna naša pismena saglasnost."
+    },
+    "credits": {
+      "title": "Zasluge",
+      "text": "Stranica koristi ova djela trećih strana. Primjeri fotografija napravljeni su od tekstura 3D modela."
+    }
+  },
+  "Privacy": {
+    "eyebrow": "Privatnost",
+    "title": "Politika privatnosti",
+    "lead": "Kako obrađujemo vaše podatke kada posjetite stranicu ili nas kontaktirate.",
+    "controller": {
+      "title": "Ko je odgovoran",
+      "text": "Za obradu podataka odgovorna je firma {company}. Za sva pitanja o zaštiti podataka pišite nam na {email}."
+    },
+    "data": {
+      "title": "Koje podatke obrađujemo",
+      "text": "Kada koristite obrazac, obrađujemo ime, e-mail adresu, broj telefona (ako ga navedete) i vašu poruku. Kada nam pišete ili nas nazovete direktno, obrađujemo podatke poruke ili poziva. Kada posjetite stranicu, server bilježi tehničke podatke kao što su IP adresa, datum i vrijeme, posjećena stranica i vrsta preglednika."
+    },
+    "purpose": {
+      "title": "Zašto ih obrađujemo",
+      "text": "Podatke iz obrasca i kontakata koristimo samo da odgovorimo na vaš upit i pripremimo ponudu. Tehničke podatke koristimo za siguran rad stranice, na primjer za blokiranje automatskih poruka (spam)."
+    },
+    "recipients": {
+      "title": "Kome ih prosljeđujemo",
+      "text": "Stranicu hostuje {hosting}. Poruke iz obrasca primamo e-mailom preko {mailProvider}. Ovi pružatelji usluga obrađuju podatke samo u naše ime. Vaše podatke ne prodajemo i ne koristimo ih za reklame."
+    },
+    "abroad": {
+      "title": "Podaci u inostranstvu",
+      "text": "Ako pružatelj usluge obrađuje podatke izvan Švicarske, to radi samo u zemljama s odgovarajućom zaštitom ili uz ugovorne garancije, kako zakon zahtijeva."
+    },
+    "cookies": {
+      "title": "Kolačići i statistika",
+      "text": "Stranica ne koristi kolačiće za praćenje niti alate za statistiku ili reklame. Fontovi se učitavaju s našeg servera, bez zahtjeva prema Googleu."
+    },
+    "links": {
+      "title": "Linkovi prema drugim uslugama",
+      "text": "Stranica sadrži linkove prema WhatsAppu, Instagramu, Facebooku i Google Maps. Tek kada ih otvorite, te usluge primaju vaše podatke; za njih vrijede njihove politike privatnosti."
+    },
+    "retention": {
+      "title": "Koliko dugo",
+      "text": "Poruke čuvamo dok su potrebne za vaš upit i za zakonske obaveze, na primjer za knjigovodstvo nekog posla. Tehnički podaci servera brišu se nakon kratkog vremena."
+    },
+    "rights": {
+      "title": "Vaša prava",
+      "text": "Prema švicarskom zakonu o zaštiti podataka (FADP) možete tražiti informacije o svojim podacima, njihovu ispravku ili brisanje i usprotiviti se obradi. Ako se na vas primjenjuje GDPR, imate i pravo na prenosivost podataka. Pišite nam na {email}. Možete se obratiti i Saveznom povjereniku za zaštitu podataka i informacija (FDPIC)."
+    },
+    "changes": {
+      "title": "Izmjene",
+      "text": "Ovu politiku možemo ažurirati kada se stranica promijeni. Vrijedi verzija objavljena ovdje."
+    }
+  },
+  "Configurator": {
+    "eyebrow": "3D konfigurator",
+    "title": "Isprobaj svoj zid",
+    "lead": "Izaberite sliku, unesite mjere i odmah vidite kako izgleda i koliko otprilike košta.",
+    "adjusted": "Prilagođeno na {value} m.",
+    "panel": {
+      "open": "Postavke",
+      "close": "Zatvori postavke"
+    },
+    "image": {
+      "title": "Slika",
+      "presets": "Gotove slike",
+      "example": "Primjeri",
+      "upload": "Učitajte svoju sliku",
+      "opening": "Otvaramo sliku…",
+      "uploaded": "Na zidu: {name}",
+      "uploadHint": "JPG, PNG ili WebP, do {max} MB. Slika ostaje na Vašem uređaju: nigdje je ne šaljemo.",
+      "errors": {
+        "type": "Ovu datoteku ne možemo koristiti: rade samo JPG, PNG i WebP slike. Print na zidu se nije promijenio. Sačuvajte sliku u jednom od ovih formata i pokušajte ponovo, ili je pošaljite na {email}.",
+        "tooLarge": "Ova datoteka ima {size} MB, a granica je {max} MB. Print na zidu se nije promijenio. Smanjite sliku i pokušajte ponovo, ili je pošaljite na {email}: mi ćemo je pripremiti.",
+        "decode": "Ne možemo otvoriti ovu sliku: datoteka je možda oštećena. Print na zidu se nije promijenio. Sačuvajte je ponovo kao JPG ili PNG i pokušajte ponovo, ili je pošaljite na {email}."
+      }
+    },
+    "wall": {
+      "title": "Zid",
+      "front": "Naprijed",
+      "right": "Desno",
+      "back": "Nazad",
+      "left": "Lijevo",
+      "size": "Izabrani zid: {width} × {height} m.",
+      "hint": "Možete i kliknuti na zid u prostoriji."
+    },
+    "room": {
+      "title": "Mjere prostorije",
+      "width": "Širina",
+      "length": "Dubina",
+      "height": "Visina",
+      "range": "Od {min} do {max} m"
+    },
+    "print": {
+      "title": "Print",
+      "width": "Širina",
+      "height": "Visina",
+      "maxWidth": "Najviše {max} m: širina zida.",
+      "maxHeightWall": "Najviše {max} m: visina zida.",
+      "maxHeightMachine": "Najviše {max} m: naša mašina printa do te visine.",
+      "fit": "Prilagođavanje",
+      "cover": "Ispuni površinu",
+      "contain": "Cijela slika",
+      "coverHint": "Slika pokriva cijelu površinu: rubovi mogu biti odrezani.",
+      "containHint": "Vidi se cijela slika: printana površina prati njene proporcije.",
+      "position": "Položaj",
+      "left": "Od lijevog ruba",
+      "bottom": "Od poda",
+      "centre": "Centriraj na zidu"
+    },
+    "environment": {
+      "title": "Gdje je zid?",
+      "interior": "Unutra",
+      "exterior": "Vani"
+    },
+    "price": {
+      "label": "Okvirna cijena",
+      "example": "Primjer",
+      "area": "{area} m² printa · sa PDV-om",
+      "approx": "oko {price}",
+      "details": "Kako računamo",
+      "print": "Print: {area} m² × {rate}/m²",
+      "minimum": "Print: minimalna cijena",
+      "fixed": "Priprema i dolazak",
+      "vat": "PDV {rate}",
+      "total": "Ukupno sa PDV-om",
+      "disclaimer": "Ovo je procjena. Tačna ponuda zavisi od zida, pristupa i slike.",
+      "exampleNote": "Ove cijene su primjer: prave cijene stižu uskoro."
+    },
+    "stage": {
+      "hint": "Povucite da se osvrnete; povucite print da ga pomjerite. Kliknite na zid da printate na njemu.",
+      "open3d": "Otvorite 3D prikaz",
+      "canvasLabel": "3D prikaz prostorije sa printom na izabranom zidu",
+      "loading": "Pripremamo 3D prostoriju…",
+      "viewLabel": "Prikaz",
+      "before": "Prije",
+      "after": "Poslije",
+      "error": {
+        "webgl": {
+          "title": "3D prikaz se ne otvara u ovom pregledniku",
+          "body": "Preglednik ili uređaj ne prikazuje 3D grafiku (WebGL), ili je isključena. Mjere i cijena i dalje rade. Da vidite prostoriju, probajte sa novijim preglednikom kao što su Chrome, Firefox, Safari ili Edge."
+        },
+        "load": {
+          "title": "3D prostorija se nije učitala",
+          "body": "Možda se veza prekinula. Mjere i cijena i dalje rade. Ponovo učitajte stranicu da pokušate opet."
+        },
+        "reload": "Ponovo učitaj stranicu",
+        "quote": "Zatražite ponudu"
+      }
+    },
+    "quote": {
+      "open": "Zatražite tačnu ponudu",
+      "title": "Zatražite tačnu ponudu",
+      "lead": "Šaljemo Vam tačnu cijenu za ovaj zid. Uz upit dobijamo Vašu konfiguraciju i 3D prikaz.",
+      "close": "Zatvori",
+      "summary": {
+        "title": "Vaša konfiguracija",
+        "wall": "Zid",
+        "print": "Print",
+        "printValue": "{width} × {height} m ({area} m²)",
+        "image": "Slika",
+        "price": "Okvirna cijena",
+        "preview": "3D prikaz koji šaljemo uz upit",
+        "uploadNote": "Vaša slika se ne šalje: ako nam zatreba originalna datoteka, tražit ćemo je e-mailom."
+      },
+      "fields": {
+        "name": "Ime i prezime",
+        "email": "E-mail",
+        "phone": "Telefon (neobavezno)",
+        "place": "Mjesto zida (neobavezno)",
+        "notes": "Napomene (neobavezno)",
+        "notesHint": "Na primjer: vrsta zida, pristup, kada biste željeli print.",
+        "consent": "Slažem se da Swiss Wall Printing koristi ove podatke samo za odgovor na moj upit. <link>Politika privatnosti</link>"
+      },
+      "submit": "Pošaljite upit",
+      "sending": "Šaljemo…",
+      "errors": {
+        "name": {
+          "required": "Napišite svoje ime, da znamo kako da vam se obratimo.",
+          "tooLong": "Ime je predugo: najviše {max} znakova."
+        },
+        "email": {
+          "required": "Upišite svoju e-mail adresu: tamo vam odgovaramo.",
+          "invalid": "Ova e-mail adresa izgleda nepotpuno. Provjerite @ i domenu, na primjer ime@primjer.ch.",
+          "tooLong": "E-mail adresa je preduga: najviše {max} znakova."
+        },
+        "phone": {
+          "invalid": "Ovaj broj ne izgleda ispravno. Koristite samo cifre, razmake i +, na primjer +41 79 123 45 67.",
+          "tooLong": "Broj je predug: najviše {max} znakova."
+        },
+        "place": {
+          "tooLong": "Mjesto je predugo: najviše {max} znakova."
+        },
+        "notes": {
+          "tooLong": "Napomene su preduge: najviše {max} znakova. Skratite ih ili nam ostatak pošaljite e-mailom."
+        },
+        "consent": {
+          "required": "Označite polje: bez vaše saglasnosti ne možemo koristiti vaše podatke za odgovor."
+        }
+      },
+      "problem": {
+        "invalid": "Upit još nije poslan. {count, plural, one {# polje treba} few {# polja trebaju} other {# polja trebaju}} ispravku: označena su ispod.",
+        "tooFast": "Upit nije poslan jer je obrazac poslan prebrzo. Vaši podaci su još ovdje: pošaljite ga ponovo za nekoliko sekundi.",
+        "rateLimited": "Upit nije poslan: poslali ste više upita za nekoliko minuta. Vaši podaci su još ovdje. Pokušajte ponovo za 10 minuta ili nas nazovite na {phone}.",
+        "failed": "Upit nije poslan zbog problema na našoj strani. Vaši podaci i konfiguracija su još ovdje: pokušajte ponovo malo kasnije, pišite na {email} ili nas nazovite na {phone}."
+      },
+      "sent": {
+        "title": "Hvala, primili smo Vaš upit.",
+        "body": "Tačnu ponudu šaljemo na {email} što prije.",
+        "close": "Zatvori"
+      },
+      "alternatives": "Radije biste razgovarali? Nazovite nas na {phone} ili <whatsapp>pišite nam na WhatsApp</whatsapp>."
+    },
+    "share": {
+      "copy": "Kopirajte link ove konfiguracije",
+      "copied": "Link je kopiran: možete ga poslati ili sačuvati. Otvara isti zid sa istim printom.",
+      "copiedUpload": "Link je kopiran. Vaša slika nije u linku (ostaje na Vašem uređaju): ko ga otvori, vidi primjer slike.",
+      "failed": "Ne možemo kopirati link. Konfiguracija je već u adresnoj traci: kopirajte je odatle."
+    },
+    "resolution": {
+      "warning": "Ova slika može izgledati mutno u ovoj veličini: ima {ppc} piksela po centimetru, a za oštar print treba najmanje {min}.",
+      "example": "(Primjer praga, treba ga potvrditi.)",
+      "suggestion": "Oštra do otprilike {width} × {height} m. Ili koristite datoteku s više piksela.",
+      "apply": "Koristi {width} × {height} m"
+    }
+  }
+}

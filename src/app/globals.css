@@ -1,0 +1,162 @@
+@import 'tailwindcss';
+
+/* Not app source: keep Tailwind from scanning the docs vault and client originals. */
+@source not '../../swiss-wallprinting';
+@source not '../../Assets';
+@source not '../../.claude';
+
+/*
+ * Design tokens (Development Plan, section 5). Brand colours from Assets/SWP_Logo.svg.
+ * Contrast (WCAG 2.2): white on magenta 4.6, magenta-700 on plaster 5.8,
+ * magenta-300 on graphite 5.7, lime on graphite 11.6, mute on plaster 6.2,
+ * mute-dark on graphite 7.8. Never lime text on a light background (1.7).
+ */
+@theme {
+  --color-graphite: #0e0e10;
+  --color-graphite-800: #17171b;
+  --color-graphite-700: #26262d;
+  --color-plaster: #f2f0ec;
+  --color-plaster-200: #e6e2db;
+  --color-mute: #5c5852;
+  --color-mute-dark: #a8a49c;
+
+  --color-magenta: #e51158;
+  --color-magenta-300: #ff3d7f;
+  --color-magenta-700: #b80c47;
+  --color-lime: #c5d20d;
+
+  /* CMYK motif: the ink colours of the wall printer. */
+  --color-ink-cyan: #00a6e0;
+  --color-ink-magenta: #e51158;
+  --color-ink-yellow: #ffd400;
+  --color-ink-black: #0e0e10;
+
+  --color-whatsapp: #25d366;
+
+  --ease-print: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fonts from next/font (src/app/fonts.ts), self-hosted at build time. */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-unbounded), var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-plaster);
+    color: var(--color-graphite);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-graphite);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-magenta-700);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-lime);
+  }
+}
+
+@layer components {
+  /*
+   * Hero "print reveal" (Development Plan, P2): an ink panel covers the photo and moves
+   * off to the right; its left edge is a CMYK print head. Transform only (compositor),
+   * CSS only (works before hydration). Reduced motion: no panel, the photo shows at once.
+   */
+  .print-reveal {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .print-reveal__ink {
+    position: absolute;
+    inset: 0;
+    background: var(--color-graphite);
+    animation: print-sweep 1.9s var(--ease-print) 0.25s both;
+  }
+
+  .print-reveal__ink::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: -3px;
+    width: 6px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-ink-cyan) 0 33%,
+      var(--color-ink-magenta) 33% 66%,
+      var(--color-ink-yellow) 66% 100%
+    );
+    box-shadow:
+      0 0 24px 4px rgb(229 17 88 / 0.55),
+      0 0 60px 10px rgb(0 166 224 / 0.25);
+  }
+
+  @keyframes print-sweep {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(100% + 40px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .print-reveal {
+      display: none;
+    }
+  }
+
+  /* Testimonial band: the list is rendered twice and moves by half its width. */
+  .marquee {
+    animation: marquee 60s linear infinite;
+  }
+
+  .marquee:hover,
+  .marquee:focus-within {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+  }
+
+  /* Configurator loading text: a short bar that moves along the track. */
+  @keyframes loading-bar {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(300%);
+    }
+  }
+}
