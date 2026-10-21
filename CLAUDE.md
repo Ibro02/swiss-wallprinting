@@ -116,7 +116,8 @@ Read `swiss-wallprinting/Development Plan.md` section 2 before you write code. S
 
 | Command | What it does |
 |---|---|
-| `vp install` | Installs the dependencies with pnpm (version from `packageManager`) |
+| `vp install` | Installs the dependencies with pnpm (version from `packageManager`). Its `prepare` step installs the git hooks and runs `next typegen` |
+| `vp run typegen` | Generates the Next.js types that the type check needs (`next-env.d.ts` with the image types, `.next/types/`). Git ignores them, so a fresh clone has none until `vp install`, `vp run dev`, or this; CI runs it before `vp check` |
 | `vp run dev` | Next.js dev server at http://localhost:3000 (`.claude/launch.json`: `swp-dev`) |
 | `vp check` | Format (Oxfmt), lint (Oxlint), and type check (tsgolint). `vp check --fix` formats. Run it before each commit; the pre-commit hook runs `vp staged` |
 | `vp test` | Vitest tests once (`src/**/*.test.ts(x)`, `scripts/**/*.test.ts`) |

@@ -11,7 +11,8 @@
     "test": "vp test",
     "models": "node scripts/optimize-models.ts",
     "images": "node scripts/images.ts",
-    "prepare": "vp config --no-agent",
+    "prepare": "vp config --no-agent && next typegen",
+    "typegen": "next typegen",
     "mockups": "node scripts/mockups.ts",
     "mail:test": "node --env-file-if-exists=.env.local scripts/send-test-mail.ts"
   },

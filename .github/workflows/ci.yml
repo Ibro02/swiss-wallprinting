@@ -24,6 +24,9 @@ jobs:
         with:
           cache: true
 
+      # The type check needs the types that Next.js generates (next-env.d.ts with the image
+      # types, .next/types): a fresh checkout has none, because git ignores them.
+      - run: vp run typegen
       - run: vp check
       - run: vp test
       # Preview build: mock content is allowed. The launch build sets SITE_ENV=production.

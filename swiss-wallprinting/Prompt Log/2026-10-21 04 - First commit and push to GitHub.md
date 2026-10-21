@@ -33,9 +33,12 @@ The first commit of Phases 0 to 5, pushed to `https://github.com/Ibro02/swiss-wa
 - **No AI contributor:** no co-author trailer, no "Generated with" line, no AI author (rule in `CLAUDE.md`; `.claude/settings.json` turns off the built-in attribution).
 - **Pre-commit hook fixed:** the first try failed in `vp staged` with "The command line is too long": Windows limits a command line to 8191 characters, and 275 long OneDrive paths did not fit even in lint-staged's chunks. `vite.config.ts` now checks the whole project once when more than 30 files are staged. The hook was not skipped.
 
+- **Pushed:** commit `d7d2dcf` to `main` (275 files). GitHub lists only `Ibro02` as a contributor.
+- **First CI run failed in `vp check`** (the author saw it too). Cause: the type check needs `next-env.d.ts` (image types for the `.jpg` imports) and `.next/types/`, which Next.js generates and git ignores; locally they existed from `next dev`. Reproduced by moving them aside: 2 errors (`Cannot find module '@/assets/photos/tiger-mid-print.jpg'`). Fix: `next typegen` (script `typegen`), as a CI step before `vp check` and in `prepare` (so a fresh clone gets the types with `vp install`). A second commit pushes the fix.
+
 ## Changed files
 
-- `.gitignore` (`swiss-wallprinting/Poruka ponude.md`), `CLAUDE.md` (the file is local only), `vite.config.ts` (`staged`), this entry, `Prompt Log.md`
+- `.gitignore` (`swiss-wallprinting/Poruka ponude.md`), `CLAUDE.md` (the file is local only; `vp run typegen`), `vite.config.ts` (`staged`), `package.json` (`typegen`, `prepare`), `.github/workflows/ci.yml` (typegen step), this entry, `Prompt Log.md`
 
 ## Decisions
 
@@ -45,5 +48,5 @@ The first commit of Phases 0 to 5, pushed to `https://github.com/Ibro02/swiss-wa
 ## Open items
 
 - **Author:** set `git config user.name` and `user.email` for the next commits (or keep giving them per commit).
-- **CI:** the first GitHub Actions run (`.github/workflows/ci.yml`) starts with this push; check it on GitHub. The CI build runs without `SITE_ENV=production`, so the mock guard does not stop it.
+- **CI:** check the run of the fix commit on GitHub. The CI build runs without `SITE_ENV=production`, so the mock guard does not stop it.
 - **Licence:** the Sketchfab Standard licence of the two models: check that a public repo with the source files is allowed (Development Plan, section 11).
