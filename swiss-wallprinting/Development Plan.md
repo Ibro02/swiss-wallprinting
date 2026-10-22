@@ -1,6 +1,6 @@
 ---
 tags: [plan, architecture, handover]
-status: Phase 5 done, Phase 6 next
+status: Phase 5 done, Phase 6 in progress
 updated: 2026-10-21
 ---
 # Development Plan
@@ -8,7 +8,7 @@ updated: 2026-10-21
 The plan for the new Swiss Wall Printing website. The author's requirements are in [[README]]. The facts from the old site are in [[Old Website]]. Read both first.
 
 > [!important] Status
-> The author approved the plan on 2026-10-20. The answers are in section 9. Phases 0 (setup), 1 (design system and shell), 2 (home page), 3 (inner pages, e-mail transport), 4 (configurator MVP), and 5 (configurator complete) are done; Phase 6 (quality) is next. Read [[2026-10-20 03 - Phase 0 setup]], [[2026-10-20 04 - Phase 1 design system and shell]], [[2026-10-20 05 - Phase 2 home page]], [[2026-10-20 06 - Phase 3 inner pages and e-mail]], [[2026-10-21 02 - Phase 4 browser check, build, docs]], and [[2026-10-21 03 - Phase 5 configurator complete]].
+> The author approved the plan on 2026-10-20. The answers are in section 9. Phases 0 (setup), 1 (design system and shell), 2 (home page), 3 (inner pages, e-mail transport), 4 (configurator MVP), and 5 (configurator complete) are done; Phase 6 (quality) is in progress (built and merged; two targets open). Read [[2026-10-20 03 - Phase 0 setup]], [[2026-10-20 04 - Phase 1 design system and shell]], [[2026-10-20 05 - Phase 2 home page]], [[2026-10-20 06 - Phase 3 inner pages and e-mail]], [[2026-10-21 02 - Phase 4 browser check, build, docs]], and [[2026-10-21 03 - Phase 5 configurator complete]].
 
 ---
 
