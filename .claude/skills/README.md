@@ -21,6 +21,7 @@ Installed with their own installers (commands below), copied into this folder, r
 | `design-taste-frontend` (taste-skill) | https://github.com/Leonxlnx/taste-skill | `6010f91` | `npx skills add Leonxlnx/taste-skill --agent claude-code --copy` | MIT, `_licenses/taste-skill.LICENSE` |
 | `impeccable` (+ `.claude/agents/impeccable-*.md`) | https://github.com/pbakaus/impeccable | `dad8dbb` (engine 0.1.16) | `npx impeccable install --providers=claude --project` | Apache 2.0, `_licenses/impeccable.LICENSE` |
 | `emil-design-eng`, `animate`, `animate-expo`, `animation-performance`, `animation-vocabulary`, `apple-design`, `ask-sonner`, `break-ui`, `find-animation-opportunities`, `improve-animations`, `mobile-native`, `pick-ui-library`, `prototype`, `review-animations`, `write-swift` | https://github.com/emilkowalski/skills | `2d22863` | `npx skills@latest add emilkowalski/skills --skill '*' --agent claude-code --copy` | MIT, `_licenses/emilkowalski-skills.LICENSE` |
+| `responsive-design` (added by the author, 2026-10-22) | https://github.com/wshobson/agents (`plugins/ui-design/skills/`) | `0874a27` (HEAD that day; hash in `skills-lock.json`) | `npx skills add wshobson/agents --skill responsive-design --agent claude-code --copy` | MIT, `_licenses/wshobson-agents.LICENSE` |
 
 Notes:
 
