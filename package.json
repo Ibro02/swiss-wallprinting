@@ -11,6 +11,7 @@
     "test": "vp test",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
+    "lighthouse:summary": "node scripts/lighthouse-summary.ts",
     "models": "node scripts/optimize-models.ts",
     "images": "node scripts/images.ts",
     "prepare": "vp config --no-agent && next typegen",

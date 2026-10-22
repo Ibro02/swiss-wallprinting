@@ -34,7 +34,7 @@ The author asked for the plan first and is away for about three hours while the 
    - `e2e/budgets.spec.ts`: on each marketing page, the gzip size of all scripts ≤ 150 KB on the home page (and the same budget on the other marketing pages), and no script with three.js (`WebGLRenderer`).
    - Lighthouse: measure every page (mobile and desktop) on the production build, fix what is below 90.
    - Lighthouse CI (`lighthouserc.json`, `@lhci/cli` through `npx` with a pinned version, no new dependency): mobile, the five main pages; it fails below performance 0.9, accessibility 0.95, best practices 0.9, SEO 0.9.
-   - CI: a second job "quality" after "check": build, start, Playwright (Chromium installed by `playwright install --with-deps chromium`), then Lighthouse CI.
+   - CI: a second job "quality" after "check": build, start, Playwright (Chromium installed by `playwright install --with-deps chromium`), then Lighthouse CI. Each run shows the scores as a table on the run's summary page (`vp run lighthouse:summary`) and keeps the HTML reports as the artefact `lighthouse` (added on 2026-10-22, [[2026-10-22 09 - Lighthouse reports on every CI run]]).
 6. **Docs.** `CLAUDE.md` (commands, rules for tests, SEO, budgets), [[Development Plan]] (Phase 6 status), the prompt log.
 
 ## Decisions taken by the agent (the author can change them)

@@ -152,9 +152,9 @@ The direction is "Studio light" (`swiss-wallprinting/Specs/Studio light redesign
 | `vp run frames` | Turns `src/assets/videos/landingPageVideo.mp4` into WebP frames for the scroll hero (`public/frames/hero/desktop` 1280 px, `mobile` 960 px) and writes `src/content/images/frames.ts`. Needs ffmpeg (`winget install Gyan.FFmpeg`); the ffmpeg commands are at the top of `scripts/frames.ts` |
 | `vp run mail:test` | Sends one test e-mail to `CONTACT_TO` with the transport from `.env.local`. Run it after you set SMTP or Resend |
 | `vp run e2e` | Playwright browser tests (`e2e/`) against the production build on port 3001: run `vp run build` first (the config starts `vp run start`, or uses a server already on 3001). Desktop and phone (Pixel 7); flows, axe (WCAG 2.2 AA), JS budgets. Form e-mails go to the outbox, whatever `.env.local` says. `vp run e2e:ui` opens the Playwright UI |
-| `npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json` | Lighthouse CI on five pages (mobile) of a running production server on port 3001; reports in `test-results/lighthouse/`. Build with `SITE_URL=http://localhost:3001`, so the canonical URL is on the same host |
+| `npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json` | Lighthouse CI on five pages (mobile) of a running production server on port 3001; reports in `test-results/lighthouse/`, and `vp run lighthouse:summary` prints their scores as a table. Build with `SITE_URL=http://localhost:3001`, so the canonical URL is on the same host |
 
-`vp check` and `vp test` are Vite+ built-ins; `vp run <name>` runs a `package.json` script. CI (`.github/workflows/ci.yml`) runs `vp check`, `vp test`, and `vp run build` (job `check`), then the job `quality`: a build with `SITE_URL=http://localhost:3001`, `vp run e2e`, and Lighthouse CI (`lighthouserc.json`).
+`vp check` and `vp test` are Vite+ built-ins; `vp run <name>` runs a `package.json` script. CI (`.github/workflows/ci.yml`) runs `vp check`, `vp test`, and `vp run build` (job `check`), then the job `quality`: a build with `SITE_URL=http://localhost:3001`, `vp run e2e`, and Lighthouse CI (`lighthouserc.json`). Every run of `quality` shows the Lighthouse scores as a table on the run's summary page and keeps the HTML reports as the artefact `lighthouse` (14 days); the Playwright results are kept only when a step fails.
 
 `pnpm` reports an unmet peer: `vitest` wants `vite` 6 to 8, and finds `1.3.0`. This is expected: `pnpm-workspace.yaml` replaces `vite` with the Vite+ core (version 1.3.0). Ignore it.
 
@@ -188,7 +188,7 @@ The direction is "Studio light" (`swiss-wallprinting/Specs/Studio light redesign
 | `src/content/images/` | Image manifests: `photos.ts`, `mock.ts`, and `frames.ts` (the hero frame sets) are generated (do not edit); `index.ts` joins the first two into `images` and the `ImageKey` type |
 | `src/features/configurator/` | `model/` (pure functions with tests: `room.ts` sizes, walls, neighbours, camera; `print.ts` limits, fit, position; `price.ts`; `upload.ts`; `quality.ts`; `budget.ts`; `share.ts` share link; `resolution.ts` sharpness of uploads), `store.ts` (the Zustand store, `placementOf`, `sharedConfigOf`), `start.ts` (first configuration: share link, `?area=`, or defaults) |
 | `messages/` | UI text per locale. `it.json` is the source; a test checks that all files have the same keys |
-| `scripts/` | Pipelines (`optimize-models.ts`, `images.ts`, `mockups.ts`), build checks (`check-mock.ts`, `check-mail.ts`), and `send-test-mail.ts`. Node runs them directly (type stripping): use relative imports with `.ts`, and only erasable TypeScript syntax (no enums) |
+| `scripts/` | Pipelines (`optimize-models.ts`, `images.ts`, `mockups.ts`), build checks (`check-mock.ts`, `check-mail.ts`), `send-test-mail.ts`, and `lighthouse-summary.ts` (the Lighthouse score table of a CI run). Node runs them directly (type stripping): use relative imports with `.ts`, and only erasable TypeScript syntax (no enums) |
 
 ## Environment
 

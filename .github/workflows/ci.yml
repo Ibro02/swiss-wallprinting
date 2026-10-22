@@ -50,12 +50,27 @@ jobs:
       # Starts the server itself (playwright.config.ts: port 3001, form e-mails to the outbox).
       - run: vp run e2e
       - name: Lighthouse CI
+        id: lighthouse
         run: npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json --collect.startServerCommand="vp run start"
         env:
           PORT: '3001'
+      # The scores of every run, passed or failed: a table on the run's summary page, and the
+      # HTML reports (each page, each run) as the artefact `lighthouse`. Lighthouse CI writes
+      # them also when an assertion fails; skipped only when Lighthouse did not run.
+      - if: ${{ !cancelled() && steps.lighthouse.outcome != 'skipped' }}
+        run: vp run lighthouse:summary
+      - if: ${{ !cancelled() && steps.lighthouse.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: test-results/lighthouse/
+          retention-days: 14
+      # Playwright traces and screenshots, only when a step failed.
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: test-results/
+          path: |
+            test-results/
+            !test-results/lighthouse/
           retention-days: 7
