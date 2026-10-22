@@ -14,6 +14,7 @@ import { PageHeader } from '@/components/PageHeader.tsx'
 import { company } from '@/content/company.ts'
 import { collections } from '@/content/index.ts'
 import { QUESTION_FORM_ID } from '@/features/contact/fields.ts'
+import { CompanyJsonLd } from '@/features/seo/CompanyJsonLd.tsx'
 import { metadataFor } from '@/i18n/metadata.ts'
 import type { Locale } from '@/i18n/routing.ts'
 import { QuestionForm } from '@/islands/QuestionForm.tsx'
@@ -84,6 +85,7 @@ export default async function ContactPage() {
 
   return (
     <main id="main" tabIndex={-1} className="outline-none">
+      <CompanyJsonLd />
       <PageHeader eyebrow={t('eyebrow')} title={t.rich('title', accent)}>
         <p>{t('lead')}</p>
       </PageHeader>

@@ -381,8 +381,10 @@
     animation: marquee var(--marquee-duration, 60s) linear infinite;
   }
 
-  .marquee:hover,
-  .marquee:focus-within {
+  /* Paused under the mouse, while the band has the focus, and while "stop" is checked. */
+  .marquee-band:hover .marquee,
+  .marquee-band:focus-within .marquee,
+  section:has(.marquee-pause:checked) .marquee {
     animation-play-state: paused;
   }
 

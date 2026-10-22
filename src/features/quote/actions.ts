@@ -11,6 +11,7 @@ import { getPathname } from '@/i18n/navigation.ts'
 import { PAGES } from '@/i18n/pages.ts'
 import { routing } from '@/i18n/routing.ts'
 import { mailTransport } from '@/lib/mail.ts'
+import { siteUrl } from '@/lib/site.ts'
 import { handleQuote, type QuoteState } from './handle-quote.ts'
 
 // 5 requests per visitor in 10 minutes, as for the question form (memory only).
@@ -31,8 +32,7 @@ export async function submitQuote(_previous: QuoteState, formData: FormData): Pr
   const locale =
     typeof sent === 'string' && hasLocale(routing.locales, sent) ? sent : routing.defaultLocale
   // The browser sends Origin with every Server Action; SITE_URL is the fallback.
-  const origin =
-    requestHeaders.get('origin') ?? process.env.SITE_URL ?? 'https://www.swisswallprinting.ch'
+  const origin = requestHeaders.get('origin') ?? siteUrl()
   const now = Date.now()
   const { id: _id, mock: ratesAreExamples, ...rates } = pricing
 

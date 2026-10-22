@@ -101,10 +101,14 @@ export async function Testimonials() {
         {hasMock && <p className="mt-6 max-w-xl text-sm text-mute">{t('mockNote')}</p>}
       </Container>
 
-      {/* The band runs to the card frame's edges and fades out there. */}
-      <div
+      {/* The band runs to the card frame's edges and fades out there. A region that takes
+          the keyboard focus: with reduced motion it scrolls by hand, also with the keys. */}
+      <section
         data-reveal="2"
-        className="mt-8 overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] sm:mt-10 motion-safe:overflow-x-hidden"
+        aria-labelledby="testimonials-title"
+        // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scrolling region needs the focus (WCAG 2.1.1)
+        tabIndex={0}
+        className="marquee-band mt-8 overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] sm:mt-10 motion-safe:overflow-x-hidden"
       >
         <div
           className="marquee flex w-max"
@@ -117,7 +121,19 @@ export async function Testimonials() {
             {reviews.map(card)}
           </ul>
         </div>
-      </div>
+      </section>
+
+      {/* WCAG 2.2.2: a way to stop the moving band, also on touch screens. A checkbox, so it
+          works without JavaScript; the CSS pauses the band while it is checked. */}
+      <Container className="mt-3 flex justify-end motion-reduce:hidden">
+        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-mute ring-1 ring-graphite/12 transition-[background-color,color] duration-150 ease-out ring-inset select-none hover:bg-plaster has-checked:bg-graphite has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite">
+          <input type="checkbox" className="marquee-pause sr-only" />
+          <span aria-hidden="true" className="tracking-[-0.15em]">
+            ❙❙
+          </span>
+          {t('pause')}
+        </label>
+      </Container>
     </section>
   )
 }

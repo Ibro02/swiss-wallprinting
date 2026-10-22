@@ -14,6 +14,7 @@ coverage/
 # Playwright
 playwright-report/
 test-results/
+.lighthouseci/
 
 # Design skill working files (taste-skill inspector screenshots, impeccable captures).
 # If a DESIGN.md is written, commit its token sidecar .impeccable/design.json.

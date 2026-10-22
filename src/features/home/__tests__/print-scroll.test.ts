@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
+  coarseCount,
   frameAt,
   framePath,
   loadOrder,
@@ -73,6 +74,25 @@ describe('loadOrder', () => {
       expect(order, `count ${count}`).toHaveLength(count)
       expect(new Set(order).size, `count ${count}`).toBe(count)
       expect(Math.max(...order), `count ${count}`).toBe(count - 1)
+    }
+  })
+})
+
+describe('coarseCount', () => {
+  it('counts every step-th frame and the last one, which loadOrder puts first', () => {
+    for (const [count, step] of [
+      [121, 8],
+      [100, 8],
+      [61, 4],
+      [9, 8],
+    ] as const) {
+      const coarse = loadOrder(count).slice(0, coarseCount(count, step))
+      const expected = new Set(
+        Array.from({ length: count }, (_, index) => index).filter(
+          (index) => index % step === 0 || index === count - 1,
+        ),
+      )
+      expect(new Set(coarse), `${count}/${step}`).toEqual(expected)
     }
   })
 })

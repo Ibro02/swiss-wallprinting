@@ -97,7 +97,8 @@
       "basedOn": "Basierend auf {count, plural, one {# Bewertung} other {# Bewertungen}}",
       "ownerReply": "Antwort von Swiss Wall Printing",
       "mockBadge": "Beispiel",
-      "mockNote": "Beispielbewertungen für die Vorschau: Sie werden durch echte Kundenbewertungen ersetzt."
+      "mockNote": "Beispielbewertungen für die Vorschau: Sie werden durch echte Kundenbewertungen ersetzt.",
+      "pause": "Bewertungen anhalten"
     },
     "why": {
       "eyebrow": "Warum Swiss Wall Printing",

@@ -4,6 +4,7 @@ import { type CSSProperties, type ReactNode, useEffect, useRef } from 'react'
 import { ChevronDownIcon } from '@/components/icons.tsx'
 import type { FrameSet } from '@/content/images/types.ts'
 import {
+  coarseCount,
   frameAt,
   framePath,
   loadOrder,
@@ -38,6 +39,9 @@ const PHASES = { introOut: 0.1, outroIn: 0.88, signatureIn: 0.92 }
 
 /** Frames that download at the same time. */
 const PARALLEL_LOADS = 6
+
+/** Before the first scroll: every 8th frame (and the last), see loadCoarse. */
+const COARSE_STEP = 8
 
 interface Props {
   /** Frames for wide screens; their first frame is the poster. */
@@ -168,6 +172,7 @@ export function PrintOnScroll({
     }
 
     const onScroll = () => {
+      loadAll()
       const next = scrollProgress(window.scrollY, range)
       if (next === target) return
       target = next
@@ -176,10 +181,14 @@ export function PrintOnScroll({
 
     const queue = loadOrder(set.count)
     const pending = new Set<HTMLImageElement>()
+    // How many frames may start: the coarse set first, all of them after the first scroll.
+    let allowed = 0
+    let started = 0
     const loadNext = () => {
-      while (!disposed && pending.size < PARALLEL_LOADS) {
+      while (!disposed && pending.size < PARALLEL_LOADS && started < allowed) {
         const index = queue.shift()
         if (index === undefined) return
+        started++
         const image = new Image()
         image.fetchPriority = index === 0 ? 'high' : 'low'
         image.src = framePath(set.pattern, index)
@@ -204,6 +213,25 @@ export function PrintOnScroll({
       }
     }
 
+    // When the frames load. The poster is the LCP image: nothing may share a slow network with
+    // it (Lighthouse mobile: LCP 16.9 s while 4 MB of frames loaded from hydration). After the
+    // load event and the poster's first paint (two animation frames), only the coarse set:
+    // every 8th frame, about an eighth of the bytes, so a visitor who never scrolls does not
+    // pay for the whole video. The first scroll asks for all of them; the coarse frames stand
+    // in (nearestLoaded) until the others arrive.
+    const loadCoarse = () => {
+      allowed = Math.max(allowed, coarseCount(set.count, COARSE_STEP))
+      loadNext()
+    }
+    let all = false
+    const loadAll = () => {
+      if (all) return
+      all = true
+      allowed = set.count
+      loadNext()
+    }
+    const afterFirstPaint = () => requestAnimationFrame(() => requestAnimationFrame(loadCoarse))
+
     measure()
     // A reload in the middle of the section starts there, without a sweep from frame 0.
     current = target
@@ -211,7 +239,9 @@ export function PrintOnScroll({
     // does, in the same frame.
     stage.style.animation = 'none'
     render()
-    loadNext()
+    if (target > 0) loadAll()
+    else if (document.readyState === 'complete') afterFirstPaint()
+    else window.addEventListener('load', afterFirstPaint, { once: true })
     finishRef.current = () => {
       if (target >= 1) return
       // After the focus: its own scroll-into-view would cancel a smooth scroll started now.
@@ -231,6 +261,7 @@ export function PrintOnScroll({
       cancelAnimationFrame(raf)
       resizeObserver.disconnect()
       window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('load', afterFirstPaint)
       finishRef.current = null
       // Cancels the downloads that are still running.
       for (const image of pending) image.src = ''

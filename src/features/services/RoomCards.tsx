@@ -29,7 +29,7 @@ export async function RoomCards() {
         {hasMock && <p className="mt-4 max-w-xl text-sm text-mute">{t('mockNote')}</p>}
 
         <ul className="mt-8 grid gap-x-3 gap-y-10 sm:mt-10 lg:grid-cols-2 xl:grid-cols-3">
-          {collections.services.map((room) => {
+          {collections.services.map((room, index) => {
             const area = collections.applicationAreas.find(
               (candidate) => candidate.id === room.area,
             )
@@ -43,6 +43,7 @@ export async function RoomCards() {
                   afterAlt={room.alt.after[locale]}
                   label={t('sliderLabel', { room: area.title[locale] })}
                   sizes="(min-width: 1280px) 30vw, (min-width: 1024px) 50vw, 100vw"
+                  priority={index === 0}
                 />
                 <div className="mt-5 flex items-start justify-between gap-6 px-1">
                   <div>
