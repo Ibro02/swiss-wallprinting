@@ -613,14 +613,15 @@
 
   /*
    * The application area cards (the author, 2026-10-22, after Framer's "Programs", with
-   * lime where it has blue): dark cards with a faint rim. Under the mouse the card rises
+   * lime where it has blue, on the mist cards of the page). Under the mouse the card rises
    * 6 px, its rim and glow turn lime, and a band of lime light sweeps across once; on the
    * way out it fades first and jumps back unseen. Mouse only (hover: hover); reduced
    * motion keeps the rim and the glow, without the rise and the sweep.
    */
   .area-card {
-    border: 1px solid rgb(255 255 255 / 0.07);
-    transition-property: translate, box-shadow, border-color;
+    /* Transparent at rest: the lime rim appears without moving the content. */
+    border: 1px solid transparent;
+    transition-property: translate, box-shadow, border-color, background-color;
     transition-duration: 250ms;
     transition-timing-function: var(--ease-out);
   }
@@ -653,7 +654,7 @@
       border-color: rgb(197 210 13 / 0.32);
       box-shadow:
         0 0 24px rgb(197 210 13 / 0.2),
-        0 24px 48px -28px rgb(0 0 0 / 0.5);
+        0 24px 48px -28px rgb(0 0 0 / 0.4);
     }
 
     @media (prefers-reduced-motion: no-preference) {
