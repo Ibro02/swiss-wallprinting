@@ -126,7 +126,7 @@ export async function Testimonials() {
       {/* WCAG 2.2.2: a way to stop the moving band, also on touch screens. A checkbox, so it
           works without JavaScript; the CSS pauses the band while it is checked. */}
       <Container className="mt-3 flex justify-end motion-reduce:hidden">
-        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-mute ring-1 ring-graphite/12 transition-[background-color,color] duration-150 ease-out ring-inset select-none hover:bg-plaster has-checked:bg-graphite has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite">
+        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-mute ring-1 ring-ink/12 transition-[background-color,color] duration-150 ease-out ring-inset select-none hover:bg-plaster has-checked:bg-lime has-checked:text-graphite has-checked:ring-lime has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink">
           <input type="checkbox" className="marquee-pause sr-only" />
           <span aria-hidden="true" className="tracking-[-0.15em]">
             ❙❙
