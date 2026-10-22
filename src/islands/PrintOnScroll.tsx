@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@/components/icons.tsx'
 import type { FrameSet } from '@/content/images/types.ts'
 import {
   coarseCount,
+  focusTrack,
   frameAt,
   framePath,
   loadOrder,
@@ -20,8 +21,9 @@ import {
 // - The frames are still images (`vp run frames`) drawn to a canvas. A <video> scrubbed with
 //   `currentTime` stutters, because each seek decodes from the last keyframe.
 // - The server renders the first frame as an <img> (the LCP element), so the first paint is
-//   right without JavaScript. The canvas lies on it and only ever draws a loaded frame, so
-//   it is never blank.
+//   right without JavaScript. The canvas lies on it and only ever draws a loaded frame. The
+//   poster stays under it until the outro: a swipe that is faster than the network shows
+//   frame 0, never an empty stage.
 // - Layout is CSS: a box with the video's proportions covers the stage (container query
 //   units), and the poster, the canvas, and the signature sit in it. They line up at every
 //   screen size, and the signature stays on the mural. The canvas keeps the frame's own
@@ -57,10 +59,11 @@ interface Props {
    */
   smoothing?: number
   /**
-   * Where the subject is (x, 0 … 1 of the frame width) at the first and the last frame.
-   * Screens narrower than the video keep this point in the middle.
+   * Where the subject is (x, 0 … 1 of the frame width), at equal steps of progress from the
+   * first frame to the last (focusTrack). Screens narrower than the video keep this point in
+   * the middle: the camera follows the subject.
    */
-  focus?: readonly [from: number, to: number]
+  focus?: readonly number[]
   /** Share of the frame height that is never shown, at the bottom (the floor, for example). */
   cropBottom?: number
   /** Share of the screen kept free above the stage, for a fixed header. */
@@ -90,7 +93,7 @@ export function PrintOnScroll({
   mobileQuery = '(max-width: 47.99rem)',
   length = '400vh',
   smoothing = 0.12,
-  focus = [0.5, 0.5],
+  focus = [0.5],
   cropBottom = 0,
   headerRoom = 0,
   signature,
@@ -271,8 +274,6 @@ export function PrintOnScroll({
   const sectionStyle = {
     '--print-length': length,
     '--ar': frames.width / frames.height,
-    '--focus-from': focus[0],
-    '--focus-to': focus[1],
     '--crop-bottom': cropBottom,
     '--room': headerRoom,
     '--intro-out': PHASES.introOut,
@@ -292,7 +293,11 @@ export function PrintOnScroll({
         ref={stageRef}
         className={`print-scroll__stage isolate overflow-hidden ${stageClassName}`}
       >
-        <div className="print-scroll__frame">
+        {/* `--focus` uses `--p`, so it is set here, under the stage that carries `--p`. */}
+        <div
+          className="print-scroll__frame"
+          style={{ '--focus': focusTrack(focus) } as CSSProperties}
+        >
           <picture>
             {/* Reduced motion shows the finished picture; phones get the smaller frames. */}
             {mobileFrames && (

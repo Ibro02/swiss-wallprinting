@@ -211,13 +211,13 @@
   /*
    * The video frame: its own proportions, covering the stage (as object-fit: cover) with
    * its visible part, the top `1 - --crop-bottom` of it, which is centred vertically. Where
-   * the stage is narrower, the frame slides so that the focus point (from `--focus-from`
-   * to `--focus-to` with the progress) stays in the middle, never past an edge. On wide
-   * screens the clamp keeps it still.
+   * the stage is narrower, the frame slides so that the focus point (`--focus`, the
+   * subject's track as a function of `--p`, set on this element by PrintOnScroll) stays in
+   * the middle, never past an edge: the camera follows the printer. On wide screens the
+   * clamp keeps it still.
    */
   .print-scroll__frame {
     --visible: calc(1 - var(--crop-bottom, 0));
-    --focus: calc(var(--focus-from) + (var(--focus-to) - var(--focus-from)) * var(--p));
     position: absolute;
     top: 0;
     left: 0;
@@ -228,12 +228,14 @@
   }
 
   /*
-   * The poster is frame 0. Painted at a later point (a reload in the middle, before
-   * JavaScript), it would show a blank wall under a half-finished story: the dark stage
-   * stands in until the canvas draws the right frame.
+   * The poster is frame 0, under the canvas. It stays until the outro, so a swipe that is
+   * faster than the network (or a page whose JavaScript did not run) shows the blank wall
+   * at the start of the print, never an empty stage; the canvas covers it as soon as it
+   * draws a frame. Under the outro it gives way to the dark stage: the call to action never
+   * stands over a blank wall. The same before and after hydration (no-ui-flash).
    */
   .print-scroll__poster {
-    opacity: clamp(0, 1 - var(--p) * 100, 1);
+    opacity: calc(1 - var(--outro));
   }
 
   /* `--p` from the scroll position, until PrintOnScroll takes over (it sets `animation: none`). */
@@ -541,6 +543,131 @@
   @keyframes shine {
     to {
       translate: 100% 0;
+    }
+  }
+
+  /*
+   * The process step "Design and preview" on phones (the author, 2026-10-22, after Framer's
+   * "Premium Glow Cards"): the graphite card lit from inside. A lime tint from the top left,
+   * two soft lime lights that drift slowly, a lime glow along the bottom edge, and a thin
+   * bright rim. Under the text the lights stay dim enough for white text (AA). The drift is
+   * a transform on blurred layers that are painted once; reduced motion: they stand still.
+   */
+  .premium-glow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: clip;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(160deg, rgb(197 210 13 / 0.22), rgb(197 210 13 / 0) 60%);
+    box-shadow:
+      inset 0 -70px 55px -25px rgb(197 210 13 / 0.26),
+      inset 0 -35px 25px -6px rgb(197 210 13 / 0.14),
+      inset 0 0 0 1px rgb(255 255 255 / 0.16);
+  }
+
+  .premium-glow__light {
+    position: absolute;
+    top: -5%;
+    left: 15%;
+    width: 80%;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle,
+      rgb(197 210 13 / 0.36),
+      rgb(197 210 13 / 0.1) 60%,
+      rgb(197 210 13 / 0) 75%
+    );
+    filter: blur(28px);
+    animation: premium-drift 14s ease-in-out infinite alternate;
+  }
+
+  .premium-glow__light--small {
+    top: 30%;
+    left: -10%;
+    width: 60%;
+    filter: blur(22px);
+    animation-duration: 11s;
+    animation-direction: alternate-reverse;
+  }
+
+  @keyframes premium-drift {
+    33% {
+      transform: translate(18%, 12%);
+    }
+    66% {
+      transform: translate(-12%, 22%);
+    }
+    to {
+      transform: translate(10%, -8%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .premium-glow__light {
+      animation: none;
+    }
+  }
+
+  /*
+   * The application area cards (the author, 2026-10-22, after Framer's "Programs", with
+   * lime where it has blue): dark cards with a faint rim. Under the mouse the card rises
+   * 6 px, its rim and glow turn lime, and a band of lime light sweeps across once; on the
+   * way out it fades first and jumps back unseen. Mouse only (hover: hover); reduced
+   * motion keeps the rim and the glow, without the rise and the sweep.
+   */
+  .area-card {
+    border: 1px solid rgb(255 255 255 / 0.07);
+    transition-property: translate, box-shadow, border-color;
+    transition-duration: 250ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  .area-card__sweep {
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    left: -20%;
+    z-index: -1;
+    width: 45%;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0),
+      rgb(255 255 255 / 0.03) 30%,
+      rgb(197 210 13 / 0.2) 50%,
+      rgb(255 255 255 / 0.03) 70%,
+      rgb(255 255 255 / 0)
+    );
+    opacity: 0;
+    transform: translateX(-120%) skewX(-18deg);
+    transition:
+      opacity 200ms var(--ease-out),
+      transform 0s 200ms;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .area-card:hover {
+      border-color: rgb(197 210 13 / 0.32);
+      box-shadow:
+        0 0 24px rgb(197 210 13 / 0.2),
+        0 24px 48px -28px rgb(0 0 0 / 0.5);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .area-card:hover {
+        translate: 0 -6px;
+      }
+
+      .area-card:hover .area-card__sweep {
+        opacity: 1;
+        transform: translateX(330%) skewX(-18deg);
+        transition:
+          opacity 200ms var(--ease-out),
+          transform 900ms var(--ease-out);
+      }
     }
   }
 

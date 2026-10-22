@@ -137,8 +137,8 @@ const frameSet = z.object({
 /** The home hero's time-lapse, drawn frame by frame as the visitor scrolls. */
 export const heroVideo = contentItem.extend({
   frames: z.object({ desktop: frameSet, mobile: frameSet }),
-  /** Where the printer is (x) at the first and the last frame. */
-  focus: z.tuple([fraction, fraction]),
+  /** Where the printer is (x), at equal steps of progress from the first frame to the last. */
+  focus: z.array(fraction).min(1),
   /** The share of the frame height never shown, at the bottom. */
   cropBottom: z.number().min(0).max(0.5),
   /** The logo "signature" on the finished mural: its left, top, and width. */

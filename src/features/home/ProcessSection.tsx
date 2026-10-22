@@ -12,8 +12,9 @@ import { GlowCard } from '@/islands/GlowCard.tsx'
 // Four steps as four mist cards, numbered in the serif italic (magenta). Step two, the
 // preview, is the dark one (lime number): it is where the visitor can act now, in the
 // configurator. To say so, a band of lime light sweeps across it as it scrolls into view,
-// and a lime light follows the mouse over it (GlowCard). On phones a row to swipe, in
-// order. The steps are a draft until the client confirms how the work really goes.
+// and a lime light follows the mouse over it (GlowCard). Phones have no mouse, so there it
+// glows from inside instead (`.premium-glow`). On phones a row to swipe, in order. The
+// steps are a draft until the client confirms how the work really goes.
 
 const STEPS = ['idea', 'design', 'print', 'done'] as const
 
@@ -31,6 +32,12 @@ export async function ProcessSection() {
             const card = 'flex h-full flex-col rounded-2xl p-5 sm:rounded-3xl sm:p-6'
             const content = (
               <>
+                {live && (
+                  <span aria-hidden="true" className="premium-glow md:hidden">
+                    <span className="premium-glow__light" />
+                    <span className="premium-glow__light premium-glow__light--small" />
+                  </span>
+                )}
                 <span
                   aria-hidden="true"
                   className={`font-serif text-4xl leading-none italic ${live ? 'text-lime' : 'text-magenta dark:text-lime'}`}
@@ -42,7 +49,7 @@ export async function ProcessSection() {
                   {t(`steps.${step}.title`)}
                 </h3>
                 <p
-                  className={`mt-1.5 text-sm leading-relaxed ${live ? 'text-white/70' : 'text-mute'}`}
+                  className={`mt-1.5 text-sm leading-relaxed ${live ? 'text-white/90' : 'text-mute'}`}
                 >
                   {t(`steps.${step}.text`, { years: printFacts.durabilityYears })}
                 </p>

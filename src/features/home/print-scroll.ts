@@ -88,3 +88,20 @@ export function nearestLoaded(loaded: ArrayLike<unknown>, wanted: number): numbe
   }
   return -1
 }
+
+/**
+ * Where the subject is (x, a share of the frame width) as a CSS expression of `--p`.
+ * `points` are its positions at equal steps of progress, from the first frame to the last;
+ * between them the pan moves in straight lines. Plain CSS, so it is right before hydration
+ * (the scroll timeline sets `--p`) and after (PrintOnScroll does).
+ */
+export function focusTrack(points: readonly number[]): string {
+  const [first = 0.5] = points
+  if (points.length < 2) return String(first)
+  const segments = points.length - 1
+  const terms = points.slice(1).map((point, index) => {
+    const rise = Math.round((point - (points[index] ?? point)) * 10_000) / 10_000
+    return `${rise} * clamp(0, var(--p) * ${segments} - ${index}, 1)`
+  })
+  return `calc(${first} + ${terms.join(' + ')})`
+}

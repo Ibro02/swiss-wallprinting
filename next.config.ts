@@ -1,9 +1,21 @@
+import { networkInterfaces } from 'node:os'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 const dev = process.env.NODE_ENV === 'development'
+
+// A phone on the same network opens the dev server by this computer's address
+// (http://192.168.x.x:3000). Next.js serves its dev resources (the HMR socket) only to
+// localhost and the hosts listed in `allowedDevOrigins`; for any other host the page never
+// hydrates: no theme switch, no 3D, and an empty hero canvas. Only this computer's own
+// IPv4 addresses, and only in development.
+const lanAddresses = () =>
+  Object.values(networkInterfaces())
+    .flatMap((addresses) => addresses ?? [])
+    .filter((address) => address.family === 'IPv4' && !address.internal)
+    .map((address) => address.address)
 
 // Content Security Policy (security audit 2026-10-22). The pages are static, so they cannot
 // carry a per-request nonce: scripts keep 'unsafe-inline' (the Next.js inline data and
@@ -40,6 +52,7 @@ const securityHeaders = [
 const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  ...(dev && { allowedDevOrigins: lanAddresses() }),
   images: {
     formats: ['image/avif', 'image/webp'],
   },

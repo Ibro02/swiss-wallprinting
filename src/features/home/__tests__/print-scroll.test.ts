@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
   coarseCount,
+  focusTrack,
   frameAt,
   framePath,
   loadOrder,
@@ -114,5 +115,26 @@ describe('nearestLoaded', () => {
 
   it('returns -1 when nothing is loaded yet', () => {
     expect(nearestLoaded(Array.from({ length: 10 }), 4)).toBe(-1)
+  })
+})
+
+describe('focusTrack', () => {
+  it('is a plain number for one point', () => {
+    expect(focusTrack([0.4])).toBe('0.4')
+    expect(focusTrack([])).toBe('0.5')
+  })
+
+  it('moves in a straight line between two points', () => {
+    expect(focusTrack([0.2, 0.75])).toBe('calc(0.2 + 0.55 * clamp(0, var(--p) * 1 - 0, 1))')
+  })
+
+  it('adds one segment per step, each over its share of the progress', () => {
+    expect(focusTrack([0.2, 0.3, 0.25])).toBe(
+      'calc(0.2 + 0.1 * clamp(0, var(--p) * 2 - 0, 1) + -0.05 * clamp(0, var(--p) * 2 - 1, 1))',
+    )
+  })
+
+  it('rounds the steps, so no float noise reaches the CSS', () => {
+    expect(focusTrack([0.205, 0.256])).toContain('0.051 *')
   })
 })
