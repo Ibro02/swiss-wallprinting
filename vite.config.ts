@@ -32,6 +32,7 @@ export default defineConfig({
       '**/*.md',
       'src/content/images/mock.ts',
       'src/content/images/photos.ts',
+      'src/content/images/frames.ts',
     ],
   },
   lint: {

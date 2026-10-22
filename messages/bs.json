@@ -52,7 +52,7 @@
     "back": "Nazad na početnu"
   },
   "Footer": {
-    "claim": "Štampamo direktno na zidove.",
+    "claim": "Štampamo <em>direktno</em> na zidove.",
     "intro": "Direktna štampa na unutrašnje i vanjske zidove, bez folije i bez ljepila. Iz Camignola, u Ticinu.",
     "navTitle": "Navigacija",
     "contactTitle": "Kontakt",
@@ -69,15 +69,27 @@
   "Home": {
     "hero": {
       "eyebrow": "Direktna štampa na zid · Ticino",
-      "title": "Vaša slika, štampana direktno na zid.",
+      "title": "Vaša slika, štampana <em>direktno</em> na zid.",
       "lead": "Bez folije, bez ljepila: štampamo logotipe, fotografije i grafike na unutrašnje i vanjske zidove. Do {height} visine, bez ograničenja širine.",
       "ctaConfigurator": "Isprobajte na svom zidu",
       "ctaQuote": "Besplatna ponuda",
-      "imageAlt": "Zidni štampač štampa crno-bijelog tigra na crni zid."
+      "imageAlt": "Zidni štampač štampa akvarel švicarskog sela na jezeru na zid ureda.",
+      "scrollHint": "Skrolajte za štampu",
+      "outroTitle": "Sljedeći zid <em>može biti vaš</em>.",
+      "mockBadge": "Primjer",
+      "card": {
+        "title": "Zdravo!",
+        "writeTo": "Pišite nam na",
+        "or": "ili",
+        "phone": "Pozovite nas: {phone}",
+        "whatsapp": "Pišite nam na WhatsApp",
+        "instagram": "Swiss Wall Printing na Instagramu",
+        "facebook": "Swiss Wall Printing na Facebooku"
+      }
     },
     "testimonials": {
       "eyebrow": "Recenzije",
-      "title": "Šta kažu naši klijenti",
+      "title": "Šta kažu <em>naši klijenti</em>",
       "starsLabel": "{rating} od 5 zvjezdica",
       "band": {
         "excellent": "Odlično",
@@ -92,7 +104,7 @@
     },
     "why": {
       "eyebrow": "Zašto Swiss Wall Printing",
-      "title": "Svaki zid postaje platno.",
+      "title": "Svaki zid postaje <em>platno</em>.",
       "intro": "Mašinama najnovije generacije štampamo visokokvalitetne slike direktno na zid: žive boje i oštri detalji, i na velikim površinama.",
       "stats": {
         "height": "Maksimalna visina štampe",
@@ -109,7 +121,7 @@
     },
     "process": {
       "eyebrow": "Kako to funkcioniše",
-      "title": "Od vaše ideje do gotovog zida",
+      "title": "Od vaše ideje do <em>gotovog zida</em>",
       "configuratorLink": "Otvori 3D konfigurator",
       "steps": {
         "idea": {
@@ -132,15 +144,14 @@
     },
     "areas": {
       "eyebrow": "Primjene",
-      "title": "Gdje štampamo",
+      "title": "Gdje <em>štampamo</em>",
       "intro": "Za firme, ugostiteljstvo, škole i privatne kuće: unutra i vani.",
       "tryIt": "Isprobaj u konfiguratoru"
     },
     "question": {
       "eyebrow": "Pitanja",
-      "title": "Imate pitanje ili projekat?",
-      "intro": "Pišite nam: ponuda je besplatna.",
-      "alternatives": "Radije biste razgovarali?"
+      "title": "Imate pitanje? <em>Razgovarajmo.</em>",
+      "intro": "Pozovite nas ili pišite na WhatsApp ili e-mail: ponuda je besplatna."
     }
   },
   "QuestionForm": {
@@ -150,7 +161,11 @@
       "phone": "Telefon (neobavezno)",
       "message": "Vaša poruka",
       "messageHint": "Na primjer: dimenzije zida, grad, unutra ili vani.",
-      "consent": "Slažem se da Swiss Wall Printing koristi ove podatke samo za odgovor na moj upit. <link>Politika privatnosti</link>"
+      "consent": "Slažem se da Swiss Wall Printing koristi ove podatke samo za odgovor na moj upit. <link>Politika privatnosti</link>",
+      "project": "Opišite nam svoj projekat",
+      "messagePlaceholder": "Šta želite štampati? Dimenzije zida, grad, unutra ili vani…",
+      "areas": "Za kakav prostor?",
+      "areaOther": "Drugo"
     },
     "submit": "Pošalji poruku",
     "sending": "Slanje…",
@@ -190,10 +205,10 @@
   },
   "Services": {
     "eyebrow": "Usluge",
-    "title": "Direktna štampa na svaki zid",
+    "title": "Direktna štampa na <em>svaki zid</em>",
     "lead": "Od kancelarije do fasade: izaberite situaciju najbližu vašoj, pogledajte razliku i isprobajte je u 3D konfiguratoru.",
     "rooms": {
-      "title": "Izaberite svoju situaciju",
+      "title": "Izaberite svoju <em>situaciju</em>",
       "mockNote": "Primjeri fotografija za pregled: bit će zamijenjeni stvarnim radovima.",
       "sliderLabel": "{room}: prije i poslije",
       "wallSize": "Dimenzije zida:",
@@ -201,7 +216,7 @@
     },
     "what": {
       "eyebrow": "Šta štampamo",
-      "title": "Od logotipa do grafike po mjeri",
+      "title": "Od logotipa do <em>grafike po mjeri</em>",
       "intro": "Na unutrašnje i vanjske zidove, do {height} visine i bez ograničenja širine, sa živim bojama više od {years} godina.",
       "kinds": {
         "logo": {
@@ -232,14 +247,14 @@
     "hintTouch": "Povucite za poređenje"
   },
   "CtaBand": {
-    "title": "Stavite svoju ideju na zid",
+    "title": "Stavite svoju ideju <em>na zid</em>",
     "text": "Učitajte sliku, izaberite zid i dimenzije i pogledajte rezultat u 3D. Ponuda je besplatna.",
     "configurator": "Otvori konfigurator",
     "quote": "Zatraži ponudu"
   },
   "About": {
     "eyebrow": "O nama",
-    "title": "Svaki zid može ispričati priču",
+    "title": "Svaki zid može ispričati <em>priču</em>",
     "lead": "Swiss Wall Printing štampa slike direktno na zidove, iz mjesta {locality} u Ticinu.",
     "imageAlt": "Zidni štampač štampa crno-bijelog tigra na crni zid.",
     "story": {
@@ -251,7 +266,7 @@
   },
   "Gallery": {
     "eyebrow": "Galerija",
-    "title": "Odštampani zidovi",
+    "title": "Odštampani <em>zidovi</em>",
     "lead": "Izbor naših radova: filtrirajte po vrsti prostora i otvorite fotografiju u velikom formatu.",
     "mockNote": "Gotovo sve fotografije su primjeri za pregled: bit će zamijenjene stvarnim radovima."
   },
@@ -268,13 +283,12 @@
   },
   "Contact": {
     "eyebrow": "Kontakt",
-    "title": "Razgovarajmo o vašem zidu",
+    "title": "Razgovarajmo o <em>vašem zidu</em>",
     "lead": "Pišite nam, nazovite nas ili pošaljite poruku na WhatsApp. Ponuda je besplatna.",
     "email": "E-mail",
     "phone": "Telefon",
     "location": "Gdje smo",
     "openMap": "Otvori mapu",
-    "social": "Društvene mreže",
     "formTitle": "Pišite nam"
   },
   "Legal": {

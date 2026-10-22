@@ -3,12 +3,13 @@ import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
+import { FRAME } from '@/components/Container.tsx'
 import { SiteFooter } from '@/components/site/SiteFooter.tsx'
 import { SiteHeader } from '@/components/site/SiteHeader.tsx'
 import { WhatsAppButton } from '@/components/site/WhatsAppButton.tsx'
 import { company } from '@/content/company.ts'
 import { routing } from '@/i18n/routing.ts'
-import { display, sans } from '../fonts.ts'
+import { sans, serif } from '../fonts.ts'
 import '../globals.css'
 
 interface Props {
@@ -21,7 +22,7 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#0e0e10',
+  themeColor: '#ffffff',
 }
 
 export async function generateMetadata({ params }: Omit<Props, 'children'>): Promise<Metadata> {
@@ -51,12 +52,15 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   return (
-    <html lang={locale} className={`${display.variable} ${sans.variable}`}>
-      <body className="flex min-h-dvh flex-col antialiased">
+    <html lang={locale} className={`${sans.variable} ${serif.variable}`}>
+      <body className="antialiased">
         <NextIntlClientProvider messages={clientMessages}>
           <SiteHeader />
-          <div className="flex-1">{children}</div>
-          <SiteFooter />
+          {/* The white frame: every page is a column of cards inside it. */}
+          <div className={`${FRAME} flex min-h-dvh flex-col pt-3 sm:pt-4 md:pt-6`}>
+            <div className="flex-1">{children}</div>
+            <SiteFooter />
+          </div>
           <WhatsAppButton />
         </NextIntlClientProvider>
       </body>

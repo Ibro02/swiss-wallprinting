@@ -9,9 +9,11 @@ import {
   spamVerdict,
 } from '../question.ts'
 
-function form(fields: Record<string, string>): FormData {
+function form(fields: Record<string, string | string[]>): FormData {
   const data = new FormData()
-  for (const [key, value] of Object.entries(fields)) data.set(key, value)
+  for (const [key, value] of Object.entries(fields)) {
+    for (const item of Array.isArray(value) ? value : [value]) data.append(key, item)
+  }
   return data
 }
 
@@ -32,8 +34,14 @@ describe('parseQuestion', () => {
         email: 'anna@example.ch',
         phone: '+41 79 123 45 67',
         message: 'Vorrei stampare il logo in ufficio.',
+        areas: [],
       },
     })
+  })
+
+  it('keeps the checked area chips once each, and drops unknown values', () => {
+    const result = parseQuestion(form({ ...valid, areas: ['hotel', 'nonsense', 'other', 'hotel'] }))
+    expect(result).toMatchObject({ ok: true, question: { areas: ['hotel', 'other'] } })
   })
 
   it('accepts an empty phone number (the field is optional)', () => {
@@ -81,6 +89,7 @@ describe('questionValues', () => {
       email: '',
       phone: '',
       message: '',
+      areas: [],
       consent: true,
     })
   })
@@ -117,7 +126,7 @@ describe('createRateLimiter', () => {
 describe('questionMail', () => {
   it('addresses the client, replies to the visitor, and keeps the message', () => {
     const mail = questionMail(
-      { name: 'Anna Rossi', email: 'anna@example.ch', phone: '', message: 'Ciao' },
+      { name: 'Anna Rossi', email: 'anna@example.ch', phone: '', message: 'Ciao', areas: [] },
       { to: 'owner@example.ch', locale: 'de', page: '/de' },
     )
     expect(mail.to).toBe('owner@example.ch')
@@ -125,6 +134,21 @@ describe('questionMail', () => {
     expect(mail.subject).toBe('Nuova domanda dal sito: Anna Rossi')
     expect(mail.text).toContain('Telefono: -')
     expect(mail.text).toContain('Lingua del sito: DE')
+    expect(mail.text).toContain('Spazio: -')
     expect(mail.text.endsWith('Ciao')).toBe(true)
+  })
+
+  it('names the chosen areas in Italian', () => {
+    const mail = questionMail(
+      {
+        name: 'Anna',
+        email: 'anna@example.ch',
+        phone: '',
+        message: 'Ciao',
+        areas: ['hotel', 'other'],
+      },
+      { to: 'owner@example.ch', locale: 'it', page: '/' },
+    )
+    expect(mail.text).toContain('Spazio: Hotel, Altro')
   })
 })

@@ -16,9 +16,9 @@ export async function WhatsAppButton() {
       href={href}
       aria-label={t('label')}
       title={t('label')}
-      className="fixed right-4 bottom-4 z-40 grid size-14 place-items-center rounded-full bg-whatsapp text-graphite shadow-[0_10px_30px_-10px_rgb(0_0_0/0.5)] transition-transform hover:scale-105 motion-reduce:transition-none sm:right-6 sm:bottom-6 [body:has(#configurator-panel)_&]:hidden"
+      className="fixed right-4 bottom-4 z-40 grid size-13 place-items-center rounded-full bg-whatsapp text-graphite shadow-[0_12px_32px_-12px_rgb(0_0_0/0.45)] ring-4 ring-white/70 transition-transform duration-160 ease-out active:scale-[0.97] motion-reduce:transition-none sm:right-6 sm:bottom-6 [body:has(#configurator-panel)_&]:hidden"
     >
-      <WhatsAppIcon className="size-7" />
+      <WhatsAppIcon className="size-6" />
     </a>
   )
 }

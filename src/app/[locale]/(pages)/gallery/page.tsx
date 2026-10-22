@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server'
+import { accent } from '@/components/Accent.tsx'
 import { Container } from '@/components/Container.tsx'
 import { CtaBand } from '@/components/CtaBand.tsx'
 import { PageHeader } from '@/components/PageHeader.tsx'
@@ -30,18 +31,16 @@ export default async function GalleryPage() {
 
   return (
     <main id="main" tabIndex={-1} className="outline-none">
-      <PageHeader eyebrow={t('eyebrow')} title={t('title')}>
+      <PageHeader eyebrow={t('eyebrow')} title={t.rich('title', accent)}>
         <p>{t('lead')}</p>
         {hasMock && <p className="mt-3 text-sm">{t('mockNote')}</p>}
       </PageHeader>
-      <section aria-label={t('title')} className="pb-24">
+      <section className="py-12 sm:py-16">
         <Container>
           <GalleryGrid items={items} filters={filters} />
         </Container>
       </section>
-      <div className="pb-24">
-        <CtaBand />
-      </div>
+      <CtaBand />
     </main>
   )
 }

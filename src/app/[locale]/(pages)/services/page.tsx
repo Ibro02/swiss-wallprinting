@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { accent } from '@/components/Accent.tsx'
 import { CtaBand } from '@/components/CtaBand.tsx'
 import { PageHeader } from '@/components/PageHeader.tsx'
 import { RoomCards } from '@/features/services/RoomCards.tsx'
@@ -11,14 +12,12 @@ export default async function ServicesPage() {
   const t = await getTranslations('Services')
   return (
     <main id="main" tabIndex={-1} className="outline-none">
-      <PageHeader eyebrow={t('eyebrow')} title={t('title')}>
+      <PageHeader eyebrow={t('eyebrow')} title={t.rich('title', accent)}>
         <p>{t('lead')}</p>
       </PageHeader>
       <RoomCards />
       <WhatWePrint />
-      <div className="py-24">
-        <CtaBand />
-      </div>
+      <CtaBand />
     </main>
   )
 }

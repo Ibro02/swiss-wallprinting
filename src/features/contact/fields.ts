@@ -16,6 +16,16 @@ export const FIELD_ERRORS = {
   consent: ['required'],
 } as const satisfies Record<QuestionField, readonly FieldError[]>
 
+/**
+ * The "for which space" chips (checkboxes named `areas`): the application areas
+ * (src/content/application-areas.ts), and this one for anything else. Optional, no error:
+ * an unknown value is dropped.
+ */
+export const OTHER_AREA = 'other'
+
+/** Anchor of the question form: the hero card on the home page, the form on the contact page. */
+export const QUESTION_FORM_ID = 'question'
+
 /** Fields that bots fill and people do not see (honeypot), and the fill time. */
 export const SPAM_FIELDS = { honeypot: 'website', startedAt: 'startedAt' } as const
 
@@ -27,6 +37,8 @@ export interface Question {
   email: string
   phone: string
   message: string
+  /** Area ids from the chips, in form order, without duplicates. */
+  areas: string[]
 }
 
 /** What the visitor typed, to fill the form again after an error. */

@@ -52,7 +52,7 @@
     "back": "Zur Startseite"
   },
   "Footer": {
-    "claim": "Wir drucken direkt auf Wände.",
+    "claim": "Wir drucken <em>direkt</em> auf Wände.",
     "intro": "Direktdruck auf Innen- und Aussenwände, ohne Folie und ohne Kleber. Aus Camignolo im Tessin.",
     "navTitle": "Navigation",
     "contactTitle": "Kontakt",
@@ -69,15 +69,27 @@
   "Home": {
     "hero": {
       "eyebrow": "Direktdruck auf Wände · Tessin",
-      "title": "Ihr Bild, direkt auf die Wand gedruckt.",
+      "title": "Ihr Bild, <em>direkt</em> auf die Wand gedruckt.",
       "lead": "Ohne Folie, ohne Kleber: Wir drucken Logos, Fotos und Grafiken auf Innen- und Aussenwände. Bis {height} hoch, in unbegrenzter Breite.",
       "ctaConfigurator": "An Ihrer Wand testen",
       "ctaQuote": "Kostenlose Offerte",
-      "imageAlt": "Ein Wanddrucker druckt einen schwarz-weissen Tiger auf eine schwarze Wand."
+      "imageAlt": "Ein Wanddrucker druckt ein Aquarell eines Schweizer Dorfs am See auf eine Bürowand.",
+      "scrollHint": "Scrollen, um zu drucken",
+      "outroTitle": "Die nächste Wand <em>könnte Ihre sein</em>.",
+      "mockBadge": "Beispiel",
+      "card": {
+        "title": "Hallo!",
+        "writeTo": "Schreiben Sie uns",
+        "or": "oder",
+        "phone": "Rufen Sie uns an: {phone}",
+        "whatsapp": "Schreiben Sie uns auf WhatsApp",
+        "instagram": "Swiss Wall Printing auf Instagram",
+        "facebook": "Swiss Wall Printing auf Facebook"
+      }
     },
     "testimonials": {
       "eyebrow": "Bewertungen",
-      "title": "Das sagen unsere Kundinnen und Kunden",
+      "title": "Das sagen <em>unsere Kundinnen und Kunden</em>",
       "starsLabel": "{rating} von 5 Sternen",
       "band": {
         "excellent": "Ausgezeichnet",
@@ -92,7 +104,7 @@
     },
     "why": {
       "eyebrow": "Warum Swiss Wall Printing",
-      "title": "Jede Wand wird zur Leinwand.",
+      "title": "Jede Wand wird zur <em>Leinwand</em>.",
       "intro": "Mit Maschinen der neuesten Generation drucken wir hochwertige Bilder direkt auf die Wand: leuchtende Farben und scharfe Details, auch auf grossen Flächen.",
       "stats": {
         "height": "Maximale Druckhöhe",
@@ -109,7 +121,7 @@
     },
     "process": {
       "eyebrow": "So funktioniert es",
-      "title": "Von Ihrer Idee zur fertigen Wand",
+      "title": "Von Ihrer Idee zur <em>fertigen Wand</em>",
       "configuratorLink": "3D-Konfigurator öffnen",
       "steps": {
         "idea": {
@@ -132,15 +144,14 @@
     },
     "areas": {
       "eyebrow": "Anwendungen",
-      "title": "Wo wir drucken",
+      "title": "Wo wir <em>drucken</em>",
       "intro": "Für Firmen, Hotellerie und Gastronomie, Schulen und Privathäuser: innen und aussen.",
       "tryIt": "Im Konfigurator testen"
     },
     "question": {
       "eyebrow": "Fragen",
-      "title": "Haben Sie eine Frage oder ein Projekt?",
-      "intro": "Schreiben Sie uns: Die Offerte ist kostenlos.",
-      "alternatives": "Lieber persönlich?"
+      "title": "Eine Frage? <em>Sprechen wir darüber.</em>",
+      "intro": "Rufen Sie uns an, schreiben Sie auf WhatsApp oder per E-Mail: Die Offerte ist kostenlos."
     }
   },
   "QuestionForm": {
@@ -150,7 +161,11 @@
       "phone": "Telefon (freiwillig)",
       "message": "Ihre Nachricht",
       "messageHint": "Zum Beispiel: Masse der Wand, Ort, innen oder aussen.",
-      "consent": "Ich bin einverstanden, dass Swiss Wall Printing diese Daten nur zur Beantwortung meiner Anfrage verwendet. <link>Datenschutzerklärung</link>"
+      "consent": "Ich bin einverstanden, dass Swiss Wall Printing diese Daten nur zur Beantwortung meiner Anfrage verwendet. <link>Datenschutzerklärung</link>",
+      "project": "Erzählen Sie uns von Ihrem Projekt",
+      "messagePlaceholder": "Was möchten Sie drucken? Masse der Wand, Ort, innen oder aussen …",
+      "areas": "Für welchen Raum?",
+      "areaOther": "Anderes"
     },
     "submit": "Nachricht senden",
     "sending": "Wird gesendet …",
@@ -190,10 +205,10 @@
   },
   "Services": {
     "eyebrow": "Leistungen",
-    "title": "Direktdruck auf jede Wand",
+    "title": "Direktdruck auf <em>jede Wand</em>",
     "lead": "Vom Büro bis zur Fassade: Wählen Sie die Situation, die Ihrer am nächsten kommt, sehen Sie den Unterschied und testen Sie sie im 3D-Konfigurator.",
     "rooms": {
-      "title": "Wählen Sie Ihre Situation",
+      "title": "Wählen Sie Ihre <em>Situation</em>",
       "mockNote": "Beispielfotos für die Vorschau: Sie werden durch echte Arbeiten ersetzt.",
       "sliderLabel": "{room}: vorher und nachher",
       "wallSize": "Wandmasse:",
@@ -201,7 +216,7 @@
     },
     "what": {
       "eyebrow": "Was wir drucken",
-      "title": "Vom Logo bis zur Grafik nach Mass",
+      "title": "Vom Logo bis zur <em>Grafik nach Mass</em>",
       "intro": "Auf Innen- und Aussenwände, bis {height} hoch und in unbegrenzter Breite, mit leuchtenden Farben für über {years} Jahre.",
       "kinds": {
         "logo": {
@@ -232,14 +247,14 @@
     "hintTouch": "Ziehen zum Vergleichen"
   },
   "CtaBand": {
-    "title": "Bringen Sie Ihre Idee an die Wand",
+    "title": "Bringen Sie Ihre Idee <em>an die Wand</em>",
     "text": "Laden Sie ein Bild hoch, wählen Sie Wand und Masse und sehen Sie das Ergebnis in 3D. Die Offerte ist kostenlos.",
     "configurator": "Konfigurator öffnen",
     "quote": "Offerte anfragen"
   },
   "About": {
     "eyebrow": "Über uns",
-    "title": "Jede Wand kann eine Geschichte erzählen",
+    "title": "Jede Wand kann <em>eine Geschichte</em> erzählen",
     "lead": "Swiss Wall Printing druckt Bilder direkt auf Wände, aus {locality} im Tessin.",
     "imageAlt": "Ein Wanddrucker druckt einen schwarz-weissen Tiger auf eine schwarze Wand.",
     "story": {
@@ -251,7 +266,7 @@
   },
   "Gallery": {
     "eyebrow": "Galerie",
-    "title": "Bedruckte Wände",
+    "title": "Bedruckte <em>Wände</em>",
     "lead": "Eine Auswahl unserer Arbeiten: Filtern Sie nach Raumtyp und öffnen Sie ein Foto in gross.",
     "mockNote": "Fast alle Fotos sind Beispiele für die Vorschau: Sie werden durch echte Arbeiten ersetzt."
   },
@@ -268,13 +283,12 @@
   },
   "Contact": {
     "eyebrow": "Kontakt",
-    "title": "Sprechen wir über Ihre Wand",
+    "title": "Sprechen wir über <em>Ihre Wand</em>",
     "lead": "Schreiben Sie uns, rufen Sie an oder senden Sie eine WhatsApp-Nachricht. Die Offerte ist kostenlos.",
     "email": "E-Mail",
     "phone": "Telefon",
     "location": "Standort",
     "openMap": "Karte öffnen",
-    "social": "Soziale Medien",
     "formTitle": "Schreiben Sie uns"
   },
   "Legal": {

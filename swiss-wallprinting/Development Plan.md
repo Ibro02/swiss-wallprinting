@@ -180,6 +180,7 @@ Localized paths come from next-intl `pathnames`. Each page has `hreflang` altern
 ### 4.2 Home
 
 1. **Hero.** Background media, hook text, and two buttons: "Try it on your wall" (configurator) and "Free quote". See proposal P2 for the media.
+   - **Built 2026-10-22: "print on scroll"** ([[2026-10-22 01 - Print on scroll hero]]). A 400vh section with a sticky card: the scroll plays the time-lapse frame by frame on a canvas (WebP frames from `vp run frames`), forwards and backwards, with smoothing. Headline at the start, the logo "signs" the mural over the last 8 %, then the two buttons. Phones pan with the printer; reduced motion shows the finished picture. The video is AI-generated (Dreamina AI watermark): mock until the client approves a clean one.
    - Hook draft: IT "Stampiamo direttamente sui muri." / EN "Any image. Any wall. Printed directly." Sub-line: "No film, no stickers. Up to 3.80 m high, unlimited width, 12+ years."
 2. **Testimonials.** Pattern from faberwall.nl/reviews: a header with the aggregate rating ("Excellent, based on N Google reviews") and a link to the Google profile; review cards with avatar initial, name, stars, date, text, and an optional owner reply. Improvement: on the home page the cards move as a slow horizontal band (pauses on hover, static grid with reduced motion). All reviews are mock until the client sends real ones (see 6.3).
 3. **Why Swiss Wall Printing.** Large numbers: 3.80 m height, unlimited width, 12+ years durability, certified eco inks, indoor and outdoor, no film or adhesive. Facts from [[Old Website#Facts to reuse]] only.
@@ -277,6 +278,9 @@ The most important feature.
 ---
 
 ## 5. Design direction
+
+> [!important] Replaced on 2026-10-21
+> The site now follows **"Studio light"**: [[Specs/Studio light redesign]] (white frame, photo and mist cards, frosted header pill, Inter with one serif italic accent, black buttons), after the author's reference prompt. The text below is the first direction (Phases 1 to 5), kept for the record. A first redesign attempt, "The dark room" ([[Specs/Premium redesign]], [[ADR/0001-dark-room-design-direction]]), was not adopted.
 
 - **Reference:** the Dribbble shot "AI Energy Technology Website" (Zajno): monochrome industrial look, a large macro 3D render as the hero, very large thin headings, glass pill navigation, tall rounded image cards with small text.
 - **Brand colours** (from `Assets/SWP_Logo.svg`): magenta `#E51158`, lime `#C5D20D`.
@@ -388,7 +392,7 @@ Later ideas (not in scope now): **"Your wall photo" mode** (upload a photo of th
 | ID | Proposal | Reason |
 |---|---|---|
 | P1 | Next.js for runtime, Vite+ for the toolchain | Solves the Vite+/Next.js conflict without production risk (2.2) |
-| P2 | **Hero "print reveal"** on the real client photo (the tiger mid-print): a print-head line with CMYK colours moves across and "prints" the image; the hook text appears after it. A video slot replaces it when the client sends a time-lapse | Uses the only real photo, shows how the product works, and loads much faster than a video (better LCP) |
+| P2 | **Hero "print reveal"** on the real client photo (the tiger mid-print): a print-head line with CMYK colours moves across and "prints" the image; the hook text appears after it. A video slot replaces it when the client sends a time-lapse. **Replaced 2026-10-22** by the scroll-driven time-lapse (4.2 item 1); the tiger photo stays on the about page and in the gallery | Uses the only real photo, shows how the product works, and loads much faster than a video (better LCP) |
 | P3 | Parametric room built in code, not a scaled GLB | Exact size, no stretched textures (4.7) |
 | P4 | Print material uses the wall's normal map and multiply blending | It looks printed, not stuck on |
 | P5 | Print resolution warning for uploads | Prevents disappointed customers, shows expertise |

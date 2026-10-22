@@ -124,6 +124,26 @@ export const printQuality = contentItem.extend({
 })
 export type PrintQuality = z.infer<typeof printQuality>
 
+/** A point or a length in a video frame, as a share of its width or height. */
+const fraction = z.number().min(0).max(1)
+
+const frameSet = z.object({
+  pattern: z.string().regex(/^\/.*%0\d+d/),
+  count: z.number().int().min(2),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+})
+
+/** The home hero's time-lapse, drawn frame by frame as the visitor scrolls. */
+export const heroVideo = contentItem.extend({
+  frames: z.object({ desktop: frameSet, mobile: frameSet }),
+  /** Where the printer is (x) at the first and the last frame. */
+  focus: z.tuple([fraction, fraction]),
+  /** The logo "signature" on the finished mural: its left, top, and width. */
+  signature: z.object({ x: fraction, y: fraction, width: fraction }),
+})
+export type HeroVideo = z.infer<typeof heroVideo>
+
 /** A finished work in the gallery. */
 export const galleryItem = contentItem.extend({
   image: imageKey,

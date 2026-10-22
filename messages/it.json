@@ -52,7 +52,7 @@
     "back": "Torna alla home"
   },
   "Footer": {
-    "claim": "Stampiamo direttamente sui muri.",
+    "claim": "Stampiamo <em>direttamente</em> sui muri.",
     "intro": "Stampa diretta su pareti interne ed esterne, senza pellicole né adesivi. Da Camignolo, in Ticino.",
     "navTitle": "Navigazione",
     "contactTitle": "Contatti",
@@ -69,15 +69,27 @@
   "Home": {
     "hero": {
       "eyebrow": "Stampa diretta su parete · Ticino",
-      "title": "La tua immagine, stampata direttamente sul muro.",
+      "title": "La tua immagine, stampata <em>direttamente</em> sul muro.",
       "lead": "Nessuna pellicola, nessun adesivo: stampiamo loghi, foto e grafiche su pareti interne ed esterne. Fino a {height} di altezza, senza limiti di larghezza.",
       "ctaConfigurator": "Provalo sulla tua parete",
       "ctaQuote": "Preventivo gratuito",
-      "imageAlt": "Una stampante murale stampa una tigre in bianco e nero su una parete nera."
+      "imageAlt": "Una stampante murale stampa un acquerello di un villaggio svizzero sul lago sulla parete di un ufficio.",
+      "scrollHint": "Scorri per stampare",
+      "outroTitle": "La prossima parete <em>può essere la tua</em>.",
+      "mockBadge": "Esempio",
+      "card": {
+        "title": "Ciao!",
+        "writeTo": "Scrivici a",
+        "or": "oppure",
+        "phone": "Chiamaci: {phone}",
+        "whatsapp": "Scrivici su WhatsApp",
+        "instagram": "Swiss Wall Printing su Instagram",
+        "facebook": "Swiss Wall Printing su Facebook"
+      }
     },
     "testimonials": {
       "eyebrow": "Recensioni",
-      "title": "Cosa dicono i nostri clienti",
+      "title": "Cosa dicono <em>i nostri clienti</em>",
       "starsLabel": "{rating} su 5 stelle",
       "band": {
         "excellent": "Eccellente",
@@ -92,7 +104,7 @@
     },
     "why": {
       "eyebrow": "Perché Swiss Wall Printing",
-      "title": "Ogni muro diventa una tela.",
+      "title": "Ogni muro diventa <em>una tela</em>.",
       "intro": "Con macchinari di ultima generazione stampiamo immagini di alta qualità direttamente sulla parete: colori brillanti e dettagli nitidi, anche su superfici ampie.",
       "stats": {
         "height": "Altezza massima di stampa",
@@ -109,7 +121,7 @@
     },
     "process": {
       "eyebrow": "Come funziona",
-      "title": "Dalla tua idea alla parete finita",
+      "title": "Dalla tua idea alla <em>parete finita</em>",
       "configuratorLink": "Apri il configuratore 3D",
       "steps": {
         "idea": {
@@ -132,15 +144,14 @@
     },
     "areas": {
       "eyebrow": "Applicazioni",
-      "title": "Dove stampiamo",
+      "title": "Dove <em>stampiamo</em>",
       "intro": "Per aziende, ospitalità, scuole e case private: dentro e fuori.",
       "tryIt": "Prova nel configuratore"
     },
     "question": {
       "eyebrow": "Domande",
-      "title": "Hai una domanda o un progetto?",
-      "intro": "Scrivici: il preventivo è gratuito.",
-      "alternatives": "Preferisci parlarne?"
+      "title": "Hai una domanda? <em>Parliamone.</em>",
+      "intro": "Chiamaci, scrivici su WhatsApp o per e-mail: il preventivo è gratuito."
     }
   },
   "QuestionForm": {
@@ -150,7 +161,11 @@
       "phone": "Telefono (facoltativo)",
       "message": "Il tuo messaggio",
       "messageHint": "Per esempio: misure della parete, città, interno o esterno.",
-      "consent": "Accetto che Swiss Wall Printing usi questi dati solo per rispondere alla mia richiesta. <link>Informativa sulla privacy</link>"
+      "consent": "Accetto che Swiss Wall Printing usi questi dati solo per rispondere alla mia richiesta. <link>Informativa sulla privacy</link>",
+      "project": "Raccontaci il tuo progetto",
+      "messagePlaceholder": "Cosa vuoi stampare? Misure della parete, città, interno o esterno…",
+      "areas": "Per quale spazio?",
+      "areaOther": "Altro"
     },
     "submit": "Invia il messaggio",
     "sending": "Invio in corso…",
@@ -190,10 +205,10 @@
   },
   "Services": {
     "eyebrow": "Servizi",
-    "title": "Stampa diretta su qualsiasi parete",
+    "title": "Stampa diretta su <em>qualsiasi parete</em>",
     "lead": "Dall'ufficio alla facciata: scegli la situazione più vicina alla tua, guarda la differenza e provala nel configuratore 3D.",
     "rooms": {
-      "title": "Scegli la tua situazione",
+      "title": "Scegli la tua <em>situazione</em>",
       "mockNote": "Foto di esempio per l'anteprima: verranno sostituite da lavori reali.",
       "sliderLabel": "{room}: prima e dopo",
       "wallSize": "Misure della parete:",
@@ -201,7 +216,7 @@
     },
     "what": {
       "eyebrow": "Cosa stampiamo",
-      "title": "Dal logo alla grafica su misura",
+      "title": "Dal logo alla <em>grafica su misura</em>",
       "intro": "Su pareti interne ed esterne, fino a {height} di altezza e senza limiti di larghezza, con colori brillanti per oltre {years} anni.",
       "kinds": {
         "logo": {
@@ -232,14 +247,14 @@
     "hintTouch": "Trascina per confrontare"
   },
   "CtaBand": {
-    "title": "Metti la tua idea sulla parete",
+    "title": "Metti la tua idea <em>sulla parete</em>",
     "text": "Carica un'immagine, scegli la parete e le misure e guarda il risultato in 3D. Il preventivo è gratuito.",
     "configurator": "Apri il configuratore",
     "quote": "Chiedi un preventivo"
   },
   "About": {
     "eyebrow": "Chi siamo",
-    "title": "Ogni muro può raccontare una storia",
+    "title": "Ogni muro può raccontare <em>una storia</em>",
     "lead": "Swiss Wall Printing stampa immagini direttamente sulle pareti, da {locality} in Ticino.",
     "imageAlt": "Una stampante murale stampa una tigre in bianco e nero su una parete nera.",
     "story": {
@@ -251,7 +266,7 @@
   },
   "Gallery": {
     "eyebrow": "Galleria",
-    "title": "Pareti stampate",
+    "title": "Pareti <em>stampate</em>",
     "lead": "Una selezione di lavori: filtra per tipo di spazio e apri una foto per vederla in grande.",
     "mockNote": "Quasi tutte le foto sono esempi per l'anteprima: verranno sostituite da lavori reali."
   },
@@ -268,13 +283,12 @@
   },
   "Contact": {
     "eyebrow": "Contatti",
-    "title": "Parliamo della tua parete",
+    "title": "Parliamo della <em>tua parete</em>",
     "lead": "Scrivici, chiamaci o mandaci un messaggio su WhatsApp. Il preventivo è gratuito.",
     "email": "E-mail",
     "phone": "Telefono",
     "location": "Dove siamo",
     "openMap": "Apri la mappa",
-    "social": "Social",
     "formTitle": "Scrivici un messaggio"
   },
   "Legal": {

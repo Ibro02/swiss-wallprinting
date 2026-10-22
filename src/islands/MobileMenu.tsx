@@ -4,7 +4,7 @@ import type { MouseEvent, ReactNode } from 'react'
 import { useRef } from 'react'
 import { CloseIcon, MenuIcon } from '@/components/icons.tsx'
 
-// Full-screen menu for small screens. The HTML popover attribute opens and closes
+// Full-screen white sheet for small screens. The HTML popover attribute opens and closes
 // it (also before hydration, with Escape and light dismiss built in). JavaScript
 // only closes it after a link click, because client-side navigation keeps the page.
 
@@ -32,7 +32,7 @@ export function MobileMenu({ openLabel, closeLabel, children }: MobileMenuProps)
         type="button"
         popoverTarget={PANEL_ID}
         aria-label={openLabel}
-        className="grid size-10 place-items-center rounded-full text-plaster hover:bg-white/10"
+        className="grid size-10 place-items-center rounded-xl text-graphite transition-[background-color,transform] duration-160 ease-out hover:bg-graphite/6 active:scale-[0.97]"
       >
         <MenuIcon />
       </button>
@@ -42,15 +42,15 @@ export function MobileMenu({ openLabel, closeLabel, children }: MobileMenuProps)
         ref={panel}
         popover="auto"
         onClick={closeAfterLinkClick}
-        className="on-dark fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-graphite p-0 text-plaster opacity-0 transition-[opacity,display,overlay] transition-discrete duration-200 open:opacity-100 motion-reduce:transition-none starting:open:opacity-0"
+        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none translate-y-2 overflow-y-auto bg-white p-0 text-graphite opacity-0 transition-[opacity,transform,display,overlay] transition-discrete duration-200 ease-out open:translate-y-0 open:opacity-100 open:duration-300 motion-reduce:translate-y-0 motion-reduce:transition-none starting:open:translate-y-2 starting:open:opacity-0"
       >
-        <div className="flex justify-end px-4 pt-6 sm:px-6">
+        <div className="flex justify-end px-7 pt-9 sm:px-10 sm:pt-12">
           <button
             type="button"
             popoverTarget={PANEL_ID}
             popoverTargetAction="hide"
             aria-label={closeLabel}
-            className="grid size-10 place-items-center rounded-full ring-1 ring-white/15 hover:bg-white/10"
+            className="grid size-10 place-items-center rounded-xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-160 ease-out hover:bg-graphite/6 active:scale-[0.97]"
           >
             <CloseIcon />
           </button>

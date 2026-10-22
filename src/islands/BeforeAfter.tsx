@@ -141,7 +141,7 @@ export function BeforeAfter({
       }}
       onKeyDown={onKeyDown}
       style={style}
-      className="group relative aspect-[16/10] cursor-ew-resize touch-pan-y overflow-hidden rounded-3xl bg-plaster-200 select-none"
+      className="group relative aspect-[16/10] cursor-ew-resize touch-pan-y overflow-hidden rounded-2xl bg-plaster select-none sm:rounded-3xl"
     >
       {afterImage}
       <div className="absolute inset-0 [clip-path:inset(0_calc(100%-var(--split))_0_0)]">
@@ -153,32 +153,32 @@ export function BeforeAfter({
         aria-hidden="true"
         className={`pointer-events-none absolute inset-y-0 left-(--split) w-0.5 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgb(14_14_16/0.15)] transition-opacity ${split === 0 ? 'opacity-0' : 'opacity-100'}`}
       >
-        <span className="absolute top-1/2 left-1/2 grid size-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-graphite shadow-lg">
+        <span className="absolute top-1/2 left-1/2 grid size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-graphite shadow-[0_8px_24px_-8px_rgb(0_0_0/0.45)]">
           ⇆
         </span>
       </div>
 
       <span
         aria-hidden="true"
-        className={`absolute top-3 left-3 rounded-full bg-graphite/80 px-3 py-1 text-xs font-semibold text-plaster backdrop-blur transition-opacity ${split > 12 ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute top-4 left-4 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white backdrop-blur-md transition-opacity ${split > 12 ? 'opacity-100' : 'opacity-0'}`}
       >
         {t('before')}
       </span>
       <span
         aria-hidden="true"
-        className="absolute top-3 right-3 rounded-full bg-magenta px-3 py-1 text-xs font-semibold text-white"
+        className="absolute top-4 right-4 rounded-full bg-magenta px-3 py-1 text-xs font-medium text-white"
       >
         {t('after')}
       </span>
       <span
         aria-hidden="true"
-        className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-graphite/75 px-3 py-1 text-xs whitespace-nowrap text-plaster backdrop-blur transition-opacity group-focus-visible:opacity-100 group-hover:opacity-0 pointer-coarse:hidden"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 text-xs whitespace-nowrap text-white backdrop-blur-md transition-opacity group-focus-visible:opacity-100 group-hover:opacity-0 pointer-coarse:hidden"
       >
         {t('hintPointer')}
       </span>
       <span
         aria-hidden="true"
-        className="absolute bottom-3 left-1/2 hidden -translate-x-1/2 rounded-full bg-graphite/75 px-3 py-1 text-xs whitespace-nowrap text-plaster backdrop-blur pointer-coarse:block"
+        className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 rounded-full bg-black/55 px-3 py-1 text-xs whitespace-nowrap text-white backdrop-blur-md pointer-coarse:block"
       >
         {t('hintTouch')}
       </span>

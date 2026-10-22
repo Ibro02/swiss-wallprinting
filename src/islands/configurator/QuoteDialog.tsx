@@ -35,7 +35,7 @@ interface QuoteDialogProps {
 const INITIAL: QuoteState = { status: 'idle' }
 
 const INPUT =
-  'mt-1.5 block w-full rounded-xl bg-white px-3.5 py-2.5 text-base ring-1 ring-graphite/15 ring-inset focus:ring-2 focus:ring-graphite focus:outline-none aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-magenta-700'
+  'mt-1.5 block w-full rounded-xl border border-graphite/12 bg-white px-3.5 py-2.5 text-base transition-[border-color,box-shadow] duration-150 focus:border-transparent focus:ring-2 focus:ring-graphite focus:outline-none sm:text-sm aria-[invalid=true]:border-magenta-700 aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-magenta-700'
 
 /** What the form sends besides the fields: taken when the dialog opens. */
 interface Snapshot {
@@ -101,7 +101,7 @@ export function QuoteButton({
         type="button"
         aria-haspopup="dialog"
         onClick={open}
-        className="flex h-12 flex-1 items-center justify-center rounded-full bg-magenta px-5 text-sm font-semibold text-white transition-colors hover:bg-magenta-700"
+        className="flex h-12 flex-1 items-center justify-center rounded-2xl bg-magenta px-5 text-sm font-medium text-white shadow-[0_6px_18px_-8px_rgb(229_17_88/0.6)] transition-[background-color,transform] duration-160 ease-out hover:bg-magenta-700 active:scale-[0.97] motion-reduce:active:scale-100"
       >
         {t('open')}
       </button>
@@ -114,12 +114,12 @@ export function QuoteButton({
         onClick={(event) => {
           if (event.target === event.currentTarget) dialog.current?.close()
         }}
-        className="m-auto max-h-[min(92dvh,900px)] w-[min(94vw,46rem)] overflow-y-auto rounded-3xl bg-plaster p-0 text-graphite backdrop:bg-graphite/70 backdrop:backdrop-blur-sm max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none"
+        className="m-auto max-h-[min(92dvh,900px)] w-[min(94vw,46rem)] overflow-y-auto rounded-3xl bg-white p-0 text-graphite shadow-2xl backdrop:bg-graphite/60 backdrop:backdrop-blur-sm max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none"
       >
         <div className="p-5 sm:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 id="quote-title" className="font-display text-2xl font-light">
+              <h2 id="quote-title" className="text-2xl font-medium tracking-tight">
                 {t('title')}
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-mute">{t('lead')}</p>
@@ -127,7 +127,7 @@ export function QuoteButton({
             <button
               type="button"
               onClick={() => dialog.current?.close()}
-              className="grid size-10 shrink-0 place-items-center rounded-full ring-1 ring-graphite/15 hover:bg-white"
+              className="grid size-10 shrink-0 place-items-center rounded-xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97]"
             >
               <span aria-hidden="true">✕</span>
               <span className="sr-only">{t('close')}</span>
@@ -164,7 +164,7 @@ function Summary({ snapshot }: { snapshot: Snapshot }) {
   return (
     <section
       aria-label={t('title')}
-      className="mt-6 grid gap-4 rounded-2xl bg-white p-4 ring-1 ring-graphite/10 sm:grid-cols-[12rem_1fr]"
+      className="mt-6 grid gap-4 rounded-2xl bg-plaster p-4 sm:grid-cols-[12rem_1fr]"
     >
       {snapshot.screenshot ? (
         // A data URL from the canvas: next/image cannot optimize it, and it is small.
@@ -179,7 +179,7 @@ function Summary({ snapshot }: { snapshot: Snapshot }) {
         {rows.map(([term, value]) => (
           <div key={term} className="flex justify-between gap-3">
             <dt className="text-mute">{term}</dt>
-            <dd className="text-right font-semibold">{value}</dd>
+            <dd className="text-right font-medium">{value}</dd>
           </div>
         ))}
         {snapshot.upload && (
@@ -228,13 +228,9 @@ function QuoteForm({
       // Not <output>: that element may hold only phrasing content, and this has paragraphs.
       // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
       <div ref={status} tabIndex={-1} role="status" className="mt-8 outline-none">
-        <p className="font-display text-xl font-light">{t('sent.title')}</p>
+        <p className="text-xl font-medium tracking-tight">{t('sent.title')}</p>
         <p className="mt-2 text-sm text-mute">{t('sent.body', { email: state.email })}</p>
-        <button
-          type="button"
-          onClick={onDone}
-          className={`${buttonClasses('secondary-light')} mt-6`}
-        >
+        <button type="button" onClick={onDone} className={`${buttonClasses('secondary')} mt-6`}>
           {t('sent.close')}
         </button>
       </div>
@@ -296,7 +292,7 @@ function QuoteForm({
           id="quote-problem"
           tabIndex={-1}
           role="alert"
-          className="rounded-2xl bg-magenta-700/8 px-4 py-3 text-sm text-magenta-700 ring-1 ring-magenta-700/20 outline-none"
+          className="rounded-xl bg-magenta-700/6 px-4 py-3 text-sm leading-relaxed text-magenta-700 ring-1 ring-magenta-700/15 outline-none"
         >
           {problem}
         </div>
@@ -359,7 +355,7 @@ function QuoteForm({
             aria-required="true"
             aria-invalid={errors.consent ? true : undefined}
             aria-describedby={errors.consent ? 'quote-consent-error' : undefined}
-            className="mt-0.5 size-5 shrink-0 accent-magenta-700"
+            className="mt-0.5 size-4 shrink-0 accent-graphite"
           />
           <span>
             {t.rich('fields.consent', {
@@ -368,7 +364,7 @@ function QuoteForm({
                   href={privacyHref}
                   target="_blank"
                   rel="noopener"
-                  className="font-semibold underline underline-offset-2"
+                  className="font-medium underline underline-offset-2"
                 >
                   {chunks}
                 </a>
@@ -391,7 +387,7 @@ function QuoteForm({
           {t.rich('alternatives', {
             phone: contact.phone,
             whatsapp: (chunks) => (
-              <a href={contact.whatsappHref} className="font-semibold underline underline-offset-2">
+              <a href={contact.whatsappHref} className="font-medium underline underline-offset-2">
                 {chunks}
               </a>
             ),
@@ -417,7 +413,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={`quote-${name}`} className="text-sm font-semibold">
+      <label htmlFor={`quote-${name}`} className="text-sm font-medium">
         {label}
       </label>
       {children}

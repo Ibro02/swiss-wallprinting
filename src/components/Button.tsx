@@ -1,30 +1,33 @@
 import type { ComponentProps } from 'react'
 import { Link } from '@/i18n/navigation.ts'
 
-// One look for every call to action. `primary` is the magenta "Try your wall" /
-// "Free quote" button (white text, 4.6:1); the others are for less important actions.
+// One look for every call to action. `primary` is the logo's magenta (white text 4.6:1),
+// for the main action of each place: "Try your wall", send, the quote; `inverse` is the
+// white one on photos and dark cards; `secondary` is the quiet one on white; `glass` the
+// quiet one on photos and dark cards. Press feedback:
+// a short scale-down (160 ms, ease-out). Tailwind's `hover:` only applies on devices
+// that can hover, so taps do not leave a hover colour behind.
 
-export type ButtonVariant = 'primary' | 'secondary-dark' | 'secondary-light' | 'ghost-dark'
+export type ButtonVariant = 'primary' | 'inverse' | 'secondary' | 'glass'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const BASE =
-  'inline-flex items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap ' +
-  'transition-[background-color,color,box-shadow,transform] duration-200 ease-(--ease-print) ' +
-  'active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100'
+  'inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap select-none ' +
+  'transition-[background-color,color,box-shadow,transform] duration-160 ease-out ' +
+  'active:scale-[0.97] motion-reduce:active:scale-100'
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  primary:
-    'bg-magenta text-white hover:bg-magenta-700 shadow-[0_8px_24px_-12px_var(--color-magenta)]',
-  'secondary-dark': 'bg-white/10 text-plaster ring-1 ring-white/20 ring-inset hover:bg-white/15',
-  'secondary-light':
-    'bg-transparent text-graphite ring-1 ring-graphite/25 ring-inset hover:bg-graphite/5',
-  'ghost-dark': 'text-plaster hover:bg-white/10',
+  primary: 'bg-magenta text-white shadow-[0_6px_18px_-8px_rgb(229_17_88/0.6)] hover:bg-magenta-700',
+  inverse: 'bg-white text-graphite hover:bg-white/85',
+  secondary: 'bg-white text-graphite ring-1 ring-graphite/12 ring-inset hover:bg-plaster',
+  glass:
+    'bg-white/10 text-white ring-1 ring-white/25 ring-inset backdrop-blur-md hover:bg-white/20',
 }
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: 'h-9 px-4 text-sm',
-  md: 'h-11 px-5 text-sm',
-  lg: 'h-14 px-7 text-base',
+  sm: 'h-9 rounded-xl px-4 text-sm',
+  md: 'h-10 rounded-xl px-4 text-sm sm:px-5',
+  lg: 'h-12 rounded-2xl px-6 text-[0.9375rem]',
 }
 
 export function buttonClasses(variant: ButtonVariant = 'primary', size: ButtonSize = 'md') {

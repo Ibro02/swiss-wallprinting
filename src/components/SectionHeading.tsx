@@ -1,16 +1,33 @@
 import type { ReactNode } from 'react'
-import { CmykDots } from '@/components/CmykDots.tsx'
 
 interface SectionHeadingProps {
   id?: string
   eyebrow: string
-  title: string
+  /** Usually `t.rich('title', accent)`: the headline with its serif italic accent. */
+  title: ReactNode
   children?: ReactNode
   tone?: 'light' | 'dark'
   className?: string
 }
 
-/** Eyebrow (with the CMYK dots), large light title, optional intro. */
+/** A small label pill with a dot in the logo's colours (magenta on light, lime on dark). */
+export function SectionLabel({
+  children,
+  tone = 'light',
+}: {
+  children: ReactNode
+  tone?: 'light' | 'dark'
+}) {
+  return (
+    <p
+      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset before:size-1.5 before:rounded-full ${tone === 'dark' ? 'text-white/75 ring-white/15 before:bg-lime' : 'text-graphite/70 ring-graphite/12 before:bg-magenta'}`}
+    >
+      {children}
+    </p>
+  )
+}
+
+/** Label, title (fluid size, medium, tight, with the serif accent), optional intro. */
 export function SectionHeading({
   id,
   eyebrow,
@@ -20,22 +37,14 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <div className={`max-w-3xl ${className ?? ''}`}>
-      <p
-        className={`flex items-center gap-3 text-xs font-semibold tracking-[0.2em] uppercase ${tone === 'dark' ? 'text-mute-dark' : 'text-mute'}`}
-      >
-        <CmykDots />
-        {eyebrow}
-      </p>
-      <h2
-        id={id}
-        className="mt-5 font-display text-3xl leading-[1.1] font-light tracking-tight text-balance hyphens-auto break-words sm:text-5xl"
-      >
+    <div data-reveal className={`max-w-3xl ${className ?? ''}`}>
+      <SectionLabel tone={tone}>{eyebrow}</SectionLabel>
+      <h2 id={id} className="mt-4 text-title font-medium text-balance hyphens-auto break-words">
         {title}
       </h2>
       {children && (
         <div
-          className={`mt-5 text-base leading-relaxed sm:text-lg ${tone === 'dark' ? 'text-plaster/75' : 'text-mute'}`}
+          className={`mt-4 max-w-xl text-base leading-relaxed sm:text-[1.0625rem] ${tone === 'dark' ? 'text-white/70' : 'text-mute'}`}
         >
           {children}
         </div>

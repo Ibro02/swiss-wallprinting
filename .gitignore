@@ -15,6 +15,15 @@ coverage/
 playwright-report/
 test-results/
 
+# Design skill working files (taste-skill inspector screenshots, impeccable captures).
+# If a DESIGN.md is written, commit its token sidecar .impeccable/design.json.
+.taste-skill/
+.impeccable/*
+!.impeccable/design.json
+
+# The impeccable engine binary (20 MB, per platform): its launcher downloads it on first run
+.claude/skills/impeccable/scripts/bin/
+
 # Logs
 *.log
 pnpm-debug.log*

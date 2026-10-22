@@ -74,14 +74,14 @@ export function Stage({
         <button
           type="button"
           onClick={start}
-          className="absolute top-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-graphite/85 px-4 py-2.5 text-sm font-semibold text-plaster shadow-lg backdrop-blur md:hidden"
+          className="absolute top-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-xl bg-graphite px-4 py-2.5 text-sm font-medium text-white shadow-lg transition-transform duration-150 ease-out active:scale-[0.97] md:hidden"
         >
           <CubeIcon className="size-4" />
           {t('open3d')}
         </button>
       )}
       <ViewToggle />
-      <p className="pointer-events-none absolute top-4 left-4 max-w-[17rem] rounded-2xl bg-graphite/70 px-3 py-2 text-xs leading-relaxed text-plaster backdrop-blur pointer-coarse:hidden">
+      <p className="pointer-events-none absolute top-4 left-4 max-w-[17rem] rounded-xl bg-black/55 px-3 py-2 text-xs leading-relaxed text-white backdrop-blur-md pointer-coarse:hidden">
         {t('hint')}
       </p>
     </div>
@@ -179,12 +179,12 @@ function ViewToggle() {
   const views: readonly View[] = ['before', 'after']
 
   return (
-    <fieldset className="absolute bottom-4 left-1/2 flex -translate-x-1/2 rounded-full bg-graphite/80 p-1 text-sm text-plaster backdrop-blur">
+    <fieldset className="absolute bottom-4 left-1/2 flex -translate-x-1/2 rounded-xl bg-white/80 p-1 text-sm text-graphite shadow-[0_8px_24px_-12px_rgb(0_0_0/0.35)] ring-1 ring-graphite/8 backdrop-blur-md">
       <legend className="sr-only">{t('viewLabel')}</legend>
       {views.map((option) => (
         <label
           key={option}
-          className="cursor-pointer rounded-full px-4 py-1.5 font-semibold transition-colors has-checked:bg-plaster has-checked:text-graphite has-focus-visible:outline-2 has-focus-visible:outline-lime"
+          className="cursor-pointer rounded-lg px-4 py-1.5 font-medium transition-colors duration-150 select-none has-checked:bg-graphite has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite"
         >
           <input
             type="radio"
@@ -208,20 +208,20 @@ function SceneError({ kind, contactHref }: { kind: SceneFailure; contactHref: st
   const t = useTranslations('Configurator.stage.error')
   return (
     <div role="alert" className="absolute inset-x-4 top-4 flex justify-center">
-      <div className="max-w-md rounded-3xl bg-white/95 p-6 shadow-lg ring-1 ring-graphite/10 backdrop-blur">
-        <h2 className="font-display text-xl font-light">{t(`${kind}.title`)}</h2>
+      <div className="max-w-md rounded-2xl bg-white/95 p-6 shadow-lg ring-1 ring-graphite/8 backdrop-blur-md">
+        <h2 className="text-xl font-medium tracking-tight">{t(`${kind}.title`)}</h2>
         <p className="mt-3 text-sm leading-relaxed text-mute">{t(`${kind}.body`)}</p>
-        <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
+        <div className="mt-6 flex flex-wrap gap-3 text-sm font-medium">
           {kind === 'load' && (
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="rounded-full bg-graphite px-4 py-2 text-plaster"
+              className="rounded-xl bg-graphite px-4 py-2 text-white"
             >
               {t('reload')}
             </button>
           )}
-          <a href={contactHref} className="rounded-full px-4 py-2 ring-1 ring-graphite/20">
+          <a href={contactHref} className="rounded-xl px-4 py-2 ring-1 ring-graphite/15">
             {t('quote')}
           </a>
         </div>

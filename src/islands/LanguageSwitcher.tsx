@@ -49,8 +49,8 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
         aria-current={target === locale ? 'true' : undefined}
         className={
           variant === 'menu'
-            ? 'flex items-center justify-between gap-6 rounded-xl px-3 py-2 text-sm hover:bg-white/10 aria-[current]:text-lime'
-            : 'inline-flex h-11 items-center rounded-full px-4 ring-1 ring-white/15 ring-inset aria-[current]:bg-lime aria-[current]:text-graphite aria-[current]:ring-lime'
+            ? 'flex items-center justify-between gap-6 rounded-xl px-3 py-2 text-sm text-graphite hover:bg-plaster aria-[current]:font-semibold'
+            : 'inline-flex h-11 items-center rounded-xl px-4 text-sm font-medium ring-1 ring-graphite/12 ring-inset aria-[current]:bg-lime aria-[current]:text-graphite aria-[current]:ring-lime'
         }
       >
         {LOCALE_NAMES[target]}
@@ -70,7 +70,7 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
   return (
     <details ref={details} className="group relative">
       <summary
-        className="flex h-9 cursor-pointer list-none items-center gap-1.5 rounded-full px-3 text-sm text-plaster/80 hover:bg-white/10 hover:text-plaster [&::-webkit-details-marker]:hidden"
+        className="flex h-10 cursor-pointer list-none items-center gap-1.5 rounded-xl px-3 text-sm font-medium text-graphite/75 transition-colors duration-150 hover:bg-graphite/6 hover:text-graphite [&::-webkit-details-marker]:hidden"
         // The visible code ("IT") is part of the name, for voice control (WCAG 2.5.3).
         aria-label={`${locale.toUpperCase()}, ${t('language')}: ${LOCALE_NAMES[locale]}`}
       >
@@ -78,7 +78,7 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
         <span className="uppercase">{locale}</span>
         <ChevronDownIcon className="size-3.5 transition-transform group-open:rotate-180 motion-reduce:transition-none" />
       </summary>
-      <ul className="absolute right-0 mt-3 w-48 rounded-2xl bg-graphite-800 p-1.5 text-plaster shadow-2xl ring-1 ring-white/10">
+      <ul className="absolute right-0 mt-3 w-48 rounded-2xl bg-white p-1.5 shadow-[0_16px_40px_-16px_rgb(0_0_0/0.3)] ring-1 ring-graphite/8">
         {links}
       </ul>
     </details>

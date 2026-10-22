@@ -75,20 +75,15 @@ export function Panel(props: PanelProps) {
       <aside
         id="configurator-panel"
         aria-labelledby="configurator-title"
-        className={`fixed inset-x-0 bottom-0 z-40 flex flex-col rounded-t-3xl bg-plaster shadow-[0_-16px_40px_-16px_rgb(14_14_16/0.45)] ring-1 ring-graphite/10 lg:static lg:z-auto lg:order-last lg:h-auto lg:w-[400px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-graphite/10 lg:shadow-none lg:ring-0 ${sheetOpen ? 'max-lg:h-(--sheet-bar)' : ''} ${open ? '' : 'lg:hidden'}`}
+        className={`fixed inset-x-0 bottom-0 z-40 flex flex-col rounded-t-3xl bg-white shadow-[0_-16px_40px_-16px_rgb(0_0_0/0.35)] ring-1 ring-graphite/8 lg:static lg:z-auto lg:order-last lg:h-auto lg:w-[400px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-graphite/10 lg:shadow-none lg:ring-0 ${sheetOpen ? 'max-lg:h-(--sheet-bar)' : ''} ${open ? '' : 'lg:hidden'}`}
       >
         {/* The title stays in the page for screen readers while the sheet is closed. */}
         <header
           className={`order-2 flex items-start justify-between gap-4 px-5 pt-4 sm:px-6 lg:order-1 lg:pt-6 ${sheetOpen ? '' : 'max-lg:sr-only'}`}
         >
           <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-mute uppercase">
-              {t('eyebrow')}
-            </p>
-            <h1
-              id="configurator-title"
-              className="mt-2 font-display text-2xl font-light tracking-tight"
-            >
+            <p className="text-xs font-medium text-mute">{t('eyebrow')}</p>
+            <h1 id="configurator-title" className="mt-1.5 text-2xl font-medium tracking-tight">
               {t('title')}
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-mute">{t('lead')}</p>
@@ -98,7 +93,7 @@ export function Panel(props: PanelProps) {
             onClick={() => setPanelOpen(false)}
             aria-controls="configurator-panel"
             aria-expanded="true"
-            className="hidden size-10 shrink-0 place-items-center rounded-full ring-1 ring-graphite/15 hover:bg-white lg:grid"
+            className="hidden size-10 shrink-0 place-items-center rounded-xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97] lg:grid"
           >
             <span aria-hidden="true">→</span>
             <span className="sr-only">{t('panel.close')}</span>
@@ -149,10 +144,10 @@ function Section({
 }) {
   return (
     <section aria-label={title}>
-      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold">
+      <h2 className="mb-3 flex items-center gap-2.5 text-sm font-medium">
         <span
           aria-hidden="true"
-          className="grid size-6 place-items-center rounded-full bg-graphite text-xs text-lime"
+          className="grid size-6 place-items-center rounded-full bg-graphite text-xs text-lime tabular-nums"
         >
           {number}
         </span>
@@ -186,7 +181,7 @@ function Choices<T extends string>({
         {options.map((option) => (
           <label
             key={option}
-            className="cursor-pointer rounded-full px-3.5 py-2 text-sm font-semibold ring-1 ring-graphite/15 transition-colors ring-inset hover:bg-white has-checked:bg-graphite has-checked:text-plaster has-focus-visible:outline-2 has-focus-visible:outline-magenta-700"
+            className="cursor-pointer rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-graphite/12 transition-[background-color,color,transform] duration-150 ease-out ring-inset select-none hover:bg-plaster active:scale-[0.97] has-checked:bg-graphite has-checked:text-white has-checked:ring-graphite has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite motion-reduce:active:scale-100"
           >
             <input
               type="radio"
@@ -297,7 +292,7 @@ function PrintFields({ quality }: { quality: PanelProps['quality'] }) {
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-semibold text-mute">{t('fit')}</p>
+        <p className="mb-2 text-xs font-medium text-mute">{t('fit')}</p>
         <Choices
           name="fit"
           legend={t('fit')}
@@ -310,7 +305,7 @@ function PrintFields({ quality }: { quality: PanelProps['quality'] }) {
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-semibold text-mute">{t('position')}</p>
+        <p className="mb-2 text-xs font-medium text-mute">{t('position')}</p>
         <div className="grid grid-cols-2 gap-3">
           <MetreField
             label={t('left')}
@@ -334,7 +329,7 @@ function PrintFields({ quality }: { quality: PanelProps['quality'] }) {
         <button
           type="button"
           onClick={centrePrint}
-          className="mt-3 rounded-full px-3.5 py-2 text-sm font-semibold ring-1 ring-graphite/15 ring-inset hover:bg-white"
+          className="mt-3 rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out ring-inset hover:bg-plaster active:scale-[0.97]"
         >
           {t('centre')}
         </button>
@@ -396,7 +391,7 @@ function ResolutionWarning({ quality }: { quality: PanelProps['quality'] }) {
         <button
           type="button"
           onClick={apply}
-          className="mt-2 rounded-full bg-graphite px-3 py-1.5 font-semibold text-plaster"
+          className="mt-2 rounded-lg bg-graphite px-3 py-1.5 font-medium text-white transition-transform duration-150 ease-out active:scale-[0.97]"
         >
           {t('apply', {
             width: metres(check.maxSharp.width),
@@ -471,29 +466,29 @@ function PriceSummary({
         onClick={toggleSheet}
         aria-controls="configurator-settings"
         aria-expanded={sheet.open}
-        className="mb-2 flex w-full flex-col items-center gap-1.5 pt-1 pb-1 text-xs font-semibold text-mute lg:hidden"
+        className="mb-2 flex w-full flex-col items-center gap-1.5 pt-1 pb-1 text-xs font-medium text-mute lg:hidden"
       >
         <span aria-hidden="true" className="h-1.5 w-10 rounded-full bg-graphite/20" />
         {sheet.open ? tPanel('close') : tPanel('open')}
       </button>
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-xs font-semibold text-mute">
+        <p className="text-xs font-medium text-mute">
           {t('label')}
           {ratesAreExamples && (
-            <span className="ml-2 rounded-full bg-graphite/5 px-2 py-0.5 text-[0.7rem] tracking-wide uppercase">
+            <span className="ml-2 rounded-full bg-plaster px-2 py-0.5 text-[0.7rem] font-medium">
               {t('example')}
             </span>
           )}
         </p>
         <p className="text-xs text-mute">{t('area', { area })}</p>
       </div>
-      <p aria-live="polite" className="mt-1 font-display text-3xl font-light tabular-nums">
+      <p aria-live="polite" className="mt-1 text-3xl font-medium tracking-tight tabular-nums">
         {t('approx', { price: chf(price.approx) })}
       </p>
 
       {/* Phones: the price breakdown only in the open sheet, so the closed bar stays low. */}
       <details className={`mt-2 text-xs text-mute ${sheet.open ? '' : 'max-lg:hidden'}`}>
-        <summary className="cursor-pointer font-semibold text-graphite">{t('details')}</summary>
+        <summary className="cursor-pointer font-medium text-graphite">{t('details')}</summary>
         <dl className="mt-2 space-y-1">
           <Row
             term={
@@ -555,14 +550,14 @@ function ShareButton() {
       <button
         type="button"
         onClick={() => void copy()}
-        className="grid size-12 place-items-center rounded-full ring-1 ring-graphite/15 ring-inset hover:bg-plaster"
+        className="grid size-12 place-items-center rounded-2xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out ring-inset hover:bg-plaster active:scale-[0.97]"
       >
         <LinkIcon className="size-5" />
         <span className="sr-only">{t('copy')}</span>
       </button>
       <p
         aria-live="polite"
-        className={`absolute right-0 bottom-full mb-2 w-64 rounded-xl bg-graphite px-3 py-2 text-xs leading-relaxed text-plaster shadow-lg ${result ? '' : 'sr-only'}`}
+        className={`absolute right-0 bottom-full mb-2 w-64 rounded-xl bg-graphite px-3 py-2 text-xs leading-relaxed text-white shadow-lg ${result ? '' : 'sr-only'}`}
       >
         {result && t(result)}
       </p>
@@ -572,7 +567,7 @@ function ShareButton() {
 
 function Row({ term, value, strong }: { term: string; value: string; strong?: boolean }) {
   return (
-    <div className={`flex justify-between gap-3 ${strong ? 'font-semibold text-graphite' : ''}`}>
+    <div className={`flex justify-between gap-3 ${strong ? 'font-medium text-graphite' : ''}`}>
       <dt>{term}</dt>
       <dd className="tabular-nums">{value}</dd>
     </div>
@@ -591,10 +586,10 @@ function OpenPanelButton({ rates }: { rates: PriceRates }) {
       onClick={() => setPanelOpen(true)}
       aria-controls="configurator-panel"
       aria-expanded="false"
-      className="absolute top-4 right-4 z-10 hidden items-center gap-3 rounded-full bg-graphite py-2 pr-2 pl-5 text-sm font-semibold text-plaster shadow-lg lg:flex"
+      className="absolute top-4 right-4 z-10 hidden items-center gap-3 rounded-2xl bg-graphite py-2 pr-2 pl-4 text-sm font-medium text-white shadow-lg transition-transform duration-150 ease-out active:scale-[0.97] lg:flex"
     >
       {t('price.approx', { price: chf(price.approx) })}
-      <span className="rounded-full bg-lime px-3 py-1.5 text-graphite">{t('panel.open')}</span>
+      <span className="rounded-xl bg-lime px-3 py-1.5 text-graphite">{t('panel.open')}</span>
     </button>
   )
 }

@@ -2,18 +2,20 @@
 // e-mail to the client. Pure functions; the server action (actions.ts) wires them up.
 
 import { z } from 'zod'
+import { applicationAreas } from '@/content/application-areas.ts'
 import type { MailMessage } from '@/lib/mail.ts'
 import {
   type FieldError,
   LIMITS,
   MIN_FILL_MS,
+  OTHER_AREA,
   type Question,
   type QuestionField,
   type QuestionValues,
   SPAM_FIELDS,
 } from './fields.ts'
 
-export { LIMITS, MIN_FILL_MS, SPAM_FIELDS }
+export { LIMITS, MIN_FILL_MS, OTHER_AREA, SPAM_FIELDS }
 export type { FieldError, Question, QuestionField, QuestionValues }
 
 const PHONE = /^\+?[\d\s().-]{6,}$/
@@ -49,12 +51,23 @@ function text(formData: FormData, name: string): string {
   return typeof value === 'string' ? value : ''
 }
 
+const AREA_IDS = new Set<string>([...applicationAreas.map((area) => area.id), OTHER_AREA])
+
+/** The checked chips: known area ids only, each once. */
+function areas(formData: FormData): string[] {
+  const ids = formData
+    .getAll('areas')
+    .filter((value): value is string => typeof value === 'string' && AREA_IDS.has(value))
+  return [...new Set(ids)]
+}
+
 export function questionValues(formData: FormData): QuestionValues {
   return {
     name: text(formData, 'name'),
     email: text(formData, 'email'),
     phone: text(formData, 'phone'),
     message: text(formData, 'message'),
+    areas: areas(formData),
     consent: formData.get('consent') === 'on',
   }
 }
@@ -66,8 +79,8 @@ export function parseQuestion(formData: FormData): ParseResult {
   }
   const result = questionSchema.safeParse(input)
   if (result.success) {
-    const { consent: _consent, ...question } = result.data
-    return { ok: true, question }
+    const { consent: _consent, ...fields } = result.data
+    return { ok: true, question: { ...fields, areas: areas(formData) } }
   }
   const errors: Partial<Record<QuestionField, FieldError>> = {}
   for (const issue of result.error.issues) {
@@ -103,6 +116,11 @@ export function createRateLimiter({ limit, windowMs }: { limit: number; windowMs
   }
 }
 
+/** The Italian name of a chip, for the e-mail. */
+function areaName(id: string): string {
+  return applicationAreas.find((area) => area.id === id)?.title.it ?? 'Altro'
+}
+
 /** The e-mail to the client. In Italian: the client reads Italian, whatever the page language. */
 export function questionMail(
   question: Question,
@@ -112,6 +130,7 @@ export function questionMail(
     `Nome: ${question.name}`,
     `E-mail: ${question.email}`,
     `Telefono: ${question.phone || '-'}`,
+    `Spazio: ${question.areas.map(areaName).join(', ') || '-'}`,
     `Lingua del sito: ${meta.locale.toUpperCase()}`,
     `Pagina: ${meta.page}`,
     '',

@@ -52,7 +52,7 @@
     "back": "Back to home"
   },
   "Footer": {
-    "claim": "We print directly on walls.",
+    "claim": "We print <em>directly</em> on walls.",
     "intro": "Direct printing on interior and exterior walls, with no film and no stickers. From Camignolo, Ticino.",
     "navTitle": "Navigation",
     "contactTitle": "Contact",
@@ -69,15 +69,27 @@
   "Home": {
     "hero": {
       "eyebrow": "Direct wall printing · Ticino",
-      "title": "Your image, printed straight onto the wall.",
+      "title": "Your image, printed <em>straight onto</em> the wall.",
       "lead": "No film, no stickers: we print logos, photos and graphics on interior and exterior walls. Up to {height} high, with no limit on width.",
       "ctaConfigurator": "Try it on your wall",
       "ctaQuote": "Free quote",
-      "imageAlt": "A wall printer prints a black-and-white tiger onto a black wall."
+      "imageAlt": "A wall printer prints a watercolour of a Swiss lakeside village onto an office wall.",
+      "scrollHint": "Scroll to print",
+      "outroTitle": "The next wall <em>could be yours</em>.",
+      "mockBadge": "Example",
+      "card": {
+        "title": "Say hello!",
+        "writeTo": "Drop us a line",
+        "or": "or",
+        "phone": "Call us: {phone}",
+        "whatsapp": "Message us on WhatsApp",
+        "instagram": "Swiss Wall Printing on Instagram",
+        "facebook": "Swiss Wall Printing on Facebook"
+      }
     },
     "testimonials": {
       "eyebrow": "Reviews",
-      "title": "What our clients say",
+      "title": "What our <em>clients</em> say",
       "starsLabel": "{rating} out of 5 stars",
       "band": {
         "excellent": "Excellent",
@@ -92,7 +104,7 @@
     },
     "why": {
       "eyebrow": "Why Swiss Wall Printing",
-      "title": "Every wall becomes a canvas.",
+      "title": "Every wall becomes <em>a canvas</em>.",
       "intro": "With state-of-the-art machines we print high-quality images directly on the wall: bright colours and sharp details, even on large surfaces.",
       "stats": {
         "height": "Maximum print height",
@@ -109,7 +121,7 @@
     },
     "process": {
       "eyebrow": "How it works",
-      "title": "From your idea to the finished wall",
+      "title": "From your idea to the <em>finished wall</em>",
       "configuratorLink": "Open the 3D configurator",
       "steps": {
         "idea": {
@@ -132,15 +144,14 @@
     },
     "areas": {
       "eyebrow": "Applications",
-      "title": "Where we print",
+      "title": "Where we <em>print</em>",
       "intro": "For companies, hospitality, schools and private homes: indoors and outdoors.",
       "tryIt": "Try it in the configurator"
     },
     "question": {
       "eyebrow": "Questions",
-      "title": "Do you have a question or a project?",
-      "intro": "Write to us: the quote is free.",
-      "alternatives": "Prefer to talk?"
+      "title": "A question? <em>Let’s talk.</em>",
+      "intro": "Call us, or write on WhatsApp or by email: the quote is free."
     }
   },
   "QuestionForm": {
@@ -150,7 +161,11 @@
       "phone": "Phone (optional)",
       "message": "Your message",
       "messageHint": "For example: wall size, town, indoor or outdoor.",
-      "consent": "I agree that Swiss Wall Printing uses this data only to answer my request. <link>Privacy policy</link>"
+      "consent": "I agree that Swiss Wall Printing uses this data only to answer my request. <link>Privacy policy</link>",
+      "project": "Tell us about your project",
+      "messagePlaceholder": "What would you like to print? Wall size, town, indoor or outdoor…",
+      "areas": "What kind of space?",
+      "areaOther": "Other"
     },
     "submit": "Send message",
     "sending": "Sending…",
@@ -190,10 +205,10 @@
   },
   "Services": {
     "eyebrow": "Services",
-    "title": "Direct printing on any wall",
+    "title": "Direct printing on <em>any wall</em>",
     "lead": "From the office to the facade: choose the situation closest to yours, see the difference, and try it in the 3D configurator.",
     "rooms": {
-      "title": "Choose your situation",
+      "title": "Choose your <em>situation</em>",
       "mockNote": "Example photos for this preview: they will be replaced by real work.",
       "sliderLabel": "{room}: before and after",
       "wallSize": "Wall size:",
@@ -201,7 +216,7 @@
     },
     "what": {
       "eyebrow": "What we print",
-      "title": "From your logo to custom graphics",
+      "title": "From your logo to <em>custom graphics</em>",
       "intro": "On interior and exterior walls, up to {height} high with no limit on width, with bright colours for more than {years} years.",
       "kinds": {
         "logo": {
@@ -232,14 +247,14 @@
     "hintTouch": "Drag to compare"
   },
   "CtaBand": {
-    "title": "Put your idea on the wall",
+    "title": "Put your idea <em>on the wall</em>",
     "text": "Upload an image, choose the wall and the size, and see the result in 3D. The quote is free.",
     "configurator": "Open the configurator",
     "quote": "Ask for a quote"
   },
   "About": {
     "eyebrow": "About us",
-    "title": "Every wall can tell a story",
+    "title": "Every wall can tell <em>a story</em>",
     "lead": "Swiss Wall Printing prints images directly onto walls, from {locality} in Ticino.",
     "imageAlt": "A wall printer prints a black-and-white tiger onto a black wall.",
     "story": {
@@ -251,7 +266,7 @@
   },
   "Gallery": {
     "eyebrow": "Gallery",
-    "title": "Printed walls",
+    "title": "Printed <em>walls</em>",
     "lead": "A selection of our work: filter by type of space and open a photo to see it large.",
     "mockNote": "Almost all photos are examples for this preview: they will be replaced by real work."
   },
@@ -268,13 +283,12 @@
   },
   "Contact": {
     "eyebrow": "Contact",
-    "title": "Let's talk about your wall",
+    "title": "Let’s talk about <em>your wall</em>",
     "lead": "Write to us, call us or send a WhatsApp message. The quote is free.",
     "email": "Email",
     "phone": "Phone",
     "location": "Where we are",
     "openMap": "Open the map",
-    "social": "Social media",
     "formTitle": "Write to us"
   },
   "Legal": {

@@ -1,11 +1,23 @@
 // The client's logo (Assets/SWP_Logo.svg) as inline SVG: no extra request, sharp at
-// every size. Colour version for dark backgrounds. The lime letters are too light
-// for plaster backgrounds, so the header and footer are dark.
+// every size. `colour` is for dark grounds only (lime letters on white are 1.7:1);
+// `ink` is the client's black variant (Assets/SWP_LogoBlack.svg) for light grounds:
+// one ink colour, "PRINTING" knocked out in white.
 
-const MAGENTA = 'var(--color-magenta)'
-const LIME = 'var(--color-lime)'
+const COLOURS = {
+  colour: { lime: 'var(--color-lime)', magenta: 'var(--color-magenta)' },
+  ink: { lime: 'currentColor', magenta: 'currentColor' },
+} as const
 
-export function Logo({ className, title }: { className?: string; title?: string }) {
+export function Logo({
+  className,
+  title,
+  tone = 'colour',
+}: {
+  className?: string
+  title?: string
+  tone?: keyof typeof COLOURS
+}) {
+  const { lime: LIME, magenta: MAGENTA } = COLOURS[tone]
   return (
     <svg
       viewBox="0 0 1033.6 261.5"

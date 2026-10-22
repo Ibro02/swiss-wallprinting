@@ -4,6 +4,7 @@
 import { applicationAreas } from './application-areas.ts'
 import { company, printFacts } from './company.ts'
 import { gallery } from './gallery.ts'
+import { heroVideo } from './hero-video.ts'
 import { legal } from './legal.ts'
 import { presets } from './presets.ts'
 import { pricing } from './pricing.ts'
@@ -23,4 +24,5 @@ export const collections = {
   presets,
   pricing: [pricing],
   printQuality: [printQuality],
+  heroVideo: [heroVideo],
 } satisfies Record<string, readonly ContentItem[]>

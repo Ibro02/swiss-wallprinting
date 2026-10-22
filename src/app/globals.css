@@ -6,46 +6,75 @@
 @source not '../../.claude';
 
 /*
- * Design tokens (Development Plan, section 5). Brand colours from Assets/SWP_Logo.svg.
- * Contrast (WCAG 2.2): white on magenta 4.6, magenta-700 on plaster 5.8,
- * magenta-300 on graphite 5.7, lime on graphite 11.6, mute on plaster 6.2,
- * mute-dark on graphite 7.8. Never lime text on a light background (1.7).
+ * Design tokens: "Studio light" (swiss-wallprinting/Specs/Studio light redesign.md).
+ * White paper, near-black ink, one warm mist for panels, and the logo's two colours:
+ * magenta for the actions and the headline accents on light grounds, lime for the accents
+ * and numbers on dark grounds. The old names stay (plaster = mist, graphite = ink).
+ *
+ * Contrast (WCAG 2.2): graphite on white 19.8, mute on white 6.0, mute on plaster 5.5,
+ * white on graphite 19.8, mute-dark on graphite 7.9, magenta-700 on white 6.2,
+ * white on magenta 4.6, magenta on white 4.6 and on plaster 4.2 (large text),
+ * lime on graphite 11.9, graphite on lime 11.9. Never lime text on a light ground (1.7).
  */
 @theme {
-  --color-graphite: #0e0e10;
-  --color-graphite-800: #17171b;
-  --color-graphite-700: #26262d;
-  --color-plaster: #f2f0ec;
-  --color-plaster-200: #e6e2db;
-  --color-mute: #5c5852;
-  --color-mute-dark: #a8a49c;
+  --color-graphite: #0a0a0a;
+  --color-graphite-800: #171717;
+  --color-graphite-700: #262626;
+  --color-plaster: #f5f5f4;
+  --color-plaster-200: #e7e5e4;
+  --color-mute: #66625f;
+  --color-mute-dark: #a3a3a3;
 
   --color-magenta: #e51158;
   --color-magenta-300: #ff3d7f;
   --color-magenta-700: #b80c47;
   --color-lime: #c5d20d;
 
-  /* CMYK motif: the ink colours of the wall printer. */
+  /* CMYK motif: the ink colours of the wall printer (the print head of the hero). */
   --color-ink-cyan: #00a6e0;
   --color-ink-magenta: #e51158;
   --color-ink-yellow: #ffd400;
-  --color-ink-black: #0e0e10;
+  --color-ink-black: #0a0a0a;
 
   --color-whatsapp: #25d366;
 
-  --ease-print: cubic-bezier(0.22, 1, 0.36, 1);
+  /* "Sent": the check of a sent form (4.9 on success-50). */
+  --color-success: #167a3e;
+  --color-success-50: #e8f7ee;
+
+  /* Motion (Emil Kowalski's curves): enter and exit, movement on screen, sheets. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  /* The old name, used by the configurator. */
+  --ease-print: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /*
+   * Fluid type: each size grows with the screen width between a phone and a laptop, so
+   * no width gets a headline that is too big for it. display: the h1 of every page
+   * (36 to 60 px); title: section titles (28 to 44 px); stat: large numbers (32 to 52 px).
+   */
+  --text-display: clamp(2.25rem, 1.55rem + 2.4vw, 3.75rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.035em;
+  --text-title: clamp(1.75rem, 1.35rem + 1.5vw, 2.75rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.03em;
+  --text-stat: clamp(2rem, 1.5rem + 1.8vw, 3.25rem);
+  --text-stat--line-height: 1;
+  --text-stat--letter-spacing: -0.04em;
 }
 
 /* Fonts from next/font (src/app/fonts.ts), self-hosted at build time. */
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-unbounded), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 7rem;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -55,98 +84,238 @@
   }
 
   body {
-    background: var(--color-plaster);
+    background: #fff;
     color: var(--color-graphite);
     font-family: var(--font-sans);
   }
 
   ::selection {
-    background: var(--color-lime);
-    color: var(--color-graphite);
+    background: var(--color-magenta);
+    color: #fff;
   }
 
+  /* The outline follows each element's own corner radius. */
   :focus-visible {
-    outline: 2px solid var(--color-magenta-700);
+    outline: 2px solid var(--color-graphite);
     outline-offset: 3px;
-    border-radius: 4px;
   }
 
   .on-dark :focus-visible {
-    outline-color: var(--color-lime);
+    outline-color: #fff;
   }
 }
 
 @layer components {
   /*
-   * Hero "print reveal" (Development Plan, P2): an ink panel covers the photo and moves
-   * off to the right; its left edge is a CMYK print head. Transform only (compositor),
-   * CSS only (works before hydration). Reduced motion: no panel, the photo shows at once.
+   * Scroll hero (PrintOnScroll, Development Plan P2): a tall section with a sticky stage,
+   * where the scroll draws the video frames on a canvas. JavaScript writes only `--p`, the
+   * smoothed progress (0 … 1), on the stage; the rest follows from it here, with transform
+   * and opacity only. Before hydration `--p` is 0: the first frame and the intro, as on a
+   * fresh load. The phases (`--intro-out`, `--outro-in`, `--signature-in`) and the video's
+   * proportions (`--ar`) come from the component.
    */
-  .print-reveal {
+  .print-scroll {
+    height: var(--print-length, 400vh);
+  }
+
+  .print-scroll__stage {
+    --p: 0;
+    /* 1 → 0 while the print begins; 0 → 1 at the end; 0 → 1 over the last stretch. */
+    --intro: clamp(0, 1 - var(--p) / var(--intro-out), 1);
+    --outro: clamp(0, (var(--p) - var(--outro-in)) / (0.96 - var(--outro-in)), 1);
+    --signature: clamp(0, (var(--p) - var(--signature-in)) / (1 - var(--signature-in)), 1);
+    position: sticky;
+    top: var(--stage-top, 0);
+    height: var(--stage-h, 100svh);
+    container-type: size;
+  }
+
+  /*
+   * The video frame: its own proportions, covering the stage (as object-fit: cover). Where
+   * the stage is narrower than the video, the frame slides so that the focus point (from
+   * `--focus-from` to `--focus-to` with the progress) stays in the middle, never past an
+   * edge. On wide screens the clamp keeps it still.
+   */
+  .print-scroll__frame {
+    --focus: calc(var(--focus-from) + (var(--focus-to) - var(--focus-from)) * var(--p));
     position: absolute;
-    inset: 0;
-    overflow: hidden;
+    top: 50%;
+    left: 0;
+    width: max(100cqw, 100cqh * var(--ar));
+    aspect-ratio: var(--ar);
+    translate: clamp(100cqw - 100%, 50cqw - var(--focus) * 100%, 0px) -50%;
+  }
+
+  /* The logo "signs" the mural: ink that multiplies with the paint, like a print. */
+  .print-scroll__signature {
+    opacity: calc(var(--signature) * 0.85);
+    scale: calc(0.94 + var(--signature) * 0.06);
+    mix-blend-mode: multiply;
+  }
+
+  .print-scroll__shade {
+    opacity: max(var(--intro), var(--outro));
+  }
+
+  /* Intro and outro share one grid cell at the bottom of the stage. */
+  .print-scroll__intro,
+  .print-scroll__outro {
+    grid-area: 1 / 1;
+    align-self: end;
+  }
+
+  .print-scroll__intro {
+    opacity: var(--intro);
+    translate: 0 calc((1 - var(--intro)) * -1.5rem);
+  }
+
+  .print-scroll__outro {
+    opacity: var(--outro);
+    translate: 0 calc((1 - var(--outro)) * 1.5rem);
+  }
+
+  /* No clicks while it is hidden; a keyboard focus scrolls to the end (PrintOnScroll). */
+  .print-scroll__stage:not([data-done]) .print-scroll__outro {
     pointer-events: none;
   }
 
-  .print-reveal__ink {
-    position: absolute;
-    inset: 0;
-    background: var(--color-graphite);
-    animation: print-sweep 1.9s var(--ease-print) 0.25s both;
+  /* Only when the visitor is ahead of the loaded frames for more than a moment. */
+  .print-scroll__loading {
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out);
   }
 
-  .print-reveal__ink::before {
-    content: '';
-    position: absolute;
-    inset-block: 0;
-    left: -3px;
-    width: 6px;
-    background: linear-gradient(
-      to bottom,
-      var(--color-ink-cyan) 0 33%,
-      var(--color-ink-magenta) 33% 66%,
-      var(--color-ink-yellow) 66% 100%
-    );
-    box-shadow:
-      0 0 24px 4px rgb(229 17 88 / 0.55),
-      0 0 60px 10px rgb(0 166 224 / 0.25);
+  .print-scroll__stage[data-loading] .print-scroll__loading {
+    opacity: 1;
+    transition-delay: 300ms;
   }
 
-  @keyframes print-sweep {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(100% + 40px));
-    }
-  }
-
+  /* Reduced motion: the finished picture with the signature, the intro, and the outro. */
   @media (prefers-reduced-motion: reduce) {
-    .print-reveal {
+    .print-scroll {
+      height: auto;
+    }
+
+    .print-scroll__stage {
+      --p: 1;
+      position: relative;
+      top: 0;
+    }
+
+    .print-scroll__canvas,
+    .print-scroll__hint,
+    .print-scroll__loading {
       display: none;
     }
+
+    .print-scroll__intro {
+      opacity: 1;
+      translate: none;
+    }
+
+    .print-scroll__outro {
+      grid-area: 2 / 1;
+      margin-top: 1.75rem;
+    }
   }
 
-  /* Testimonial band: the list is rendered twice and moves by half its width. */
-  .marquee {
-    animation: marquee 60s linear infinite;
+  /*
+   * Entrance of the first screen, in order (`data-rise="1"` … "4"): a short rise with a
+   * fade. CSS only, so the text shows without JavaScript; reduced motion: fade only.
+   */
+  [data-rise] {
+    animation: rise 0.8s var(--ease-out) both;
   }
 
-  .marquee:hover,
-  .marquee:focus-within {
-    animation-play-state: paused;
+  [data-rise='2'] {
+    animation-delay: 0.08s;
   }
 
-  @keyframes marquee {
-    to {
-      transform: translateX(-50%);
+  [data-rise='3'] {
+    animation-delay: 0.16s;
+  }
+
+  [data-rise='4'] {
+    animation-delay: 0.28s;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .marquee {
-      animation: none;
+    [data-rise] {
+      animation-name: fade;
+      animation-duration: 0.4s;
+    }
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /*
+   * Scroll effects, in CSS only (scroll-driven animations): the browser knows the scroll
+   * position before it paints, so each state is right from the first frame, with or
+   * without JavaScript, and nothing flips after hydration (the no-ui-flash rule). Browsers
+   * without scroll timelines (Firefox for now) simply show everything at rest.
+   *
+   * Reveal: `[data-reveal]` rises in while its first 140 px enter the screen. An element
+   * that is already on screen at load is already at the end. "2" … "4" start 30 px later
+   * each, so a row of cards cascades. Never on the first screen (that is `data-rise`).
+   */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      [data-reveal] {
+        --reveal-start: 0px;
+        animation: reveal linear both;
+        animation-timeline: view();
+        animation-range: entry var(--reveal-start) entry calc(var(--reveal-start) + 140px);
+      }
+
+      [data-reveal='2'] {
+        --reveal-start: 30px;
+      }
+
+      [data-reveal='3'] {
+        --reveal-start: 60px;
+      }
+
+      [data-reveal='4'] {
+        --reveal-start: 90px;
+      }
+    }
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+
+  /*
+   * Header pill: it rises from the card padding to near the top edge over the first 96 px
+   * of scroll. `--lift` is set per screen size on the element (SiteHeader).
+   */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .header-lift {
+        animation: header-lift linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 96px;
+      }
+    }
+  }
+
+  @keyframes header-lift {
+    to {
+      transform: translateY(var(--lift, 0));
     }
   }
 

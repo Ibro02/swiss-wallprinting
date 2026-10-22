@@ -64,10 +64,10 @@ export function ImagePicker({
   return (
     <div className="space-y-5">
       <fieldset>
-        <legend className="text-xs font-semibold text-mute">
+        <legend className="text-xs font-medium text-mute">
           {t('presets')}
           {presetsAreExamples && (
-            <span className="ml-2 rounded-full bg-graphite/5 px-2 py-0.5 text-[0.7rem] tracking-wide uppercase">
+            <span className="ml-2 rounded-full bg-plaster px-2 py-0.5 text-[0.7rem] font-medium">
               {t('example')}
             </span>
           )}
@@ -76,7 +76,7 @@ export function ImagePicker({
           {presets.map((preset) => (
             <label
               key={preset.id}
-              className="group cursor-pointer rounded-xl p-1 ring-1 ring-graphite/10 transition-colors hover:bg-white has-checked:bg-white has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-magenta-700"
+              className="group cursor-pointer rounded-xl p-1 ring-1 ring-graphite/10 transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.98] has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite motion-reduce:active:scale-100"
             >
               <input
                 type="radio"
@@ -85,7 +85,7 @@ export function ImagePicker({
                 onChange={() => replaceImage(presetImage(preset))}
                 className="sr-only"
               />
-              <span className="relative block aspect-[4/3] overflow-hidden rounded-lg bg-plaster-200">
+              <span className="relative block aspect-[4/3] overflow-hidden rounded-lg bg-plaster">
                 <Image
                   src={preset.image.src}
                   alt=""
@@ -112,11 +112,11 @@ export function ImagePicker({
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm font-semibold transition-colors has-focus-visible:outline-2 has-focus-visible:outline-magenta-700 ${
+          className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm font-medium transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite ${
             image.kind === 'upload'
-              ? 'border-magenta bg-white'
+              ? 'border-graphite bg-plaster'
               : dragging
-                ? 'border-graphite bg-white'
+                ? 'border-graphite bg-plaster'
                 : 'border-graphite/20 hover:border-graphite/50'
           }`}
         >

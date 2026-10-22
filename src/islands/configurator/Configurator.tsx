@@ -33,13 +33,15 @@ export function Configurator({ initial, machineMaxHeight, ...panel }: Configurat
     <ConfiguratorProvider initial={initial} machineMaxHeight={machineMaxHeight}>
       <ShareLinkSync />
       <div style={{ '--sheet-bar': sheetOpen ? SHEET.open : SHEET.closed } as CSSProperties}>
-        <div className="relative mx-auto flex max-w-[1600px] flex-col overflow-hidden rounded-3xl bg-plaster ring-1 ring-graphite/10 lg:h-[calc(100dvh-6.25rem)] lg:min-h-[600px] lg:flex-row">
+        {/* The header pill floats above this card: the card starts below it (pill top
+            28/40/56 px, about 52 px high), and fills the rest of the screen on desktops. */}
+        <div className="relative mt-18 flex flex-col overflow-hidden rounded-2xl bg-plaster sm:mt-22 sm:rounded-3xl md:mt-24 lg:h-[calc(100dvh-9rem)] lg:min-h-[600px] lg:flex-row">
           <Panel
             {...panel}
             captureRef={captureRef}
             sheet={{ open: sheetOpen, setOpen: setSheetOpen }}
           />
-          <div className="relative h-[calc(100dvh-6.25rem-var(--sheet-bar))] min-h-[180px] lg:h-auto lg:min-w-0 lg:flex-1">
+          <div className="relative h-[calc(100dvh-5.25rem-var(--sheet-bar))] min-h-[180px] sm:h-[calc(100dvh-6.5rem-var(--sheet-bar))] md:h-[calc(100dvh-7.5rem-var(--sheet-bar))] lg:h-auto lg:min-w-0 lg:flex-1">
             <Stage
               presetSources={panel.presets.map((preset) => preset.image.src)}
               contactHref={panel.contactHref}

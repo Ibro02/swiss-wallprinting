@@ -3,7 +3,9 @@ import { describe, expect, it } from 'vite-plus/test'
 import { routing } from '../../i18n/routing.ts'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { framePath } from '../../features/home/print-scroll.ts'
 import { printFacts as printFactsData } from '../company.ts'
+import { heroVideo as heroVideoData } from '../hero-video.ts'
 import { images, isMockImage } from '../images/index.ts'
 import { collections } from '../index.ts'
 import { legal as legalData } from '../legal.ts'
@@ -13,6 +15,7 @@ import {
   company,
   contentItem,
   galleryItem,
+  heroVideo,
   legalInfo,
   localizedText,
   preset,
@@ -36,6 +39,7 @@ const SCHEMAS: Record<keyof typeof collections, z.ZodType> = {
   presets: preset,
   pricing,
   printQuality,
+  heroVideo,
 }
 
 const publicDir = path.resolve(import.meta.dirname, '../../../public')
@@ -45,6 +49,15 @@ describe('content images', () => {
   it('have a file in public/ for every manifest entry', () => {
     for (const [key, image] of Object.entries(images)) {
       expect(existsSync(path.join(publicDir, image.src)), key).toBe(true)
+    }
+  })
+
+  it('have every hero video frame in public/', () => {
+    for (const [variant, frames] of Object.entries(heroVideoData.frames)) {
+      for (let index = 0; index < frames.count; index++) {
+        const file = framePath(frames.pattern, index)
+        expect(existsSync(path.join(publicDir, file)), `${variant} ${file}`).toBe(true)
+      }
     }
   })
 
