@@ -31,5 +31,5 @@ Bring the two branches of [[2026-10-22 03 - Responsive fixes and configurator ta
 
 ## Open items
 
-- **Author:** push `main` when you want (`git push`); CI runs check, tests, and build.
+- **Pushed** on the author's next prompt ("Push main to origin."): `main` with these merges and this log is on GitHub; CI runs check, tests, and build.
 - From prompt 03: a real phone (touch, the image row, the 3D view with the tool panel), landscape phones, the DE, EN, and BS drafts of the tab labels.
