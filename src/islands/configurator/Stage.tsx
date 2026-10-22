@@ -163,7 +163,7 @@ function Loading({ label }: { label: string }) {
     <output className="absolute inset-0 grid place-items-center">
       <span className="block w-56 text-center text-sm text-mute">
         {label}
-        <span className="mt-3 block h-1 overflow-hidden rounded-full bg-graphite/10">
+        <span className="mt-3 block h-1 overflow-hidden rounded-full bg-ink/10">
           <span className="block h-full w-1/3 animate-[loading-bar_1.2s_ease-in-out_infinite] rounded-full bg-magenta motion-reduce:animate-none" />
         </span>
       </span>
@@ -179,12 +179,12 @@ function ViewToggle() {
   const views: readonly View[] = ['before', 'after']
 
   return (
-    <fieldset className="absolute bottom-4 left-1/2 flex -translate-x-1/2 rounded-xl bg-white/80 p-1 text-sm text-graphite shadow-[0_8px_24px_-12px_rgb(0_0_0/0.35)] ring-1 ring-graphite/8 backdrop-blur-md">
+    <fieldset className="absolute bottom-4 left-1/2 flex -translate-x-1/2 rounded-xl bg-paper/80 p-1 text-sm text-ink shadow-[0_8px_24px_-12px_rgb(0_0_0/0.35)] ring-1 ring-ink/8 backdrop-blur-md">
       <legend className="sr-only">{t('viewLabel')}</legend>
       {views.map((option) => (
         <label
           key={option}
-          className="cursor-pointer rounded-lg px-4 py-1.5 font-medium transition-colors duration-150 select-none has-checked:bg-graphite has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite"
+          className="cursor-pointer rounded-lg px-4 py-1.5 font-medium transition-colors duration-150 select-none has-checked:bg-graphite has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink"
         >
           <input
             type="radio"
@@ -208,7 +208,7 @@ function SceneError({ kind, contactHref }: { kind: SceneFailure; contactHref: st
   const t = useTranslations('Configurator.stage.error')
   return (
     <div role="alert" className="absolute inset-x-4 top-4 flex justify-center">
-      <div className="max-w-md rounded-2xl bg-white/95 p-6 shadow-lg ring-1 ring-graphite/8 backdrop-blur-md">
+      <div className="max-w-md rounded-2xl bg-paper/95 p-6 shadow-lg ring-1 ring-ink/8 backdrop-blur-md">
         <h2 className="text-xl font-medium tracking-tight">{t(`${kind}.title`)}</h2>
         <p className="mt-3 text-sm leading-relaxed text-mute">{t(`${kind}.body`)}</p>
         <div className="mt-6 flex flex-wrap gap-3 text-sm font-medium">
@@ -221,7 +221,7 @@ function SceneError({ kind, contactHref }: { kind: SceneFailure; contactHref: st
               {t('reload')}
             </button>
           )}
-          <a href={contactHref} className="rounded-xl px-4 py-2 ring-1 ring-graphite/15">
+          <a href={contactHref} className="rounded-xl px-4 py-2 ring-1 ring-ink/15">
             {t('quote')}
           </a>
         </div>

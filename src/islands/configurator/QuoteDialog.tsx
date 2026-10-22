@@ -35,7 +35,7 @@ interface QuoteDialogProps {
 const INITIAL: QuoteState = { status: 'idle' }
 
 const INPUT =
-  'mt-1.5 block w-full rounded-xl border border-graphite/12 bg-white px-3.5 py-2.5 text-base transition-[border-color,box-shadow] duration-150 focus:border-transparent focus:ring-2 focus:ring-graphite focus:outline-none sm:text-sm aria-[invalid=true]:border-magenta-700 aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-magenta-700'
+  'mt-1.5 block w-full rounded-xl border border-ink/12 bg-paper px-3.5 py-2.5 text-base transition-[border-color,box-shadow] duration-150 focus:border-transparent focus:ring-2 focus:ring-ink focus:outline-none sm:text-sm aria-[invalid=true]:border-magenta-700 aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-magenta-700'
 
 /** What the form sends besides the fields: taken when the dialog opens. */
 interface Snapshot {
@@ -116,7 +116,7 @@ export function QuoteButton({
         onClick={(event) => {
           if (event.target === event.currentTarget) dialog.current?.close()
         }}
-        className="m-auto max-h-[min(92dvh,900px)] w-[min(94vw,46rem)] overflow-y-auto rounded-3xl bg-white p-0 text-graphite shadow-2xl backdrop:bg-graphite/60 backdrop:backdrop-blur-sm max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none"
+        className="m-auto max-h-[min(92dvh,900px)] w-[min(94vw,46rem)] overflow-y-auto rounded-3xl bg-paper p-0 text-ink shadow-2xl backdrop:bg-graphite/60 backdrop:backdrop-blur-sm max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none"
       >
         <div className="p-5 sm:p-8">
           <div className="flex items-start justify-between gap-4">
@@ -129,7 +129,7 @@ export function QuoteButton({
             <button
               type="button"
               onClick={() => dialog.current?.close()}
-              className="grid size-10 shrink-0 place-items-center rounded-xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97]"
+              className="grid size-10 shrink-0 place-items-center rounded-xl ring-1 ring-ink/12 transition-[background-color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97]"
             >
               <span aria-hidden="true">✕</span>
               <span className="sr-only">{t('close')}</span>
@@ -294,7 +294,7 @@ function QuoteForm({
           id="quote-problem"
           tabIndex={-1}
           role="alert"
-          className="rounded-xl bg-magenta-700/6 px-4 py-3 text-sm leading-relaxed text-magenta-700 ring-1 ring-magenta-700/15 outline-none"
+          className="rounded-xl bg-magenta-700/6 px-4 py-3 text-sm leading-relaxed text-magenta-700 dark:text-magenta-200 ring-1 ring-magenta-700/15 outline-none"
         >
           {problem}
         </div>
@@ -357,7 +357,7 @@ function QuoteForm({
             aria-required="true"
             aria-invalid={errors.consent ? true : undefined}
             aria-describedby={errors.consent ? 'quote-consent-error' : undefined}
-            className="mt-0.5 size-4 shrink-0 accent-graphite"
+            className="mt-0.5 size-4 shrink-0 accent-ink"
           />
           <span>
             {t.rich('fields.consent', {
@@ -431,7 +431,7 @@ function Field({
 
 function ErrorText({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <p id={id} className="mt-1.5 text-sm text-magenta-700">
+    <p id={id} className="mt-1.5 text-sm text-magenta-700 dark:text-magenta-200">
       {children}
     </p>
   )

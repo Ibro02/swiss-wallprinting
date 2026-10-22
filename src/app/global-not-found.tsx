@@ -18,7 +18,7 @@ export default function GlobalNotFound() {
           <p className="mt-2 opacity-70">Page not found.</p>
           {/* A full page load: this page has no router to hand the link to. */}
           {/* oxlint-disable-next-line nextjs/no-html-link-for-pages */}
-          <a href="/" className="mt-8 inline-block font-semibold text-magenta">
+          <a href="/" className="mt-8 inline-block font-semibold text-magenta dark:text-lime">
             Swiss Wall Printing
           </a>
         </main>

@@ -27,7 +27,7 @@ export function Stars({
           key={index}
           d={STAR}
           transform={`translate(${index * 24} 0)`}
-          className={index < Math.round(rating) ? 'fill-magenta' : 'fill-graphite/15'}
+          className={index < Math.round(rating) ? 'fill-magenta' : 'fill-ink/15'}
         />
       ))}
     </svg>

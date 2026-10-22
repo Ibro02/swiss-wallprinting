@@ -12,7 +12,7 @@ export async function NotFoundContent() {
         <Container className="pt-28 pb-20 sm:pt-36 sm:pb-28 md:pt-40">
           <p
             aria-hidden="true"
-            className="font-serif text-8xl leading-none text-magenta-700 italic sm:text-9xl"
+            className="font-serif text-8xl leading-none text-magenta-700 dark:text-magenta-200 italic sm:text-9xl"
           >
             404
           </p>

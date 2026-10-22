@@ -20,7 +20,7 @@ export function SectionLabel({
 }) {
   return (
     <p
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset before:size-1.5 before:rounded-full ${tone === 'dark' ? 'text-white/75 ring-white/15 before:bg-lime' : 'text-graphite/70 ring-graphite/12 before:bg-magenta'}`}
+      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset before:size-1.5 before:rounded-full ${tone === 'dark' ? 'text-white/75 ring-white/15 before:bg-lime' : 'text-ink/70 ring-ink/12 before:bg-magenta'}`}
     >
       {children}
     </p>

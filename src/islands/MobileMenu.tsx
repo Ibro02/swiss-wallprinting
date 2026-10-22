@@ -32,7 +32,7 @@ export function MobileMenu({ openLabel, closeLabel, children }: MobileMenuProps)
         type="button"
         popoverTarget={PANEL_ID}
         aria-label={openLabel}
-        className="grid size-10 place-items-center rounded-xl text-graphite transition-[background-color,transform] duration-160 ease-out hover:bg-graphite/6 active:scale-[0.97]"
+        className="grid size-10 place-items-center rounded-xl text-ink transition-[background-color,transform] duration-160 ease-out hover:bg-ink/6 active:scale-[0.97]"
       >
         <MenuIcon />
       </button>
@@ -42,7 +42,7 @@ export function MobileMenu({ openLabel, closeLabel, children }: MobileMenuProps)
         ref={panel}
         popover="auto"
         onClick={closeAfterLinkClick}
-        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none translate-y-2 overflow-y-auto bg-white p-0 text-graphite opacity-0 transition-[opacity,transform,display,overlay] transition-discrete duration-200 ease-out open:translate-y-0 open:opacity-100 open:duration-300 motion-reduce:translate-y-0 motion-reduce:transition-none starting:open:translate-y-2 starting:open:opacity-0"
+        className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none translate-y-2 overflow-y-auto bg-paper p-0 text-ink opacity-0 transition-[opacity,transform,display,overlay] transition-discrete duration-200 ease-out open:translate-y-0 open:opacity-100 open:duration-300 motion-reduce:translate-y-0 motion-reduce:transition-none starting:open:translate-y-2 starting:open:opacity-0"
       >
         <div className="flex justify-end px-7 pt-9 sm:px-10 sm:pt-12">
           <button
@@ -50,7 +50,7 @@ export function MobileMenu({ openLabel, closeLabel, children }: MobileMenuProps)
             popoverTarget={PANEL_ID}
             popoverTargetAction="hide"
             aria-label={closeLabel}
-            className="grid size-10 place-items-center rounded-xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-160 ease-out hover:bg-graphite/6 active:scale-[0.97]"
+            className="grid size-10 place-items-center rounded-xl ring-1 ring-ink/12 transition-[background-color,transform] duration-160 ease-out hover:bg-ink/6 active:scale-[0.97]"
           >
             <CloseIcon />
           </button>

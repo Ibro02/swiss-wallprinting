@@ -96,7 +96,7 @@ export function Panel(props: PanelProps) {
       <aside
         id="configurator-panel"
         aria-labelledby="configurator-title"
-        className={`fixed inset-x-0 bottom-0 z-40 flex h-(--tools-h) flex-col rounded-t-3xl bg-white shadow-[0_-16px_40px_-16px_rgb(0_0_0/0.35)] ring-1 ring-graphite/8 lg:static lg:z-auto lg:order-last lg:h-auto lg:w-[400px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-graphite/10 lg:shadow-none lg:ring-0 ${open ? '' : 'lg:hidden'}`}
+        className={`fixed inset-x-0 bottom-0 z-40 flex h-(--tools-h) flex-col rounded-t-3xl bg-paper shadow-[0_-16px_40px_-16px_rgb(0_0_0/0.35)] ring-1 ring-ink/8 lg:static lg:z-auto lg:order-last lg:h-auto lg:w-[400px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-ink/10 lg:shadow-none lg:ring-0 ${open ? '' : 'lg:hidden'}`}
       >
         {/* Phones: the title stays in the page for screen readers; the tabs say the rest. */}
         <header className="flex items-start justify-between gap-4 px-5 pt-6 max-lg:sr-only sm:px-6">
@@ -112,7 +112,7 @@ export function Panel(props: PanelProps) {
             onClick={() => setPanelOpen(false)}
             aria-controls="configurator-panel"
             aria-expanded="true"
-            className="hidden size-10 shrink-0 place-items-center rounded-xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97] lg:grid"
+            className="hidden size-10 shrink-0 place-items-center rounded-xl ring-1 ring-ink/12 transition-[background-color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97] lg:grid"
           >
             <span aria-hidden="true">→</span>
             <span className="sr-only">{t('panel.close')}</span>
@@ -183,7 +183,7 @@ function Section({
 function PhoneTabs({ tab, onSelect }: { tab: PhoneTab; onSelect: (tab: PhoneTab) => void }) {
   const t = useTranslations('Configurator')
   return (
-    <fieldset className="grid min-w-0 grid-cols-6 gap-0.5 border-t border-graphite/8 px-2 pt-2 lg:hidden">
+    <fieldset className="grid min-w-0 grid-cols-6 gap-0.5 border-t border-ink/8 px-2 pt-2 lg:hidden">
       <legend className="sr-only">{t('panel.open')}</legend>
       {PHONE_TABS.map((key, index) => (
         <button
@@ -196,7 +196,7 @@ function PhoneTabs({ tab, onSelect }: { tab: PhoneTab; onSelect: (tab: PhoneTab)
         >
           <span
             aria-hidden="true"
-            className="grid size-5 place-items-center rounded-full bg-plaster-200 text-[0.6875rem] text-graphite tabular-nums group-aria-pressed:bg-lime"
+            className="grid size-5 place-items-center rounded-full bg-plaster-200 text-[0.6875rem] text-ink tabular-nums group-aria-pressed:bg-lime group-aria-pressed:text-graphite"
           >
             {index + 1}
           </span>
@@ -230,7 +230,7 @@ function Choices<T extends string>({
         {options.map((option) => (
           <label
             key={option}
-            className="cursor-pointer rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-graphite/12 transition-[background-color,color,transform] duration-150 ease-out ring-inset select-none hover:bg-plaster active:scale-[0.97] has-checked:bg-graphite has-checked:text-white has-checked:ring-graphite has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite motion-reduce:active:scale-100"
+            className="cursor-pointer rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-ink/12 transition-[background-color,color,transform] duration-150 ease-out ring-inset select-none hover:bg-plaster active:scale-[0.97] has-checked:bg-graphite has-checked:text-white has-checked:ring-graphite has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink motion-reduce:active:scale-100"
           >
             <input
               type="radio"
@@ -389,7 +389,7 @@ function PrintFields({
         <button
           type="button"
           onClick={centrePrint}
-          className="mt-3 rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out ring-inset hover:bg-plaster active:scale-[0.97]"
+          className="mt-3 rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-ink/12 transition-[background-color,transform] duration-150 ease-out ring-inset hover:bg-plaster active:scale-[0.97]"
         >
           {t('centre')}
         </button>
@@ -517,7 +517,7 @@ function PriceSummary({
   const vatRate = format.number(rates.vatRate, { style: 'percent', maximumFractionDigits: 1 })
 
   return (
-    <div className="flex items-center gap-3 bg-white px-5 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 lg:block lg:border-t lg:border-graphite/10 lg:pt-5 lg:pb-5 lg:shadow-[0_-12px_30px_-20px_rgb(14_14_16/0.4)]">
+    <div className="flex items-center gap-3 bg-paper px-5 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 lg:block lg:border-t lg:border-ink/10 lg:pt-5 lg:pb-5 lg:shadow-[0_-12px_30px_-20px_rgb(14_14_16/0.4)]">
       <div className="min-w-0 shrink-0">
         <div className="flex items-baseline justify-between gap-3">
           <p className="text-xs font-medium text-mute max-lg:text-[0.6875rem]">
@@ -541,7 +541,7 @@ function PriceSummary({
 
       {/* Desktop only: on phones the quote dialog shows the configuration and the price. */}
       <details className="mt-2 text-xs text-mute max-lg:hidden">
-        <summary className="cursor-pointer font-medium text-graphite">{t('details')}</summary>
+        <summary className="cursor-pointer font-medium text-ink">{t('details')}</summary>
         <dl className="mt-2 space-y-1">
           <Row
             term={
@@ -603,7 +603,7 @@ function ShareButton() {
       <button
         type="button"
         onClick={() => void copy()}
-        className="grid size-12 place-items-center rounded-2xl ring-1 ring-graphite/12 transition-[background-color,transform] duration-150 ease-out ring-inset hover:bg-plaster active:scale-[0.97]"
+        className="grid size-12 place-items-center rounded-2xl ring-1 ring-ink/12 transition-[background-color,transform] duration-150 ease-out ring-inset hover:bg-plaster active:scale-[0.97]"
       >
         <LinkIcon className="size-5" />
         <span className="sr-only">{t('copy')}</span>
@@ -620,7 +620,7 @@ function ShareButton() {
 
 function Row({ term, value, strong }: { term: string; value: string; strong?: boolean }) {
   return (
-    <div className={`flex justify-between gap-3 ${strong ? 'font-medium text-graphite' : ''}`}>
+    <div className={`flex justify-between gap-3 ${strong ? 'font-medium text-ink' : ''}`}>
       <dt>{term}</dt>
       <dd className="tabular-nums">{value}</dd>
     </div>

@@ -24,7 +24,7 @@ export async function QuestionCard() {
   return (
     <div
       id={QUESTION_FORM_ID}
-      className="flex scroll-mt-28 flex-col gap-4 rounded-2xl bg-white p-4 text-graphite shadow-[0_24px_56px_-32px_rgb(0_0_0/0.35)] ring-1 ring-graphite/5 sm:rounded-3xl sm:p-6"
+      className="flex scroll-mt-28 flex-col gap-4 rounded-2xl bg-paper p-4 text-ink shadow-[0_24px_56px_-32px_rgb(0_0_0/0.35)] ring-1 ring-ink/5 sm:rounded-3xl sm:p-6"
     >
       <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
         {t('title')} <span aria-hidden="true">👋</span>

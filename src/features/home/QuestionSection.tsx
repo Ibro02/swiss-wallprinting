@@ -44,7 +44,7 @@ export async function QuestionSection() {
             href: `tel:${callPhone.e164}`,
             label: card('phone', { phone: callPhone.display }),
             Icon: PhoneIcon,
-            tone: 'bg-plaster-200 text-graphite',
+            tone: 'bg-plaster-200 text-ink',
           },
         ]
       : []),
@@ -82,12 +82,12 @@ export async function QuestionSection() {
           >
             <p>{t('intro')}</p>
           </SectionHeading>
-          <ul className="mt-8 border-t border-graphite/10">
+          <ul className="mt-8 border-t border-ink/10">
             {company.phones.map((phone, index) => (
               <li
                 key={phone.e164}
                 data-reveal={String(index + 1)}
-                className="border-b border-graphite/10"
+                className="border-b border-ink/10"
               >
                 <ContactRow
                   href={`tel:${phone.e164}`}
@@ -97,10 +97,7 @@ export async function QuestionSection() {
                 />
               </li>
             ))}
-            <li
-              data-reveal={String(company.phones.length + 1)}
-              className="border-b border-graphite/10"
-            >
+            <li data-reveal={String(company.phones.length + 1)} className="border-b border-ink/10">
               <ContactRow
                 href={`mailto:${company.email}`}
                 label={contact('email')}

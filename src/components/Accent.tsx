@@ -6,7 +6,7 @@ import type { ReactNode } from 'react'
 
 export function Accent({ children }: { children: ReactNode }) {
   return (
-    <em className="font-serif font-normal tracking-normal text-magenta italic [.on-dark_&]:text-lime">
+    <em className="font-serif font-normal tracking-normal text-magenta dark:text-lime italic [.on-dark_&]:text-lime">
       {children}
     </em>
   )

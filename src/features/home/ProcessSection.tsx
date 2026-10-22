@@ -33,7 +33,7 @@ export async function ProcessSection() {
               <>
                 <span
                   aria-hidden="true"
-                  className={`font-serif text-4xl leading-none italic ${live ? 'text-lime' : 'text-magenta'}`}
+                  className={`font-serif text-4xl leading-none italic ${live ? 'text-lime' : 'text-magenta dark:text-lime'}`}
                 >
                   {String(index + 1).padStart(2, '0')}
                 </span>

@@ -38,19 +38,19 @@ export async function Testimonials() {
       <div className="flex items-center justify-between gap-3">
         <Stars rating={review.rating} label={starsLabel(review.rating)} />
         {review.mock && (
-          <span className="rounded-full bg-white px-2.5 py-0.5 text-[0.7rem] font-medium text-mute ring-1 ring-graphite/8">
+          <span className="rounded-full bg-paper px-2.5 py-0.5 text-[0.7rem] font-medium text-mute ring-1 ring-ink/8">
             {t('mockBadge')}
           </span>
         )}
       </div>
       <blockquote
         lang={review.language}
-        className="mt-4 flex-1 text-[0.9375rem] leading-relaxed text-graphite/90"
+        className="mt-4 flex-1 text-[0.9375rem] leading-relaxed text-ink/90"
       >
         <p>{review.text}</p>
       </blockquote>
       {review.ownerReply && (
-        <div className="mt-4 rounded-2xl bg-white px-4 py-3 text-sm">
+        <div className="mt-4 rounded-2xl bg-paper px-4 py-3 text-sm">
           <p className="text-xs font-medium text-mute">{t('ownerReply')}</p>
           <p className="mt-1">{review.ownerReply}</p>
         </div>

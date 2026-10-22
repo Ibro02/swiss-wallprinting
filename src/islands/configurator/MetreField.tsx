@@ -63,7 +63,7 @@ export function MetreField({ label, value, note, onCommit }: MetreFieldProps) {
       <label htmlFor={id} className="text-xs font-medium text-mute">
         {label}
       </label>
-      <div className="mt-1 flex h-11 items-center rounded-xl bg-white ring-1 ring-graphite/12 transition-shadow duration-150 focus-within:ring-2 focus-within:ring-graphite">
+      <div className="mt-1 flex h-11 items-center rounded-xl bg-paper ring-1 ring-ink/12 transition-shadow duration-150 focus-within:ring-2 focus-within:ring-ink">
         <input
           id={id}
           type="text"
@@ -84,7 +84,7 @@ export function MetreField({ label, value, note, onCommit }: MetreFieldProps) {
         <p
           id={`${id}-note`}
           aria-live="polite"
-          className={`mt-1 text-xs leading-snug ${adjusted ? 'font-medium text-magenta-700' : 'text-mute'}`}
+          className={`mt-1 text-xs leading-snug ${adjusted ? 'font-medium text-magenta-700 dark:text-magenta-200' : 'text-mute'}`}
         >
           {adjusted && `${t('adjusted', { value: metres(value) })} `}
           {note}

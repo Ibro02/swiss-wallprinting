@@ -12,7 +12,7 @@ export interface ContactRowProps {
 /**
  * One way to reach the client, as a row (home page question section, contact page): a dark
  * icon tile with a lime icon, the label, the value, and an arrow that moves on hover. Put
- * the rows in a `<ul>` with `border-t border-graphite/10`; each row draws its bottom line.
+ * the rows in a `<ul>` with `border-t border-ink/10`; each row draws its bottom line.
  */
 export function ContactRow({ href, label, value, Icon }: ContactRowProps) {
   return (
@@ -26,7 +26,7 @@ export function ContactRow({ href, label, value, Icon }: ContactRowProps) {
           {value}
         </span>
       </span>
-      <ArrowRightIcon className="size-5 shrink-0 text-graphite/40 transition-[transform,color] duration-200 ease-out group-hover:translate-x-1 group-hover:text-magenta-700 motion-reduce:transition-none" />
+      <ArrowRightIcon className="size-5 shrink-0 text-ink/40 transition-[transform,color] duration-200 ease-out group-hover:translate-x-1 group-hover:text-magenta-700 dark:group-hover:text-magenta-200 motion-reduce:transition-none" />
     </a>
   )
 }

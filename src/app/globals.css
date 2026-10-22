@@ -15,8 +15,16 @@
  * white on graphite 19.8, mute-dark on graphite 7.9, magenta-700 on white 6.2,
  * white on magenta 4.6, magenta on white 4.6 and on plaster 4.2 (large text),
  * lime on graphite 11.9, graphite on lime 11.9. Never lime text on a light ground (1.7).
+ *
+ * Roles (dark mode swaps them, see "Dark theme" below): page = the ground of the site,
+ * paper = raised white surfaces (the header pill, cards on mist, dialogs, fields), ink =
+ * text, borders, rings, and tints on those surfaces. graphite = the dark cards and the text
+ * on a lime or white fill; it stays dark in both themes.
  */
 @theme {
+  --color-page: #ffffff;
+  --color-paper: #ffffff;
+  --color-ink: #0a0a0a;
   --color-graphite: #0a0a0a;
   --color-graphite-800: #171717;
   --color-graphite-700: #262626;
@@ -26,6 +34,7 @@
   --color-mute-dark: #a3a3a3;
 
   --color-magenta: #e51158;
+  --color-magenta-200: #ff85ad;
   --color-magenta-300: #ff3d7f;
   --color-magenta-700: #b80c47;
   --color-lime: #c5d20d;
@@ -72,6 +81,60 @@
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 }
 
+/*
+ * Dark theme: Claude's warm dark palette, not black (the author's wish): a charcoal page,
+ * lighter mist and paper surfaces, ivory ink, warm grey secondary text. The logo's colours
+ * stay: magenta for the main buttons, lime for the accents (dark grounds everywhere now).
+ * It follows the device (prefers-color-scheme) until the visitor chooses with ThemeToggle,
+ * which sets data-theme on <html>; a small script in <head> sets the saved choice before the
+ * first paint (layout.tsx), so no page ever flashes the other theme.
+ *
+ * Contrast (measured): ink on page 14.4, on plaster 12.6, on paper 10.8; mute on page 8.3,
+ * on plaster 7.2, on paper 6.3; magenta-200 (links and errors, `dark:text-magenta-200`) on
+ * page 6.7, on plaster 5.8, on paper 5.0; lime on page 9.1, on paper 6.8; white on
+ * graphite 16.6. Buttons keep magenta with white text (4.6).
+ */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    --color-page: #262624;
+    --color-paper: #3a3a37;
+    --color-ink: #faf9f5;
+    --color-plaster: #30302e;
+    --color-plaster-200: #45453f;
+    --color-mute: #c2c0b6;
+    --color-graphite: #1f1e1d;
+    color-scheme: dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --color-page: #262624;
+      --color-paper: #3a3a37;
+      --color-ink: #faf9f5;
+      --color-plaster: #30302e;
+      --color-plaster-200: #45453f;
+      --color-mute: #c2c0b6;
+      --color-graphite: #1f1e1d;
+      color-scheme: dark;
+    }
+  }
+}
+
 /* The scroll hero's progress (.print-scroll): a typed number, so a scroll timeline can animate it. */
 @property --p {
   syntax: '<number>';
@@ -92,8 +155,8 @@
   }
 
   body {
-    background: #fff;
-    color: var(--color-graphite);
+    background: var(--color-page);
+    color: var(--color-ink);
     font-family: var(--font-sans);
   }
 
@@ -104,7 +167,7 @@
 
   /* The outline follows each element's own corner radius. */
   :focus-visible {
-    outline: 2px solid var(--color-graphite);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
   }
 

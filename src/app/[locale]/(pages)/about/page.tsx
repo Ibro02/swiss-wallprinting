@@ -39,12 +39,12 @@ export default async function AboutPage() {
           </div>
           <div
             data-reveal="2"
-            className="space-y-4 text-base leading-relaxed text-graphite/85 sm:text-[1.0625rem] lg:col-span-5 lg:col-start-8"
+            className="space-y-4 text-base leading-relaxed text-ink/85 sm:text-[1.0625rem] lg:col-span-5 lg:col-start-8"
           >
             <p>{t('story.what')}</p>
             <p>{t('story.how', { height, years: printFacts.durabilityYears })}</p>
             <p>{t('story.who')}</p>
-            <p className="pt-3 font-serif text-2xl leading-snug text-magenta italic sm:text-3xl">
+            <p className="pt-3 font-serif text-2xl leading-snug text-magenta dark:text-lime italic sm:text-3xl">
               {t('story.canvas')}
             </p>
           </div>

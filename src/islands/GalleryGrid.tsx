@@ -58,7 +58,7 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
             type="button"
             aria-pressed={filter === id}
             onClick={() => setFilter(id)}
-            className="h-9 rounded-lg px-3.5 text-sm font-medium ring-1 ring-graphite/12 ring-inset transition-[background-color,color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97] aria-pressed:bg-lime aria-pressed:text-graphite aria-pressed:ring-lime motion-reduce:active:scale-100"
+            className="h-9 rounded-lg px-3.5 text-sm font-medium ring-1 ring-ink/12 ring-inset transition-[background-color,color,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.97] aria-pressed:bg-lime aria-pressed:text-graphite aria-pressed:ring-lime motion-reduce:active:scale-100"
           >
             {label}
           </button>
