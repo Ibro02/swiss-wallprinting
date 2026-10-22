@@ -531,6 +531,7 @@ function PriceSummary({
           <p className="text-xs text-mute max-lg:hidden">{t('area', { area })}</p>
         </div>
         <p
+          id="configurator-price"
           aria-live="polite"
           className="mt-1 text-3xl font-medium tracking-tight tabular-nums max-lg:mt-0.5 max-lg:text-xl"
         >

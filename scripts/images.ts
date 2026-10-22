@@ -80,3 +80,30 @@ for (const photo of PHOTOS) {
 }
 await writeManifest(path.join(root, 'src/content/images/photos.ts'), 'photos', 'images', manifest)
 console.log('src/content/images/photos.ts written')
+
+// The link preview image (Open Graph, src/features/seo/og.ts): the client's photo of the
+// printer at work, darker towards the bottom left, with the colour logo there (the colour
+// logo only on a dark ground). No text, so it is right in every language.
+const OG = { file: 'public/og/swiss-wall-printing.jpg', width: 1200, height: 630, logoWidth: 420 }
+const ogPhoto = PHOTOS[0]
+if (ogPhoto) {
+  await mkdir(path.dirname(path.join(root, OG.file)), { recursive: true })
+  const logo = await sharp(path.join(root, 'Assets/SWP_Logo.svg'), { density: 300 })
+    .resize({ width: OG.logoWidth })
+    .png()
+    .toBuffer()
+  const logoHeight = (await sharp(logo).metadata()).height
+  const shade = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${OG.width}" height="${OG.height}"><defs><linearGradient id="s" x1="1" y1="0" x2="0" y2="1"><stop offset="0.3" stop-color="#0a0a0a" stop-opacity="0"/><stop offset="1" stop-color="#0a0a0a" stop-opacity="0.88"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#s)"/></svg>`,
+  )
+  await sharp(path.join(root, ogPhoto.source))
+    .rotate()
+    .resize(OG.width, OG.height, { fit: 'cover', position: sharp.strategy.attention })
+    .composite([
+      { input: shade, top: 0, left: 0 },
+      { input: logo, left: 64, top: OG.height - 64 - logoHeight },
+    ])
+    .jpeg({ quality: 85, mozjpeg: true })
+    .toFile(path.join(root, OG.file))
+  console.log(`${OG.file}: ${OG.width} × ${OG.height}, from ${ogPhoto.name}`)
+}

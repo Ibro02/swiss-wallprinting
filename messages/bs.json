@@ -97,7 +97,8 @@
       "basedOn": "Na osnovu {count, plural, one {# recenzije} few {# recenzije} other {# recenzija}}",
       "ownerReply": "Odgovor od Swiss Wall Printing",
       "mockBadge": "Primjer",
-      "mockNote": "Primjeri recenzija za pregled: bit će zamijenjeni stvarnim recenzijama klijenata."
+      "mockNote": "Primjeri recenzija za pregled: bit će zamijenjeni stvarnim recenzijama klijenata.",
+      "pause": "Zaustavi recenzije"
     },
     "why": {
       "eyebrow": "Zašto Swiss Wall Printing",

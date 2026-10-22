@@ -70,6 +70,16 @@ export function loadOrder(count: number): number[] {
   return order
 }
 
+/**
+ * How many entries at the start of `loadOrder(count)` make the coarse set: every `step`-th
+ * frame and the last one. They come first in that order, so loading this many gives a frame
+ * near every scroll position for a fraction of the bytes.
+ */
+export function coarseCount(count: number, step: number): number {
+  const multiples = Math.floor((count - 1) / step) + 1
+  return (count - 1) % step === 0 ? multiples : multiples + 1
+}
+
 /** The loaded frame nearest to `wanted` (the earlier one on a tie), or -1 if none is. */
 export function nearestLoaded(loaded: ArrayLike<unknown>, wanted: number): number {
   for (let distance = 0; distance < loaded.length; distance++) {

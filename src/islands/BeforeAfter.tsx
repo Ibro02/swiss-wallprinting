@@ -27,6 +27,8 @@ interface BeforeAfterProps {
   /** Accessible name, e.g. "Hotel: before and after". */
   label: string
   sizes: string
+  /** The first card on the page: its photo is the LCP image, so it loads early, not lazily. */
+  priority?: boolean
 }
 
 export function BeforeAfter({
@@ -36,6 +38,7 @@ export function BeforeAfter({
   afterAlt,
   label,
   sizes,
+  priority = false,
 }: BeforeAfterProps) {
   const t = useTranslations('BeforeAfter')
   const [split, setSplit] = useState(SPLIT_NONE)
@@ -68,12 +71,14 @@ export function BeforeAfter({
         alt={afterAlt}
         fill
         sizes={sizes}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
         placeholder="blur"
         blurDataURL={after.blurDataURL}
         className="object-cover"
       />
     ),
-    [after, afterAlt, sizes],
+    [after, afterAlt, sizes, priority],
   )
   const beforeImage = useMemo(
     () =>

@@ -9,6 +9,7 @@ import { SiteHeader } from '@/components/site/SiteHeader.tsx'
 import { WhatsAppButton } from '@/components/site/WhatsAppButton.tsx'
 import { company } from '@/content/company.ts'
 import { routing } from '@/i18n/routing.ts'
+import { siteUrl } from '@/lib/site.ts'
 import { sans, serif } from '../fonts.ts'
 import '../globals.css'
 
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>): Pro
   const t = await getTranslations({ locale, namespace: 'Metadata' })
   return {
     // Absolute URLs for canonical and hreflang links. Set SITE_URL per deployment.
-    metadataBase: new URL(process.env.SITE_URL ?? 'https://www.swisswallprinting.ch'),
+    metadataBase: new URL(siteUrl()),
     title: { default: t('title'), template: `%s · ${company.name}` },
     description: t('description'),
     applicationName: company.name,
