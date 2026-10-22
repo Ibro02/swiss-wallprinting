@@ -1,6 +1,6 @@
 'use client'
 
-import { type CSSProperties, useEffect, useRef, useState } from 'react'
+import { type CSSProperties, useEffect, useRef } from 'react'
 import { toSearchParams } from '@/features/configurator/model/share.ts'
 import {
   type ConfiguratorConfig,
@@ -14,34 +14,32 @@ import { ConfiguratorProvider, useConfiguratorStore } from './store-context.tsx'
 
 // "Try your wall printing" (Development Plan 4.7). The server page renders the panel and
 // the poster with real values; the 3D room fades in over the poster (Stage → Scene).
-// Phones: the panel is a bottom sheet (Q4); its closed bar is SHEET_BAR high.
+// Phones: the panel is a tool panel of a fixed height at the bottom (tabs, Panel), and the
+// room fills the screen above it.
 
-export interface ConfiguratorProps extends Omit<PanelProps, 'captureRef' | 'sheet'> {
+export interface ConfiguratorProps extends Omit<PanelProps, 'captureRef'> {
   initial: ConfiguratorConfig
   machineMaxHeight: number
 }
 
-/** Phones: the height of the closed sheet (the price bar), and of the open sheet. */
-const SHEET = { closed: '12.5rem', open: '60dvh' } as const
+/**
+ * Phones: the height of the tool panel (a section, the tabs, the price line). Fixed, so the
+ * room keeps its size when the visitor changes tabs: 24rem fits the tallest tab without
+ * scrolling. A short screen (a phone held sideways) keeps 14rem for the room and the pill.
+ */
+const TOOLS_HEIGHT = 'min(24rem, 100dvh - 14rem)'
 
 export function Configurator({ initial, machineMaxHeight, ...panel }: ConfiguratorProps) {
   const captureRef = useRef<CaptureView | null>(null)
-  // Phones: the open sheet takes the lower part of the screen, and the room gets smaller to
-  // stay fully visible above it (the camera frames the wall in the new size).
-  const [sheetOpen, setSheetOpen] = useState(false)
   return (
     <ConfiguratorProvider initial={initial} machineMaxHeight={machineMaxHeight}>
       <ShareLinkSync />
-      <div style={{ '--sheet-bar': sheetOpen ? SHEET.open : SHEET.closed } as CSSProperties}>
+      <div style={{ '--tools-h': TOOLS_HEIGHT } as CSSProperties}>
         {/* The header pill floats above this card: the card starts below it (pill top
             28/40/56 px, about 52 px high), and fills the rest of the screen on desktops. */}
         <div className="relative mt-18 flex flex-col overflow-hidden rounded-2xl bg-plaster sm:mt-22 sm:rounded-3xl md:mt-24 lg:h-[calc(100dvh-9rem)] lg:min-h-[600px] lg:flex-row">
-          <Panel
-            {...panel}
-            captureRef={captureRef}
-            sheet={{ open: sheetOpen, setOpen: setSheetOpen }}
-          />
-          <div className="relative h-[calc(100dvh-5.25rem-var(--sheet-bar))] min-h-[180px] sm:h-[calc(100dvh-6.5rem-var(--sheet-bar))] md:h-[calc(100dvh-7.5rem-var(--sheet-bar))] lg:h-auto lg:min-w-0 lg:flex-1">
+          <Panel {...panel} captureRef={captureRef} />
+          <div className="relative h-[calc(100dvh-5.25rem-var(--tools-h))] min-h-[180px] sm:h-[calc(100dvh-6.5rem-var(--tools-h))] md:h-[calc(100dvh-7.5rem-var(--tools-h))] lg:h-auto lg:min-w-0 lg:flex-1">
             <Stage
               presetSources={panel.presets.map((preset) => preset.image.src)}
               contactHref={panel.contactHref}
@@ -49,8 +47,8 @@ export function Configurator({ initial, machineMaxHeight, ...panel }: Configurat
             />
           </div>
         </div>
-        {/* Phones: room to scroll the footer above the closed sheet. */}
-        <div aria-hidden="true" className="h-(--sheet-bar) lg:hidden" />
+        {/* Phones: room to scroll the footer above the tool panel. */}
+        <div aria-hidden="true" className="h-(--tools-h) lg:hidden" />
       </div>
     </ConfiguratorProvider>
   )

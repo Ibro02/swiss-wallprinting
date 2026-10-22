@@ -376,6 +376,14 @@
       "open": "Settings",
       "close": "Close the settings"
     },
+    "tabs": {
+      "image": "Image",
+      "wall": "Wall",
+      "room": "Room",
+      "print": "Print",
+      "position": "Position",
+      "environment": "Where"
+    },
     "image": {
       "title": "Image",
       "presets": "Ready images",
@@ -465,6 +473,7 @@
     },
     "quote": {
       "open": "Request an exact quote",
+      "openShort": "Get a quote",
       "title": "Request an exact quote",
       "lead": "We send you the exact price for this wall. With the request we receive your configuration and the 3D preview.",
       "close": "Close",

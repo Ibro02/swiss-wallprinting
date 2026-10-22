@@ -376,6 +376,14 @@
       "open": "Postavke",
       "close": "Zatvori postavke"
     },
+    "tabs": {
+      "image": "Slika",
+      "wall": "Zid",
+      "room": "Prostor",
+      "print": "Print",
+      "position": "Položaj",
+      "environment": "Gdje"
+    },
     "image": {
       "title": "Slika",
       "presets": "Gotove slike",
@@ -465,6 +473,7 @@
     },
     "quote": {
       "open": "Zatražite tačnu ponudu",
+      "openShort": "Ponuda",
       "title": "Zatražite tačnu ponudu",
       "lead": "Šaljemo Vam tačnu cijenu za ovaj zid. Uz upit dobijamo Vašu konfiguraciju i 3D prikaz.",
       "close": "Zatvori",

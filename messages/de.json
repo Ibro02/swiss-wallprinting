@@ -376,6 +376,14 @@
       "open": "Einstellungen",
       "close": "Einstellungen schliessen"
     },
+    "tabs": {
+      "image": "Bild",
+      "wall": "Wand",
+      "room": "Raum",
+      "print": "Druck",
+      "position": "Position",
+      "environment": "Wo"
+    },
     "image": {
       "title": "Bild",
       "presets": "Fertige Bilder",
@@ -465,6 +473,7 @@
     },
     "quote": {
       "open": "Genaue Offerte anfragen",
+      "openShort": "Offerte",
       "title": "Genaue Offerte anfragen",
       "lead": "Wir senden Ihnen den genauen Preis für diese Wand. Mit der Anfrage erhalten wir Ihre Konfiguration und die 3D-Vorschau.",
       "close": "Schliessen",
