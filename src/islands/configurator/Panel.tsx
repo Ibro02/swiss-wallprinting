@@ -24,9 +24,12 @@ import { QuoteButton, type QuoteContact } from './QuoteDialog.tsx'
 import type { CaptureView } from './Scene.tsx'
 import { useConfigurator, useConfiguratorStore, usePlacement } from './store-context.tsx'
 
-// The settings panel (Development Plan 4.7). Desktop: it opens from the right and can be
-// closed. Phones: a bottom sheet (Q4, proposal P6); closed, it is a bar with the price and
-// the quote button over the room; open, it shows all controls with the room above.
+// The settings panel (Development Plan 4.7). Desktop: it opens from the right, shows the
+// five sections one under the other, and can be closed. Phones (the author's choice,
+// 2026-10-22, in place of the bottom sheet): a tool panel at the bottom, like a photo
+// editor: one section at a time above a row of five tabs, and a one-line price bar; the
+// room fills the screen above it. The panel has a fixed height (`--tools-h`,
+// Configurator), so the room does not change size between tabs.
 
 export interface PanelProps {
   presets: readonly PresetOption[]
@@ -39,9 +42,20 @@ export interface PanelProps {
   contact: QuoteContact
   privacyHref: string
   captureRef: RefObject<CaptureView | null>
-  /** Phones: the bottom sheet is closed (price bar) or open (all controls). */
-  sheet: { open: boolean; setOpen: (open: boolean) => void }
 }
+
+const SECTIONS = ['image', 'wall', 'room', 'print', 'environment'] as const
+type SectionKey = (typeof SECTIONS)[number]
+
+/**
+ * Phones: the tabs. The print section is two tabs there (size and fit; position), so no
+ * tab needs to scroll in the tool panel.
+ */
+const PHONE_TABS = ['image', 'wall', 'room', 'print', 'position', 'environment'] as const
+type PhoneTab = (typeof PHONE_TABS)[number]
+
+/** The section that a phone tab shows. */
+const sectionOf = (tab: PhoneTab): SectionKey => (tab === 'position' ? 'print' : tab)
 
 /** The walls as the visitor sees them from the first camera position (facing north). */
 const WALL_NAMES: Record<Wall, 'front' | 'right' | 'back' | 'left'> = {
@@ -57,30 +71,35 @@ export function Panel(props: PanelProps) {
   const t = useTranslations('Configurator')
   const open = useConfigurator((state) => state.panelOpen)
   const setPanelOpen = useConfigurator((state) => state.setPanelOpen)
-  const sheetOpen = props.sheet.open
-  const setSheetOpen = props.sheet.setOpen
+  // Phones: the section shown above the tabs. The server renders the first one, as the
+  // client does, so nothing changes after hydration.
+  const [tab, setTab] = useState<PhoneTab>('image')
 
-  // Escape closes the open sheet, as it closes a dialog.
-  useEffect(() => {
-    if (!sheetOpen) return
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setSheetOpen(false)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [sheetOpen, setSheetOpen])
+  const controls: Record<SectionKey, ReactNode> = {
+    image: (
+      <ImagePicker
+        presets={props.presets}
+        presetsAreExamples={props.presetsAreExamples}
+        contactEmail={props.contact.email}
+      />
+    ),
+    wall: <WallPicker />,
+    room: <RoomFields />,
+    print: (
+      <PrintFields quality={props.quality} phonePart={tab === 'position' ? 'position' : 'size'} />
+    ),
+    environment: <EnvironmentPicker />,
+  }
 
   return (
     <>
       <aside
         id="configurator-panel"
         aria-labelledby="configurator-title"
-        className={`fixed inset-x-0 bottom-0 z-40 flex flex-col rounded-t-3xl bg-white shadow-[0_-16px_40px_-16px_rgb(0_0_0/0.35)] ring-1 ring-graphite/8 lg:static lg:z-auto lg:order-last lg:h-auto lg:w-[400px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-graphite/10 lg:shadow-none lg:ring-0 ${sheetOpen ? 'max-lg:h-(--sheet-bar)' : ''} ${open ? '' : 'lg:hidden'}`}
+        className={`fixed inset-x-0 bottom-0 z-40 flex h-(--tools-h) flex-col rounded-t-3xl bg-white shadow-[0_-16px_40px_-16px_rgb(0_0_0/0.35)] ring-1 ring-graphite/8 lg:static lg:z-auto lg:order-last lg:h-auto lg:w-[400px] lg:shrink-0 lg:rounded-none lg:border-l lg:border-graphite/10 lg:shadow-none lg:ring-0 ${open ? '' : 'lg:hidden'}`}
       >
-        {/* The title stays in the page for screen readers while the sheet is closed. */}
-        <header
-          className={`order-2 flex items-start justify-between gap-4 px-5 pt-4 sm:px-6 lg:order-1 lg:pt-6 ${sheetOpen ? '' : 'max-lg:sr-only'}`}
-        >
+        {/* Phones: the title stays in the page for screen readers; the tabs say the rest. */}
+        <header className="flex items-start justify-between gap-4 px-5 pt-6 max-lg:sr-only sm:px-6">
           <div>
             <p className="text-xs font-medium text-mute">{t('eyebrow')}</p>
             <h1 id="configurator-title" className="mt-1.5 text-2xl font-medium tracking-tight">
@@ -102,30 +121,23 @@ export function Panel(props: PanelProps) {
 
         <div
           id="configurator-settings"
-          className={`order-3 flex-1 space-y-8 overflow-y-auto overscroll-contain px-5 pt-6 pb-8 sm:px-6 lg:order-2 ${sheetOpen ? '' : 'max-lg:hidden'}`}
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-3 pb-3 sm:px-6 lg:space-y-8 lg:pt-6 lg:pb-8"
         >
-          <Section number={1} title={t('image.title')}>
-            <ImagePicker
-              presets={props.presets}
-              presetsAreExamples={props.presetsAreExamples}
-              contactEmail={props.contact.email}
-            />
-          </Section>
-          <Section number={2} title={t('wall.title')}>
-            <WallPicker />
-          </Section>
-          <Section number={3} title={t('room.title')}>
-            <RoomFields />
-          </Section>
-          <Section number={4} title={t('print.title')}>
-            <PrintFields quality={props.quality} />
-          </Section>
-          <Section number={5} title={t('environment.title')}>
-            <EnvironmentPicker />
-          </Section>
+          {SECTIONS.map((key, index) => (
+            <Section
+              key={key}
+              id={`configurator-${key}`}
+              number={index + 1}
+              title={t(`${key}.title`)}
+              shownOnPhones={sectionOf(tab) === key}
+            >
+              {controls[key]}
+            </Section>
+          ))}
         </div>
 
-        <PriceSummary {...props} toggleSheet={() => setSheetOpen(!sheetOpen)} />
+        <PhoneTabs tab={tab} onSelect={setTab} />
+        <PriceSummary {...props} />
       </aside>
 
       {!open && <OpenPanelButton rates={props.rates} />}
@@ -134,20 +146,26 @@ export function Panel(props: PanelProps) {
 }
 
 function Section({
+  id,
   number,
   title,
+  shownOnPhones,
   children,
 }: {
+  id: string
   number: number
   title: string
+  /** Phones show one section at a time (the active tab); desktops show all five. */
+  shownOnPhones: boolean
   children: ReactNode
 }) {
   return (
-    <section aria-label={title}>
-      <h2 className="mb-3 flex items-center gap-2.5 text-sm font-medium">
+    <section id={id} aria-label={title} className={shownOnPhones ? '' : 'max-lg:hidden'}>
+      {/* Phones: the active tab names the section, so the heading is for screen readers only. */}
+      <h2 className="mb-3 flex items-center gap-2.5 text-sm font-medium max-lg:sr-only">
         <span
           aria-hidden="true"
-          className="grid size-6 place-items-center rounded-full bg-graphite text-xs text-lime tabular-nums"
+          className="grid size-6 place-items-center rounded-full bg-graphite text-xs text-lime tabular-nums max-lg:hidden"
         >
           {number}
         </span>
@@ -155,6 +173,37 @@ function Section({
       </h2>
       {children}
     </section>
+  )
+}
+
+/**
+ * Phones: the tabs under the controls (buttons that show one part; the active one is
+ * black, like the other choices of the configurator). Not on desktops.
+ */
+function PhoneTabs({ tab, onSelect }: { tab: PhoneTab; onSelect: (tab: PhoneTab) => void }) {
+  const t = useTranslations('Configurator')
+  return (
+    <fieldset className="grid min-w-0 grid-cols-6 gap-0.5 border-t border-graphite/8 px-2 pt-2 lg:hidden">
+      <legend className="sr-only">{t('panel.open')}</legend>
+      {PHONE_TABS.map((key, index) => (
+        <button
+          key={key}
+          type="button"
+          aria-pressed={tab === key}
+          aria-controls={`configurator-${sectionOf(key)}`}
+          onClick={() => onSelect(key)}
+          className="group flex min-h-12 min-w-0 flex-col items-center justify-center gap-1 rounded-xl py-1.5 text-[0.6875rem] leading-none font-medium tracking-tight text-mute transition-[background-color,color,transform] duration-150 ease-out active:scale-[0.97] aria-pressed:bg-graphite aria-pressed:text-white motion-reduce:active:scale-100"
+        >
+          <span
+            aria-hidden="true"
+            className="grid size-5 place-items-center rounded-full bg-plaster-200 text-[0.6875rem] text-graphite tabular-nums group-aria-pressed:bg-lime"
+          >
+            {index + 1}
+          </span>
+          <span className="max-w-full truncate">{t(`tabs.${key}`)}</span>
+        </button>
+      ))}
+    </fieldset>
   )
 }
 
@@ -254,8 +303,16 @@ function RoomFields() {
   )
 }
 
-function PrintFields({ quality }: { quality: PanelProps['quality'] }) {
+function PrintFields({
+  quality,
+  phonePart,
+}: {
+  quality: PanelProps['quality']
+  /** Phones show the size and fit, or the position (two tabs); desktops show both. */
+  phonePart: 'size' | 'position'
+}) {
   const t = useTranslations('Configurator.print')
+  const onPhones = (part: typeof phonePart) => (phonePart === part ? '' : 'max-lg:hidden')
   const store = useConfiguratorStore()
   const fit = useConfigurator((state) => state.fit)
   const setFit = useConfigurator((state) => state.setFit)
@@ -266,9 +323,12 @@ function PrintFields({ quality }: { quality: PanelProps['quality'] }) {
   const fitted = () => placementOf(store.getState())
 
   return (
-    <div className="space-y-5">
-      <ResolutionWarning quality={quality} />
-      <div className="grid grid-cols-2 gap-3">
+    // A flex gap, not space-y: a part hidden on phones then leaves no margin behind.
+    <div className="flex flex-col gap-5 max-lg:gap-4">
+      <div className={`empty:hidden ${onPhones('size')}`}>
+        <ResolutionWarning quality={quality} />
+      </div>
+      <div className={`grid grid-cols-2 gap-3 ${onPhones('size')}`}>
         <MetreField
           label={t('width')}
           value={print.width}
@@ -291,7 +351,7 @@ function PrintFields({ quality }: { quality: PanelProps['quality'] }) {
         />
       </div>
 
-      <div>
+      <div className={onPhones('size')}>
         <p className="mb-2 text-xs font-medium text-mute">{t('fit')}</p>
         <Choices
           name="fit"
@@ -304,7 +364,7 @@ function PrintFields({ quality }: { quality: PanelProps['quality'] }) {
         <p className="mt-2 text-xs leading-relaxed text-mute">{t(`${fit}Hint`)}</p>
       </div>
 
-      <div>
+      <div className={onPhones('position')}>
         <p className="mb-2 text-xs font-medium text-mute">{t('position')}</p>
         <div className="grid grid-cols-2 gap-3">
           <MetreField
@@ -437,8 +497,8 @@ function useChf() {
 }
 
 /**
- * Control 8: always visible. Desktop: at the bottom of the panel. Phones: the bar of the
- * bottom sheet, with the button that opens and closes it.
+ * Control 8: always visible. Desktop: at the bottom of the panel, with the breakdown.
+ * Phones: one line under the tabs, the price beside the quote and share buttons.
  */
 function PriceSummary({
   rates,
@@ -447,11 +507,8 @@ function PriceSummary({
   contact,
   privacyHref,
   captureRef,
-  sheet,
-  toggleSheet,
-}: PanelProps & { toggleSheet: () => void }) {
+}: PanelProps) {
   const t = useTranslations('Configurator.price')
-  const tPanel = useTranslations('Configurator.panel')
   const format = useFormatter()
   const environment = useConfigurator((state) => state.environment)
   const price = usePrice(rates)
@@ -460,34 +517,29 @@ function PriceSummary({
   const vatRate = format.number(rates.vatRate, { style: 'percent', maximumFractionDigits: 1 })
 
   return (
-    <div className="order-1 rounded-t-3xl border-graphite/10 bg-white px-5 pt-2 pb-4 sm:px-6 lg:order-3 lg:rounded-none lg:border-t lg:pt-5 lg:pb-5 lg:shadow-[0_-12px_30px_-20px_rgb(14_14_16/0.4)]">
-      <button
-        type="button"
-        onClick={toggleSheet}
-        aria-controls="configurator-settings"
-        aria-expanded={sheet.open}
-        className="mb-2 flex w-full flex-col items-center gap-1.5 pt-1 pb-1 text-xs font-medium text-mute lg:hidden"
-      >
-        <span aria-hidden="true" className="h-1.5 w-10 rounded-full bg-graphite/20" />
-        {sheet.open ? tPanel('close') : tPanel('open')}
-      </button>
-      <div className="flex items-baseline justify-between gap-3">
-        <p className="text-xs font-medium text-mute">
-          {t('label')}
-          {ratesAreExamples && (
-            <span className="ml-2 rounded-full bg-plaster px-2 py-0.5 text-[0.7rem] font-medium">
-              {t('example')}
-            </span>
-          )}
+    <div className="flex items-center gap-3 bg-white px-5 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 lg:block lg:border-t lg:border-graphite/10 lg:pt-5 lg:pb-5 lg:shadow-[0_-12px_30px_-20px_rgb(14_14_16/0.4)]">
+      <div className="min-w-0 shrink-0">
+        <div className="flex items-baseline justify-between gap-3">
+          <p className="text-xs font-medium text-mute max-lg:text-[0.6875rem]">
+            {t('label')}
+            {ratesAreExamples && (
+              <span className="ml-2 rounded-full bg-plaster px-2 py-0.5 text-[0.7rem] font-medium max-lg:ml-1 max-lg:px-1.5">
+                {t('example')}
+              </span>
+            )}
+          </p>
+          <p className="text-xs text-mute max-lg:hidden">{t('area', { area })}</p>
+        </div>
+        <p
+          aria-live="polite"
+          className="mt-1 text-3xl font-medium tracking-tight tabular-nums max-lg:mt-0.5 max-lg:text-xl"
+        >
+          {t('approx', { price: chf(price.approx) })}
         </p>
-        <p className="text-xs text-mute">{t('area', { area })}</p>
       </div>
-      <p aria-live="polite" className="mt-1 text-3xl font-medium tracking-tight tabular-nums">
-        {t('approx', { price: chf(price.approx) })}
-      </p>
 
-      {/* Phones: the price breakdown only in the open sheet, so the closed bar stays low. */}
-      <details className={`mt-2 text-xs text-mute ${sheet.open ? '' : 'max-lg:hidden'}`}>
+      {/* Desktop only: on phones the quote dialog shows the configuration and the price. */}
+      <details className="mt-2 text-xs text-mute max-lg:hidden">
         <summary className="cursor-pointer font-medium text-graphite">{t('details')}</summary>
         <dl className="mt-2 space-y-1">
           <Row
@@ -507,7 +559,7 @@ function PriceSummary({
         </p>
       </details>
 
-      <div className="mt-3 flex gap-2">
+      <div className="flex min-w-0 flex-1 gap-2 lg:mt-3">
         <QuoteButton
           captureRef={captureRef}
           presets={presets}

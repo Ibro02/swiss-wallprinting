@@ -101,9 +101,11 @@ export function QuoteButton({
         type="button"
         aria-haspopup="dialog"
         onClick={open}
-        className="flex h-12 flex-1 items-center justify-center rounded-2xl bg-magenta px-5 text-sm font-medium text-white shadow-[0_6px_18px_-8px_rgb(229_17_88/0.6)] transition-[background-color,transform] duration-160 ease-out hover:bg-magenta-700 active:scale-[0.97] motion-reduce:active:scale-100"
+        className="flex h-12 min-w-0 flex-1 items-center justify-center rounded-2xl bg-magenta px-5 text-sm font-medium text-white shadow-[0_6px_18px_-8px_rgb(229_17_88/0.6)] transition-[background-color,transform] duration-160 ease-out hover:bg-magenta-700 active:scale-[0.97] max-lg:px-3 motion-reduce:active:scale-100"
       >
-        {t('open')}
+        {/* Phones: a short label, so it fits beside the price on one line. */}
+        <span className="lg:hidden">{t('openShort')}</span>
+        <span className="max-lg:hidden">{t('open')}</span>
       </button>
 
       {/* The backdrop click belongs to the native modal dialog; Escape closes it natively. */}

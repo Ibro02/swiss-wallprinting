@@ -376,6 +376,14 @@
       "open": "Impostazioni",
       "close": "Chiudi le impostazioni"
     },
+    "tabs": {
+      "image": "Immagine",
+      "wall": "Parete",
+      "room": "Stanza",
+      "print": "Stampa",
+      "position": "Posizione",
+      "environment": "Dove"
+    },
     "image": {
       "title": "Immagine",
       "presets": "Immagini pronte",
@@ -465,6 +473,7 @@
     },
     "quote": {
       "open": "Richiedi un preventivo esatto",
+      "openShort": "Preventivo",
       "title": "Richiedi un preventivo esatto",
       "lead": "Ti mandiamo il prezzo esatto per questa parete. Con la richiesta riceviamo la tua configurazione e l'anteprima 3D.",
       "close": "Chiudi",

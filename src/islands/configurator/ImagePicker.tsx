@@ -62,7 +62,7 @@ export function ImagePicker({
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3 lg:space-y-5">
       <fieldset>
         <legend className="text-xs font-medium text-mute">
           {t('presets')}
@@ -72,11 +72,12 @@ export function ImagePicker({
             </span>
           )}
         </legend>
-        <div className="mt-2 grid grid-cols-3 gap-2">
+        {/* Phones: one row to swipe, so the image tab fits the tool panel without scrolling. */}
+        <div className="mt-2 grid grid-cols-3 gap-2 max-lg:-mx-5 max-lg:flex max-lg:snap-x max-lg:snap-mandatory max-lg:scroll-px-5 max-lg:overflow-x-auto max-lg:overscroll-x-contain max-lg:px-5 max-lg:py-1 max-lg:[scrollbar-width:none] sm:max-lg:-mx-6 sm:max-lg:scroll-px-6 sm:max-lg:px-6">
           {presets.map((preset) => (
             <label
               key={preset.id}
-              className="group cursor-pointer rounded-xl p-1 ring-1 ring-graphite/10 transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.98] has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite motion-reduce:active:scale-100"
+              className="group cursor-pointer rounded-xl p-1 ring-1 ring-graphite/10 max-lg:w-20 max-lg:shrink-0 max-lg:snap-start transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.98] has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite motion-reduce:active:scale-100"
             >
               <input
                 type="radio"
@@ -112,7 +113,7 @@ export function ImagePicker({
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm font-medium transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite ${
+          className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm max-lg:py-2 font-medium transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite ${
             image.kind === 'upload'
               ? 'border-graphite bg-plaster'
               : dragging
