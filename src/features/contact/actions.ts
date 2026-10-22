@@ -4,22 +4,19 @@ import { headers } from 'next/headers'
 import { hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing.ts'
 import { mailTransport } from '@/lib/mail.ts'
+import { createRateLimiter } from '@/lib/rate-limit.ts'
+import { clientIp, refererPath } from '@/lib/request.ts'
 import { handleQuestion, type QuestionState } from './handle-question.ts'
-import { createRateLimiter } from './question.ts'
 
-// 5 messages per visitor in 10 minutes. In memory, so per server instance: enough
-// against a person who clicks too often, not against a botnet (then add Turnstile).
-const allow = createRateLimiter({ limit: 5, windowMs: 10 * 60_000 })
+// 5 messages per visitor in 10 minutes, and 30 of all visitors together (src/lib/rate-limit.ts).
+const allow = createRateLimiter({ perKey: 5, total: 30, windowMs: 10 * 60_000 })
 
 export async function submitQuestion(
   _previous: QuestionState,
   formData: FormData,
 ): Promise<QuestionState> {
   const requestHeaders = await headers()
-  const ip =
-    requestHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() ??
-    requestHeaders.get('x-real-ip') ??
-    'unknown'
+  const ip = clientIp(requestHeaders)
   const locale = formData.get('locale')
   const now = Date.now()
 
@@ -32,7 +29,7 @@ export async function submitQuestion(
       typeof locale === 'string' && hasLocale(routing.locales, locale)
         ? locale
         : routing.defaultLocale,
-    page: requestHeaders.get('referer') ?? '-',
+    page: refererPath(requestHeaders.get('referer')),
     logError: (message, error) => console.error(`[form] ${message}`, error ?? ''),
   })
 }

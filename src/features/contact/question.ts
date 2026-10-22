@@ -101,21 +101,6 @@ export function spamVerdict(formData: FormData, now: number): SpamVerdict {
   return 'ok'
 }
 
-/** Sliding-window limit per key (the visitor's IP address). Memory only: per server instance. */
-export function createRateLimiter({ limit, windowMs }: { limit: number; windowMs: number }) {
-  const hits = new Map<string, number[]>()
-  return function allow(key: string, now: number): boolean {
-    const recent = (hits.get(key) ?? []).filter((time) => now - time < windowMs)
-    if (recent.length >= limit) {
-      hits.set(key, recent)
-      return false
-    }
-    recent.push(now)
-    hits.set(key, recent)
-    return true
-  }
-}
-
 /** The Italian name of a chip, for the e-mail. */
 function areaName(id: string): string {
   return applicationAreas.find((area) => area.id === id)?.title.it ?? 'Altro'

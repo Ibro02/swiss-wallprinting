@@ -35,6 +35,6 @@ Bring [[2026-10-22 05 - Phase 6 plan and quality work]] and [[2026-10-22 06 - Da
 
 ## Open items
 
-- **Pushed** on the author's next prompt ("Push main to origin."): `main` with the two branch commits, the two merges, the follow-up, and this log is on GitHub. The CI job `quality` runs there for the first time: check its result (E2E, Lighthouse).
+- **Pushed** on the author's next prompt ("Push main to origin."): `main` with the two branch commits, the two merges, the follow-up, and this log is on GitHub. The first CI run passed (run 39752314606, 7 min: `check`, and `quality` with E2E and every Lighthouse floor). CI keeps the Lighthouse reports only when a step fails, so a green run does not show the scores.
 - **Home performance is near the CI floor** (77 here in one run, 81 before; the floor is 0.75): if the first CI runs fail on it, the home page's style and layout work is the next step (Phase 6 open item).
 - **JS budget:** 159 KB on services and gallery, 1 KB under the guard; the way to 150 KB stays the Phase 6 open item (texts as props, next-intl out of the browser).

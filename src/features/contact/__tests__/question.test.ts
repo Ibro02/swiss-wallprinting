@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
-  createRateLimiter,
   LIMITS,
   MIN_FILL_MS,
   parseQuestion,
@@ -109,17 +108,6 @@ describe('spamVerdict', () => {
   it('accepts a normal fill time, and a form without JavaScript (no start time)', () => {
     expect(spamVerdict(form({ startedAt: String(now - 30_000) }), now)).toBe('ok')
     expect(spamVerdict(form({}), now)).toBe('ok')
-  })
-})
-
-describe('createRateLimiter', () => {
-  it('allows the limit in the window, then blocks, then allows again', () => {
-    const allow = createRateLimiter({ limit: 2, windowMs: 1000 })
-    expect(allow('1.2.3.4', 0)).toBe(true)
-    expect(allow('1.2.3.4', 100)).toBe(true)
-    expect(allow('1.2.3.4', 200)).toBe(false)
-    expect(allow('5.6.7.8', 200)).toBe(true)
-    expect(allow('1.2.3.4', 1100)).toBe(true)
   })
 })
 
