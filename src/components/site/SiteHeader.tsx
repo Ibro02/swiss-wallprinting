@@ -9,6 +9,7 @@ import { ConfiguratorIntent } from '@/islands/ConfiguratorIntent.tsx'
 import { LanguageSwitcher } from '@/islands/LanguageSwitcher.tsx'
 import { MobileMenu } from '@/islands/MobileMenu.tsx'
 import { NavLink } from '@/islands/NavLink.tsx'
+import { ThemeToggle } from '@/islands/ThemeToggle.tsx'
 import { NAV_PAGES, PAGES } from '@/i18n/pages.ts'
 
 // A frosted pill that floats over the first card of every page (the hero photo, or the
@@ -36,7 +37,7 @@ export async function SiteHeader() {
 
       <div className={FRAME}>
         <div className="header-lift px-4 pt-7 [--lift:-1rem] sm:px-6 sm:pt-10 sm:[--lift:-1.5rem] md:px-8 md:pt-14 md:[--lift:-2.25rem]">
-          <div className="pointer-events-auto flex w-full items-center gap-3 rounded-2xl bg-white/70 py-2 pr-2 pl-3 text-graphite shadow-[0_1px_1px_rgb(0_0_0/0.04),0_12px_32px_-16px_rgb(0_0_0/0.35)] ring-1 ring-graphite/5 backdrop-blur-md backdrop-saturate-150 sm:pl-4 lg:w-fit lg:gap-6">
+          <div className="pointer-events-auto flex w-full items-center gap-3 rounded-2xl bg-paper/70 py-2 pr-2 pl-3 text-ink shadow-[0_1px_1px_rgb(0_0_0/0.04),0_12px_32px_-16px_rgb(0_0_0/0.35)] ring-1 ring-ink/5 backdrop-blur-md backdrop-saturate-150 sm:pl-4 lg:w-fit lg:gap-6">
             <Link href="/" aria-label={t('homeLink')} className="shrink-0 rounded-lg">
               <Logo tone="ink" className="h-6 w-auto sm:h-7" />
             </Link>
@@ -47,7 +48,7 @@ export async function SiteHeader() {
                   <li key={page}>
                     <NavLink
                       href={PAGES[page]}
-                      className="block rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap text-graphite/75 transition-[opacity,color] duration-150 hover:opacity-60 aria-[current=page]:bg-lime/35 aria-[current=page]:text-graphite"
+                      className="block rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap text-ink/75 transition-[opacity,color] duration-150 hover:opacity-60 aria-[current=page]:bg-lime/35 aria-[current=page]:text-ink"
                     >
                       {t(page)}
                     </NavLink>
@@ -57,7 +58,9 @@ export async function SiteHeader() {
             </nav>
 
             <div className="ml-auto flex items-center gap-1.5">
-              <div className="hidden lg:block">
+              {/* Wide screens: the theme and the language in the pill; phones: in the menu. */}
+              <div className="hidden items-center gap-1 lg:flex">
+                <ThemeToggle label={t('themeDark')} variant="icon" />
                 <LanguageSwitcher />
               </div>
               <ConfiguratorIntent>
@@ -76,7 +79,7 @@ export async function SiteHeader() {
                           <li key={page}>
                             <NavLink
                               href={PAGES[page]}
-                              className="flex items-center justify-between border-b border-graphite/8 py-4 text-3xl font-medium tracking-tight after:size-2 after:rounded-full after:bg-magenta after:opacity-0 aria-[current=page]:after:opacity-100"
+                              className="flex items-center justify-between border-b border-ink/8 py-4 text-3xl font-medium tracking-tight after:size-2 after:rounded-full after:bg-magenta after:opacity-0 aria-[current=page]:after:opacity-100"
                             >
                               {t(page)}
                             </NavLink>
@@ -88,7 +91,12 @@ export async function SiteHeader() {
                       <CubeIcon className="size-5" />
                       {t('tryYourWall')}
                     </ButtonLink>
-                    <LanguageSwitcher variant="list" />
+                    <div>
+                      <LanguageSwitcher variant="list" />
+                      <div className="mt-4 border-y border-ink/8">
+                        <ThemeToggle label={t('themeDark')} variant="row" />
+                      </div>
+                    </div>
                     <ul className="mt-auto space-y-3 text-sm text-mute">
                       <li>
                         <a

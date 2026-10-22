@@ -52,14 +52,14 @@ export async function ApplicationAreas() {
               <li key={area.id} data-reveal={String((index % 3) + 1)}>
                 <GlowCard
                   tilt
-                  className="rounded-2xl bg-plaster [--glow-strength:0.55] hover:bg-white hover:shadow-[0_24px_48px_-28px_rgb(0_0_0/0.4)] sm:rounded-3xl"
+                  className="rounded-2xl bg-plaster [--glow-strength:0.55] hover:bg-paper hover:shadow-[0_24px_48px_-28px_rgb(0_0_0/0.4)] sm:rounded-3xl"
                 >
                   <Link
                     href={{ pathname: PAGES.tryYourWall, query: { area: area.id } }}
                     className="group flex h-full items-start gap-4 rounded-[inherit] p-4 sm:flex-col sm:gap-0 sm:p-6"
                   >
                     {/* From `sm` the box is the icon itself: no empty space above the title. */}
-                    <span className="grid size-10 shrink-0 place-items-center text-graphite sm:size-6">
+                    <span className="grid size-10 shrink-0 place-items-center text-ink sm:size-6">
                       <Icon className="size-6" />
                     </span>
                     <span className="flex min-w-0 flex-1 flex-col sm:mt-3">
@@ -69,14 +69,14 @@ export async function ApplicationAreas() {
                       <span className="mt-1 flex-1 text-sm leading-relaxed text-mute sm:mt-1.5">
                         {area.line[locale]}
                       </span>
-                      <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-magenta-700 max-sm:sr-only">
+                      <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-magenta-700 dark:text-magenta-200 max-sm:sr-only">
                         {t('tryIt')}
                         <ArrowRightIcon className="size-4 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none" />
                       </span>
                     </span>
                     <ArrowRightIcon
                       aria-hidden="true"
-                      className="mt-2.5 size-4 shrink-0 text-magenta-700 sm:hidden"
+                      className="mt-2.5 size-4 shrink-0 text-magenta-700 dark:text-magenta-200 sm:hidden"
                     />
                   </Link>
                 </GlowCard>

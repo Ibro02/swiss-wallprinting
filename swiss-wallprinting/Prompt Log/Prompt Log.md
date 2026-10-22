@@ -41,6 +41,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 
 | Date | No. | Title | Status |
 |---|---|---|---|
+| 2026-10-22 | 06 | [[2026-10-22 06 - Dark mode]] | Done (branch `feat/dark-mode`, not merged) |
+| 2026-10-22 | 05 | [[2026-10-22 05 - Phase 6 plan and quality work]] | In progress (branch `phase-6`) |
 | 2026-10-22 | 04 | [[2026-10-22 04 - Merge the services and configurator branches]] | Done (pushed) |
 | 2026-10-22 | 03 | [[2026-10-22 03 - Responsive fixes and configurator tabs]] | Done (branches merged in 04) |
 | 2026-10-22 | 02 | [[2026-10-22 02 - Commit, hero room, sliding reviews, glow cards]] | Done (committed in `177c390`) |

@@ -56,7 +56,7 @@ export async function RoomCards() {
                 </div>
                 <Link
                   href={{ pathname: PAGES.tryYourWall, query: { area: room.area } }}
-                  className="group mt-3 ml-1 inline-flex items-center gap-2 text-sm font-medium text-magenta-700 underline decoration-magenta-700/30 underline-offset-4 transition-[text-decoration-color] duration-150 hover:decoration-magenta-700"
+                  className="group mt-3 ml-1 inline-flex items-center gap-2 text-sm font-medium text-magenta-700 dark:text-magenta-200 underline decoration-magenta-700/30 underline-offset-4 transition-[text-decoration-color] duration-150 hover:decoration-magenta-700"
                 >
                   {t('tryThisWall')}
                   <ArrowRightIcon className="size-4 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none" />

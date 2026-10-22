@@ -3,9 +3,11 @@
 // `ink` is the client's black variant (Assets/SWP_LogoBlack.svg) for light grounds:
 // one ink colour, "PRINTING" knocked out in white.
 
+// knockout: the "PRINTING" letters inside the pill. In the ink tone they take the colour of
+// the surface (paper), so they stay cut out in the dark theme, where the ink is ivory.
 const COLOURS = {
-  colour: { lime: 'var(--color-lime)', magenta: 'var(--color-magenta)' },
-  ink: { lime: 'currentColor', magenta: 'currentColor' },
+  colour: { lime: 'var(--color-lime)', magenta: 'var(--color-magenta)', knockout: '#fff' },
+  ink: { lime: 'currentColor', magenta: 'currentColor', knockout: 'var(--color-paper)' },
 } as const
 
 export function Logo({
@@ -17,7 +19,7 @@ export function Logo({
   title?: string
   tone?: keyof typeof COLOURS
 }) {
-  const { lime: LIME, magenta: MAGENTA } = COLOURS[tone]
+  const { lime: LIME, magenta: MAGENTA, knockout: KNOCKOUT } = COLOURS[tone]
   return (
     <svg
       viewBox="0 0 1033.6 261.5"
@@ -43,7 +45,7 @@ export function Logo({
         <path d="M692.8,35.8h0c3.8,0,6.8,2.9,6.8,6.5v45.8c0,3.5-2.7,6.7-6.3,7-2.1.2-4-.6-5.3-1.9-1.2-1.2-2-2.8-2-4.6v-46.3c0-3.6,3-6.5,6.8-6.5h0Z" />
         <path d="M743.1,35.8c4.2,0,7.6,3.4,7.6,7.6v49.3c0,17.7-14.4,32.1-32.2,32.1h-50.8c-17.8,0-32.2-14.4-32.2-32.1v-49.2c0-4.2,3.4-7.6,7.6-7.6h0c4.2,0,7.6,3.4,7.6,7.6v49.2c.2,9.2,7.6,16.8,17,16.8h50.8c9.4,0,16.8-7.6,17-16.8v-49.2c0-4.2,3.4-7.6,7.6-7.6h0Z" />
       </g>
-      <g fill="#fff">
+      <g fill={KNOCKOUT}>
         <path d="M318,197.5v4.2c0,7-5.7,12.6-12.6,12.6h-37.9v12.6h-8.4v-42.1h46.3c6.9,0,12.6,5.6,12.6,12.6h0ZM309.5,197.5c0-2.3-1.9-4.2-4.2-4.2h-37.9v12.6h37.9c2.3,0,4.2-1.9,4.2-4.2v-4.2h0Z" />
         <path d="M388.6,213.7l8.8,13.2h-10.1l-8.4-12.6h-31.7v12.6h-8.4v-42.1h46.3c7,0,12.6,5.6,12.6,12.6v4.2c0,5.7-3.7,10.5-9,12h0ZM389.2,197.5c0-2.3-1.9-4.2-4.2-4.2h-37.9v12.6h37.9c2.3,0,4.2-1.9,4.2-4.2v-4.2h0Z" />
         <path d="M418.3,184.8h8.4v42.1h-8.4v-42.1Z" />

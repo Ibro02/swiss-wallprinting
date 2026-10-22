@@ -9,6 +9,7 @@ import { SiteHeader } from '@/components/site/SiteHeader.tsx'
 import { WhatsAppButton } from '@/components/site/WhatsAppButton.tsx'
 import { company } from '@/content/company.ts'
 import { routing } from '@/i18n/routing.ts'
+import { THEME_SCRIPT } from '@/lib/theme.ts'
 import { sans, serif } from '../fonts.ts'
 import '../globals.css'
 
@@ -21,8 +22,13 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
+// The browser bar follows the device's theme (a visitor's own choice cannot reach this
+// static tag; the page itself follows the choice).
 export const viewport: Viewport = {
-  themeColor: '#ffffff',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#262624' },
+  ],
 }
 
 export async function generateMetadata({ params }: Omit<Props, 'children'>): Promise<Metadata> {
@@ -52,7 +58,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   return (
-    <html lang={locale} className={`${sans.variable} ${serif.variable}`}>
+    // suppressHydrationWarning: THEME_SCRIPT may set data-theme on <html> before React hydrates.
+    <html lang={locale} className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Before the first paint: the visitor's saved theme (no flash of the other one). */}
+        {/* oxlint-disable-next-line react/no-danger -- a fixed string from src/lib/theme.ts */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="antialiased">
         <NextIntlClientProvider messages={clientMessages}>
           <SiteHeader />

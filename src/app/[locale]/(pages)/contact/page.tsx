@@ -90,12 +90,12 @@ export default async function ContactPage() {
 
       <section className="py-12 sm:py-16">
         <Container className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-          <ul className="self-start border-t border-graphite/10 lg:col-span-5">
+          <ul className="self-start border-t border-ink/10 lg:col-span-5">
             {rows.map(({ key, ...row }, index) => (
               <li
                 key={key}
                 data-reveal={String(Math.min(index + 1, 4))}
-                className="border-b border-graphite/10"
+                className="border-b border-ink/10"
               >
                 <ContactRow {...row} />
               </li>
@@ -105,7 +105,7 @@ export default async function ContactPage() {
           <div
             id={QUESTION_FORM_ID}
             data-reveal="2"
-            className="scroll-mt-28 rounded-2xl bg-white p-6 shadow-[0_32px_64px_-32px_rgb(0_0_0/0.3)] ring-1 ring-graphite/8 sm:rounded-3xl sm:p-10 lg:col-span-7"
+            className="scroll-mt-28 rounded-2xl bg-paper p-6 shadow-[0_32px_64px_-32px_rgb(0_0_0/0.3)] ring-1 ring-ink/8 sm:rounded-3xl sm:p-10 lg:col-span-7"
           >
             <h2 className="mb-8 text-2xl font-medium tracking-tight sm:text-3xl">
               {t('formTitle')}

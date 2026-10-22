@@ -77,7 +77,7 @@ export function ImagePicker({
           {presets.map((preset) => (
             <label
               key={preset.id}
-              className="group cursor-pointer rounded-xl p-1 ring-1 ring-graphite/10 max-lg:w-20 max-lg:shrink-0 max-lg:snap-start transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.98] has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite motion-reduce:active:scale-100"
+              className="group cursor-pointer rounded-xl p-1 ring-1 ring-ink/10 max-lg:w-20 max-lg:shrink-0 max-lg:snap-start transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.98] has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink motion-reduce:active:scale-100"
             >
               <input
                 type="radio"
@@ -113,12 +113,12 @@ export function ImagePicker({
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm max-lg:py-2 font-medium transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-graphite ${
+          className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm max-lg:py-2 font-medium transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink ${
             image.kind === 'upload'
-              ? 'border-graphite bg-plaster'
+              ? 'border-ink bg-plaster'
               : dragging
-                ? 'border-graphite bg-plaster'
-                : 'border-graphite/20 hover:border-graphite/50'
+                ? 'border-ink bg-plaster'
+                : 'border-ink/20 hover:border-ink/50'
           }`}
         >
           <input
@@ -151,7 +151,7 @@ export function ImagePicker({
         {error && (
           <p
             role="alert"
-            className="mt-2 rounded-xl bg-magenta/5 px-3 py-2 text-xs leading-relaxed text-magenta-700"
+            className="mt-2 rounded-xl bg-magenta/5 px-3 py-2 text-xs leading-relaxed text-magenta-700 dark:text-magenta-200"
           >
             {t(`errors.${error.code}`, {
               size: error.sizeMb,

@@ -28,10 +28,10 @@ const INITIAL: QuestionState = { status: 'idle' }
 
 // 16 px text on phones: iOS zooms into smaller inputs on focus.
 const INPUT =
-  'block w-full min-w-0 rounded-xl border border-graphite/12 bg-white px-3.5 py-2.5 text-base text-graphite transition-[border-color,box-shadow] duration-150 placeholder:text-mute focus:border-transparent focus:ring-2 focus:ring-graphite focus:outline-none sm:text-sm aria-[invalid=true]:border-magenta-700 aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-magenta-700'
+  'block w-full min-w-0 rounded-xl border border-ink/12 bg-paper px-3.5 py-2.5 text-base text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-mute focus:border-transparent focus:ring-2 focus:ring-ink focus:outline-none sm:text-sm aria-[invalid=true]:border-magenta-700 aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-magenta-700'
 
 const CHIP =
-  'cursor-pointer rounded-lg border border-graphite/12 bg-white px-3 py-2 text-xs font-medium text-graphite/80 transition-[border-color,background-color,color,transform] duration-150 ease-out select-none hover:border-graphite/35 active:scale-[0.97] has-checked:border-lime has-checked:bg-lime has-checked:text-graphite has-focus-visible:ring-2 has-focus-visible:ring-graphite has-focus-visible:ring-offset-2 motion-reduce:active:scale-100'
+  'cursor-pointer rounded-lg border border-ink/12 bg-paper px-3 py-2 text-xs font-medium text-ink/80 transition-[border-color,background-color,color,transform] duration-150 ease-out select-none hover:border-ink/35 active:scale-[0.97] has-checked:border-lime has-checked:bg-lime has-checked:text-graphite has-focus-visible:ring-2 has-focus-visible:ring-ink has-focus-visible:ring-offset-2 motion-reduce:active:scale-100'
 
 export function QuestionForm({ contact, areas, variant = 'page' }: QuestionFormProps) {
   const t = useTranslations('QuestionForm')
@@ -141,7 +141,7 @@ export function QuestionForm({ contact, areas, variant = 'page' }: QuestionFormP
           id="question-problem"
           tabIndex={-1}
           role="alert"
-          className="rounded-xl bg-magenta-700/6 px-4 py-3 text-sm leading-relaxed text-magenta-700 ring-1 ring-magenta-700/15 outline-none"
+          className="rounded-xl bg-magenta-700/6 px-4 py-3 text-sm leading-relaxed text-magenta-700 dark:text-magenta-200 ring-1 ring-magenta-700/15 outline-none"
         >
           {problem}
         </div>
@@ -247,14 +247,14 @@ export function QuestionForm({ contact, areas, variant = 'page' }: QuestionFormP
             aria-required="true"
             aria-invalid={errors.consent ? true : undefined}
             aria-describedby={errors.consent ? 'question-consent-error' : undefined}
-            className="mt-0.5 size-4 shrink-0 accent-graphite"
+            className="mt-0.5 size-4 shrink-0 accent-ink"
           />
           <span>
             {t.rich('fields.consent', {
               link: (chunks) => (
                 <Link
                   href={PAGES.privacy}
-                  className="font-medium text-graphite underline underline-offset-2"
+                  className="font-medium text-ink underline underline-offset-2"
                 >
                   {chunks}
                 </Link>
@@ -313,7 +313,7 @@ function Field({
 
 function ErrorText({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <p id={id} className="mt-1.5 text-xs leading-relaxed text-magenta-700">
+    <p id={id} className="mt-1.5 text-xs leading-relaxed text-magenta-700 dark:text-magenta-200">
       {children}
     </p>
   )
