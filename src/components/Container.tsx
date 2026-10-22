@@ -12,8 +12,8 @@ export function Container({ className, ...props }: ComponentProps<'div'>) {
 /** Vertical space of a section on the white ground (56, 64, 80 px). */
 export const SECTION_Y = 'py-14 sm:py-16 lg:py-20'
 
-/** Vertical space inside a mist or dark card (48, 56, 64 px). */
-export const CARD_Y = 'py-12 sm:py-14 lg:py-16'
+/** Vertical space inside a mist or dark card (40, 56, 64 px): tighter on phones. */
+export const CARD_Y = 'py-10 sm:py-14 lg:py-16'
 
 /**
  * Phones: a row of cards to swipe instead of a tall stack, with snap points, the next card

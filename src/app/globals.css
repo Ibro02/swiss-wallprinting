@@ -60,7 +60,8 @@
   --text-title: clamp(1.75rem, 1.35rem + 1.5vw, 2.75rem);
   --text-title--line-height: 1.08;
   --text-title--letter-spacing: -0.03em;
-  --text-stat: clamp(2rem, 1.5rem + 1.8vw, 3.25rem);
+  /* From 28 px on a small phone ("3,80 m" fits a half-width card at 320 px) to 52 px. */
+  --text-stat: clamp(1.75rem, 1.25rem + 2vw, 3.25rem);
   --text-stat--line-height: 1;
   --text-stat--letter-spacing: -0.04em;
 }

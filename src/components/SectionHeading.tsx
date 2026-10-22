@@ -39,12 +39,16 @@ export function SectionHeading({
   return (
     <div data-reveal className={`max-w-3xl ${className ?? ''}`}>
       <SectionLabel tone={tone}>{eyebrow}</SectionLabel>
-      <h2 id={id} className="mt-4 text-title font-medium text-balance hyphens-auto break-words">
+      <h2
+        id={id}
+        className="mt-3 text-title font-medium text-balance hyphens-auto break-words sm:mt-4"
+      >
         {title}
       </h2>
+      {/* Phones: a little smaller and tighter, so a section's intro takes fewer lines. */}
       {children && (
         <div
-          className={`mt-4 max-w-xl text-base leading-relaxed sm:text-[1.0625rem] ${tone === 'dark' ? 'text-white/70' : 'text-mute'}`}
+          className={`mt-3 max-w-xl text-[0.9375rem] leading-normal sm:mt-4 sm:text-[1.0625rem] sm:leading-relaxed ${tone === 'dark' ? 'text-white/70' : 'text-mute'}`}
         >
           {children}
         </div>

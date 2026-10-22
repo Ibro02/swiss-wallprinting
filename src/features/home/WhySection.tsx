@@ -41,14 +41,15 @@ export async function WhySection() {
           <p>{t('intro')}</p>
         </SectionHeading>
 
-        <dl className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 lg:grid-cols-4">
+        {/* Phones: two by two, each card as tall as its text, so the section fits one screen. */}
+        <dl className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <div
               key={stat.key}
               data-reveal={String(index + 1)}
-              className="flex min-h-32 flex-col-reverse justify-between gap-5 rounded-2xl bg-white/[0.05] p-5 ring-1 ring-white/10 ring-inset sm:min-h-40 sm:p-6"
+              className="flex flex-col-reverse justify-end gap-2 rounded-2xl bg-white/[0.05] p-4 ring-1 ring-white/10 ring-inset sm:min-h-40 sm:justify-between sm:gap-5 sm:p-6"
             >
-              <dt className="max-w-[16rem] text-sm leading-relaxed text-mute-dark">
+              <dt className="max-w-[16rem] text-[0.8125rem] leading-snug text-mute-dark sm:text-sm sm:leading-relaxed">
                 {t(`stats.${stat.key}`)}
               </dt>
               <dd className="text-stat font-medium whitespace-nowrap text-lime">{stat.value}</dd>
@@ -56,10 +57,13 @@ export async function WhySection() {
           ))}
         </dl>
 
-        <ul className="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 sm:mt-8 sm:gap-x-8 lg:grid-cols-4">
           {FEATURES.map((feature) => (
-            <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed">
-              <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-lime text-graphite">
+            <li
+              key={feature}
+              className="flex items-start gap-2 text-[0.8125rem] leading-snug sm:gap-3 sm:text-sm sm:leading-relaxed"
+            >
+              <span className="grid size-5 shrink-0 place-items-center rounded-full bg-lime text-graphite sm:mt-0.5">
                 <CheckIcon className="size-3.5" />
               </span>
               <span className="text-white/80">{t(`features.${feature}`)}</span>
