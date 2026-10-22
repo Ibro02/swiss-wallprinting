@@ -28,6 +28,8 @@ import {
 //   redraw on resize.
 // - JavaScript writes only `--p` (the smoothed progress, 0 … 1) on the stage. CSS turns it
 //   into the overlay fades, the signature, and the pan that keeps the subject in view.
+//   Before hydration a CSS scroll timeline sets `--p`, so a reload in the middle of the
+//   section paints the right overlays at once (no-ui-flash).
 // - Reduced motion: no frames load. CSS shows the last frame, the signature, and both
 //   overlays in a short section.
 
@@ -55,6 +57,10 @@ interface Props {
    * Screens narrower than the video keep this point in the middle.
    */
   focus?: readonly [from: number, to: number]
+  /** Share of the frame height that is never shown, at the bottom (the floor, for example). */
+  cropBottom?: number
+  /** Share of the screen kept free above the stage, for a fixed header. */
+  headerRoom?: number
   /** A logo that "signs" the finished picture: x, y, and width are shares of the frame. */
   signature?: { src: string; x: number; y: number; width: number }
   /** Text alternative of the poster frame. */
@@ -68,7 +74,9 @@ interface Props {
   /** Always on the stage, for example an "example" badge. */
   children?: ReactNode
   labelledBy?: string
-  /** The sticky stage: `--stage-top`, `--stage-h`, radius, and background. */
+  /** The section: set `--frame`, the page margin around the stage (per screen size). */
+  className?: string
+  /** The sticky stage: radius and background. */
   stageClassName?: string
 }
 
@@ -79,6 +87,8 @@ export function PrintOnScroll({
   length = '400vh',
   smoothing = 0.12,
   focus = [0.5, 0.5],
+  cropBottom = 0,
+  headerRoom = 0,
   signature,
   alt,
   intro,
@@ -86,6 +96,7 @@ export function PrintOnScroll({
   outro,
   children,
   labelledBy,
+  className = '',
   stageClassName = '',
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -118,9 +129,11 @@ export function PrintOnScroll({
 
     const measure = () => {
       const stickyTop = Number.parseFloat(getComputedStyle(stage).top) || 0
+      // The header room is the section's top padding: the stage starts below it.
+      const room = Number.parseFloat(getComputedStyle(section).paddingTop) || 0
       range = {
-        start: section.getBoundingClientRect().top + window.scrollY - stickyTop,
-        distance: section.offsetHeight - stage.offsetHeight,
+        start: section.getBoundingClientRect().top + window.scrollY + room - stickyTop,
+        distance: section.offsetHeight - room - stage.offsetHeight,
       }
       target = scrollProgress(window.scrollY, range)
     }
@@ -194,6 +207,9 @@ export function PrintOnScroll({
     measure()
     // A reload in the middle of the section starts there, without a sweep from frame 0.
     current = target
+    // Until now a CSS scroll timeline set `--p` (globals.css); from here the smoothed value
+    // does, in the same frame.
+    stage.style.animation = 'none'
     render()
     loadNext()
     finishRef.current = () => {
@@ -226,6 +242,8 @@ export function PrintOnScroll({
     '--ar': frames.width / frames.height,
     '--focus-from': focus[0],
     '--focus-to': focus[1],
+    '--crop-bottom': cropBottom,
+    '--room': headerRoom,
     '--intro-out': PHASES.introOut,
     '--outro-in': PHASES.outroIn,
     '--signature-in': PHASES.signatureIn,
@@ -236,7 +254,7 @@ export function PrintOnScroll({
     <section
       ref={sectionRef}
       aria-labelledby={labelledBy}
-      className="print-scroll relative"
+      className={`print-scroll relative ${className}`}
       style={sectionStyle}
     >
       <div
@@ -263,7 +281,7 @@ export function PrintOnScroll({
               width={frames.width}
               height={frames.height}
               fetchPriority="high"
-              className="size-full"
+              className="print-scroll__poster size-full"
             />
           </picture>
           <canvas

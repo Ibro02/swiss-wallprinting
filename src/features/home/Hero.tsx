@@ -14,11 +14,16 @@ import { PrintOnScroll } from '@/islands/PrintOnScroll.tsx'
 // (PrintOnScroll). At the start, the headline over the blank wall; as the visitor scrolls,
 // the printer prints the mural; at the end, the logo "signs" it and the two buttons
 // appear: the configurator and "Free quote", which scrolls to the question card at the end
-// of the page. The header pill floats over the top of the card.
+// of the page. The card fits the screen inside the page frame, below a free top fifth where
+// the header pill floats, so the two never overlap.
 
-/** The sticky card: one screen minus the page frame (FRAME: 12, 16, 24 px) at every size. */
-const STAGE =
-  'rounded-2xl bg-graphite [--stage-top:0.75rem] [--stage-h:calc(100svh-1.5rem)] sm:rounded-3xl sm:[--stage-top:1rem] sm:[--stage-h:calc(100svh-2rem)] md:[--stage-top:1.5rem] md:[--stage-h:calc(100svh-3rem)]'
+/** The page frame (FRAME: 12, 16, 24 px): the stage keeps this margin to the screen edges. */
+const SECTION = '[--frame:0.75rem] sm:[--frame:1rem] md:[--frame:1.5rem]'
+
+const STAGE = 'rounded-2xl bg-graphite sm:rounded-3xl'
+
+/** Share of the screen above the card, for the header pill. */
+const HEADER_ROOM = 0.2
 
 export async function Hero() {
   const t = await getTranslations('Home.hero')
@@ -35,10 +40,13 @@ export async function Hero() {
       length="400vh"
       smoothing={0.12}
       focus={heroVideo.focus}
+      cropBottom={heroVideo.cropBottom}
+      headerRoom={HEADER_ROOM}
       // The client's black logo (Assets/SWP_LogoBlack.svg): dark ink on the light mural.
       signature={{ src: '/brand/swp-logo-black.svg', ...heroVideo.signature }}
       alt={t('imageAlt')}
       hint={t('scrollHint')}
+      className={SECTION}
       stageClassName={STAGE}
       intro={
         <div className="lg:max-w-2xl">
@@ -76,13 +84,6 @@ export async function Hero() {
           </div>
         </div>
       }
-    >
-      {heroVideo.mock && (
-        // Below the header pill (the room that PageHeader leaves for it).
-        <span className="absolute top-28 right-4 rounded-full bg-black/45 px-2.5 py-0.5 text-[0.7rem] font-medium text-white/85 ring-1 ring-white/15 ring-inset sm:top-32 sm:right-6 md:right-8">
-          {t('mockBadge')}
-        </span>
-      )}
-    </PrintOnScroll>
+    />
   )
 }

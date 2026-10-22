@@ -7,11 +7,13 @@ import { SectionHeading } from '@/components/SectionHeading.tsx'
 import { printFacts } from '@/content/company.ts'
 import { PAGES } from '@/i18n/pages.ts'
 import { ConfiguratorIntent } from '@/islands/ConfiguratorIntent.tsx'
+import { GlowCard } from '@/islands/GlowCard.tsx'
 
 // Four steps as four mist cards, numbered in the serif italic (magenta). Step two, the
 // preview, is the dark one (lime number): it is where the visitor can act now, in the
-// configurator. On phones a row to swipe, in order. The steps are a draft until the client
-// confirms how the work really goes.
+// configurator. To say so, a band of lime light sweeps across it as it scrolls into view,
+// and a lime light follows the mouse over it (GlowCard). On phones a row to swipe, in
+// order. The steps are a draft until the client confirms how the work really goes.
 
 const STEPS = ['idea', 'design', 'print', 'done'] as const
 
@@ -26,12 +28,9 @@ export async function ProcessSection() {
         <ol className={`mt-8 gap-3 sm:mt-10 sm:grid sm:grid-cols-2 lg:grid-cols-4 ${PHONE_SWIPE}`}>
           {STEPS.map((step, index) => {
             const live = step === 'design'
-            return (
-              <li
-                key={step}
-                data-reveal={String(index + 1)}
-                className={`flex flex-col rounded-2xl p-5 sm:rounded-3xl sm:p-6 ${PHONE_SWIPE_ITEM} ${live ? 'on-dark bg-graphite text-white' : 'bg-plaster'}`}
-              >
+            const card = 'flex h-full flex-col rounded-2xl p-5 sm:rounded-3xl sm:p-6'
+            const content = (
+              <>
                 <span
                   aria-hidden="true"
                   className={`font-serif text-4xl leading-none italic ${live ? 'text-lime' : 'text-magenta'}`}
@@ -54,6 +53,20 @@ export async function ProcessSection() {
                       <ArrowRightIcon className="size-4" />
                     </ButtonLink>
                   </ConfiguratorIntent>
+                )}
+              </>
+            )
+            return (
+              <li key={step} data-reveal={String(index + 1)} className={PHONE_SWIPE_ITEM}>
+                {live ? (
+                  <GlowCard
+                    shine
+                    className={`${card} on-dark bg-graphite text-white [--glow-strength:0.32]`}
+                  >
+                    {content}
+                  </GlowCard>
+                ) : (
+                  <div className={`${card} bg-plaster`}>{content}</div>
                 )}
               </li>
             )

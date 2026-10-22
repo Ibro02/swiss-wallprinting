@@ -1,6 +1,7 @@
+import type { CSSProperties } from 'react'
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { accent } from '@/components/Accent.tsx'
-import { Container, PHONE_SWIPE, PHONE_SWIPE_ITEM, SECTION_Y } from '@/components/Container.tsx'
+import { Container, SECTION_Y } from '@/components/Container.tsx'
 import { SectionHeading } from '@/components/SectionHeading.tsx'
 import { Stars } from '@/components/Stars.tsx'
 import { collections } from '@/content/index.ts'
@@ -8,9 +9,13 @@ import type { Testimonial } from '@/content/schema.ts'
 import { ratingSummary } from './rating.ts'
 
 // Pattern from faberwall.nl/reviews (Development Plan 4.2): the rating summary, then the
-// reviews. Here a calm masonry of mist cards (columns), not a moving band: every review
-// can be read at its own pace; on phones a row to swipe. Every mock review shows the
-// "example" badge.
+// reviews as a slow band of mist cards that slides to the left, the next ones coming in
+// from the right (the author prefers it to a static grid). It pauses under the mouse and
+// while a card has focus; with reduced motion it stands still and scrolls by hand. Every
+// mock review shows the "example" badge.
+
+/** Seconds per review for one loop: about 35 px per second. */
+const SECONDS_PER_CARD = 10
 
 /** The initials in the logo's colours, in turn. */
 const AVATAR_COLOURS = ['bg-lime text-graphite', 'bg-graphite text-lime', 'bg-magenta text-white']
@@ -28,8 +33,7 @@ export async function Testimonials() {
   const card = (review: Testimonial, index: number) => (
     <li
       key={review.id}
-      data-reveal
-      className={`flex break-inside-avoid flex-col rounded-2xl bg-plaster p-5 sm:mb-3 sm:rounded-3xl sm:p-6 ${PHONE_SWIPE_ITEM}`}
+      className="flex w-[18rem] shrink-0 flex-col rounded-2xl bg-plaster p-5 sm:w-[22rem] sm:rounded-3xl sm:p-6"
     >
       <div className="flex items-center justify-between gap-3">
         <Stars rating={review.rating} label={starsLabel(review.rating)} />
@@ -41,7 +45,7 @@ export async function Testimonials() {
       </div>
       <blockquote
         lang={review.language}
-        className="mt-4 text-[0.9375rem] leading-relaxed text-graphite/90"
+        className="mt-4 flex-1 text-[0.9375rem] leading-relaxed text-graphite/90"
       >
         <p>{review.text}</p>
       </blockquote>
@@ -95,11 +99,25 @@ export async function Testimonials() {
         </div>
 
         {hasMock && <p className="mt-6 max-w-xl text-sm text-mute">{t('mockNote')}</p>}
-
-        <ul className={`mt-8 gap-3 sm:mt-10 sm:columns-2 lg:columns-3 ${PHONE_SWIPE}`}>
-          {reviews.map(card)}
-        </ul>
       </Container>
+
+      {/* The band runs to the card frame's edges and fades out there. */}
+      <div
+        data-reveal="2"
+        className="mt-8 overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] sm:mt-10 motion-safe:overflow-x-hidden"
+      >
+        <div
+          className="marquee flex w-max"
+          style={{ '--marquee-duration': `${reviews.length * SECONDS_PER_CARD}s` } as CSSProperties}
+        >
+          {/* Both lists end with the same gap, so moving by half the width loops without a jump. */}
+          <ul className="flex gap-3 pr-3">{reviews.map(card)}</ul>
+          {/* The copy for the loop: hidden from assistive tech, and gone with reduced motion. */}
+          <ul aria-hidden="true" className="flex gap-3 pr-3 motion-reduce:hidden">
+            {reviews.map(card)}
+          </ul>
+        </div>
+      </div>
     </section>
   )
 }

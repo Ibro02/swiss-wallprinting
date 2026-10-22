@@ -139,6 +139,8 @@ export const heroVideo = contentItem.extend({
   frames: z.object({ desktop: frameSet, mobile: frameSet }),
   /** Where the printer is (x) at the first and the last frame. */
   focus: z.tuple([fraction, fraction]),
+  /** The share of the frame height never shown, at the bottom. */
+  cropBottom: z.number().min(0).max(0.5),
   /** The logo "signature" on the finished mural: its left, top, and width. */
   signature: z.object({ x: fraction, y: fraction, width: fraction }),
 })

@@ -71,6 +71,13 @@
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 }
 
+/* The scroll hero's progress (.print-scroll): a typed number, so a scroll timeline can animate it. */
+@property --p {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -110,12 +117,19 @@
    * Scroll hero (PrintOnScroll, Development Plan P2): a tall section with a sticky stage,
    * where the scroll draws the video frames on a canvas. JavaScript writes only `--p`, the
    * smoothed progress (0 … 1), on the stage; the rest follows from it here, with transform
-   * and opacity only. Before hydration `--p` is 0: the first frame and the intro, as on a
-   * fresh load. The phases (`--intro-out`, `--outro-in`, `--signature-in`) and the video's
-   * proportions (`--ar`) come from the component.
+   * and opacity only. Before hydration a scroll timeline sets `--p` (below), so even a
+   * reload in the middle of the section paints the right overlays. The phases
+   * (`--intro-out`, `--outro-in`, `--signature-in`), the video's proportions (`--ar`),
+   * `--crop-bottom`, and `--room` come from the component; `--frame` (the page margin
+   * around the stage) from the page.
    */
   .print-scroll {
+    /* The screen inside the page margin; the header room is the top share of it. */
+    --available: calc(100svh - 2 * var(--frame, 0px));
+    --stage-top: calc(var(--frame, 0px) + var(--room, 0) * var(--available));
+    --stage-h: calc((1 - var(--room, 0)) * var(--available));
     height: var(--print-length, 400vh);
+    padding-top: calc(var(--room, 0) * var(--available));
   }
 
   .print-scroll__stage {
@@ -125,25 +139,62 @@
     --outro: clamp(0, (var(--p) - var(--outro-in)) / (0.96 - var(--outro-in)), 1);
     --signature: clamp(0, (var(--p) - var(--signature-in)) / (1 - var(--signature-in)), 1);
     position: sticky;
-    top: var(--stage-top, 0);
-    height: var(--stage-h, 100svh);
+    top: var(--stage-top);
+    height: var(--stage-h);
     container-type: size;
   }
 
   /*
-   * The video frame: its own proportions, covering the stage (as object-fit: cover). Where
-   * the stage is narrower than the video, the frame slides so that the focus point (from
-   * `--focus-from` to `--focus-to` with the progress) stays in the middle, never past an
-   * edge. On wide screens the clamp keeps it still.
+   * The video frame: its own proportions, covering the stage (as object-fit: cover) with
+   * its visible part, the top `1 - --crop-bottom` of it, which is centred vertically. Where
+   * the stage is narrower, the frame slides so that the focus point (from `--focus-from`
+   * to `--focus-to` with the progress) stays in the middle, never past an edge. On wide
+   * screens the clamp keeps it still.
    */
   .print-scroll__frame {
+    --visible: calc(1 - var(--crop-bottom, 0));
     --focus: calc(var(--focus-from) + (var(--focus-to) - var(--focus-from)) * var(--p));
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 0;
-    width: max(100cqw, 100cqh * var(--ar));
+    width: max(100cqw, 100cqh * var(--ar) / var(--visible));
     aspect-ratio: var(--ar);
-    translate: clamp(100cqw - 100%, 50cqw - var(--focus) * 100%, 0px) -50%;
+    translate: clamp(100cqw - 100%, 50cqw - var(--focus) * 100%, 0px)
+      calc((100cqh - 100% * var(--visible)) / 2);
+  }
+
+  /*
+   * The poster is frame 0. Painted at a later point (a reload in the middle, before
+   * JavaScript), it would show a blank wall under a half-finished story: the dark stage
+   * stands in until the canvas draws the right frame.
+   */
+  .print-scroll__poster {
+    opacity: clamp(0, 1 - var(--p) * 100, 1);
+  }
+
+  /* `--p` from the scroll position, until PrintOnScroll takes over (it sets `animation: none`). */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .print-scroll {
+        view-timeline: --print-scroll block;
+        view-timeline-inset: var(--frame, 0px);
+      }
+
+      .print-scroll__stage {
+        animation: print-progress linear both;
+        animation-timeline: --print-scroll;
+        animation-range: contain 0% contain 100%;
+      }
+    }
+  }
+
+  @keyframes print-progress {
+    from {
+      --p: 0;
+    }
+    to {
+      --p: 1;
+    }
   }
 
   /* The logo "signs" the mural: ink that multiplies with the paint, like a print. */
@@ -208,7 +259,8 @@
       display: none;
     }
 
-    .print-scroll__intro {
+    .print-scroll__intro,
+    .print-scroll__poster {
       opacity: 1;
       translate: none;
     }
@@ -316,6 +368,113 @@
   @keyframes header-lift {
     to {
       transform: translateY(var(--lift, 0));
+    }
+  }
+
+  /*
+   * Testimonial band: the list twice in a row, moving left by one list (half the width),
+   * then again from the start: the next cards keep coming in from the right. Pauses under
+   * the mouse and while a card has focus. Reduced motion: still (the band scrolls by hand).
+   */
+  .marquee {
+    animation: marquee var(--marquee-duration, 60s) linear infinite;
+  }
+
+  .marquee:hover,
+  .marquee:focus-within {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+  }
+
+  /*
+   * GlowCard: a lime light under the content that follows the mouse, and an optional 3D
+   * tilt. JavaScript moves the glow and tilts the card with transforms; the glow shows only
+   * while the card is hovered (`data-hover`), and the tilt eases back when the mouse leaves.
+   * `--glow-strength` (0 … 1) is set per card: stronger on light grounds than on dark.
+   */
+  .glow-card {
+    transition-property: transform, background-color, box-shadow;
+    transition-duration: 600ms, 200ms, 200ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  .glow-card[data-hover] {
+    /* Short while the mouse moves: the card follows it closely, like a stiff spring. */
+    transition-duration: 140ms, 200ms, 200ms;
+  }
+
+  .glow-card__clip {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: clip;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .glow-card__glow {
+    position: absolute;
+    top: -11rem;
+    left: -11rem;
+    width: 22rem;
+    height: 22rem;
+    border-radius: 9999px;
+    background: radial-gradient(
+      closest-side,
+      rgb(197 210 13 / var(--glow-strength, 0.4)),
+      rgb(197 210 13 / 0) 100%
+    );
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out);
+  }
+
+  .glow-card[data-hover] .glow-card__glow {
+    opacity: 1;
+  }
+
+  /*
+   * The "reflection": a band of lime light that sweeps across the card while it scrolls
+   * into view, to say "this one is special". Scroll-driven, so it is never out of step
+   * with the page; none without scroll timelines or with reduced motion.
+   */
+  .glow-card__shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgb(197 210 13 / 0.14) 42%,
+      rgb(255 255 255 / 0.22) 50%,
+      rgb(197 210 13 / 0.14) 58%,
+      transparent 70%
+    );
+    translate: -100% 0;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .glow-card__shine {
+        animation: shine linear both;
+        animation-timeline: view();
+        animation-range: entry 30% cover 55%;
+      }
+    }
+  }
+
+  @keyframes shine {
+    to {
+      translate: 100% 0;
     }
   }
 

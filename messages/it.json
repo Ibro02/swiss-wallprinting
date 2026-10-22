@@ -76,11 +76,8 @@
       "imageAlt": "Una stampante murale stampa un acquerello di un villaggio svizzero sul lago sulla parete di un ufficio.",
       "scrollHint": "Scorri per stampare",
       "outroTitle": "La prossima parete <em>può essere la tua</em>.",
-      "mockBadge": "Esempio",
       "card": {
         "title": "Ciao!",
-        "writeTo": "Scrivici a",
-        "or": "oppure",
         "phone": "Chiamaci: {phone}",
         "whatsapp": "Scrivici su WhatsApp",
         "instagram": "Swiss Wall Printing su Instagram",

@@ -76,11 +76,8 @@
       "imageAlt": "Zidni štampač štampa akvarel švicarskog sela na jezeru na zid ureda.",
       "scrollHint": "Skrolajte za štampu",
       "outroTitle": "Sljedeći zid <em>može biti vaš</em>.",
-      "mockBadge": "Primjer",
       "card": {
         "title": "Zdravo!",
-        "writeTo": "Pišite nam na",
-        "or": "ili",
         "phone": "Pozovite nas: {phone}",
         "whatsapp": "Pišite nam na WhatsApp",
         "instagram": "Swiss Wall Printing na Instagramu",

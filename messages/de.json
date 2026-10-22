@@ -76,11 +76,8 @@
       "imageAlt": "Ein Wanddrucker druckt ein Aquarell eines Schweizer Dorfs am See auf eine Bürowand.",
       "scrollHint": "Scrollen, um zu drucken",
       "outroTitle": "Die nächste Wand <em>könnte Ihre sein</em>.",
-      "mockBadge": "Beispiel",
       "card": {
         "title": "Hallo!",
-        "writeTo": "Schreiben Sie uns",
-        "or": "oder",
         "phone": "Rufen Sie uns an: {phone}",
         "whatsapp": "Schreiben Sie uns auf WhatsApp",
         "instagram": "Swiss Wall Printing auf Instagram",
