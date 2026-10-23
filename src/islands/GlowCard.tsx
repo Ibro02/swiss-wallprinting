@@ -4,10 +4,10 @@ import { type PointerEvent, type ReactNode, useRef } from 'react'
 
 // A card with a light that follows the mouse, and an optional 3D tilt (home page: the steps
 // of the process, lime on the dark configurator step and magenta on the others; styles:
-// globals.css, .glow-card, the colour and strength per card). A custom take on Framer's "Sleek 3D Tilt Card" (the same perspective tilt
-// of up to 8° and the same spotlight), without its `framer` and `framer-motion` imports
-// (about 100 KB) and without a React render per mouse move: the handlers write two
-// transforms straight to the elements, at most once per frame.
+// globals.css, .glow-card, one class per tone). A custom take on Framer's "Sleek 3D Tilt
+// Card" (the same perspective tilt of up to 8° and the same spotlight), without its
+// `framer` and `framer-motion` imports (about 100 KB) and without a React render per mouse
+// move: the handlers write two transforms straight to the elements, at most once per frame.
 //
 // Mouse only: touch and pen leave the card at rest. Reduced motion: the light, no tilt.
 // The server and the client render the same markup, and the light is hidden until the
@@ -18,14 +18,22 @@ const MAX_TILT = 8
 
 interface Props {
   children: ReactNode
-  /** The card itself: background, radius, padding, layout, `--glow-strength`. */
+  /** The card itself: background, radius, padding, layout. */
   className?: string
+  /** The light's colour: lime (for dark cards) or magenta (for mist cards). */
+  tone?: 'lime' | 'magenta'
   tilt?: boolean
   /** A band of light that sweeps across the card as it scrolls into view. */
   shine?: boolean
 }
 
-export function GlowCard({ children, className = '', tilt = false, shine = false }: Props) {
+export function GlowCard({
+  children,
+  className = '',
+  tone = 'lime',
+  tilt = false,
+  shine = false,
+}: Props) {
   const areaRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLSpanElement>(null)
@@ -79,7 +87,10 @@ export function GlowCard({ children, className = '', tilt = false, shine = false
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
     >
-      <div ref={cardRef} className={`glow-card relative isolate h-full ${className}`}>
+      <div
+        ref={cardRef}
+        className={`glow-card ${tone === 'magenta' ? 'glow-card--magenta' : ''} relative isolate h-full ${className}`}
+      >
         <span aria-hidden="true" className="glow-card__clip">
           <span ref={glowRef} className="glow-card__glow" />
           {shine && <span className="glow-card__shine" />}

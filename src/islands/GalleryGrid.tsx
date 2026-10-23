@@ -10,10 +10,12 @@ import type { ImageAsset } from '@/content/images/types.ts'
 // The lightbox is a native <dialog> (focus trap, Escape, focus back to the photo).
 // Without JavaScript the grid shows all photos; the photos are not links.
 //
-// In the lightbox the photos are a row of slides with CSS scroll snapping: on a phone a
-// swipe moves one photo (the author, 2026-10-23), with the browser's own touch physics and
-// no gesture code. The buttons and the arrow keys scroll the same row. Only the open photo
-// and its neighbours load; the others are blank until the swipe reaches them.
+// In the lightbox on a touch screen the photos are a row of slides with CSS scroll snapping:
+// a swipe moves one photo (the author, 2026-10-23), with the browser's own touch physics and
+// no gesture code; the buttons and the arrow keys scroll the same row. With a mouse there is
+// no row to scroll (the author: no scrollbar on a desktop): the slides lie on top of each
+// other and the open one fades in (`.lightbox` in globals.css). Only the open photo and its
+// neighbours load.
 
 export interface GalleryEntry {
   id: string
@@ -51,15 +53,19 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
     setOpen(index)
     if (!dialog.current?.open) dialog.current?.showModal()
     // Straight to the photo, before the dialog's first frame: no slide from the first one.
+    // (With a mouse the row does not scroll, and this does nothing.)
     const row = slides.current
     row?.scrollTo({ left: index * row.clientWidth, behavior: 'instant' })
   }
-  // Smooth through the row's CSS scroll-behavior (instant with reduced motion).
   const step = (by: number) => {
     const row = slides.current
     if (open === null || !row) return
     const next = open + by
-    if (next >= 0 && next < shown.length) row.scrollTo({ left: next * row.clientWidth })
+    if (next < 0 || next >= shown.length) return
+    // The swipe row: smooth through its CSS scroll-behavior (instant with reduced motion),
+    // and `onSlide` follows. The stacked slides: the next one fades in.
+    if (row.scrollWidth > row.clientWidth) row.scrollTo({ left: next * row.clientWidth })
+    else setOpen(next)
   }
   // The photo in view is the open one: a swipe, a button, or a key moved the row.
   const onSlide = () => {
@@ -142,19 +148,20 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
           // A click on the backdrop (the dialog element itself) closes it.
           if (event.target === event.currentTarget) dialog.current?.close()
         }}
-        className="on-dark m-auto max-h-none max-w-none bg-transparent p-0 text-white backdrop:bg-graphite/92 sm:backdrop:backdrop-blur-md"
+        className="on-dark m-auto max-h-none max-w-none bg-transparent p-0 text-white backdrop:bg-graphite/92 max-sm:w-full sm:backdrop:backdrop-blur-md"
       >
-        {/* Phones: the whole width and the screen below the buttons; wider screens: a frame. */}
+        {/* Phones: the whole width (the dialog's, not 100vw, which counts a desktop
+            browser's scrollbar) and the screen below the buttons; wider screens: a frame. */}
         <div
           ref={slides}
           onScroll={onSlide}
-          className="mt-18 flex h-[calc(100dvh-6rem)] w-screen snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] sm:mt-0 sm:h-[min(90dvh,900px)] sm:w-[min(94vw,1200px)] motion-reduce:scroll-auto"
+          className="lightbox mt-18 h-[calc(100dvh-6rem)] w-full sm:mt-0 sm:h-[min(90dvh,900px)] sm:w-[min(94vw,1200px)]"
         >
           {shown.map((item, index) => (
             <figure
               key={item.id}
               aria-hidden={index !== open}
-              className="flex h-full w-full shrink-0 snap-center snap-always flex-col px-3 sm:px-0"
+              className="lightbox__slide flex flex-col px-3 sm:px-0"
             >
               <div className="relative flex-1">
                 {open !== null && Math.abs(index - open) <= 1 && (
@@ -169,7 +176,7 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
                   />
                 )}
               </div>
-              <figcaption className="pt-4 text-lg font-medium tracking-tight">
+              <figcaption className="pt-4 text-lg font-medium tracking-tight sm:text-center">
                 {item.caption}
               </figcaption>
             </figure>

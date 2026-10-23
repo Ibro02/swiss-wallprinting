@@ -70,10 +70,9 @@ export async function ProcessSection() {
               <li key={step} data-reveal={String(index + 1)} className={PHONE_SWIPE_ITEM}>
                 <GlowCard
                   shine={live}
+                  tone={live ? 'lime' : 'magenta'}
                   className={
-                    live
-                      ? `${card} on-dark bg-graphite text-white [--glow-strength:0.32]`
-                      : `${card} group bg-plaster [--glow-rgb:229_17_88] [--glow-strength:0.22] dark:[--glow-strength:0.3]`
+                    live ? `${card} on-dark bg-graphite text-white` : `${card} group bg-plaster`
                   }
                 >
                   {content}

@@ -488,15 +488,27 @@
   /*
    * GlowCard: a light under the content that follows the mouse, and an optional 3D tilt.
    * JavaScript moves the glow and tilts the card with transforms; the glow shows only while
-   * the card is hovered (`data-hover`), and the tilt eases back when the mouse leaves. Set
-   * per card: `--glow-rgb` (the colour as "r g b", lime by default; the process steps on
-   * mist are magenta) and `--glow-strength` (0 … 1, at the light's centre), chosen so the
-   * card's secondary text stays AA over it.
+   * the card is hovered (`data-hover`), and the tilt eases back when the mouse leaves. The
+   * light's colour is the card's tone (`tone` in GlowCard.tsx): lime on the dark process
+   * step, magenta on the mist ones. Each tone is one whole colour at the light's centre,
+   * chosen so the card's secondary text stays AA over it (no fallback colour to fall back
+   * to: an unset tone is lime by design, never by accident).
    */
   .glow-card {
+    --glow-color: rgb(197 210 13 / 0.32);
     transition-property: transform, background-color, box-shadow;
     transition-duration: 600ms, 200ms, 200ms;
     transition-timing-function: var(--ease-out);
+  }
+
+  /* 22 % on light mist (the text under it turns dark, ProcessSection.tsx: 8.2:1 at the
+     centre), 30 % on dark mist (the grey text stays, 6:1). */
+  .glow-card--magenta {
+    --glow-color: rgb(229 17 88 / 0.22);
+
+    @variant dark {
+      --glow-color: rgb(229 17 88 / 0.3);
+    }
   }
 
   .glow-card[data-hover] {
@@ -520,11 +532,7 @@
     width: 22rem;
     height: 22rem;
     border-radius: 9999px;
-    background: radial-gradient(
-      closest-side,
-      rgb(var(--glow-rgb, 197 210 13) / var(--glow-strength, 0.4)),
-      rgb(var(--glow-rgb, 197 210 13) / 0) 100%
-    );
+    background: radial-gradient(closest-side, var(--glow-color), transparent);
     opacity: 0;
     transition: opacity 300ms var(--ease-out);
   }
@@ -834,6 +842,8 @@
   .flip-card__inner {
     position: relative;
     display: grid;
+    /* As wide as the card, never as wide as a face's content (ProjectList.tsx). */
+    grid-template-columns: minmax(0, 1fr);
     transform-style: preserve-3d;
     transition: transform 850ms var(--ease-spring);
   }
@@ -847,14 +857,20 @@
 
   /*
    * A story longer than the back: it fades out at the bottom and "Show more" appears (it
-   * opens the whole story in a sheet). Whether the story overflows is known from CSS
-   * alone, so the first frame is right and nothing changes after hydration: the story box
-   * is a scroll container (overflow hidden: it never scrolls by touch) with a scroll
-   * timeline, and a scroll timeline is active only while there is something to scroll. The
-   * animations below apply only then. Browsers without scroll timelines show the fade and
-   * the button on every story.
+   * opens the whole story). Browsers with scroll timelines know it from CSS alone, so the
+   * first frame is right: the story box is a scroll container (overflow hidden: it never
+   * scrolls by touch) with a scroll timeline, and a scroll timeline is active only while
+   * there is something to scroll; the animations below apply only then. The others
+   * (Firefox) get `data-overflow` from StoryFit.tsx. Until then the button stays hidden: no
+   * button is better than one that opens the same text again. The fade ends before the
+   * box's edge, so the line the edge cuts through is not seen.
    */
   .flip-card__story {
+    --story-fade: linear-gradient(
+      to bottom,
+      #000 calc(100% - 4.5rem),
+      transparent calc(100% - 0.75rem)
+    );
     overflow: hidden;
     scroll-timeline: --story block;
   }
@@ -863,9 +879,12 @@
     timeline-scope: --story;
   }
 
+  .flip-card__more {
+    visibility: hidden;
+  }
+
   @supports (animation-timeline: scroll()) {
     .flip-card__more {
-      visibility: hidden;
       animation: flip-card-more linear both;
       animation-timeline: --story;
     }
@@ -876,10 +895,12 @@
     }
   }
 
-  @supports not (animation-timeline: scroll()) {
-    .flip-card__story {
-      mask-image: linear-gradient(to bottom, #000 calc(100% - 3.5rem), transparent);
-    }
+  .flip-card__story[data-overflow] {
+    mask-image: var(--story-fade);
+  }
+
+  .flip-card__face--back:has(.flip-card__story[data-overflow]) .flip-card__more {
+    visibility: visible;
   }
 
   @keyframes flip-card-more {
@@ -892,7 +913,7 @@
   @keyframes flip-card-fade {
     from,
     to {
-      mask-image: linear-gradient(to bottom, #000 calc(100% - 3.5rem), transparent);
+      mask-image: var(--story-fade);
     }
   }
 
@@ -904,9 +925,11 @@
 
   /*
    * The whole story (an HTML popover with role dialog): a sheet that rises from the bottom
-   * on phones, a centred card from 640 px. It opens and closes without JavaScript; Escape
-   * and a tap outside close it, and the focus returns to "Show more". Transform and opacity
-   * only, in under 300 ms; reduced motion: a fade.
+   * on phones; from 640 px a dialog with the project's photo beside the story, which scales
+   * in from 96 %. It opens and closes without JavaScript; Escape and a click outside close
+   * it, and the focus returns to "Show more". The page under it is not locked: `overflow`
+   * on the root can resize a phone's viewport (its address bar shows) and move the page
+   * under the sheet. Transform and opacity only, in under 300 ms; reduced motion: a fade.
    */
   .story-sheet {
     position: fixed;
@@ -958,35 +981,55 @@
     }
   }
 
-  @media (width < 40rem) {
-    /* The page under the sheet stays where it is (phones have no scrollbar to lose). */
-    html:has(.story-sheet:popover-open) {
-      overflow: hidden;
-    }
-  }
-
   @media (width >= 40rem) {
     .story-sheet {
       inset: 0;
       width: min(36rem, calc(100% - 3rem));
       height: fit-content;
-      max-height: 80dvh;
+      max-height: min(85dvh, 46rem);
       margin: auto;
-      border-radius: 1.5rem;
+      border-radius: 1.75rem;
+      box-shadow: 0 32px 80px -24px rgb(0 0 0 / 0.45);
       opacity: 0;
       translate: 0 0.5rem;
+      scale: 0.96;
+      transition:
+        translate 150ms var(--ease-out),
+        scale 150ms var(--ease-out),
+        opacity 150ms var(--ease-out),
+        display 150ms allow-discrete,
+        overlay 150ms allow-discrete;
     }
 
     .story-sheet:popover-open {
       opacity: 1;
       translate: 0 0;
+      scale: 1;
+      transition-duration: 220ms;
     }
 
     @starting-style {
       .story-sheet:popover-open {
         opacity: 0;
         translate: 0 0.5rem;
+        scale: 0.96;
       }
+    }
+
+    .story-sheet::backdrop {
+      backdrop-filter: blur(4px);
+    }
+
+    /* The photo beside the story. */
+    .story-sheet:has(.story-sheet__photo) {
+      width: min(60rem, calc(100% - 3rem));
+    }
+
+    .story-sheet__layout:has(.story-sheet__photo) {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 2rem;
+      align-items: start;
     }
   }
 
@@ -994,6 +1037,7 @@
     .story-sheet,
     .story-sheet:popover-open {
       translate: none;
+      scale: none;
     }
 
     .story-sheet {
@@ -1007,6 +1051,8 @@
     @starting-style {
       .story-sheet:popover-open {
         opacity: 0;
+        translate: none;
+        scale: none;
       }
     }
   }
@@ -1075,6 +1121,70 @@
 
     .flip-card__light {
       display: none;
+    }
+  }
+
+  /*
+   * The gallery's lightbox (GalleryGrid.tsx). On a touch screen: a row of slides with
+   * scroll snapping, one photo per swipe, no scrollbar. With a mouse (hover and a fine
+   * pointer): no row at all, so nothing can scroll and no browser draws a scrollbar; the
+   * slides lie on top of each other and the open one fades in (200 ms; at once with reduced
+   * motion). `aria-hidden` marks every slide but the open one.
+   */
+  .lightbox {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+
+  .lightbox::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lightbox__slide {
+    flex: none;
+    width: 100%;
+    height: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox {
+      scroll-behavior: auto;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lightbox {
+      display: grid;
+      overflow: hidden;
+      scroll-snap-type: none;
+    }
+
+    .lightbox__slide {
+      grid-area: 1 / 1;
+      transition:
+        opacity 200ms var(--ease-out),
+        visibility 0s;
+    }
+
+    .lightbox__slide[aria-hidden='true'] {
+      visibility: hidden;
+      opacity: 0;
+      transition:
+        opacity 200ms var(--ease-out),
+        visibility 0s 200ms;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lightbox__slide,
+      .lightbox__slide[aria-hidden='true'] {
+        transition: none;
+      }
     }
   }
 

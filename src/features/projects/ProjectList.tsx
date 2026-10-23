@@ -7,6 +7,7 @@ import { images } from '@/content/images/index.ts'
 import { collections } from '@/content/index.ts'
 import type { Project } from '@/content/schema.ts'
 import type { Locale } from '@/i18n/routing.ts'
+import { StoryFit } from '@/islands/StoryFit.tsx'
 
 // The client's projects (brief, 2026-10-22) as flip cards (the author: Framer's "Liquid
 // Glass Flip Card", rebuilt in CSS, `.flip-card` in globals.css). Front: the photo, and on a
@@ -21,12 +22,23 @@ import type { Locale } from '@/i18n/routing.ts'
 // Every card has the same size (the author, 2026-10-23): the rows are equal (`auto-rows-fr`),
 // as tall as the tallest front, and the photo takes the extra height. The back fills the
 // front's box and never makes the card taller. A story longer than the box fades out, and
-// "Show more" (only then, from CSS: `.flip-card__story` in globals.css) opens the whole story
-// in a sheet (an HTML popover: no JavaScript, Escape and a tap outside close it).
+// "Show more" (only then: `.flip-card__story` in globals.css, and StoryFit for browsers
+// without scroll timelines) opens the whole story (StorySheet: an HTML popover, no
+// JavaScript; Escape and a click outside close it): a sheet from the bottom on phones, the
+// photo beside the story on wider screens. The sheets come after the list, outside the
+// cards, so a card's 3D (perspective, the reveal's transform) is never the containing block
+// of a sheet, whatever a browser does with a popover that is leaving the top layer.
+//
+// A card is as wide as its column, whatever is in it (the author, 2026-10-23: on an iPhone the
+// cards were wider than the screen). The columns have no content minimum (`grid-cols-1`,
+// `minmax(0, 1fr)`), and each face is a size container (`@container`), so nothing inside can
+// widen it. The photo's 4:3 minimum comes from the face's width (`75cqw`), not from
+// `aspect-ratio`: Safari let a growing aspect-ratio box take its width from its height (4:3
+// of a 500 px card is 667 px), and the card grew with it.
 
 /** Each face: a mist lift card (the front adds `relative`, the back is laid over it). */
 const FACE =
-  'lift-card isolate flex h-full flex-col overflow-clip rounded-2xl bg-plaster p-2 hover:bg-paper sm:rounded-3xl sm:p-3'
+  'lift-card @container isolate flex h-full flex-col overflow-clip rounded-2xl bg-plaster p-2 hover:bg-paper sm:rounded-3xl sm:p-3'
 
 /** The links of a card: the flip button (a label of the card's checkbox) and "Show more". */
 const CARD_LINK =
@@ -56,17 +68,25 @@ export async function ProjectList() {
   return (
     <section aria-label={t('eyebrow')} className={SECTION_Y}>
       <Container>
-        <ol className="grid auto-rows-fr gap-3 md:grid-cols-2">
+        <ol className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2">
           {collections.projects.map((project, index) => (
-            <li key={project.id} data-reveal={String((index % 2) + 1)}>
+            <li key={project.id} data-reveal={String((index % 2) + 1)} className="min-w-0">
               <ProjectCard project={project} locale={locale} labels={labels} first={index === 0} />
             </li>
           ))}
         </ol>
+        {collections.projects
+          .filter((project) => project.story.length > 0)
+          .map((project) => (
+            <StorySheet key={project.id} project={project} locale={locale} labels={labels} />
+          ))}
+        <StoryFit />
       </Container>
     </section>
   )
 }
+
+const sheetId = (project: Project) => `story-sheet-${project.id}`
 
 function ProjectCard({
   project,
@@ -82,7 +102,6 @@ function ProjectCard({
 }) {
   const title = project.title[locale]
   const toggle = `story-${project.id}`
-  const sheet = `story-sheet-${project.id}`
   const hasStory = project.story.length > 0
 
   const front = (
@@ -147,7 +166,7 @@ function ProjectCard({
               </label>
               <button
                 type="button"
-                popoverTarget={sheet}
+                popoverTarget={sheetId(project)}
                 className={`flip-card__more ${CARD_LINK}`}
               >
                 {labels.moreStory}
@@ -157,43 +176,84 @@ function ProjectCard({
           </div>
         </div>
       </div>
-      {/* The whole story, for a story longer than the card. Outside the turning faces, so
-          their 3D and visibility never reach it; the top layer draws it over the page. */}
-      <div
-        id={sheet}
-        popover="auto"
-        // A <dialog> opened as a popover gets no `open` attribute, and the browser's own
-        // `dialog:not([open]) { display: none }` would keep it hidden.
-        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
-        role="dialog"
-        aria-labelledby={`${sheet}-title`}
-        className="story-sheet bg-paper p-6 text-ink sm:p-8"
-      >
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-medium text-mute">{project.place[locale]}</p>
-            <p
-              id={`${sheet}-title`}
-              className="mt-1.5 text-xl font-medium tracking-tight text-balance sm:text-2xl"
-            >
-              {title}
-            </p>
+    </article>
+  )
+}
+
+/**
+ * The whole story, for a story longer than its card. Phones: a sheet from the bottom with the
+ * text. From 640 px: a dialog with the project's photo beside the story (the photo loads only
+ * when the dialog opens: a lazy image in a closed popover is never rendered).
+ */
+function StorySheet({
+  project,
+  locale,
+  labels,
+}: {
+  project: Project
+  locale: Locale
+  labels: Labels
+}) {
+  const sheet = sheetId(project)
+  const [cover] = project.photos
+  const photo = cover ? images[cover] : undefined
+
+  return (
+    <div
+      id={sheet}
+      popover="auto"
+      // A <dialog> opened as a popover gets no `open` attribute, and the browser's own
+      // `dialog:not([open]) { display: none }` would keep it hidden.
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
+      role="dialog"
+      aria-labelledby={`${sheet}-title`}
+      className="story-sheet bg-paper p-6 text-ink sm:p-8"
+    >
+      {/* The layout is its own box: a `display` on the popover itself would override the
+          browser's `display: none` of a closed popover. */}
+      <div className="story-sheet__layout">
+        {photo && (
+          <div className="story-sheet__photo relative aspect-[4/3] overflow-clip rounded-2xl bg-plaster max-sm:hidden">
+            <Image
+              src={photo.src}
+              fill
+              placeholder="blur"
+              blurDataURL={photo.blurDataURL}
+              // The dialog is labelled by the title beside it: the photo adds no words.
+              alt=""
+              sizes="(min-width: 960px) 25rem, 42vw"
+              loading="lazy"
+              className="object-cover"
+            />
           </div>
-          <button
-            type="button"
-            popoverTarget={sheet}
-            popoverTargetAction="hide"
-            aria-label={labels.closeSheet}
-            className="grid size-10 shrink-0 place-items-center rounded-xl ring-1 ring-ink/12 transition-[background-color,transform] duration-160 ease-out hover:bg-ink/6 active:scale-[0.97] motion-reduce:active:scale-100"
-          >
-            <CloseIcon />
-          </button>
-        </div>
-        <div className="mt-5">
-          <Story project={project} locale={locale} />
+        )}
+        <div className="story-sheet__text">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-mute">{project.place[locale]}</p>
+              <p
+                id={`${sheet}-title`}
+                className="mt-1.5 text-xl font-medium tracking-tight text-balance sm:text-2xl"
+              >
+                {project.title[locale]}
+              </p>
+            </div>
+            <button
+              type="button"
+              popoverTarget={sheet}
+              popoverTargetAction="hide"
+              aria-label={labels.closeSheet}
+              className="grid size-10 shrink-0 place-items-center rounded-xl ring-1 ring-ink/12 transition-[background-color,transform] duration-160 ease-out hover:bg-ink/6 active:scale-[0.97] motion-reduce:active:scale-100"
+            >
+              <CloseIcon />
+            </button>
+          </div>
+          <div className="mt-5">
+            <Story project={project} locale={locale} />
+          </div>
         </div>
       </div>
-    </article>
+    </div>
   )
 }
 
@@ -224,8 +284,9 @@ function ProjectPhoto({
 }) {
   const [cover] = project.photos
   const photo = cover ? images[cover] : undefined
-  // At least 4:3; in a card with a shorter text than the tallest, the photo takes the rest.
-  const box = 'relative aspect-[4/3] flex-[1_0_auto] overflow-clip rounded-xl sm:rounded-2xl'
+  // At least 4:3 of the face's width (`75cqw`, see the top of this file: not `aspect-ratio`);
+  // in a card with a shorter text than the tallest, the photo takes the rest.
+  const box = 'relative min-h-[75cqw] flex-[1_0_auto] overflow-clip rounded-xl sm:rounded-2xl'
   if (photo) {
     return (
       <div className={box}>
