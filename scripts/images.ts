@@ -131,7 +131,6 @@ const PHOTOS: readonly Photo[] = [
         'Barbershop After.jpg',
         0.33,
       ],
-      ['milly-torte', 'Milly Torte', 'Milly Torte - Before.jpg', 'Milly Torte - After.jpg', 0.08],
       ['monteceneri', 'Monteceneri', 'Monteceneri Before.jpg', 'Monteceneri After.jpg', 0.2],
       [
         'pool',
@@ -161,6 +160,15 @@ const PHOTOS: readonly Photo[] = [
       band,
     })),
   ),
+  // Caviezel's pair (2026-10-23) is landscape: its "after" is the project's cover
+  // (`projects/caviezel-cover`), its "before" the same picture without the print, at twice
+  // the size; this makes it the cover's size, so the two line up.
+  {
+    name: 'services/caviezel-before',
+    source: project('Caviezel', 'caviezel-cover before.jpg'),
+    cover: [1200, 900] as const,
+    position: 'centre' as const,
+  },
 ].map((photo) => ({ maxSize: 2000, ...photo }))
 
 /** The photo upright, or its band (see `Photo.band`). */

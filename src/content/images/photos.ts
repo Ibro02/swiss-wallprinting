@@ -111,6 +111,12 @@ export const photos = {
     "height": 1250,
     "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoMAA8AA4BaJZwAAl1OvkHAAP7ruPCjM0AXZJTrn+LzgMOAK2N22Xyc7nBeq1u7CAA="
   },
+  "services/caviezel-before": {
+    "src": "/photos/services/caviezel-before.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAADQAQCdASoMAAkAA4BaJaQAAud/ldBwAAD+6oZFK6OEsf6YAAA="
+  },
   "services/living-room-after": {
     "src": "/photos/services/living-room-after.jpg",
     "width": 1000,
@@ -122,18 +128,6 @@ export const photos = {
     "width": 1000,
     "height": 1250,
     "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAAAQAgCdASoMAA8AA4BaJZQCdAEPAEI0uEsAAP7nF3Lh3nvpBgpVAxCLkwHsnRZCjwAAAA=="
-  },
-  "services/milly-torte-after": {
-    "src": "/photos/services/milly-torte-after.jpg",
-    "width": 1000,
-    "height": 1250,
-    "blurDataURL": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAACwAQCdASoMAA8AA4BaJYwCdADY9+AAAP6zeeqVegKhkl8EITm1S9rgfxZod42DChWevNb+kosJVrphwAA="
-  },
-  "services/milly-torte-before": {
-    "src": "/photos/services/milly-torte-before.jpg",
-    "width": 1000,
-    "height": 1250,
-    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoMAA8AA4BaJZwAAlmxWii5AAD+s3nqlXoCoLX907U77n6kTP8HYCoVAVdEjfceATO/AAAA"
   },
   "services/monteceneri-after": {
     "src": "/photos/services/monteceneri-after.jpg",

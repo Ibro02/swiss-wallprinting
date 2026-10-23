@@ -53,17 +53,18 @@ The first section of the services page ("Choose your situation") shows six gener
 - **One section, not two.** The audiences and the before/after cards merge into "For whom", so each group shows its own real work. Governs R1, R3.
 - **Monteceneri goes to the business group, tagged "history".** The photo is in a non-residential building, and it is the client's strongest history example. Governs R3. Confirm with the client (Outstanding Questions).
 - **"By the pool" goes to the private group.** It is the outdoor wall of a home. Governs R3.
+- **Caviezel, not Milly Torte, in the business group, tagged "company history"** (session-settled: user-directed, 2026-10-23 — chosen over Milly Torte: his six historical photos are the clearest example of a company's history). Its pair is landscape (4:3). Governs R2, R3.
 
 ### Scope Boundaries
 
 - Not in scope: new copy for "What we print" and "Surfaces"; the Projects page layout; the home page area cards.
-- The other folders (Caviezel, Holiday cottage) have no before/after pair; they stay on the Projects page only.
+- Holiday cottage has no before/after pair, and Milly Torte's pair is not shown (Key Decisions); both stay on the Projects page.
 
 ### Outstanding Questions
 
 - Deferred: is the Monteceneri wall for a business or a public client? The tag "history" is right either way.
 - Deferred: the "before" photos match the "after" photos pixel for pixel outside the print, so they are probably edited from the "after" photo. Ask the client to confirm that they show the real wall.
-- Deferred: Q13 (may Milly Torte and Barber House be named) applies here too; the names are already on the Projects page.
+- Deferred: Q13 (may Barber House and Caviezel be named) applies here too; the names are already on the Projects page.
 
 ## Planning Contract
 
@@ -71,7 +72,8 @@ The first section of the services page ("Choose your situation") shows six gener
 
 - KTD1. `src/features/services/Audiences.tsx` becomes the whole section; `RoomCards.tsx` is deleted. Group tags and messages live in `messages/*.json` (`Services.audiences`); the pairs live in content.
 - KTD2. `src/content/services.ts` holds the before/after pairs (`BeforeAfterPair`: audience, optional project id, place, tag, before and after image keys, alt texts), `mock: false`. The configurator's area starts (area, example wall size, preset) move to a new mock collection `src/content/area-starts.ts` (`areaStarts`), so the configurator does not depend on the services page.
-- KTD3. `scripts/images.ts` cuts the same 4:5 part out of both photos of a pair (a `crop` with a ratio and a vertical position), then resizes to 1000 × 1250. A cover crop with sharp's attention strategy picks its part per photo and would misalign the pair. The card is 4:5 (the photos are portrait, 1:2.17).
+- KTD3. `scripts/images.ts` cuts the same 4:5 part out of both photos of a portrait pair (`band`: the vertical position of the cut), then resizes to 1000 × 1250. A cover crop with sharp's attention strategy picks its part per photo and would misalign the pair. Caviezel's pair is already 4:3: its "after" is the project cover `projects/caviezel-cover`, its "before" is resized to the same 1200 × 900.
+- KTD6. A card has the shape of its photos (`BeforeAfter` sets `aspect-ratio` from the image). From `md` a row's columns are `minmax(0, <ratio>fr)` per card, so every card in a row is as tall and a 4:3 photo shows whole; `sizes` follows each card's share of the row.
 - KTD4. The mock scenes `services/*` leave `scripts/mockups.ts`; `vp run mockups` writes the mock files again without them.
 - KTD5. Project cards get an anchor (`id` = project id, with scroll margin for the pill), so a pair links to `/projects#<id>`.
 
@@ -83,10 +85,10 @@ The first section of the services page ("Choose your situation") shows six gener
 
 ### U1. Photo pairs in the image pipeline
 
-- **Goal:** ten aligned 4:5 images in `public/photos/services/` and the manifest.
+- **Goal:** aligned pairs in `public/photos/services/` and the manifest.
 - **Requirements:** R4, R6.
 - **Files:** `scripts/images.ts`, generated `public/photos/services/*`, `src/content/images/photos.ts`.
-- **Approach:** add `crop` to `Photo`; rotate, extract the 4:5 band at `y`, resize. Pairs: Barber House, Milly Torte, Monteceneri, By the pool, Private homes (Lamborghini wall). Run `vp run images`.
+- **Approach:** add `band` to `Photo`; rotate, extract the 4:5 band, resize. Pairs: Barber House, Monteceneri, By the pool, Private homes (Lamborghini wall), and Caviezel (KTD3). Run `vp run images`.
 - **Test scenarios:** the content test "file in public/ for every manifest entry"; a visual check of each pair at split 50 %.
 - **Verification:** contact sheet of the ten crops; the before and after of each pair differ only on the print.
 
@@ -103,7 +105,7 @@ The first section of the services page ("Choose your situation") shows six gener
 
 - **Goal:** R1–R3, R5, R8 on the page.
 - **Requirements:** R1, R2, R3, R5, R8, R9.
-- **Files:** `src/features/services/Audiences.tsx`, `src/features/services/RoomCards.tsx` (deleted), `src/islands/BeforeAfter.tsx` (4:5 frame), `src/app/[locale]/(pages)/services/page.tsx`, `src/features/projects/ProjectList.tsx` (anchor), `src/components/AreaCard.tsx` (comment), `messages/{it,de,en,bs}.json`.
+- **Files:** `src/features/services/Audiences.tsx`, `src/features/services/RoomCards.tsx` (deleted), `src/islands/BeforeAfter.tsx` (the frame takes the photo's shape, KTD6), `src/app/[locale]/(pages)/services/page.tsx`, `src/features/projects/ProjectList.tsx` (anchor), `src/components/AreaCard.tsx` (comment), `messages/{it,de,en,bs}.json`.
 - **Approach:** each group is a mist card: number, title, tags, the accent line; then a grid (three columns from `md`) of before/after cards with tag, place, and project link. The private group's third cell is a configurator tile. On phones the cards stack (a swipe row would fight the card's horizontal drag).
 - **Test scenarios:** message keys equal in all four files (existing test); axe on `/it/servizi` light and dark; no horizontal scroll at 360 px.
 - **Verification:** browser check desktop and phone, hover split on each card.

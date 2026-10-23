@@ -120,7 +120,11 @@ export function BeforeAfter({
   }
 
   const value = Math.round(split)
-  const style = { '--split': `${split}%` } as CSSProperties
+  // The card has the shape of its photos (the pipeline cuts both to the same size).
+  const style = {
+    '--split': `${split}%`,
+    aspectRatio: `${after.width} / ${after.height}`,
+  } as CSSProperties
 
   return (
     <div
@@ -146,7 +150,7 @@ export function BeforeAfter({
       }}
       onKeyDown={onKeyDown}
       style={style}
-      className="group relative aspect-[4/5] cursor-ew-resize touch-pan-y overflow-hidden rounded-xl bg-paper select-none sm:rounded-2xl"
+      className="group relative cursor-ew-resize touch-pan-y overflow-hidden rounded-xl bg-paper select-none sm:rounded-2xl"
     >
       {afterImage}
       <div className="absolute inset-0 [clip-path:inset(0_calc(100%-var(--split))_0_0)]">

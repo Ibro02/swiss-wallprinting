@@ -1,12 +1,12 @@
 import { getLocale, getTranslations } from 'next-intl/server'
-import type { ComponentType, SVGProps } from 'react'
+import type { ComponentType, CSSProperties, SVGProps } from 'react'
 import { accent } from '@/components/Accent.tsx'
 import { Container, SECTION_Y } from '@/components/Container.tsx'
 import { ArrowRightIcon, CubeIcon, HomeIcon, OfficeIcon } from '@/components/icons.tsx'
 import { SectionHeading } from '@/components/SectionHeading.tsx'
 import { images } from '@/content/images/index.ts'
 import { collections } from '@/content/index.ts'
-import type { Audience } from '@/content/schema.ts'
+import type { Audience, BeforeAfterPair } from '@/content/schema.ts'
 import { Link } from '@/i18n/navigation.ts'
 import { PAGES } from '@/i18n/pages.ts'
 import type { Locale } from '@/i18n/routing.ts'
@@ -16,8 +16,10 @@ import { BeforeAfter } from '@/islands/BeforeAfter.tsx'
 // 2026-10-23): his two groups of clients, business first. Each group is a mist card with his
 // list of clients or rooms as tags, his message in the serif accent, and before/after cards
 // of his own walls (src/content/services.ts): the business walls are tagged "identity" or
-// "history", the emphasis of his brief. The private group ends with the configurator. On
-// phones the cards stack: a swipe row would take the gesture that drags the split.
+// "history", the emphasis of his brief. The private group ends with the configurator. From
+// `md` each card is as wide as its photo's shape (Caviezel is 4:3, the others 4:5), so the
+// whole picture shows and every card in a row is as tall. On phones the cards stack: a
+// swipe row would take the gesture that drags the split.
 
 /** The client's lists, in his order (keys in `Services.audiences.<group>.clients`). */
 const BUSINESS_CLIENTS = [
@@ -41,6 +43,14 @@ const LINK =
 
 const ARROW =
   'size-4 transition-transform duration-200 ease-out group-hover:translate-x-0.5 motion-reduce:transition-none'
+
+/** The configurator tile takes the place of a portrait card. */
+const TILE_RATIO = 4 / 5
+/** The widest a row of cards gets (the 92rem frame less its paddings), for `sizes`. */
+const ROW_MAX_PX = 1320
+
+/** Width over height of a pair's photos. */
+const ratioOf = (pair: BeforeAfterPair) => images[pair.after].width / images[pair.after].height
 
 export async function Audiences() {
   const t = await getTranslations('Services.audiences')
@@ -75,6 +85,14 @@ export async function Audiences() {
         <div className="mt-8 flex flex-col gap-3 sm:mt-10">
           {groups.map(({ key, Icon, clients }) => {
             const pairs = pairsOf(key)
+            // Columns in the ratio of the photos: with equal heights, width = height × ratio.
+            const ratios = [...pairs.map(ratioOf), ...(key === 'private' ? [TILE_RATIO] : [])]
+            const total = ratios.reduce((sum, ratio) => sum + ratio, 0)
+            const columns = ratios.map((ratio) => `minmax(0, ${ratio.toFixed(4)}fr)`).join(' ')
+            const sizesOf = (pair: BeforeAfterPair) => {
+              const share = ratioOf(pair) / total
+              return `(min-width: 1536px) ${Math.round(share * ROW_MAX_PX)}px, (min-width: 768px) ${Math.round(share * 88)}vw, 100vw`
+            }
             return (
               <article
                 key={key}
@@ -113,7 +131,10 @@ export async function Audiences() {
                   </p>
                 </header>
 
-                <ul className="grid grid-cols-1 gap-x-3 gap-y-6 md:grid-cols-3">
+                <ul
+                  className="grid grid-cols-1 gap-x-3 gap-y-6 md:grid-cols-(--columns)"
+                  style={{ '--columns': columns } as CSSProperties}
+                >
                   {pairs.map((pair) => {
                     const place = pair.place[locale]
                     return (
@@ -124,7 +145,7 @@ export async function Audiences() {
                           beforeAlt={pair.alt.before[locale]}
                           afterAlt={pair.alt.after[locale]}
                           label={t('sliderLabel', { place })}
-                          sizes="(min-width: 1536px) 440px, (min-width: 768px) 30vw, 100vw"
+                          sizes={sizesOf(pair)}
                           priority={pair.id === firstPair}
                         />
                         {/* Stacked at every width, so the link sits in the same place on each card. */}

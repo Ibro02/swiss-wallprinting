@@ -23,10 +23,10 @@ test('shows the two groups with the walls of the client, not example photos', as
 test('the split follows the mouse and goes back to the print', async ({ page, isMobile }) => {
   test.skip(isMobile, 'Phones drag the split; the mouse is a desktop feature.')
   await page.goto('/it/servizi')
-  const card = page.getByRole('slider', { name: 'Milly Torte: prima e dopo' })
+  const card = page.getByRole('slider', { name: 'Caviezel: prima e dopo' })
   await card.scrollIntoViewIfNeeded()
   const box = await card.boundingBox()
-  if (!box) throw new Error('The Milly Torte card has no box.')
+  if (!box) throw new Error('The Caviezel card has no box.')
   await page.mouse.move(box.x + box.width * 0.6, box.y + box.height / 2)
   await expect(card).toHaveAttribute('aria-valuenow', '60')
   await page.mouse.move(box.x + box.width / 2, box.y + box.height + 200)
@@ -35,9 +35,9 @@ test('the split follows the mouse and goes back to the print', async ({ page, is
 
 test('a card opens its project, clear of the header', async ({ page }) => {
   await page.goto('/it/servizi')
-  await page.getByRole('link', { name: 'Vedi il progetto: Milly Torte' }).click()
-  await expect(page).toHaveURL(/\/it\/progetti#milly-torte$/)
-  const card = page.locator('#milly-torte')
+  await page.getByRole('link', { name: 'Vedi il progetto: Caviezel' }).click()
+  await expect(page).toHaveURL(/\/it\/progetti#caviezel$/)
+  const card = page.locator('#caviezel')
   await expect(card).toBeInViewport()
   // The pill covers about the top 100 px of the screen.
   await expect

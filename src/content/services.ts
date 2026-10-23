@@ -1,6 +1,7 @@
 // The before/after cards of the services page: the client's own walls (his "… Before" and
-// "… After" photos, 2026-10-23; `vp run images` cuts the same 4:5 part of both), in his two
-// groups of clients. Business first, with his emphasis: a company's identity and history.
+// "… After" photos, 2026-10-23; `vp run images` cuts the same part of both, 4:5, or 4:3 for
+// Caviezel), in his two groups of clients. Business first, with his emphasis: a company's
+// identity and history (Caviezel instead of Milly Torte: the author, 2026-10-23).
 // The "before" photos match the "after" photos outside the print, so they are probably
 // edited from them: the client should confirm that they show the real wall. Monteceneri
 // is in the business group (a non-residential building; confirm). IT is the source; DE,
@@ -39,26 +40,32 @@ export const services: readonly BeforeAfterPair[] = [
     },
   },
   {
-    id: 'milly-torte',
+    // Landscape (4:3): the "after" is the project's cover, so its card is wider.
+    id: 'caviezel',
     mock: false,
     audience: 'business',
-    project: 'milly-torte',
-    place: { it: 'Milly Torte', de: 'Milly Torte', en: 'Milly Torte', bs: 'Milly Torte' },
-    tag: { it: 'Identità', de: 'Identität', en: 'Identity', bs: 'Identitet' },
-    before: 'services/milly-torte-before',
-    after: 'services/milly-torte-after',
+    project: 'caviezel',
+    place: { it: 'Caviezel', de: 'Caviezel', en: 'Caviezel', bs: 'Caviezel' },
+    tag: {
+      it: 'Storia aziendale',
+      de: 'Firmengeschichte',
+      en: 'Company history',
+      bs: 'Historija firme',
+    },
+    before: 'services/caviezel-before',
+    after: 'projects/caviezel-cover',
     alt: {
       before: {
-        it: 'Una parete bianca nella pasticceria, sopra due sedie rosa e un tavolino.',
-        de: 'Eine weisse Wand in der Konditorei, über zwei rosa Stühlen und einem kleinen Tisch.',
-        en: 'A white wall in the pastry shop, above two pink chairs and a small table.',
-        bs: 'Bijeli zid u slastičarnici, iznad dvije ružičaste stolice i stolića.',
+        it: 'Una parete bianca vuota in un ufficio, sotto un controsoffitto.',
+        de: 'Eine leere weisse Bürowand unter einer abgehängten Decke.',
+        en: 'An empty white office wall under a suspended ceiling.',
+        bs: 'Prazan bijeli zid u kancelariji, ispod spuštenog plafona.',
       },
       after: {
-        it: 'La stessa parete con una stampa rosa: torte, rose e il logo Milly Torte.',
-        de: 'Dieselbe Wand mit einem rosa Druck: Torten, Rosen und das Logo von Milly Torte.',
-        en: 'The same wall with a pink print: cakes, roses and the Milly Torte logo.',
-        bs: 'Isti zid s ružičastom štampom: torte, ruže i logotip Milly Torte.',
+        it: "La stessa parete con sei foto storiche dell'azienda Caviezel: vecchi veicoli, attrezzature e le persone che ci lavoravano.",
+        de: 'Dieselbe Wand mit sechs historischen Fotos der Firma Caviezel: alte Fahrzeuge, Geräte und die Menschen, die damit arbeiteten.',
+        en: 'The same wall with six historical photos of the Caviezel company: old vehicles, equipment and the people who worked with them.',
+        bs: 'Isti zid sa šest historijskih fotografija firme Caviezel: stara vozila, oprema i ljudi koji su s njima radili.',
       },
     },
   },
