@@ -15,7 +15,8 @@ export const generateMetadata = metadataFor('faq')
 // did not give); the client reviews them. Each question is a <details>: it works without
 // JavaScript, and all answers are in the HTML. `name` makes them an accordion: opening one
 // closes the other. Each is a lift card, the hover of the area cards (the author,
-// 2026-10-23). Beside them, a dark card for the questions that are not here.
+// 2026-10-23); on touch screens and phones the open question keeps that look (2026-10-24).
+// Beside them, a dark card for the questions that are not here.
 
 const QUESTIONS = [
   'what',
@@ -49,7 +50,7 @@ export default async function FaqPage() {
               <details
                 key={question}
                 name="faq"
-                className="disclosure lift-card group relative isolate rounded-2xl bg-plaster hover:bg-paper sm:rounded-3xl"
+                className="disclosure lift-card group relative isolate rounded-2xl bg-plaster hover:bg-paper touch:open:bg-paper sm:rounded-3xl"
               >
                 {/* The card's radius again, not `inherit`: a summary's parent in the
                     rendering is the details' internal slot (radius 0), so the focus ring

@@ -1,7 +1,8 @@
 import { expect, type Page, test } from '@playwright/test'
 
 // The projects page: every flip card has the same size, a story longer than the card opens
-// whole (a sheet on phones, the photo beside the story on wider screens), and the gallery's
+// whole (a sheet on phones, the photo beside the story on wider screens; the page under it
+// does not scroll), and the gallery's
 // lightbox moves one photo per swipe on phones and shows one photo, without a row to
 // scroll, on a desktop (the author, 2026-10-23).
 
@@ -78,6 +79,54 @@ test('a story longer than the card opens whole', async ({ page, isMobile }) => {
   await page.keyboard.press('Escape')
   await expect(sheet).toBeHidden()
   await expect(more).toBeFocused()
+})
+
+test('the page under an open story does not scroll', async ({ page, context, isMobile }) => {
+  if (!isMobile) await page.setViewportSize({ width: 1024, height: 768 })
+  await page.goto('/it/progetti')
+  const card = projectCard(page, 'caviezel')
+  await card.locator('.flip-card__face--front label').click()
+  await card.getByRole('button', { name: 'Mostra di più' }).click()
+  const sheet = page.getByRole('dialog', { name: 'Due sedi, una storia' })
+  await expect(sheet).toBeVisible()
+  const scrollY = () => page.evaluate(() => Math.round(window.scrollY))
+  const top = await scrollY()
+
+  // A finger drags up over the backdrop and over the sheet; a mouse wheel turns over the
+  // backdrop.
+  const cdp = await context.newCDPSession(page)
+  const drag = async (x: number, fromY: number) => {
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x, y: fromY }],
+    })
+    for (let step = 1; step <= 10; step++) {
+      const y = fromY - step * 15
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] })
+    }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+  }
+  const scrollPage = async () => {
+    if (isMobile) await drag(200, 180)
+    else {
+      await page.mouse.move(40, 400)
+      await page.mouse.wheel(0, 600)
+    }
+  }
+  await scrollPage()
+  if (isMobile) {
+    const box = await sheet.boundingBox()
+    if (!box) throw new Error('The sheet has no box')
+    await drag(200, box.y + box.height - 20)
+  }
+  await page.waitForTimeout(500)
+  expect(await scrollY()).toBe(top)
+
+  // Closed, the page scrolls again.
+  await page.keyboard.press('Escape')
+  await expect(sheet).toBeHidden()
+  await scrollPage()
+  await expect.poll(scrollY).not.toBe(top)
 })
 
 test('the lightbox shows one photo at a time on a desktop', async ({ page, isMobile }) => {

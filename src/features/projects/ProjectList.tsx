@@ -7,6 +7,7 @@ import { images } from '@/content/images/index.ts'
 import { collections } from '@/content/index.ts'
 import type { Project } from '@/content/schema.ts'
 import type { Locale } from '@/i18n/routing.ts'
+import { ScrollLock } from '@/islands/ScrollLock.tsx'
 import { StoryFit } from '@/islands/StoryFit.tsx'
 
 // The client's projects (brief, 2026-10-22) as flip cards (the author: Framer's "Liquid
@@ -25,7 +26,8 @@ import { StoryFit } from '@/islands/StoryFit.tsx'
 // "Show more" (only then: `.flip-card__story` in globals.css, and StoryFit for browsers
 // without scroll timelines) opens the whole story (StorySheet: an HTML popover, no
 // JavaScript; Escape and a click outside close it): a sheet from the bottom on phones, the
-// photo beside the story on wider screens. The sheets come after the list, outside the
+// photo beside the story on wider screens. The page under an open sheet does not scroll
+// (CSS with a mouse, ScrollLock on touch screens). The sheets come after the list, outside the
 // cards, so a card's 3D (perspective, the reveal's transform) is never the containing block
 // of a sheet, whatever a browser does with a popover that is leaving the top layer.
 //
@@ -88,6 +90,7 @@ export async function ProjectList() {
             <StorySheet key={project.id} project={project} locale={locale} labels={labels} />
           ))}
         <StoryFit />
+        <ScrollLock sheet=".story-sheet" />
       </Container>
     </section>
   )

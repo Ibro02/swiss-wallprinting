@@ -125,6 +125,14 @@
   }
 }
 
+/* Touch screens and phone widths: where a tap leaves no hover (an open FAQ question shows
+   the hover's look there, `.lift-card[open]`). */
+@custom-variant touch {
+  @media (hover: none), (pointer: coarse), (width < 40rem) {
+    @slot;
+  }
+}
+
 @layer base {
   :root {
     color-scheme: light;
@@ -486,6 +494,22 @@
   }
 
   /*
+   * Touch screens (MarqueeSwipe, set after hydration): a script runs the strip and it follows
+   * the finger. A horizontal drag is the band's, a vertical one the page's scroll; a finger
+   * that holds the band selects no text and opens no callout.
+   */
+  .marquee-band[data-swipe] {
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+
+  .marquee-band[data-swipe] .marquee {
+    animation: none;
+    will-change: transform;
+  }
+
+  /*
    * GlowCard: a light under the content that follows the mouse, and an optional 3D tilt.
    * JavaScript moves the glow and tilts the card with transforms; the glow shows only while
    * the card is hovered (`data-hover`), and the tilt eases back when the mouse leaves. The
@@ -701,6 +725,31 @@
         transition:
           opacity 200ms var(--ease-out),
           transform 900ms var(--ease-out);
+      }
+    }
+  }
+
+  /* An open lift card (an FAQ question, a `<details>`) on touch screens and phones: a tap
+     leaves no hover, so the open question keeps the hover's look (the author, 2026-10-24):
+     the lime rim and glow, the rise, and one sweep as it opens. Its paper ground is a
+     utility on the card (`touch:open:bg-paper`). */
+  .lift-card[open] {
+    @variant touch {
+      border-color: rgb(197 210 13 / 0.32);
+      box-shadow:
+        0 0 24px rgb(197 210 13 / 0.2),
+        0 24px 48px -28px rgb(0 0 0 / 0.4);
+
+      @media (prefers-reduced-motion: no-preference) {
+        translate: 0 -6px;
+
+        & .lift-card__sweep {
+          opacity: 1;
+          transform: translateX(330%) skewX(-18deg);
+          transition:
+            opacity 200ms var(--ease-out),
+            transform 900ms var(--ease-out);
+        }
       }
     }
   }
@@ -927,10 +976,22 @@
    * The whole story (an HTML popover with role dialog): a sheet that rises from the bottom
    * on phones; from 640 px a dialog with the project's photo beside the story, which scales
    * in from 96 %. It opens and closes without JavaScript; Escape and a click outside close
-   * it, and the focus returns to "Show more". The page under it is not locked: `overflow`
-   * on the root can resize a phone's viewport (its address bar shows) and move the page
-   * under the sheet. Transform and opacity only, in under 300 ms; reduced motion: a fade.
+   * it, and the focus returns to "Show more". Transform and opacity only, in under 300 ms;
+   * reduced motion: a fade.
    */
+
+  /* The page under an open story stays still (the author, 2026-10-24). With a mouse the root
+     does not scroll (wheel, keys, scrollbar), and the scrollbar's gutter stays, so nothing
+     moves sideways. Not on touch screens: `overflow` on the root can resize a phone's
+     viewport (its address bar shows) and move the page under the sheet; ScrollLock cancels
+     the touch moves there instead. */
+  @media (hover: hover) and (pointer: fine) {
+    :root:has(.story-sheet:popover-open) {
+      overflow: hidden;
+      scrollbar-gutter: stable;
+    }
+  }
+
   .story-sheet {
     position: fixed;
     inset: auto 0 0;

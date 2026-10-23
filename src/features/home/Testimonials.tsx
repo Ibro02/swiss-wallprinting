@@ -6,16 +6,21 @@ import { SectionHeading } from '@/components/SectionHeading.tsx'
 import { Stars } from '@/components/Stars.tsx'
 import { collections } from '@/content/index.ts'
 import type { Testimonial } from '@/content/schema.ts'
+import { MarqueeSwipe } from '@/islands/MarqueeSwipe.tsx'
 import { ratingSummary } from './rating.ts'
 
 // Pattern from faberwall.nl/reviews (Development Plan 4.2): the rating summary, then the
 // reviews as a slow band of mist cards that slides to the left, the next ones coming in
 // from the right (the author prefers it to a static grid). It pauses under the mouse and
-// while a card has focus; with reduced motion it stands still and scrolls by hand. Every
-// mock review shows the "example" badge.
+// while a card has focus; with reduced motion it stands still and scrolls by hand. On touch
+// screens a script runs it instead (MarqueeSwipe): a finger holds it, drags it, and swipes
+// it (the author, 2026-10-24). Every mock review shows the "example" badge.
 
 /** Seconds per review for one loop: about 35 px per second. */
 const SECONDS_PER_CARD = 10
+
+/** The band's id, for MarqueeSwipe. */
+const BAND_ID = 'testimonials-band'
 
 /** The initials in the logo's colours, in turn. */
 const AVATAR_COLOURS = ['bg-lime text-graphite', 'bg-graphite text-lime', 'bg-magenta text-white']
@@ -28,6 +33,7 @@ export async function Testimonials() {
 
   const summary = ratingSummary(reviews.map((review) => review.rating))
   const hasMock = reviews.some((review) => review.mock)
+  const loopSeconds = reviews.length * SECONDS_PER_CARD
   const starsLabel = (rating: number) => t('starsLabel', { rating })
 
   const card = (review: Testimonial, index: number) => (
@@ -104,6 +110,7 @@ export async function Testimonials() {
       {/* The band runs to the card frame's edges and fades out there. A region that takes
           the keyboard focus: with reduced motion it scrolls by hand, also with the keys. */}
       <section
+        id={BAND_ID}
         data-reveal="2"
         aria-labelledby="testimonials-title"
         // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- a scrolling region needs the focus (WCAG 2.1.1)
@@ -112,7 +119,7 @@ export async function Testimonials() {
       >
         <div
           className="marquee flex w-max"
-          style={{ '--marquee-duration': `${reviews.length * SECONDS_PER_CARD}s` } as CSSProperties}
+          style={{ '--marquee-duration': `${loopSeconds}s` } as CSSProperties}
         >
           {/* Both lists end with the same gap, so moving by half the width loops without a jump. */}
           <ul className="flex gap-3 pr-3">{reviews.map(card)}</ul>
@@ -122,6 +129,7 @@ export async function Testimonials() {
           </ul>
         </div>
       </section>
+      <MarqueeSwipe band={BAND_ID} loopSeconds={loopSeconds} />
 
       {/* WCAG 2.2.2: a way to stop the moving band, also on touch screens. A checkbox, so it
           works without JavaScript; the CSS pauses the band while it is checked. */}
