@@ -1,6 +1,6 @@
 // The first configuration when the page opens. `?area=hotel` (from the application areas
-// and the services room cards) starts with the same wall size and artwork as that room;
-// a share link (model/share.ts) restores a whole configuration.
+// and the services page) starts with that area's wall size and artwork
+// (src/content/area-starts.ts); a share link (model/share.ts) restores a whole configuration.
 
 import type { ImageAsset } from '@/content/images/types.ts'
 import { defaultPrint, fitPrintToWall } from './model/print.ts'
@@ -51,10 +51,10 @@ export function startConfig(
     }
   }
 
-  const serviceRoom = content.rooms.find((room) => room.area === area)
-  const preset = content.presets.find((item) => item.id === serviceRoom?.preset) ?? first
-  const room = serviceRoom
-    ? { ...DEFAULT_ROOM, width: serviceRoom.wall.widthM, height: serviceRoom.wall.heightM }
+  const areaRoom = content.rooms.find((room) => room.area === area)
+  const preset = content.presets.find((item) => item.id === areaRoom?.preset) ?? first
+  const room = areaRoom
+    ? { ...DEFAULT_ROOM, width: areaRoom.wall.widthM, height: areaRoom.wall.heightM }
     : DEFAULT_ROOM
   const image = presetImage(preset)
   const environment = content.areas.find((item) => item.id === area)?.environment ?? 'interior'

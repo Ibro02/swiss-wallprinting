@@ -23,7 +23,8 @@ import {
   printQuality,
   printFacts,
   project,
-  serviceRoom,
+  areaStart,
+  beforeAfterPair,
   testimonial,
 } from '../schema.ts'
 
@@ -34,7 +35,8 @@ const SCHEMAS: Record<keyof typeof collections, z.ZodType> = {
   printFacts,
   testimonials: testimonial,
   applicationAreas: applicationArea,
-  services: serviceRoom,
+  areaStarts: areaStart,
+  services: beforeAfterPair,
   projects: project,
   gallery: galleryItem,
   legal: legalInfo,
@@ -65,9 +67,9 @@ describe('content images', () => {
 
   it('are mock only in mock items', () => {
     const uses = [
-      ...collections.services.flatMap((room) => [
-        { id: room.id, mock: room.mock, key: room.before },
-        { id: room.id, mock: room.mock, key: room.after },
+      ...collections.services.flatMap((pair) => [
+        { id: pair.id, mock: pair.mock, key: pair.before },
+        { id: pair.id, mock: pair.mock, key: pair.after },
       ]),
       ...collections.gallery.map((item) => ({ id: item.id, mock: item.mock, key: item.image })),
       ...collections.presets.map((item) => ({ id: item.id, mock: item.mock, key: item.image })),
@@ -76,9 +78,9 @@ describe('content images', () => {
     expect(offenders.map((use) => `${use.id} uses ${use.key}`)).toEqual([])
   })
 
-  it('link services and gallery items to existing application areas', () => {
+  it('link area starts and gallery items to existing application areas', () => {
     const links = [
-      ...collections.services.map((room) => ({ id: room.id, area: room.area })),
+      ...collections.areaStarts.map((start) => ({ id: start.id, area: start.area })),
       ...collections.gallery.flatMap((item) =>
         item.area ? [{ id: item.id, area: item.area }] : [],
       ),
@@ -86,10 +88,27 @@ describe('content images', () => {
     expect(links.filter((link) => !areaIds.has(link.area))).toEqual([])
   })
 
-  it('link every service room to an existing configurator preset', () => {
+  it('link every area start to an existing configurator preset', () => {
     const presetIds = new Set(collections.presets.map((item) => item.id))
-    const offenders = collections.services.filter((room) => !presetIds.has(room.preset))
-    expect(offenders.map((room) => `${room.id} → ${room.preset}`)).toEqual([])
+    const offenders = collections.areaStarts.filter((start) => !presetIds.has(start.preset))
+    expect(offenders.map((start) => `${start.id} → ${start.preset}`)).toEqual([])
+  })
+
+  it('link before/after pairs only to existing projects', () => {
+    const projectIds = new Set(collections.projects.map((item) => item.id))
+    const offenders = collections.services.filter(
+      (pair) => pair.project !== undefined && !projectIds.has(pair.project),
+    )
+    expect(offenders.map((pair) => `${pair.id} → ${pair.project}`)).toEqual([])
+  })
+
+  it('have before/after pairs of the same size, so the two photos line up', () => {
+    const offenders = collections.services.filter((pair) => {
+      const before = images[pair.before]
+      const after = images[pair.after]
+      return before.width !== after.width || before.height !== after.height
+    })
+    expect(offenders.map((pair) => pair.id)).toEqual([])
   })
 })
 

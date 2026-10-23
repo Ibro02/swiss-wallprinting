@@ -211,14 +211,7 @@
   "Services": {
     "eyebrow": "Services",
     "title": "Direct printing on <em>any wall</em>",
-    "lead": "Direct digital printing on many surfaces, for private and business clients. Pick the situation closest to yours, see the difference and try it in the 3D configurator.",
-    "rooms": {
-      "title": "Choose your <em>situation</em>",
-      "mockNote": "Example photos for this preview: they will be replaced by real work.",
-      "sliderLabel": "{room}: before and after",
-      "wallSize": "Wall size:",
-      "tryThisWall": "Try this wall"
-    },
+    "lead": "Direct digital printing on many surfaces, for businesses and private clients. See the difference on our clients' walls and try it in the 3D configurator.",
     "what": {
       "eyebrow": "What we print",
       "title": "From photos to <em>company history</em>",
@@ -261,16 +254,42 @@
     "audiences": {
       "eyebrow": "Who it is for",
       "title": "For businesses <em>and homes</em>",
-      "tryIt": "Try it in the configurator",
+      "intro": "Walls we have printed for our clients: see them as they were and as they are today.",
+      "sliderLabel": "{place}: before and after",
+      "seeProject": "See the project",
       "business": {
         "title": "Business clients",
-        "text": "Architects, planners and interior designers, hotels, restaurants, offices, shops, schools, museums, salons, garages and other companies.",
+        "clients": {
+          "architects": "Architects",
+          "planners": "Planners",
+          "interiorDesigners": "Interior designers",
+          "hotels": "Hotels",
+          "restaurants": "Restaurants",
+          "offices": "Offices",
+          "shops": "Shops",
+          "schools": "Schools",
+          "museums": "Museums",
+          "salons": "Salons",
+          "garages": "Garages",
+          "others": "Other companies"
+        },
         "highlight": "Your company's history and identity, told on its walls."
       },
       "private": {
         "title": "Private clients",
-        "text": "Living rooms, bedrooms, children's rooms, hallways and other living spaces.",
+        "clients": {
+          "livingRooms": "Living rooms",
+          "bedrooms": "Bedrooms",
+          "childrensRooms": "Children's rooms",
+          "hallways": "Hallways",
+          "others": "Other rooms at home"
+        },
         "highlight": "Make your home one of a kind."
+      },
+      "yourWall": {
+        "title": "Try it on your wall",
+        "text": "Upload an image and see it on the wall in 3D, with an approximate price.",
+        "cta": "Open the configurator"
       }
     },
     "surfaces": {

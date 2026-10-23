@@ -211,14 +211,7 @@
   "Services": {
     "eyebrow": "Leistungen",
     "title": "Direktdruck auf <em>jede Wand</em>",
-    "lead": "Digitaler Direktdruck auf verschiedene Oberflächen, für Privat- und Geschäftskunden. Wählen Sie die Situation, die Ihrer am nächsten kommt, sehen Sie den Unterschied und testen Sie sie im 3D-Konfigurator.",
-    "rooms": {
-      "title": "Wählen Sie Ihre <em>Situation</em>",
-      "mockNote": "Beispielfotos für die Vorschau: Sie werden durch echte Arbeiten ersetzt.",
-      "sliderLabel": "{room}: vorher und nachher",
-      "wallSize": "Wandmasse:",
-      "tryThisWall": "Diese Wand testen"
-    },
+    "lead": "Digitaler Direktdruck auf verschiedene Oberflächen, für Unternehmen und Private. Sehen Sie den Unterschied an den Wänden unserer Kundschaft und testen Sie ihn im 3D-Konfigurator.",
     "what": {
       "eyebrow": "Was wir drucken",
       "title": "Vom Foto bis zur <em>Firmengeschichte</em>",
@@ -261,16 +254,42 @@
     "audiences": {
       "eyebrow": "Für wen",
       "title": "Für Unternehmen <em>und Private</em>",
-      "tryIt": "Im Konfigurator testen",
+      "intro": "Wände, die wir für unsere Kundschaft bedruckt haben: So sahen sie vorher aus, so sehen sie heute aus.",
+      "sliderLabel": "{place}: vorher und nachher",
+      "seeProject": "Zum Projekt",
       "business": {
         "title": "Geschäftskunden",
-        "text": "Architekten, Planer und Innenarchitekten, Hotels, Restaurants, Büros, Läden, Schulen, Museen, Salons, Garagen und weitere Unternehmen.",
+        "clients": {
+          "architects": "Architekten",
+          "planners": "Planer",
+          "interiorDesigners": "Innenarchitekten",
+          "hotels": "Hotels",
+          "restaurants": "Restaurants",
+          "offices": "Büros",
+          "shops": "Läden",
+          "schools": "Schulen",
+          "museums": "Museen",
+          "salons": "Salons",
+          "garages": "Garagen",
+          "others": "Weitere Unternehmen"
+        },
         "highlight": "Die Geschichte und Identität Ihres Unternehmens, erzählt auf seinen Wänden."
       },
       "private": {
         "title": "Privatkunden",
-        "text": "Wohnzimmer, Schlafzimmer, Kinderzimmer, Flure und weitere Wohnräume.",
+        "clients": {
+          "livingRooms": "Wohnzimmer",
+          "bedrooms": "Schlafzimmer",
+          "childrensRooms": "Kinderzimmer",
+          "hallways": "Flure",
+          "others": "Weitere Wohnräume"
+        },
         "highlight": "Machen Sie Ihr Zuhause einzigartig."
+      },
+      "yourWall": {
+        "title": "Auf Ihrer Wand testen",
+        "text": "Laden Sie ein Bild hoch und sehen Sie es in 3D auf der Wand, mit einem Richtpreis.",
+        "cta": "Konfigurator öffnen"
       }
     },
     "surfaces": {

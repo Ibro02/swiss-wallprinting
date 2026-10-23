@@ -211,14 +211,7 @@
   "Services": {
     "eyebrow": "Servizi",
     "title": "Stampa diretta su <em>qualsiasi parete</em>",
-    "lead": "Stampa digitale diretta su diverse superfici, per privati e aziende. Scegli la situazione più vicina alla tua, guarda la differenza e provala nel configuratore 3D.",
-    "rooms": {
-      "title": "Scegli la tua <em>situazione</em>",
-      "mockNote": "Foto di esempio per l'anteprima: verranno sostituite da lavori reali.",
-      "sliderLabel": "{room}: prima e dopo",
-      "wallSize": "Misure della parete:",
-      "tryThisWall": "Prova questa parete"
-    },
+    "lead": "Stampa digitale diretta su diverse superfici, per aziende e privati. Guarda la differenza sulle pareti dei nostri clienti e provala nel configuratore 3D.",
     "what": {
       "eyebrow": "Cosa stampiamo",
       "title": "Dalla foto alla <em>storia aziendale</em>",
@@ -261,16 +254,42 @@
     "audiences": {
       "eyebrow": "Per chi",
       "title": "Per aziende e <em>per privati</em>",
-      "tryIt": "Prova nel configuratore",
+      "intro": "Pareti che abbiamo stampato per i nostri clienti: guarda com'erano prima e come sono oggi.",
+      "sliderLabel": "{place}: prima e dopo",
+      "seeProject": "Vedi il progetto",
       "business": {
         "title": "Clienti aziendali",
-        "text": "Architetti, progettisti e designer d'interni, hotel, ristoranti, uffici, negozi, scuole, musei, saloni, garage e altre aziende.",
+        "clients": {
+          "architects": "Architetti",
+          "planners": "Progettisti",
+          "interiorDesigners": "Designer d'interni",
+          "hotels": "Hotel",
+          "restaurants": "Ristoranti",
+          "offices": "Uffici",
+          "shops": "Negozi",
+          "schools": "Scuole",
+          "museums": "Musei",
+          "salons": "Saloni",
+          "garages": "Garage",
+          "others": "Altre aziende"
+        },
         "highlight": "La storia e l'identità della tua azienda, raccontate sulle sue pareti."
       },
       "private": {
         "title": "Clienti privati",
-        "text": "Soggiorni, camere da letto, camerette, corridoi e altri spazi della casa.",
+        "clients": {
+          "livingRooms": "Soggiorni",
+          "bedrooms": "Camere da letto",
+          "childrensRooms": "Camerette",
+          "hallways": "Corridoi",
+          "others": "Altri spazi della casa"
+        },
         "highlight": "Rendi unica la tua casa."
+      },
+      "yourWall": {
+        "title": "Prova sulla tua parete",
+        "text": "Carica un'immagine e guardala sulla parete in 3D, con un prezzo indicativo.",
+        "cta": "Apri il configuratore"
       }
     },
     "surfaces": {

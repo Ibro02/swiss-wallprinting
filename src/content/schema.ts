@@ -92,22 +92,40 @@ export type ApplicationArea = z.infer<typeof applicationArea>
 /** Key in src/content/images/ (the content tests check that it exists). */
 const imageKey = z.string().min(1)
 
-/** A room card on the services page: the same wall before and after the print. */
-export const serviceRoom = contentItem.extend({
-  /** The application area id (src/content/application-areas.ts). */
-  area: z.string().min(1),
-  /** The wall in the photo, metres. */
-  wall: z.object({ widthM: z.number().positive(), heightM: z.number().positive() }),
+/** The two kinds of clients on the services page (the client's brief, 2026-10-22). */
+export const audience = z.enum(['business', 'private'])
+export type Audience = z.infer<typeof audience>
+
+/**
+ * A before/after card on the services page: the client's photo of a wall without and with
+ * his print, cut to the same part, so the two line up under the split.
+ */
+export const beforeAfterPair = contentItem.extend({
+  audience,
+  /** The project in src/content/projects.ts with the story of this wall, if there is one. */
+  project: z.string().min(1).optional(),
+  place: localizedText,
+  /** One or two words that tie the wall to its group: "Identity", "History", "Living room". */
+  tag: localizedText,
   before: imageKey,
   after: imageKey,
   alt: z.object({ before: localizedText, after: localizedText }),
-  /** The configurator preset with the same artwork ("Try this wall"). */
-  preset: z.string().min(1),
 })
-export type ServiceRoom = Omit<z.infer<typeof serviceRoom>, 'before' | 'after'> & {
+export type BeforeAfterPair = Omit<z.infer<typeof beforeAfterPair>, 'before' | 'after'> & {
   before: ImageKey
   after: ImageKey
 }
+
+/** How the configurator starts for `?area=`: an example wall and artwork per area. */
+export const areaStart = contentItem.extend({
+  /** The application area id (src/content/application-areas.ts). */
+  area: z.string().min(1),
+  /** The first wall, metres. */
+  wall: z.object({ widthM: z.number().positive(), heightM: z.number().positive() }),
+  /** The configurator preset on that wall. */
+  preset: z.string().min(1),
+})
+export type AreaStart = z.infer<typeof areaStart>
 
 /** A ready print image in the configurator (Development Plan 4.7, control 3). */
 export const preset = contentItem.extend({

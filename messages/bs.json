@@ -211,14 +211,7 @@
   "Services": {
     "eyebrow": "Usluge",
     "title": "Direktna štampa na <em>svaki zid</em>",
-    "lead": "Direktna digitalna štampa na različitim površinama, za privatne i poslovne klijente. Odaberite situaciju najsličniju vašoj, pogledajte razliku i isprobajte je u 3D konfiguratoru.",
-    "rooms": {
-      "title": "Izaberite svoju <em>situaciju</em>",
-      "mockNote": "Primjeri fotografija za pregled: bit će zamijenjeni stvarnim radovima.",
-      "sliderLabel": "{room}: prije i poslije",
-      "wallSize": "Dimenzije zida:",
-      "tryThisWall": "Isprobaj ovaj zid"
-    },
+    "lead": "Direktna digitalna štampa na različitim površinama, za firme i privatne klijente. Pogledajte razliku na zidovima naših klijenata i isprobajte je u 3D konfiguratoru.",
     "what": {
       "eyebrow": "Šta štampamo",
       "title": "Od fotografije do <em>priče kompanije</em>",
@@ -261,16 +254,42 @@
     "audiences": {
       "eyebrow": "Za koga",
       "title": "Za firme <em>i privatne klijente</em>",
-      "tryIt": "Isprobajte u konfiguratoru",
+      "intro": "Zidovi koje smo odštampali za naše klijente: pogledajte kakvi su bili prije i kakvi su danas.",
+      "sliderLabel": "{place}: prije i poslije",
+      "seeProject": "Pogledajte projekat",
       "business": {
         "title": "Poslovni klijenti",
-        "text": "Arhitekti, projektanti, dizajneri enterijera, hoteli, restorani, kancelarije, trgovine, škole, muzeji, saloni, garaže i druge kompanije.",
+        "clients": {
+          "architects": "Arhitekti",
+          "planners": "Projektanti",
+          "interiorDesigners": "Dizajneri enterijera",
+          "hotels": "Hoteli",
+          "restaurants": "Restorani",
+          "offices": "Kancelarije",
+          "shops": "Trgovine",
+          "schools": "Škole",
+          "museums": "Muzeji",
+          "salons": "Saloni",
+          "garages": "Garaže",
+          "others": "Druge kompanije"
+        },
         "highlight": "Historija i identitet vaše firme, ispričani na njenim zidovima."
       },
       "private": {
         "title": "Privatni klijenti",
-        "text": "Dnevni boravci, spavaće sobe, dječije sobe, hodnici i drugi stambeni prostori.",
+        "clients": {
+          "livingRooms": "Dnevni boravci",
+          "bedrooms": "Spavaće sobe",
+          "childrensRooms": "Dječije sobe",
+          "hallways": "Hodnici",
+          "others": "Drugi stambeni prostori"
+        },
         "highlight": "Učinite svoj dom jedinstvenim."
+      },
+      "yourWall": {
+        "title": "Isprobajte na svom zidu",
+        "text": "Učitajte sliku i pogledajte je na zidu u 3D-u, s okvirnom cijenom.",
+        "cta": "Otvorite konfigurator"
       }
     },
     "surfaces": {

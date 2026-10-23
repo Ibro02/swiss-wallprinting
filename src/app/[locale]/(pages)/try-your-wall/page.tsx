@@ -41,7 +41,7 @@ export default async function TryYourWallPage({ searchParams }: Props) {
     typeof params.area === 'string' ? params.area : undefined,
     {
       presets,
-      rooms: collections.services,
+      rooms: collections.areaStarts,
       areas: collections.applicationAreas,
       machineMaxHeight: printFacts.maxPrintHeightM,
     },

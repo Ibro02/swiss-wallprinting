@@ -38,6 +38,13 @@ interface Photo {
   cover?: readonly [width: number, height: number]
   /** Where a cover crop keeps the picture, when the attention strategy picks the wrong part. */
   position?: 'centre' | 'top' | 'bottom'
+  /**
+   * With `cover`: cut the full-width band with the cover's ratio this far down the part that
+   * is left over (0 the top, 1 the bottom). Both photos of a before/after pair get the same
+   * band, so the blank wall and the print stay aligned; the attention strategy would pick a
+   * different part in each photo.
+   */
+  band?: number
 }
 
 /**
@@ -58,31 +65,31 @@ const PHOTOS: readonly Photo[] = [
     maxSize: 2560,
     staticImport: true,
   },
-  { name: 'projects/monteceneri-wall', source: project('Monteceneri', '20261019_144020.jpg') },
+  { name: 'projects/monteceneri-wall', source: project('Monteceneri', 'Monteceneri After.jpg') },
   { name: 'projects/monteceneri-detail', source: project('Monteceneri', '20261019_142624.jpg') },
   {
     name: 'projects/holiday-cottage',
     source: project('Holiday cottage', '20261018_215859.jpg'),
   },
-  { name: 'projects/milly-torte', source: project('Milly Torte', '20260913_234047.jpg') },
+  { name: 'projects/milly-torte', source: project('Milly Torte', 'Milly Torte - After.jpg') },
   { name: 'projects/pool-before', source: project('By the pool', '20260911_162150.jpg') },
   { name: 'projects/pool-printing', source: project('By the pool', '20260920_164944.jpg') },
   { name: 'projects/pool-finished', source: project('By the pool', '20260921_160051.jpg') },
   {
     name: 'projects/barber-house',
-    source: project('Barber House, Bellinzona', '20260628_140624.jpg'),
+    source: project('Barber House, Bellinzona', 'Barbershop After.jpg'),
   },
   { name: 'projects/caviezel-history', source: project('Caviezel', '20260504_141327.jpg') },
   { name: 'projects/caviezel-headquarters', source: project('Caviezel', '20260429_134529.jpg') },
   // The project cards' covers: 4:3 crops of the same photos.
   ...(
     [
-      ['monteceneri', 'Monteceneri', '20261019_144020.jpg'],
+      ['monteceneri', 'Monteceneri', 'Monteceneri After.jpg'],
       ['holiday-cottage', 'Holiday cottage', '20261018_215859.jpg'],
       // Attention picks the ceiling light here; the middle has the cakes and the logo.
-      ['milly-torte', 'Milly Torte', '20260913_234047.jpg', 'centre'],
+      ['milly-torte', 'Milly Torte', 'Milly Torte - After.jpg', 'centre'],
       ['pool', 'By the pool', '20260921_160051.jpg'],
-      ['barber-house', 'Barber House, Bellinzona', '20260628_140624.jpg'],
+      ['barber-house', 'Barber House, Bellinzona', 'Barbershop After.jpg'],
       ['caviezel', 'Caviezel', '20260504_141327.jpg'],
     ] as const
   ).map(([id, folder, file, position]: readonly [string, string, string, Photo['position']?]) => ({
@@ -106,13 +113,70 @@ const PHOTOS: readonly Photo[] = [
   },
   {
     name: 'work/racing-car',
-    source: project('Private client, living room', '20260601_110319.jpg'),
+    source: project('Private client, living room', 'Private homes - After.jpg'),
   },
   {
     name: 'work/office-logo',
     source: project('Private client, living room', '20260824_175623.jpg'),
   },
+  // The services page's before/after pairs (the client's "… Before" and "… After" files): a
+  // 4:5 band of each, with the print in it. Not used: the "Private client" pair (a dental
+  // clinic, the printer maker's picture, not the client's work).
+  ...(
+    [
+      [
+        'barber-house',
+        'Barber House, Bellinzona',
+        'Barbershop Before.jpg',
+        'Barbershop After.jpg',
+        0.33,
+      ],
+      ['milly-torte', 'Milly Torte', 'Milly Torte - Before.jpg', 'Milly Torte - After.jpg', 0.08],
+      ['monteceneri', 'Monteceneri', 'Monteceneri Before.jpg', 'Monteceneri After.jpg', 0.2],
+      [
+        'pool',
+        'By the pool',
+        'Facades and outdoor walls - Before.jpg',
+        'Facades and outdoor walls - After.jpg',
+        0.8,
+      ],
+      [
+        'living-room',
+        'Private client, living room',
+        'Private homes - Before.jpg',
+        'Private homes - After.jpg',
+        0.22,
+      ],
+    ] as const
+  ).flatMap(([id, folder, before, after, band]) =>
+    (
+      [
+        ['before', before],
+        ['after', after],
+      ] as const
+    ).map(([state, file]) => ({
+      name: `services/${id}-${state}`,
+      source: project(folder, file),
+      cover: [1000, 1250] as const,
+      band,
+    })),
+  ),
 ].map((photo) => ({ maxSize: 2000, ...photo }))
+
+/** The photo upright, or its band (see `Photo.band`). */
+async function upright(photo: Photo) {
+  const file = path.join(root, photo.source)
+  if (!photo.cover || photo.band === undefined) return sharp(file).rotate()
+  const [coverWidth, coverHeight] = photo.cover
+  const { data, info } = await sharp(file).rotate().raw().toBuffer({ resolveWithObject: true })
+  const height = Math.min(info.height, Math.round((info.width * coverHeight) / coverWidth))
+  return sharp(data, { raw: info }).extract({
+    left: 0,
+    top: Math.round((info.height - height) * photo.band),
+    width: info.width,
+    height,
+  })
+}
 
 for (const [source, target] of BRAND) {
   await mkdir(path.dirname(path.join(root, target)), { recursive: true })
@@ -135,8 +199,9 @@ const manifest: Record<string, ImageAsset> = {}
 for (const photo of PHOTOS) {
   const publicFile = path.join(root, `public/photos/${photo.name}.jpg`)
   await mkdir(path.dirname(publicFile), { recursive: true })
-  const info = await sharp(path.join(root, photo.source))
-    .rotate()
+  const info = await (
+    await upright(photo)
+  )
     .resize(
       photo.cover
         ? {

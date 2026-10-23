@@ -70,7 +70,14 @@ export async function ProjectList() {
       <Container>
         <ol className="grid auto-rows-fr grid-cols-1 gap-3 md:grid-cols-2">
           {collections.projects.map((project, index) => (
-            <li key={project.id} data-reveal={String((index % 2) + 1)} className="min-w-0">
+            // The project's id is its anchor (the services page links to /projects#pool);
+            // the margin keeps the card clear of the header pill.
+            <li
+              key={project.id}
+              id={project.id}
+              data-reveal={String((index % 2) + 1)}
+              className="min-w-0 scroll-mt-28"
+            >
               <ProjectCard project={project} locale={locale} labels={labels} first={index === 0} />
             </li>
           ))}

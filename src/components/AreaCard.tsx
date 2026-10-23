@@ -8,7 +8,7 @@ import { Link } from '@/i18n/navigation.ts'
  * sweeps across): the icon in a pale lime tile, the title, the text, an optional closing
  * line in the serif accent, and at the foot the call to action and a number. Phones: a
  * compact row (icon, text, arrow); the foot is for screen readers there. Used by the
- * application areas (home) and the audiences (services).
+ * application areas (home).
  */
 export function AreaCard({
   href,

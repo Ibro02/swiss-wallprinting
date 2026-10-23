@@ -99,6 +99,66 @@ export const photos = {
     "height": 2000,
     "blurDataURL": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASoMABUAPu1iqU2ppaOiMAgBMB2JZACw7BtoattaBNjBwvxJAAD+tZvCN44eQ1Pju1D4AvDFxX/1KQHw2SrAlUegHo72EvEmYJYRZE8zJ8zgQELuNOQadb3QG2nyrP2s0Sfi4n6mmuDV7diYkfuUWycsAAA="
   },
+  "services/barber-house-after": {
+    "src": "/photos/services/barber-house-after.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQAgCdASoMAA8AA4BaJZwAAu18UdpNtgPAAP7JzX34V/MdO5UpgnOW7AYU+vprsSWV7nBOWnc4XRdlZFrArCLf85MHkTjReXpvrPCJ+TloFmSAUAA="
+  },
+  "services/barber-house-before": {
+    "src": "/photos/services/barber-house-before.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoMAA8AA4BaJZwAAl1OvkHAAP7ruPCjM0AXZJTrn+LzgMOAK2N22Xyc7nBeq1u7CAA="
+  },
+  "services/living-room-after": {
+    "src": "/photos/services/living-room-after.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADwAQCdASoMAA8AA4BaJZQCdAD0bNYYUoAA/tRUlLEpgiEqiO0PDdFU2Kuobo8d35s9N2oSE0/zTy+CsmMMURZIoCW0tRvB7IGYW7cn6u4kCfbJYmvgAA=="
+  },
+  "services/living-room-before": {
+    "src": "/photos/services/living-room-before.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAAAQAgCdASoMAA8AA4BaJZQCdAEPAEI0uEsAAP7nF3Lh3nvpBgpVAxCLkwHsnRZCjwAAAA=="
+  },
+  "services/milly-torte-after": {
+    "src": "/photos/services/milly-torte-after.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAACwAQCdASoMAA8AA4BaJYwCdADY9+AAAP6zeeqVegKhkl8EITm1S9rgfxZod42DChWevNb+kosJVrphwAA="
+  },
+  "services/milly-torte-before": {
+    "src": "/photos/services/milly-torte-before.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoMAA8AA4BaJZwAAlmxWii5AAD+s3nqlXoCoLX907U77n6kTP8HYCoVAVdEjfceATO/AAAA"
+  },
+  "services/monteceneri-after": {
+    "src": "/photos/services/monteceneri-after.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAAAwAgCdASoMAA8AA4BaJZQCdADcZO/2BjQ6AAD1/lcbzyp4hwlxwzSJ0SMqK/3Vd0KCL4jSwIx6IHrW9gAAAA=="
+  },
+  "services/monteceneri-before": {
+    "src": "/photos/services/monteceneri-before.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAADwAQCdASoMAA8AA4BaJZQCdAEPDU5g7MAAzc5Yoajdirkli0tgAA=="
+  },
+  "services/pool-after": {
+    "src": "/photos/services/pool-after.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADQAQCdASoMAA8AA4BaJZQAAmg+Ujlu4ADiYg5hqanQ1wKFgrSKihvh4tb0XJIhA7XAEbEsyBJ/BWbhgPP+wJ1SHcAAAA=="
+  },
+  "services/pool-before": {
+    "src": "/photos/services/pool-before.jpg",
+    "width": 1000,
+    "height": 1250,
+    "blurDataURL": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADwAQCdASoMAA8AA4BaJZwAAvrftYKbHgAA+Susi3/SbXpS6aoRL5fxz0uAAA=="
+  },
   "tiger-mid-print": {
     "src": "/photos/tiger-mid-print.jpg",
     "width": 1280,

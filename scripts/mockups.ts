@@ -43,67 +43,9 @@ interface Scene {
   before: boolean
 }
 
-const LANDSCAPE = { width: 1600, height: 1000 }
 const PORTRAIT = { width: 1000, height: 1300 }
-const FLOOR = { texture: 'laminate', ratio: 0.18 } as const
 
 const SCENES: readonly Scene[] = [
-  {
-    key: 'services/office',
-    ...LANDSCAPE,
-    wall: { texture: 'plaster', tint: '#ecebe7' },
-    ground: FLOOR,
-    art: 'cmyk',
-    artBox: { x: 0.14, y: 0.1, w: 0.72, h: 0.52 },
-    before: true,
-  },
-  {
-    key: 'services/hotel',
-    ...LANDSCAPE,
-    wall: { texture: 'plaster', tint: '#efe5d8' },
-    ground: FLOOR,
-    art: 'lake',
-    artBox: { x: 0.08, y: 0.1, w: 0.84, h: 0.54 },
-    before: true,
-  },
-  {
-    key: 'services/restaurant',
-    ...LANDSCAPE,
-    wall: { texture: 'plaster', tint: '#f0e2cc' },
-    ground: FLOOR,
-    art: 'lemons',
-    artBox: { x: 0.12, y: 0.08, w: 0.76, h: 0.58 },
-    before: true,
-  },
-  {
-    key: 'services/school',
-    ...LANDSCAPE,
-    wall: { texture: 'plaster', tint: '#e4ebe6' },
-    ground: FLOOR,
-    art: 'space',
-    artBox: { x: 0.18, y: 0.1, w: 0.64, h: 0.56 },
-    before: true,
-  },
-  {
-    key: 'services/home',
-    ...LANDSCAPE,
-    wall: { texture: 'plaster', tint: '#f3ebe2' },
-    ground: FLOOR,
-    art: 'arches',
-    artBox: { x: 0.26, y: 0.1, w: 0.48, h: 0.62 },
-    before: true,
-  },
-  {
-    key: 'services/facade',
-    ...LANDSCAPE,
-    // Outdoor render: the plaster grain in a warm stone colour; pavement in grey.
-    wall: { texture: 'plaster', tint: '#ebe1d1' },
-    ground: { texture: 'plaster', ratio: 0.12, tint: '#8f8b84' },
-    sky: { ratio: 0.2 },
-    art: 'peaks',
-    artBox: { x: 0.12, y: 0.25, w: 0.76, h: 0.58 },
-    before: true,
-  },
   {
     key: 'gallery/hotel-corridor',
     ...PORTRAIT,

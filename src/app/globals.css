@@ -643,8 +643,8 @@
 
   /*
    * Lift cards (the author, 2026-10-22, after Framer's "Programs", with lime where it has
-   * blue, on the mist cards of the page): the application areas (home), the audiences
-   * (services), both through AreaCard, and the technical facts (services). Under the
+   * blue, on the mist cards of the page): the application areas (home, through AreaCard),
+   * the configurator tile of the audiences and the technical facts (services). Under the
    * mouse the card rises 6 px, its rim and glow turn lime, and a band of lime light sweeps
    * across once; on the way out it fades first and jumps back unseen. The rise is the
    * `translate` property, so it adds to a `data-reveal` transform on the same element.

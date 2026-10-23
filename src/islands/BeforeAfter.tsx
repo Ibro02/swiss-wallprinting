@@ -146,7 +146,7 @@ export function BeforeAfter({
       }}
       onKeyDown={onKeyDown}
       style={style}
-      className="group relative aspect-[16/10] cursor-ew-resize touch-pan-y overflow-hidden rounded-2xl bg-plaster select-none sm:rounded-3xl"
+      className="group relative aspect-[4/5] cursor-ew-resize touch-pan-y overflow-hidden rounded-xl bg-paper select-none sm:rounded-2xl"
     >
       {afterImage}
       <div className="absolute inset-0 [clip-path:inset(0_calc(100%-var(--split))_0_0)]">

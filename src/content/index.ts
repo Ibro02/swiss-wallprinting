@@ -2,6 +2,7 @@
 // (scripts/check-mock.ts) and the content tests read this list.
 
 import { applicationAreas } from './application-areas.ts'
+import { areaStarts } from './area-starts.ts'
 import { company, printFacts } from './company.ts'
 import { gallery } from './gallery.ts'
 import { heroVideo } from './hero-video.ts'
@@ -19,6 +20,7 @@ export const collections = {
   printFacts: [printFacts],
   testimonials,
   applicationAreas,
+  areaStarts,
   services,
   projects,
   gallery,

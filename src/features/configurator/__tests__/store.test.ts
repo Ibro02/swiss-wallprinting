@@ -32,7 +32,7 @@ describe('startConfig', () => {
     expect(config.print).toEqual({ width: 3.5, height: 1.75, x: 0, y: 0 })
   })
 
-  it('starts like the services room of the area (?area=)', () => {
+  it('starts with the wall and artwork of the area (?area=)', () => {
     const config = startConfig('facade', content)
     expect(config.image).toMatchObject({ id: 'peaks' })
     expect(config.room).toMatchObject({ width: 9, height: 6 })
