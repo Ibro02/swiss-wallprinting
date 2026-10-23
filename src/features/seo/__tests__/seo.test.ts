@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 import { company } from '../../../content/company.ts'
+import { PAGES } from '../../../i18n/pages.ts'
 import { routing } from '../../../i18n/routing.ts'
 import { siteUrl } from '../../../lib/site.ts'
 import { localBusinessJsonLd, localizedPath, sitemapEntries } from '../seo.ts'
@@ -11,6 +12,8 @@ describe('localizedPath', () => {
     expect(localizedPath('it', 'about')).toBe('/it/chi-siamo')
     expect(localizedPath('de', 'tryYourWall')).toBe('/de/wand-testen')
     expect(localizedPath('bs', 'privacy')).toBe('/bs/privatnost')
+    expect(localizedPath('it', 'projects')).toBe('/it/progetti')
+    expect(localizedPath('de', 'faq')).toBe('/de/haeufige-fragen')
   })
 
   it('gives the home page as the bare locale', () => {
@@ -22,7 +25,7 @@ describe('sitemapEntries', () => {
   const entries = sitemapEntries(BASE)
 
   it('lists every page in every locale once', () => {
-    expect(entries).toHaveLength(8 * routing.locales.length)
+    expect(entries).toHaveLength(Object.keys(PAGES).length * routing.locales.length)
     expect(new Set(entries.map((entry) => entry.url)).size).toBe(entries.length)
   })
 
@@ -52,7 +55,13 @@ describe('localBusinessJsonLd', () => {
       name: company.name,
       email: company.email,
       address: { postalCode: company.postalCode, addressLocality: company.locality },
+      foundingDate: String(company.founded),
     })
+  })
+
+  it('lists only the social profiles that have a link', () => {
+    expect(data.sameAs).not.toContain(null)
+    expect(data.sameAs).toContain(company.social.instagram)
   })
 
   it('never claims a rating or reviews (they are mock content)', () => {

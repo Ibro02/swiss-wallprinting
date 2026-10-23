@@ -19,15 +19,25 @@ const phone = z.object({
   languages: z.string().min(1),
 })
 
+/** A time of day, 24-hour "HH:MM". */
+const clockTime = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/)
+
 export const company = contentItem.extend({
   name: z.string().min(1),
   postalCode: z.string().regex(/^\d{4}$/),
   locality: z.string().min(1),
+  /** The municipality the locality belongs to (Camignolo is part of Monteceneri). */
+  municipality: z.string().min(1),
   canton: z.string().min(1),
+  /** The year the company was founded. */
+  founded: z.number().int().min(2000).max(2100),
+  /** Opening hours. The client gave no days, so none are stored. */
+  hours: z.object({ opens: clockTime, closes: clockTime }),
   email: z.email(),
   phones: z.array(phone).min(1),
   whatsapp: z.string().regex(/^\+41\d{9}$/),
-  social: z.object({ facebook: z.url(), instagram: z.url() }),
+  /** TikTok: null until the client sends the link to the account. */
+  social: z.object({ facebook: z.url(), instagram: z.url(), tiktok: z.url().nullable() }),
 })
 export type Company = z.infer<typeof company>
 
@@ -145,6 +155,25 @@ export const heroVideo = contentItem.extend({
   signature: z.object({ x: fraction, y: fraction, width: fraction }),
 })
 export type HeroVideo = z.infer<typeof heroVideo>
+
+/**
+ * A finished project with its story (the client's brief, 2026-10-22). The story is shown
+ * behind "Read the story"; `photos` stays empty until the client sends them, and then the
+ * item must be `mock: true`, so the production build stops (a test checks this).
+ */
+export const project = contentItem.extend({
+  /** The place or the client, as the client names it. */
+  place: localizedText,
+  title: localizedText,
+  /** One or two sentences, always shown. */
+  summary: localizedText,
+  /** The rest of the story, one entry per paragraph. */
+  story: z.array(localizedText),
+  /** A closing line, in the serif accent. */
+  tagline: localizedText.optional(),
+  photos: z.array(imageKey),
+})
+export type Project = Omit<z.infer<typeof project>, 'photos'> & { photos: ImageKey[] }
 
 /** A finished work in the gallery. */
 export const galleryItem = contentItem.extend({

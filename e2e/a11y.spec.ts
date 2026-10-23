@@ -16,12 +16,18 @@ for (const colorScheme of ['light', 'dark'] as const) {
       test(`${name} has no WCAG 2.2 AA violations`, async ({ page }) => {
         await page.goto(path)
         // The entrance fades (0.4 s with reduced motion) end first: a half-faded text is not
-        // what a reader sees, and axe would measure its contrast mid-way.
+        // what a reader sees, and axe would measure its contrast mid-way. Only animations in
+        // time: a scroll-driven one (the project stories' "Show more") follows a scroll
+        // position and never finishes.
         await page.evaluate(() =>
           Promise.all(
             document
               .getAnimations()
-              .filter((animation) => animation.effect?.getComputedTiming().endTime !== Infinity)
+              .filter(
+                (animation) =>
+                  animation.timeline === document.timeline &&
+                  animation.effect?.getComputedTiming().endTime !== Infinity,
+              )
               .map((animation) => animation.finished.catch(() => undefined)),
           ),
         )

@@ -22,6 +22,7 @@ import {
   pricing,
   printQuality,
   printFacts,
+  project,
   serviceRoom,
   testimonial,
 } from '../schema.ts'
@@ -34,6 +35,7 @@ const SCHEMAS: Record<keyof typeof collections, z.ZodType> = {
   testimonials: testimonial,
   applicationAreas: applicationArea,
   services: serviceRoom,
+  projects: project,
   gallery: galleryItem,
   legal: legalInfo,
   presets: preset,
@@ -88,6 +90,20 @@ describe('content images', () => {
     const presetIds = new Set(collections.presets.map((item) => item.id))
     const offenders = collections.services.filter((room) => !presetIds.has(room.preset))
     expect(offenders.map((room) => `${room.id} → ${room.preset}`)).toEqual([])
+  })
+})
+
+describe('projects', () => {
+  it('stay mock while they have no photo, so the launch build stops', () => {
+    const offenders = collections.projects.filter((item) => item.photos.length === 0 && !item.mock)
+    expect(offenders.map((item) => item.id)).toEqual([])
+  })
+
+  it('use only real photos once they have them', () => {
+    const offenders = collections.projects.flatMap((item) =>
+      item.photos.filter((key) => isMockImage(key)).map((key) => `${item.id} uses ${key}`),
+    )
+    expect(offenders).toEqual([])
   })
 })
 

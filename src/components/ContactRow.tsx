@@ -2,7 +2,8 @@ import type { ComponentType, SVGProps } from 'react'
 import { ArrowRightIcon } from '@/components/icons.tsx'
 
 export interface ContactRowProps {
-  href: string
+  /** Where the row leads. Without it the row is plain text (opening hours, service area). */
+  href?: string
   /** Small text above the value: "Phone (IT)", "E-mail", "Location". */
   label: string
   value: string
@@ -12,11 +13,12 @@ export interface ContactRowProps {
 /**
  * One way to reach the client, as a row (home page question section, contact page): a dark
  * icon tile with a lime icon, the label, the value, and an arrow that moves on hover. Put
- * the rows in a `<ul>` with `border-t border-ink/10`; each row draws its bottom line.
+ * the rows in a `<ul>` with `border-t border-ink/10`; each row draws its bottom line. A row
+ * without `href` is a fact, not a link: no arrow.
  */
 export function ContactRow({ href, label, value, Icon }: ContactRowProps) {
-  return (
-    <a href={href} className="group flex items-center gap-4 py-4 sm:py-5">
+  const content = (
+    <>
       <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-graphite text-lime">
         <Icon className="size-4.5" />
       </span>
@@ -26,6 +28,14 @@ export function ContactRow({ href, label, value, Icon }: ContactRowProps) {
           {value}
         </span>
       </span>
+    </>
+  )
+
+  if (!href) return <div className="flex items-center gap-4 py-4 sm:py-5">{content}</div>
+
+  return (
+    <a href={href} className="group flex items-center gap-4 py-4 sm:py-5">
+      {content}
       <ArrowRightIcon className="size-5 shrink-0 text-ink/40 transition-[transform,color] duration-200 ease-out group-hover:translate-x-1 group-hover:text-magenta-700 dark:group-hover:text-magenta-200 motion-reduce:transition-none" />
     </a>
   )

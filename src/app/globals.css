@@ -55,6 +55,26 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  /* A soft spring that overshoots about 6 % and settles: the project cards' flip lands on it
+     like gel (Framer's "Liquid Glass Flip Card"). `linear()` samples of a damped spring. */
+  --ease-spring: linear(
+    0,
+    0.0362 2.1%,
+    0.1406 4.6%,
+    0.3025 8.9%,
+    0.5303 14.2%,
+    0.7743 21%,
+    0.8754 24.6%,
+    0.9545 28.4%,
+    1.0111 32.4%,
+    1.0464 36.6%,
+    1.0614 40.8%,
+    1.0596 45.4%,
+    1.0313 54.8%,
+    1.0089 64.3%,
+    0.9974 76.9%,
+    1
+  );
   /* The old name, used by the configurator. */
   --ease-print: cubic-bezier(0.23, 1, 0.32, 1);
 
@@ -466,10 +486,12 @@
   }
 
   /*
-   * GlowCard: a lime light under the content that follows the mouse, and an optional 3D
-   * tilt. JavaScript moves the glow and tilts the card with transforms; the glow shows only
-   * while the card is hovered (`data-hover`), and the tilt eases back when the mouse leaves.
-   * `--glow-strength` (0 … 1) is set per card: stronger on light grounds than on dark.
+   * GlowCard: a light under the content that follows the mouse, and an optional 3D tilt.
+   * JavaScript moves the glow and tilts the card with transforms; the glow shows only while
+   * the card is hovered (`data-hover`), and the tilt eases back when the mouse leaves. Set
+   * per card: `--glow-rgb` (the colour as "r g b", lime by default; the process steps on
+   * mist are magenta) and `--glow-strength` (0 … 1, at the light's centre), chosen so the
+   * card's secondary text stays AA over it.
    */
   .glow-card {
     transition-property: transform, background-color, box-shadow;
@@ -500,8 +522,8 @@
     border-radius: 9999px;
     background: radial-gradient(
       closest-side,
-      rgb(197 210 13 / var(--glow-strength, 0.4)),
-      rgb(197 210 13 / 0) 100%
+      rgb(var(--glow-rgb, 197 210 13) / var(--glow-strength, 0.4)),
+      rgb(var(--glow-rgb, 197 210 13) / 0) 100%
     );
     opacity: 0;
     transition: opacity 300ms var(--ease-out);
@@ -612,13 +634,16 @@
   }
 
   /*
-   * The application area cards (the author, 2026-10-22, after Framer's "Programs", with
-   * lime where it has blue, on the mist cards of the page). Under the mouse the card rises
-   * 6 px, its rim and glow turn lime, and a band of lime light sweeps across once; on the
-   * way out it fades first and jumps back unseen. Mouse only (hover: hover); reduced
-   * motion keeps the rim and the glow, without the rise and the sweep.
+   * Lift cards (the author, 2026-10-22, after Framer's "Programs", with lime where it has
+   * blue, on the mist cards of the page): the application areas (home), the audiences
+   * (services), both through AreaCard, and the technical facts (services). Under the
+   * mouse the card rises 6 px, its rim and glow turn lime, and a band of lime light sweeps
+   * across once; on the way out it fades first and jumps back unseen. The rise is the
+   * `translate` property, so it adds to a `data-reveal` transform on the same element.
+   * Mouse only (hover: hover); reduced motion keeps the rim and the glow, without the rise
+   * and the sweep.
    */
-  .area-card {
+  .lift-card {
     /* Transparent at rest: the lime rim appears without moving the content. */
     border: 1px solid transparent;
     transition-property: translate, box-shadow, border-color, background-color;
@@ -626,7 +651,7 @@
     transition-timing-function: var(--ease-out);
   }
 
-  .area-card__sweep {
+  .lift-card__sweep {
     position: absolute;
     top: -20%;
     bottom: -20%;
@@ -650,7 +675,7 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .area-card:hover {
+    .lift-card:hover {
       border-color: rgb(197 210 13 / 0.32);
       box-shadow:
         0 0 24px rgb(197 210 13 / 0.2),
@@ -658,17 +683,441 @@
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .area-card:hover {
+      .lift-card:hover {
         translate: 0 -6px;
       }
 
-      .area-card:hover .area-card__sweep {
+      .lift-card:hover .lift-card__sweep {
         opacity: 1;
         transform: translateX(330%) skewX(-18deg);
         transition:
           opacity 200ms var(--ease-out),
           transform 900ms var(--ease-out);
       }
+    }
+  }
+
+  /*
+   * Material tiles (services, "Surfaces and technology"; the author, 2026-10-22): each
+   * surface in its own colour and texture, from CSS gradients only (no image requests).
+   * The text colour is set per tile in Surfaces.tsx (dark on light materials, white on
+   * wood), AA on the darkest part of each texture. Under the mouse a band of light passes
+   * over the material, as over a real surface (transform and opacity only); reduced
+   * motion: none.
+   */
+  .material {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    box-shadow:
+      inset 0 0 0 1px rgb(0 0 0 / 0.07),
+      inset 0 1px 0 rgb(255 255 255 / 0.4);
+  }
+
+  .material > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .material::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      rgb(255 255 255 / 0) 30%,
+      rgb(255 255 255 / 0.4) 50%,
+      rgb(255 255 255 / 0) 70%
+    );
+    opacity: 0;
+    transform: translateX(-100%);
+    transition:
+      opacity 200ms var(--ease-out),
+      transform 0s 200ms;
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .material:hover::after {
+      opacity: 1;
+      transform: translateX(100%);
+      transition:
+        opacity 150ms var(--ease-out),
+        transform 700ms var(--ease-out);
+    }
+  }
+
+  /* Grain in three grids of different sizes and offsets, so no regular dot pattern shows. */
+  .material--plaster {
+    background:
+      radial-gradient(circle at 30% 40%, rgb(255 255 255 / 0.55) 0 0.6px, transparent 1.4px) 0 0 /
+        7px 7px,
+      radial-gradient(circle at 70% 70%, rgb(120 96 64 / 0.14) 0 0.6px, transparent 1.4px) 2px 5px /
+        11px 11px,
+      radial-gradient(circle at 50% 50%, rgb(120 96 64 / 0.1) 0 0.8px, transparent 1.6px) 5px 1px /
+        17px 13px,
+      radial-gradient(ellipse at 80% 20%, rgb(255 255 255 / 0.35), transparent 55%),
+      linear-gradient(160deg, #efe9de, #e2d9ca);
+  }
+
+  .material--gypsum {
+    background:
+      linear-gradient(115deg, rgb(255 255 255 / 0.7), rgb(255 255 255 / 0) 45%),
+      linear-gradient(160deg, #f8f7f4, #e9e8e3);
+  }
+
+  .material--concrete {
+    background:
+      radial-gradient(circle, rgb(0 0 0 / 0.12) 0 0.7px, transparent 1.3px) 0 0 / 7px 7px,
+      radial-gradient(circle, rgb(0 0 0 / 0.1) 0 0.9px, transparent 1.6px) 4px 9px / 13px 11px,
+      radial-gradient(circle, rgb(255 255 255 / 0.2) 0 0.7px, transparent 1.3px) 3px 2px / 9px 9px,
+      radial-gradient(ellipse at 20% 80%, rgb(0 0 0 / 0.1), transparent 60%),
+      radial-gradient(ellipse at 85% 15%, rgb(255 255 255 / 0.18), transparent 50%),
+      linear-gradient(160deg, #b8b5ae, #a19e97);
+  }
+
+  .material--wood {
+    background:
+      repeating-linear-gradient(
+        97deg,
+        rgb(255 255 255 / 0.07) 0 2px,
+        rgb(255 255 255 / 0) 2px 11px
+      ),
+      repeating-linear-gradient(93deg, rgb(0 0 0 / 0.14) 0 1px, rgb(0 0 0 / 0) 1px 17px),
+      linear-gradient(160deg, #8a5a33, #6b4224);
+  }
+
+  .material--glass {
+    background:
+      linear-gradient(
+        120deg,
+        rgb(255 255 255 / 0.65) 0 16%,
+        rgb(255 255 255 / 0) 16% 30%,
+        rgb(255 255 255 / 0.4) 30% 35%,
+        rgb(255 255 255 / 0) 35%
+      ),
+      linear-gradient(160deg, #dbefec, #b9dad6);
+  }
+
+  .material--metal {
+    background:
+      repeating-linear-gradient(90deg, rgb(255 255 255 / 0.1) 0 1px, rgb(255 255 255 / 0) 1px 3px),
+      linear-gradient(100deg, #969ba2 0%, #dadde1 35%, #a8adb4 55%, #e3e5e8 75%, #9ca1a8 100%);
+  }
+
+  /*
+   * Project flip cards (the projects page; the author, 2026-10-22, after Framer's "Liquid
+   * Glass Flip Card", rebuilt in CSS without framer-motion): the front is the photo with the
+   * text on a pane of frosted glass, the back is the story. A visually hidden checkbox turns
+   * the card, so it works without JavaScript and with the keyboard (space); the buttons on
+   * both faces are its labels. The card turns in 3D and lands on a soft spring, while a
+   * band of light crosses each face. Both faces are lift cards (the hover of the area
+   * cards). Reduced motion: the faces swap without turning or light.
+   */
+  .flip-card {
+    /* Holds the hidden checkbox (positioned at the buttons, below). */
+    position: relative;
+    perspective: 1600px;
+  }
+
+  .flip-card,
+  .flip-card__inner {
+    height: 100%;
+  }
+
+  /* At the buttons' corner: focusing it after a click never scrolls (the button is in view;
+     the card's top can be under the header pill, inside the page's scroll padding). */
+  .flip-card__toggle {
+    bottom: 1.75rem;
+    left: 1.75rem;
+  }
+
+  .flip-card__inner {
+    position: relative;
+    display: grid;
+    transform-style: preserve-3d;
+    transition: transform 850ms var(--ease-spring);
+  }
+
+  /* The front sets the card's size; the back (absolute in ProjectList.tsx) is laid over the
+     same grid area, so a long story never makes the card taller. */
+  .flip-card__face {
+    grid-area: 1 / 1;
+    backface-visibility: hidden;
+  }
+
+  /*
+   * A story longer than the back: it fades out at the bottom and "Show more" appears (it
+   * opens the whole story in a sheet). Whether the story overflows is known from CSS
+   * alone, so the first frame is right and nothing changes after hydration: the story box
+   * is a scroll container (overflow hidden: it never scrolls by touch) with a scroll
+   * timeline, and a scroll timeline is active only while there is something to scroll. The
+   * animations below apply only then. Browsers without scroll timelines show the fade and
+   * the button on every story.
+   */
+  .flip-card__story {
+    overflow: hidden;
+    scroll-timeline: --story block;
+  }
+
+  .flip-card__face--back {
+    timeline-scope: --story;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .flip-card__more {
+      visibility: hidden;
+      animation: flip-card-more linear both;
+      animation-timeline: --story;
+    }
+
+    .flip-card__story {
+      animation: flip-card-fade linear both;
+      animation-timeline: --story;
+    }
+  }
+
+  @supports not (animation-timeline: scroll()) {
+    .flip-card__story {
+      mask-image: linear-gradient(to bottom, #000 calc(100% - 3.5rem), transparent);
+    }
+  }
+
+  @keyframes flip-card-more {
+    from,
+    to {
+      visibility: visible;
+    }
+  }
+
+  @keyframes flip-card-fade {
+    from,
+    to {
+      mask-image: linear-gradient(to bottom, #000 calc(100% - 3.5rem), transparent);
+    }
+  }
+
+  /* An animation outranks the face's own visibility, an important declaration outranks the
+     animation: on a card that shows its front, "Show more" is neither seen nor focused. */
+  .flip-card__toggle:not(:checked) + .flip-card__inner .flip-card__more {
+    visibility: hidden !important;
+  }
+
+  /*
+   * The whole story (an HTML popover with role dialog): a sheet that rises from the bottom
+   * on phones, a centred card from 640 px. It opens and closes without JavaScript; Escape
+   * and a tap outside close it, and the focus returns to "Show more". Transform and opacity
+   * only, in under 300 ms; reduced motion: a fade.
+   */
+  .story-sheet {
+    position: fixed;
+    inset: auto 0 0;
+    width: 100%;
+    max-width: none;
+    max-height: 85dvh;
+    margin: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 0;
+    border-radius: 1.5rem 1.5rem 0 0;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    translate: 0 100%;
+    transition:
+      translate 200ms var(--ease-out),
+      opacity 200ms var(--ease-out),
+      display 200ms allow-discrete,
+      overlay 200ms allow-discrete;
+  }
+
+  .story-sheet:popover-open {
+    translate: 0 0;
+    transition-duration: 280ms;
+  }
+
+  @starting-style {
+    .story-sheet:popover-open {
+      translate: 0 100%;
+    }
+  }
+
+  .story-sheet::backdrop {
+    background: rgb(10 10 10 / 0.5);
+    opacity: 0;
+    transition:
+      opacity 200ms var(--ease-out),
+      display 200ms allow-discrete,
+      overlay 200ms allow-discrete;
+  }
+
+  .story-sheet:popover-open::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .story-sheet:popover-open::backdrop {
+      opacity: 0;
+    }
+  }
+
+  @media (width < 40rem) {
+    /* The page under the sheet stays where it is (phones have no scrollbar to lose). */
+    html:has(.story-sheet:popover-open) {
+      overflow: hidden;
+    }
+  }
+
+  @media (width >= 40rem) {
+    .story-sheet {
+      inset: 0;
+      width: min(36rem, calc(100% - 3rem));
+      height: fit-content;
+      max-height: 80dvh;
+      margin: auto;
+      border-radius: 1.5rem;
+      opacity: 0;
+      translate: 0 0.5rem;
+    }
+
+    .story-sheet:popover-open {
+      opacity: 1;
+      translate: 0 0;
+    }
+
+    @starting-style {
+      .story-sheet:popover-open {
+        opacity: 0;
+        translate: 0 0.5rem;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .story-sheet,
+    .story-sheet:popover-open {
+      translate: none;
+    }
+
+    .story-sheet {
+      opacity: 0;
+    }
+
+    .story-sheet:popover-open {
+      opacity: 1;
+    }
+
+    @starting-style {
+      .story-sheet:popover-open {
+        opacity: 0;
+      }
+    }
+  }
+
+  .flip-card__face--back {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card__toggle:checked + .flip-card__inner {
+    transform: rotateY(180deg);
+  }
+
+  /*
+   * The face that is turned away is not drawn at all (visibility), so a phone keeps one
+   * face per card in memory, not two. It changes 300 ms into the turn, when the card has
+   * passed edge-on (the spring is there after about 120 ms); the face turning towards the
+   * viewer shows at once. The other transitions are the lift card's hover.
+   */
+  .flip-card .flip-card__face {
+    transition-property: translate, box-shadow, border-color, background-color, visibility;
+    transition-duration: 250ms, 250ms, 250ms, 250ms, 0s;
+    transition-timing-function: var(--ease-out);
+  }
+
+  .flip-card .flip-card__face--back,
+  .flip-card__toggle:checked + .flip-card__inner .flip-card__face--front {
+    visibility: hidden;
+    transition-delay: 0s, 0s, 0s, 0s, 300ms;
+  }
+
+  .flip-card__toggle:checked + .flip-card__inner .flip-card__face--back {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  /* The band of light that crosses a face while the card turns (over the content). */
+  .flip-card__light {
+    position: absolute;
+    inset: -10% -40%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      rgb(255 255 255 / 0) 38%,
+      rgb(255 255 255 / 0.5) 50%,
+      rgb(255 255 255 / 0) 62%
+    );
+    translate: -100% 0;
+    transition: translate 850ms var(--ease-out);
+  }
+
+  .flip-card__toggle:checked + .flip-card__inner .flip-card__light {
+    translate: 100% 0;
+  }
+
+  /* The checkbox is hidden: its keyboard focus shows on the button of the visible face. */
+  .flip-card__toggle:focus-visible + .flip-card__inner .flip-card__button {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flip-card__inner {
+      transition: none;
+    }
+
+    .flip-card__light {
+      display: none;
+    }
+  }
+
+  /*
+   * Disclosures (<details>): the FAQ answers and the project stories. They open without
+   * JavaScript and every answer is in the HTML. The plus turns into a cross, and the content
+   * fades in with a short rise (transform and opacity only, no height animation); reduced
+   * motion: no movement.
+   */
+  .disclosure > summary {
+    list-style: none;
+  }
+
+  .disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .disclosure__mark {
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .disclosure[open] .disclosure__mark {
+    transform: rotate(45deg);
+  }
+
+  .disclosure[open] .disclosure__body {
+    animation: disclosure-in 220ms var(--ease-out);
+  }
+
+  @keyframes disclosure-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .disclosure__mark {
+      transition: none;
+    }
+
+    .disclosure[open] .disclosure__body {
+      animation: none;
     }
   }
 

@@ -2,9 +2,9 @@
 
 import { type PointerEvent, type ReactNode, useRef } from 'react'
 
-// A card with a lime light that follows the mouse, and an optional 3D tilt (home page: the
-// configurator step of the process, the application area cards; styles: globals.css,
-// .glow-card). A custom take on Framer's "Sleek 3D Tilt Card" (the same perspective tilt
+// A card with a light that follows the mouse, and an optional 3D tilt (home page: the steps
+// of the process, lime on the dark configurator step and magenta on the others; styles:
+// globals.css, .glow-card, the colour and strength per card). A custom take on Framer's "Sleek 3D Tilt Card" (the same perspective tilt
 // of up to 8° and the same spotlight), without its `framer` and `framer-motion` imports
 // (about 100 KB) and without a React render per mouse move: the handlers write two
 // transforms straight to the elements, at most once per frame.

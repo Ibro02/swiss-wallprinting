@@ -1,26 +1,38 @@
 import Image from 'next/image'
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import tigerMidPrint from '@/assets/photos/tiger-mid-print.jpg'
 import { accent } from '@/components/Accent.tsx'
 import { Container, SECTION_Y } from '@/components/Container.tsx'
 import { CtaBand } from '@/components/CtaBand.tsx'
 import { PageHeader } from '@/components/PageHeader.tsx'
-import { company, printFacts } from '@/content/company.ts'
+import { company } from '@/content/company.ts'
 import { metadataFor } from '@/i18n/metadata.ts'
 
 export const generateMetadata = metadataFor('about')
 
-// "Something simple with a picture" (README). The text uses only facts from the old site
-// until the client sends the company story and team photos (Q10).
+// "Something simple with a picture" (README). The story is the client's own ("O nama", brief
+// of 2026-10-22), with three facts under it; the picture stays the tiger until the client
+// sends photos of the team or the workshop.
+const STORY = ['idea', 'how', 'every', 'care', 'where'] as const
+
 export default async function AboutPage() {
   const t = await getTranslations('About')
-  const format = await getFormatter()
-  const height = `${format.number(printFacts.maxPrintHeightM, { minimumFractionDigits: 2 })} m`
+  const facts = [
+    [t('facts.founded'), String(company.founded)],
+    [t('facts.base'), `${company.locality}, ${company.municipality}`],
+    [t('facts.area'), t('facts.areaValue')],
+  ] as const
 
   return (
     <main id="main" tabIndex={-1} className="outline-none">
       <PageHeader eyebrow={t('eyebrow')} title={t.rich('title', accent)}>
-        <p>{t('lead', { locality: company.locality })}</p>
+        <p>
+          {t('lead', {
+            year: String(company.founded),
+            locality: company.locality,
+            municipality: company.municipality,
+          })}
+        </p>
       </PageHeader>
 
       <section className={SECTION_Y}>
@@ -41,12 +53,20 @@ export default async function AboutPage() {
             data-reveal="2"
             className="space-y-4 text-base leading-relaxed text-ink/85 sm:text-[1.0625rem] lg:col-span-5 lg:col-start-8"
           >
-            <p>{t('story.what')}</p>
-            <p>{t('story.how', { height, years: printFacts.durabilityYears })}</p>
-            <p>{t('story.who')}</p>
+            {STORY.map((part) => (
+              <p key={part}>{t(`story.${part}`)}</p>
+            ))}
             <p className="pt-3 font-serif text-2xl leading-snug text-magenta dark:text-lime italic sm:text-3xl">
               {t('story.canvas')}
             </p>
+            <dl className="grid gap-x-6 gap-y-4 border-t border-ink/10 pt-6 text-sm sm:grid-cols-3">
+              {facts.map(([label, value]) => (
+                <div key={label}>
+                  <dt className="text-mute">{label}</dt>
+                  <dd className="mt-1 font-medium text-ink">{value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </Container>
       </section>

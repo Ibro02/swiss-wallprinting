@@ -3,7 +3,9 @@ import { accent } from '@/components/Accent.tsx'
 import { ContactRow, type ContactRowProps } from '@/components/ContactRow.tsx'
 import { Container } from '@/components/Container.tsx'
 import {
+  ClockIcon,
   FacebookIcon,
+  GlobeIcon,
   InstagramIcon,
   MailIcon,
   MapPinIcon,
@@ -61,6 +63,19 @@ export default async function ContactPage() {
       label: `${t('location')} · ${t('openMap')}`,
       value: `${company.postalCode} ${company.locality}, ${footer('region')}`,
       Icon: MapPinIcon,
+    },
+    // The client's brief (2026-10-22): opening hours and where he works. Facts, not links.
+    {
+      key: 'hours',
+      label: t('hours'),
+      value: t('hoursValue', company.hours),
+      Icon: ClockIcon,
+    },
+    {
+      key: 'area',
+      label: t('area'),
+      value: t('areaValue'),
+      Icon: GlobeIcon,
     },
     {
       key: 'instagram',

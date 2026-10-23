@@ -9,6 +9,11 @@ import type { ImageAsset } from '@/content/images/types.ts'
 // Gallery (Development Plan 4.5): filter by application area, masonry grid, and a lightbox.
 // The lightbox is a native <dialog> (focus trap, Escape, focus back to the photo).
 // Without JavaScript the grid shows all photos; the photos are not links.
+//
+// In the lightbox the photos are a row of slides with CSS scroll snapping: on a phone a
+// swipe moves one photo (the author, 2026-10-23), with the browser's own touch physics and
+// no gesture code. The buttons and the arrow keys scroll the same row. Only the open photo
+// and its neighbours load; the others are blank until the swipe reaches them.
 
 export interface GalleryEntry {
   id: string
@@ -27,25 +32,46 @@ interface GalleryGridProps {
 
 const ALL = 'all'
 
+/** The keys that move the lightbox one photo. */
+const STEP_KEYS: Partial<Record<string, number>> = { ArrowRight: 1, ArrowLeft: -1 }
+
 export function GalleryGrid({ items, filters }: GalleryGridProps) {
   const t = useTranslations('GalleryGrid')
   const [filter, setFilter] = useState(ALL)
   const [open, setOpen] = useState<number | null>(null)
   const dialog = useRef<HTMLDialogElement>(null)
+  const slides = useRef<HTMLDivElement>(null)
 
   const shown = filter === ALL ? items : items.filter((item) => item.area === filter)
   const current = open === null ? undefined : shown[open]
+  const atStart = open === 0
+  const atEnd = open === shown.length - 1
 
   const show = (index: number) => {
     setOpen(index)
     if (!dialog.current?.open) dialog.current?.showModal()
+    // Straight to the photo, before the dialog's first frame: no slide from the first one.
+    const row = slides.current
+    row?.scrollTo({ left: index * row.clientWidth, behavior: 'instant' })
   }
+  // Smooth through the row's CSS scroll-behavior (instant with reduced motion).
   const step = (by: number) => {
-    if (open !== null) setOpen((open + by + shown.length) % shown.length)
+    const row = slides.current
+    if (open === null || !row) return
+    const next = open + by
+    if (next >= 0 && next < shown.length) row.scrollTo({ left: next * row.clientWidth })
+  }
+  // The photo in view is the open one: a swipe, a button, or a key moved the row.
+  const onSlide = () => {
+    const row = slides.current
+    if (row && dialog.current?.open) setOpen(Math.round(row.scrollLeft / row.clientWidth))
   }
   const onDialogKey = (event: KeyboardEvent<HTMLDialogElement>) => {
-    if (event.key === 'ArrowRight') step(1)
-    if (event.key === 'ArrowLeft') step(-1)
+    const by = STEP_KEYS[event.key]
+    if (by === undefined) return
+    // The row would scroll itself too when it has the focus.
+    event.preventDefault()
+    step(by)
   }
 
   return (
@@ -69,9 +95,11 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
         {t('count', { count: shown.length })}
       </p>
 
-      <ul className="mt-8 columns-1 gap-3 sm:columns-2 lg:columns-3">
+      {/* Phones: two columns of smaller photos (the lightbox shows them large), so a phone
+          decodes and scrolls half the pixels of one column of tall photos. */}
+      <ul className="mt-8 columns-2 gap-2 sm:gap-3 lg:columns-3">
         {shown.map((item, index) => (
-          <li key={item.id} className="mb-3 break-inside-avoid">
+          <li key={item.id} className="mb-2 break-inside-avoid sm:mb-3">
             <button
               type="button"
               aria-haspopup="dialog"
@@ -83,15 +111,14 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
                 alt={item.alt}
                 width={item.image.width}
                 height={item.image.height}
-                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                // The first photos are on the first screen (one is the LCP): not lazy.
-                loading={index < 2 ? 'eager' : 'lazy'}
-                fetchPriority={index === 0 ? 'high' : 'auto'}
+                sizes="(min-width: 1024px) 33vw, 50vw"
+                // Below the project cards (the projects page): every photo loads lazily.
+                loading="lazy"
                 placeholder="blur"
                 blurDataURL={item.image.blurDataURL}
                 className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
               />
-              <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 to-transparent px-5 pt-12 pb-4 text-sm font-medium text-white">
+              <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 to-transparent px-3 pt-10 pb-3 text-xs font-medium text-white sm:px-5 sm:pt-12 sm:pb-4 sm:text-sm">
                 {item.caption}
               </span>
               {item.mock && (
@@ -115,35 +142,49 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
           // A click on the backdrop (the dialog element itself) closes it.
           if (event.target === event.currentTarget) dialog.current?.close()
         }}
-        className="on-dark m-auto max-h-none max-w-none bg-transparent p-0 text-white backdrop:bg-graphite/92 backdrop:backdrop-blur-md"
+        className="on-dark m-auto max-h-none max-w-none bg-transparent p-0 text-white backdrop:bg-graphite/92 sm:backdrop:backdrop-blur-md"
       >
-        {current && (
-          <figure className="flex h-[min(90dvh,900px)] w-[min(94vw,1200px)] flex-col">
-            <div className="relative flex-1">
-              <Image
-                src={current.image.src}
-                alt={current.alt}
-                fill
-                sizes="94vw"
-                placeholder="blur"
-                blurDataURL={current.image.blurDataURL}
-                className="object-contain"
-              />
-            </div>
-            <figcaption className="flex items-center justify-between gap-4 pt-4">
-              <span className="text-lg font-medium tracking-tight">{current.caption}</span>
-              <span className="text-sm text-mute-dark">
-                {t('position', { current: (open ?? 0) + 1, total: shown.length })}
-              </span>
-            </figcaption>
-          </figure>
-        )}
+        {/* Phones: the whole width and the screen below the buttons; wider screens: a frame. */}
+        <div
+          ref={slides}
+          onScroll={onSlide}
+          className="mt-18 flex h-[calc(100dvh-6rem)] w-screen snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] sm:mt-0 sm:h-[min(90dvh,900px)] sm:w-[min(94vw,1200px)] motion-reduce:scroll-auto"
+        >
+          {shown.map((item, index) => (
+            <figure
+              key={item.id}
+              aria-hidden={index !== open}
+              className="flex h-full w-full shrink-0 snap-center snap-always flex-col px-3 sm:px-0"
+            >
+              <div className="relative flex-1">
+                {open !== null && Math.abs(index - open) <= 1 && (
+                  <Image
+                    src={item.image.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(min-width: 640px) 94vw, 100vw"
+                    placeholder="blur"
+                    blurDataURL={item.image.blurDataURL}
+                    className="object-contain"
+                  />
+                )}
+              </div>
+              <figcaption className="pt-4 text-lg font-medium tracking-tight">
+                {item.caption}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="fixed top-4 left-4 flex h-11 items-center text-sm text-mute-dark">
+          {current && t('position', { current: (open ?? 0) + 1, total: shown.length })}
+        </p>
         <div className="fixed top-4 right-4 flex gap-2">
           <button
             type="button"
             onClick={() => step(-1)}
             aria-label={t('previous')}
-            className="grid size-11 rotate-180 place-items-center rounded-xl bg-white/10 transition-[background-color,transform] duration-150 ease-out hover:bg-white/20 active:scale-[0.97]"
+            aria-disabled={atStart}
+            className="grid size-11 rotate-180 place-items-center rounded-xl bg-white/10 transition-[background-color,transform,opacity] duration-150 ease-out hover:bg-white/20 active:scale-[0.97] aria-disabled:opacity-40 aria-disabled:active:scale-100"
           >
             <ArrowRightIcon className="size-5" />
           </button>
@@ -151,7 +192,8 @@ export function GalleryGrid({ items, filters }: GalleryGridProps) {
             type="button"
             onClick={() => step(1)}
             aria-label={t('next')}
-            className="grid size-11 place-items-center rounded-xl bg-white/10 transition-[background-color,transform] duration-150 ease-out hover:bg-white/20 active:scale-[0.97]"
+            aria-disabled={atEnd}
+            className="grid size-11 place-items-center rounded-xl bg-white/10 transition-[background-color,transform,opacity] duration-150 ease-out hover:bg-white/20 active:scale-[0.97] aria-disabled:opacity-40 aria-disabled:active:scale-100"
           >
             <ArrowRightIcon className="size-5" />
           </button>

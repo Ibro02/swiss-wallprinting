@@ -4,12 +4,19 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useRef } from 'react'
 import { ChevronDownIcon, GlobeIcon } from '@/components/icons.tsx'
 import { LOCALE_NAMES } from '@/i18n/locale-names.ts'
-import { Link, usePathname } from '@/i18n/navigation.ts'
+import { getPathname, usePathname } from '@/i18n/navigation.ts'
 import { routing } from '@/i18n/routing.ts'
 
 // Links to the same page in each language. Plain links, so they work before
 // hydration and search engines can follow them. `menu` is a disclosure for the
 // header; `list` shows all languages at once (mobile menu).
+//
+// A plain <a>, not next-intl's <Link>: a language change loads the page anew. The
+// locale is the root layout (`[locale]/layout.tsx`), so a client-side navigation
+// renders <html> and <head> again in the browser: React then creates the theme
+// <script> without running it (the console error "Encountered a script tag") and
+// drops `data-theme` from <html>, so a visitor's dark choice turned light. A full
+// load runs THEME_SCRIPT before the first paint, as on every other first visit.
 
 export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'list' }) {
   const t = useTranslations('Nav')
@@ -41,9 +48,8 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
 
   const links = routing.locales.map((target) => (
     <li key={target}>
-      <Link
-        href={pathname}
-        locale={target}
+      <a
+        href={getPathname({ href: pathname, locale: target })}
         hrefLang={target}
         lang={target}
         aria-current={target === locale ? 'true' : undefined}
@@ -55,7 +61,7 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
       >
         {LOCALE_NAMES[target]}
         {variant === 'menu' && <span className="text-xs uppercase opacity-60">{target}</span>}
-      </Link>
+      </a>
     </li>
   ))
 

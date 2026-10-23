@@ -123,6 +123,38 @@ export const CheckIcon = (props: IconProps) => (
   </Icon>
 )
 
+/** The disclosure mark of the FAQ and the project stories: turns into × when open (CSS). */
+export const PlusIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M12 5v14M5 12h14" />
+  </Icon>
+)
+
+/** The flip button of the project cards: two arrows turning around. */
+export const FlipIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M4.5 11a7.5 7.5 0 0 1 13-4.5l1.5 1.5" />
+    <path d="M19 3.5V8h-4.5" />
+    <path d="M19.5 13a7.5 7.5 0 0 1-13 4.5L5 16" />
+    <path d="M5 20.5V16h4.5" />
+  </Icon>
+)
+
+export const ClockIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M12 7.5V12l3 2" />
+  </Icon>
+)
+
+/** The placeholder of a project photo that the client has not sent yet. */
+export const CameraIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z" />
+    <circle cx="12" cy="13" r="3.5" />
+  </Icon>
+)
+
 // Application areas (src/content/application-areas.ts, `icon`).
 
 export const OfficeIcon = (props: IconProps) => (

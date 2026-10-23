@@ -27,7 +27,8 @@ export function languageAlternates(href: (typeof PAGES)[PageKey]) {
 const DESCRIPTIONS = {
   about: 'About.lead',
   services: 'Services.lead',
-  gallery: 'Gallery.lead',
+  projects: 'Projects.lead',
+  faq: 'Faq.lead',
   contact: 'Contact.lead',
   tryYourWall: 'Configurator.lead',
   privacy: 'Privacy.lead',
@@ -47,8 +48,14 @@ export function metadataFor(page: PageKey) {
     const site = await getTranslations({ locale, namespace: 'Metadata' })
     const all = await getTranslations({ locale })
     const key = page in DESCRIPTIONS ? DESCRIPTIONS[page as keyof typeof DESCRIPTIONS] : null
-    // About.lead names the place ({locality}); the other leads have no placeholders.
-    const description = key ? all(key, { locality: company.locality }) : site('description')
+    // About.lead names the year and the place; the other leads have no placeholders.
+    const description = key
+      ? all(key, {
+          year: String(company.founded),
+          locality: company.locality,
+          municipality: company.municipality,
+        })
+      : site('description')
     // The home page keeps the site title from the layout.
     const title = page === 'home' ? site('title') : `${pages(`${page}.title`)} · ${company.name}`
     const canonical = getPathname({ locale, href })

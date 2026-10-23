@@ -8,7 +8,8 @@
     "home": "Home",
     "about": "Chi siamo",
     "services": "Servizi",
-    "gallery": "Galleria",
+    "projects": "Progetti",
+    "faq": "FAQ",
     "contact": "Contatti",
     "tryYourWall": "Prova la tua parete",
     "imprint": "Note legali",
@@ -31,8 +32,11 @@
     "services": {
       "title": "Servizi"
     },
-    "gallery": {
-      "title": "Galleria"
+    "projects": {
+      "title": "Progetti"
+    },
+    "faq": {
+      "title": "Domande frequenti"
     },
     "contact": {
       "title": "Contatti"
@@ -61,7 +65,8 @@
     "legalTitle": "Informazioni legali",
     "rights": "Tutti i diritti riservati.",
     "phoneLanguages": "Lingue: {languages}",
-    "region": "Ticino, Svizzera"
+    "region": "Ticino, Svizzera",
+    "hours": "Orari: {opens}–{closes}"
   },
   "WhatsApp": {
     "label": "Scrivici su WhatsApp",
@@ -69,21 +74,22 @@
   },
   "Home": {
     "hero": {
-      "eyebrow": "Stampa diretta su parete · Ticino",
-      "title": "La tua immagine, stampata <em>direttamente</em> sul muro.",
-      "lead": "Nessuna pellicola, nessun adesivo: stampiamo loghi, foto e grafiche su pareti interne ed esterne. Fino a {height} di altezza, senza limiti di larghezza.",
+      "eyebrow": "Swiss Wall Printing · Ticino",
+      "title": "Alta risoluzione. Senza limiti. <em>Direttamente sulla tua parete.</em>",
+      "lead": "Trasformiamo le tue idee, fotografie e visioni creative in decorazioni murali uniche. Con la stampa diretta su parete creiamo spazi originali per privati e aziende.",
       "ctaConfigurator": "Provalo sulla tua parete",
-      "ctaQuote": "Preventivo gratuito",
+      "ctaQuote": "Richiedi un preventivo",
       "imageAlt": "Una stampante murale stampa un acquerello di un villaggio svizzero sul lago sulla parete di un ufficio.",
       "scrollHint": "Scorri per stampare",
-      "outroTitle": "La prossima parete <em>può essere la tua</em>.",
+      "outroTitle": "Non stampiamo solo immagini. Creiamo <em>spazi che raccontano storie</em>.",
       "card": {
         "title": "Ciao!",
         "phone": "Chiamaci: {phone}",
         "whatsapp": "Scrivici su WhatsApp",
         "instagram": "Swiss Wall Printing su Instagram",
         "facebook": "Swiss Wall Printing su Facebook"
-      }
+      },
+      "ctaProjects": "Guarda i nostri progetti"
     },
     "testimonials": {
       "eyebrow": "Recensioni",
@@ -124,20 +130,20 @@
       "configuratorLink": "Apri il configuratore 3D",
       "steps": {
         "idea": {
-          "title": "Idea e parete",
-          "text": "Raccontaci cosa vuoi stampare e mandaci le misure e una foto della parete."
+          "title": "Idea e contatto",
+          "text": "Ci presenti la tua idea, la foto o il design che desideri. Puoi già provarla sulla tua parete nel configuratore 3D."
+        },
+        "consulting": {
+          "title": "Consulenza e preparazione",
+          "text": "Insieme analizziamo la superficie, le misure e le possibilità tecniche. Se serve, facciamo un sopralluogo."
         },
         "design": {
-          "title": "Progetto e anteprima",
-          "text": "Prepariamo la grafica e ti mostriamo il risultato prima della stampa. Puoi già provarlo nel nostro configuratore 3D."
+          "title": "Preparazione grafica",
+          "text": "Prepariamo e adattiamo il materiale grafico per ottenere un risultato di qualità."
         },
         "print": {
-          "title": "Stampa sul posto",
-          "text": "Stampiamo direttamente sulla tua parete, senza pellicole né adesivi."
-        },
-        "done": {
-          "title": "Parete finita",
-          "text": "Colori brillanti e dettagli nitidi per oltre {years} anni, anche all'esterno."
+          "title": "Stampa diretta",
+          "text": "La nostra tecnologia porta il motivo scelto direttamente sulla superficie: senza carta da parati, adesivi o foto incollate."
         }
       }
     },
@@ -205,7 +211,7 @@
   "Services": {
     "eyebrow": "Servizi",
     "title": "Stampa diretta su <em>qualsiasi parete</em>",
-    "lead": "Dall'ufficio alla facciata: scegli la situazione più vicina alla tua, guarda la differenza e provala nel configuratore 3D.",
+    "lead": "Stampa digitale diretta su diverse superfici, per privati e aziende. Scegli la situazione più vicina alla tua, guarda la differenza e provala nel configuratore 3D.",
     "rooms": {
       "title": "Scegli la tua <em>situazione</em>",
       "mockNote": "Foto di esempio per l'anteprima: verranno sostituite da lavori reali.",
@@ -215,25 +221,75 @@
     },
     "what": {
       "eyebrow": "Cosa stampiamo",
-      "title": "Dal logo alla <em>grafica su misura</em>",
-      "intro": "Su pareti interne ed esterne, fino a {height} di altezza e senza limiti di larghezza, con colori brillanti per oltre {years} anni.",
+      "title": "Dalla foto alla <em>storia aziendale</em>",
+      "intro": "Direttamente sulla parete, senza pellicole né adesivi.",
       "kinds": {
-        "logo": {
-          "title": "Logo aziendale",
+        "photos": {
+          "title": "Foto e immagini artistiche",
+          "text": "Le tue foto, i tuoi quadri e le opere d'arte, anche in grande formato."
+        },
+        "logos": {
+          "title": "Loghi e identità visiva",
           "text": "Il marchio e i colori dell'azienda, nitidi su tutta la parete."
         },
-        "art": {
-          "title": "Immagini artistiche",
-          "text": "Paesaggi, foto e opere d'arte, anche in grande formato."
+        "history": {
+          "title": "Foto storiche e storie aziendali",
+          "text": "La storia della tua azienda, raccontata sulle sue pareti."
         },
-        "phrase": {
-          "title": "Frasi",
-          "text": "Una frase ispirazionale o un messaggio per clienti e collaboratori."
+        "homes": {
+          "title": "Decorazioni per la casa",
+          "text": "Soggiorni, camere e corridoi che diventano unici."
+        },
+        "business": {
+          "title": "Ristoranti, hotel e uffici",
+          "text": "Spazi commerciali con un carattere che resta in mente."
         },
         "custom": {
-          "title": "Grafica su misura",
+          "title": "Design personalizzati",
           "text": "Un progetto creato apposta per il tuo spazio."
+        },
+        "advertising": {
+          "title": "Pubblicità e promozione",
+          "text": "Motivi pubblicitari e promozionali, dove i clienti li vedono."
+        },
+        "architects": {
+          "title": "Per architetti e designer",
+          "text": "Stampe su misura per progetti di architettura e d'interni."
         }
+      }
+    },
+    "audiences": {
+      "eyebrow": "Per chi",
+      "title": "Per aziende e <em>per privati</em>",
+      "tryIt": "Prova nel configuratore",
+      "business": {
+        "title": "Clienti aziendali",
+        "text": "Architetti, progettisti e designer d'interni, hotel, ristoranti, uffici, negozi, scuole, musei, saloni, garage e altre aziende.",
+        "highlight": "La storia e l'identità della tua azienda, raccontate sulle sue pareti."
+      },
+      "private": {
+        "title": "Clienti privati",
+        "text": "Soggiorni, camere da letto, camerette, corridoi e altri spazi della casa.",
+        "highlight": "Rendi unica la tua casa."
+      }
+    },
+    "surfaces": {
+      "eyebrow": "Superfici e tecnica",
+      "title": "Su quasi <em>ogni superficie</em>",
+      "intro": "Prima di ogni lavoro verifichiamo che la superficie sia adatta.",
+      "list": {
+        "plaster": "Intonaco",
+        "gypsum": "Gesso",
+        "concrete": "Cemento",
+        "wood": "Legno",
+        "glass": "Vetro",
+        "metal": "Metallo"
+      },
+      "facts": {
+        "height": "Fino a circa {height} di altezza",
+        "width": "Larghezza praticamente illimitata",
+        "inOut": "All'interno e all'esterno, con la giusta preparazione della superficie",
+        "uv": "Tecnologia UV e inchiostri senza solventi"
       }
     }
   },
@@ -253,20 +309,39 @@
   },
   "About": {
     "eyebrow": "Chi siamo",
-    "title": "Ogni muro può raccontare <em>una storia</em>",
-    "lead": "Swiss Wall Printing stampa immagini direttamente sulle pareti, da {locality} in Ticino.",
+    "title": "Ogni muro ha <em>la sua storia</em>",
+    "lead": "Swiss Wall Printing è un'azienda svizzera, fondata nel {year} a {locality}, nel comune di {municipality}.",
     "imageAlt": "Una stampante murale stampa una tigre in bianco e nero su una parete nera.",
     "story": {
-      "what": "Stampiamo loghi, immagini artistiche, frasi e grafiche su misura direttamente sulla parete: senza pellicole né adesivi, su pareti interne ed esterne.",
-      "how": "Con macchinari di ultima generazione stampiamo fino a {height} di altezza e senza limiti di larghezza. Gli inchiostri ecologici che usiamo sono certificati e mantengono colori brillanti e dettagli nitidi per oltre {years} anni, anche all’esterno.",
-      "who": "Lavoriamo per aziende, hotel, ristoranti, scuole, uffici e abitazioni private.",
-      "canvas": "Con la stampa diretta, ogni muro diventa una tela su cui raccontare la tua storia."
+      "idea": "La nostra idea nasce dal desiderio di unire creatività, tecnologia moderna e la possibilità di creare spazi unici.",
+      "how": "Con una tecnologia avanzata stampiamo fotografie, motivi artistici, loghi e design personalizzati direttamente su diverse superfici murali.",
+      "every": "Ogni progetto per noi è una storia a sé. Che si tratti di una casa, di un ufficio, di un ristorante, di un hotel o di uno spazio commerciale, vogliamo creare qualcosa che dia al luogo carattere, identità e un'atmosfera speciale.",
+      "care": "Dedichiamo particolare attenzione alla qualità, alla precisione e a un approccio personale con ogni cliente.",
+      "where": "Lavoriamo in Ticino e in tutta la Svizzera, e realizziamo progetti anche nel resto d'Europa.",
+      "canvas": "Non stampiamo solo immagini. Creiamo spazi che raccontano storie."
+    },
+    "facts": {
+      "founded": "Fondata nel",
+      "base": "Sede",
+      "area": "Dove lavoriamo",
+      "areaValue": "Ticino, Svizzera, Europa"
     }
+  },
+  "Projects": {
+    "eyebrow": "Progetti",
+    "title": "Pareti che <em>raccontano storie</em>",
+    "lead": "Ogni progetto è una storia: ecco alcune pareti che abbiamo stampato.",
+    "photosPending": "Le foto di alcuni progetti arriveranno a breve.",
+    "photoPending": "Foto in arrivo",
+    "readStory": "Leggi la storia",
+    "closeStory": "Chiudi la storia",
+    "moreStory": "Mostra di più",
+    "closeSheet": "Chiudi"
   },
   "Gallery": {
     "eyebrow": "Galleria",
-    "title": "Pareti <em>stampate</em>",
-    "lead": "Una selezione di lavori: filtra per tipo di spazio e apri una foto per vederla in grande.",
+    "title": "Altre <em>pareti</em>",
+    "lead": "Filtra per tipo di spazio e apri una foto per vederla in grande.",
     "mockNote": "Quasi tutte le foto sono esempi per l'anteprima: verranno sostituite da lavori reali."
   },
   "GalleryGrid": {
@@ -288,7 +363,61 @@
     "phone": "Telefono",
     "location": "Dove siamo",
     "openMap": "Apri la mappa",
-    "formTitle": "Scrivici un messaggio"
+    "formTitle": "Scrivici un messaggio",
+    "hours": "Orari",
+    "hoursValue": "{opens}–{closes}",
+    "area": "Dove lavoriamo",
+    "areaValue": "Ticino, tutta la Svizzera e, su richiesta, in Europa"
+  },
+  "Faq": {
+    "eyebrow": "FAQ",
+    "title": "Domande <em>frequenti</em>",
+    "lead": "Le risposte alle domande che ci fate più spesso sulla stampa diretta su parete.",
+    "more": "Non trovi la tua risposta?",
+    "moreText": "Scrivici, chiamaci o mandaci un messaggio su WhatsApp: ti rispondiamo volentieri.",
+    "moreLink": "Contattaci",
+    "items": {
+      "what": {
+        "q": "Che cos'è la stampa diretta su parete?",
+        "a": "Una stampante verticale stampa la tua immagine direttamente sulla parete: foto, motivi artistici, loghi o design personalizzati. Senza carta da parati, pellicole o adesivi."
+      },
+      "surfaces": {
+        "q": "Su quali superfici si può stampare?",
+        "a": "Su intonaco, gesso, cemento, legno, vetro e metallo. Prima di ogni lavoro verifichiamo che la superficie sia adatta."
+      },
+      "size": {
+        "q": "Quanto può essere grande la stampa?",
+        "a": "Fino a circa {height} di altezza; la larghezza è praticamente illimitata."
+      },
+      "outdoor": {
+        "q": "Si può stampare anche sui muri esterni?",
+        "a": "Sì. Stampiamo all'interno e all'esterno, con la giusta preparazione della superficie."
+      },
+      "durability": {
+        "q": "Quanto dura la stampa?",
+        "a": "Gli inchiostri certificati che usiamo mantengono colori brillanti e dettagli nitidi per oltre {years} anni, anche all'esterno."
+      },
+      "preparation": {
+        "q": "La parete va preparata prima?",
+        "a": "A volte sì. Prima della stampa analizziamo la superficie insieme a te e, se serve, la prepariamo nel modo giusto."
+      },
+      "ownImage": {
+        "q": "Posso usare una mia foto o un mio design?",
+        "a": "Certo. Ci mandi la tua foto o il tuo design, e noi prepariamo e adattiamo la grafica per un risultato di qualità. Nel configuratore 3D puoi provarla subito sulla tua parete."
+      },
+      "duration": {
+        "q": "Quanto tempo serve per realizzare un progetto?",
+        "a": "Dipende dalle misure, dal motivo e dalla superficie. Ti diamo i tempi insieme al preventivo."
+      },
+      "price": {
+        "q": "Quanto costa una stampa su parete?",
+        "a": "Il prezzo dipende dalla superficie, dal motivo e dalle misure. Nel configuratore 3D vedi subito un prezzo indicativo; il preventivo è gratuito."
+      },
+      "quote": {
+        "q": "Come posso chiedere un preventivo?",
+        "a": "Con il modulo dei contatti, per telefono, su WhatsApp o per e-mail. Dal configuratore 3D puoi mandarci la richiesta con le misure e un'anteprima della parete."
+      }
+    }
   },
   "Legal": {
     "missing": "da completare",

@@ -53,3 +53,12 @@ swiss-wallprinting/.obsidian/workspace-mobile.json
 
 # The author's message to the client: private, stays on this machine (decided 2026-10-21)
 swiss-wallprinting/Poruka ponude.md
+
+# The client's brief (2026-10-22, Bosnian, AI-written by the client): private, stays on this
+# machine. The facts the site uses are in swiss-wallprinting/Specs/Client brief.md.
+swiss-wallprinting/Poruka klijenta.md
+
+# The client's original project photos and videos (2026-10-23, about 730 MB): the
+# originals stay on this machine; `vp run images` writes the optimized copies to
+# public/photos/projects/ and the manifest, which are in git.
+Assets/Projects/

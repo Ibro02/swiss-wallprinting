@@ -23,8 +23,15 @@ Installed with their own installers (commands below), copied into this folder, r
 | `emil-design-eng`, `animate`, `animate-expo`, `animation-performance`, `animation-vocabulary`, `apple-design`, `ask-sonner`, `break-ui`, `find-animation-opportunities`, `improve-animations`, `mobile-native`, `pick-ui-library`, `prototype`, `review-animations`, `write-swift` | https://github.com/emilkowalski/skills | `2d22863` | `npx skills@latest add emilkowalski/skills --skill '*' --agent claude-code --copy` | MIT, `_licenses/emilkowalski-skills.LICENSE` |
 | `responsive-design` (added by the author, 2026-10-22) | https://github.com/wshobson/agents (`plugins/ui-design/skills/`) | `0874a27` (HEAD that day; hash in `skills-lock.json`) | `npx skills add wshobson/agents --skill responsive-design --agent claude-code --copy` | MIT, `_licenses/wshobson-agents.LICENSE` |
 
+## Browser skill (added 2026-10-22, the author's request)
+
+| Skill | Source | Commit | How it runs | License |
+|---|---|---|---|---|
+| `agent-browser` (its name in `SKILL.md` is `core`, as upstream) | https://github.com/vercel-labs/agent-browser (`skill-data/core/`, with `references/`) | `468c052` | `npx --yes agent-browser@0.39.1 <command>` (CLI 0.39.1; no global install). It uses the Chromium that Playwright installed (`npx playwright install chromium`) | Apache 2.0, `_licenses/agent-browser.LICENSE` |
+
 Notes:
 
+- **agent-browser** is a CLI that drives Chrome over CDP and prints accessibility snapshots with `@eN` refs. The skill holds only instructions; the CLI is code that runs. Give each task its own session (`AGENT_BROWSER_SESSION`), and run `close` at the end. It was used first for the analysis of the competitors' sites (`swiss-wallprinting/Specs/Client brief.md`).
 - **impeccable's engine binary** (`impeccable/scripts/bin/`, 20 MB per platform) is not in git: its launcher downloads it on the first run. Its design hook (after each edit of a UI file, and at the end of a turn) is in `.claude/settings.local.json`, which git ignores: `npx impeccable install` sets it up on another machine, or `/impeccable hooks on`.
 - `animate-expo` and `write-swift` (React Native and Swift) do not apply to this project; they came with the package.
 - taste-skill's scripts (`inspect.mjs`, `scenes.mjs`) need Node 22+ and an installed Chrome, Edge or Chromium; `assets.mjs` needs network access. They write to `.taste-skill/` (git ignores it).
