@@ -32,6 +32,23 @@ test.describe('device in light mode', () => {
     expect(await pageColour(page)).toBe(DARK_PAGE)
   })
 
+  test('a language change keeps the chosen theme', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'The header switch and menu are on wide screens.')
+    await page.goto('/it')
+    await page.locator('header').getByRole('switch', { name: 'Tema scuro' }).first().click()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    // The language links load the page anew (LanguageSwitcher): a client-side navigation
+    // re-rendered the root layout and dropped data-theme, so the page turned light.
+    await page.locator('header details summary').first().click()
+    await page
+      .locator('header details')
+      .getByRole('link', { name: /Deutsch/ })
+      .click()
+    await page.waitForURL('**/de')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    expect(await pageColour(page)).toBe(DARK_PAGE)
+  })
+
   test('the phone menu has the switch too', async ({ page, isMobile }) => {
     test.skip(!isMobile, 'Desktops have the switch in the header pill.')
     await page.goto('/it')

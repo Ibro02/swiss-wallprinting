@@ -8,6 +8,7 @@ import { heroVideo } from './hero-video.ts'
 import { legal } from './legal.ts'
 import { presets } from './presets.ts'
 import { pricing } from './pricing.ts'
+import { projects } from './projects.ts'
 import { printQuality } from './print-quality.ts'
 import type { ContentItem } from './schema.ts'
 import { services } from './services.ts'
@@ -19,6 +20,7 @@ export const collections = {
   testimonials,
   applicationAreas,
   services,
+  projects,
   gallery,
   legal: [legal],
   presets,

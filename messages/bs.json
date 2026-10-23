@@ -8,7 +8,8 @@
     "home": "Početna",
     "about": "O nama",
     "services": "Usluge",
-    "gallery": "Galerija",
+    "projects": "Projekti",
+    "faq": "FAQ",
     "contact": "Kontakt",
     "tryYourWall": "Isprobaj svoj zid",
     "imprint": "Impresum",
@@ -31,8 +32,11 @@
     "services": {
       "title": "Usluge"
     },
-    "gallery": {
-      "title": "Galerija"
+    "projects": {
+      "title": "Projekti"
+    },
+    "faq": {
+      "title": "Česta pitanja"
     },
     "contact": {
       "title": "Kontakt"
@@ -61,7 +65,8 @@
     "legalTitle": "Pravne informacije",
     "rights": "Sva prava zadržana.",
     "phoneLanguages": "Jezici: {languages}",
-    "region": "Ticino, Švicarska"
+    "region": "Ticino, Švicarska",
+    "hours": "Radno vrijeme: {opens}–{closes}"
   },
   "WhatsApp": {
     "label": "Pišite nam na WhatsApp",
@@ -69,21 +74,22 @@
   },
   "Home": {
     "hero": {
-      "eyebrow": "Direktna štampa na zid · Ticino",
-      "title": "Vaša slika, štampana <em>direktno</em> na zid.",
-      "lead": "Bez folije, bez ljepila: štampamo logotipe, fotografije i grafike na unutrašnje i vanjske zidove. Do {height} visine, bez ograničenja širine.",
+      "eyebrow": "Swiss Wall Printing · Ticino",
+      "title": "Visoka rezolucija. Bez granica. <em>Direktno na vašem zidu.</em>",
+      "lead": "Pretvaramo vaše ideje, fotografije i kreativne vizije u jedinstvene zidne dekoracije. Uz savremenu tehnologiju direktne zidne štampe stvaramo originalne prostore za privatne i poslovne klijente.",
       "ctaConfigurator": "Isprobajte na svom zidu",
-      "ctaQuote": "Besplatna ponuda",
+      "ctaQuote": "Zatražite ponudu",
       "imageAlt": "Zidni štampač štampa akvarel švicarskog sela na jezeru na zid ureda.",
       "scrollHint": "Skrolajte za štampu",
-      "outroTitle": "Sljedeći zid <em>može biti vaš</em>.",
+      "outroTitle": "Ne štampamo samo slike. Stvaramo <em>prostore koji pričaju priče</em>.",
       "card": {
         "title": "Zdravo!",
         "phone": "Pozovite nas: {phone}",
         "whatsapp": "Pišite nam na WhatsApp",
         "instagram": "Swiss Wall Printing na Instagramu",
         "facebook": "Swiss Wall Printing na Facebooku"
-      }
+      },
+      "ctaProjects": "Pogledajte naše projekte"
     },
     "testimonials": {
       "eyebrow": "Recenzije",
@@ -124,20 +130,20 @@
       "configuratorLink": "Otvori 3D konfigurator",
       "steps": {
         "idea": {
-          "title": "Ideja i zid",
-          "text": "Recite nam šta želite štampati i pošaljite nam mjere i fotografiju zida."
+          "title": "Ideja i kontakt",
+          "text": "Predstavite nam svoju ideju, željenu fotografiju ili dizajn. Već sada je možete isprobati na svom zidu u 3D konfiguratoru."
+        },
+        "consulting": {
+          "title": "Savjetovanje i priprema",
+          "text": "Zajedno analiziramo površinu, dimenzije i tehničke mogućnosti. Po potrebi obavljamo obilazak lokacije."
         },
         "design": {
-          "title": "Dizajn i pregled",
-          "text": "Pripremamo grafiku i pokazujemo vam rezultat prije štampe. Već sada ga možete isprobati u našem 3D konfiguratoru."
+          "title": "Grafička priprema",
+          "text": "Pripremamo i prilagođavamo grafički materijal kako bismo postigli kvalitetan rezultat."
         },
         "print": {
-          "title": "Štampa na licu mjesta",
-          "text": "Štampamo direktno na vaš zid, bez folije i bez ljepila."
-        },
-        "done": {
-          "title": "Gotov zid",
-          "text": "Žive boje i oštri detalji više od {years} godina, i na otvorenom."
+          "title": "Direktna štampa",
+          "text": "Naša tehnologija prenosi odabrani motiv direktno na površinu: bez tapeta, naljepnica ili lijepljenja fotografija."
         }
       }
     },
@@ -205,7 +211,7 @@
   "Services": {
     "eyebrow": "Usluge",
     "title": "Direktna štampa na <em>svaki zid</em>",
-    "lead": "Od kancelarije do fasade: izaberite situaciju najbližu vašoj, pogledajte razliku i isprobajte je u 3D konfiguratoru.",
+    "lead": "Direktna digitalna štampa na različitim površinama, za privatne i poslovne klijente. Odaberite situaciju najsličniju vašoj, pogledajte razliku i isprobajte je u 3D konfiguratoru.",
     "rooms": {
       "title": "Izaberite svoju <em>situaciju</em>",
       "mockNote": "Primjeri fotografija za pregled: bit će zamijenjeni stvarnim radovima.",
@@ -215,25 +221,75 @@
     },
     "what": {
       "eyebrow": "Šta štampamo",
-      "title": "Od logotipa do <em>grafike po mjeri</em>",
-      "intro": "Na unutrašnje i vanjske zidove, do {height} visine i bez ograničenja širine, sa živim bojama više od {years} godina.",
+      "title": "Od fotografije do <em>priče kompanije</em>",
+      "intro": "Direktno na zid, bez folije i bez ljepila.",
       "kinds": {
-        "logo": {
-          "title": "Logo firme",
+        "photos": {
+          "title": "Fotografije i umjetničke slike",
+          "text": "Vaše fotografije, slike i umjetnička djela, i u velikom formatu."
+        },
+        "logos": {
+          "title": "Logotipi i vizuelni identitet",
           "text": "Brend i boje firme, oštri preko cijelog zida."
         },
-        "art": {
-          "title": "Umjetničke slike",
-          "text": "Pejzaži, fotografije i umjetnička djela, i u velikom formatu."
+        "history": {
+          "title": "Historijske fotografije i priče kompanija",
+          "text": "Historija vaše firme, ispričana na njenim zidovima."
         },
-        "phrase": {
-          "title": "Rečenice",
-          "text": "Inspirativna rečenica ili poruka za klijente i saradnike."
+        "homes": {
+          "title": "Dekoracije privatnih domova",
+          "text": "Dnevni boravci, sobe i hodnici koji postaju jedinstveni."
+        },
+        "business": {
+          "title": "Restorani, hoteli i poslovni prostori",
+          "text": "Poslovni prostori s karakterom koji se pamti."
         },
         "custom": {
-          "title": "Grafika po mjeri",
-          "text": "Dizajn napravljen baš za vaš prostor."
+          "title": "Personalizirani dizajni",
+          "text": "Projekat napravljen posebno za vaš prostor."
+        },
+        "advertising": {
+          "title": "Reklamni i promotivni motivi",
+          "text": "Reklamni i promotivni motivi tamo gdje ih klijenti vide."
+        },
+        "architects": {
+          "title": "Za arhitekte i dizajnere enterijera",
+          "text": "Štampa po mjeri za arhitektonske projekte i enterijere."
         }
+      }
+    },
+    "audiences": {
+      "eyebrow": "Za koga",
+      "title": "Za firme <em>i privatne klijente</em>",
+      "tryIt": "Isprobajte u konfiguratoru",
+      "business": {
+        "title": "Poslovni klijenti",
+        "text": "Arhitekti, projektanti, dizajneri enterijera, hoteli, restorani, kancelarije, trgovine, škole, muzeji, saloni, garaže i druge kompanije.",
+        "highlight": "Historija i identitet vaše firme, ispričani na njenim zidovima."
+      },
+      "private": {
+        "title": "Privatni klijenti",
+        "text": "Dnevni boravci, spavaće sobe, dječije sobe, hodnici i drugi stambeni prostori.",
+        "highlight": "Učinite svoj dom jedinstvenim."
+      }
+    },
+    "surfaces": {
+      "eyebrow": "Površine i tehnologija",
+      "title": "Na gotovo <em>svakoj površini</em>",
+      "intro": "Prije svakog posla provjeravamo prikladnost površine.",
+      "list": {
+        "plaster": "Malter",
+        "gypsum": "Gips",
+        "concrete": "Beton",
+        "wood": "Drvo",
+        "glass": "Staklo",
+        "metal": "Metal"
+      },
+      "facts": {
+        "height": "Do približno {height} visine",
+        "width": "Širina praktično neograničena",
+        "inOut": "U unutrašnjim i vanjskim prostorima, uz odgovarajuću pripremu površine",
+        "uv": "UV tehnologija i boje bez rastvarača"
       }
     }
   },
@@ -253,20 +309,39 @@
   },
   "About": {
     "eyebrow": "O nama",
-    "title": "Svaki zid može ispričati <em>priču</em>",
-    "lead": "Swiss Wall Printing štampa slike direktno na zidove, iz mjesta {locality} u Ticinu.",
+    "title": "Svaki zid ima <em>svoju priču</em>",
+    "lead": "Swiss Wall Printing je švicarska firma osnovana {year}. godine u mjestu {locality}, u općini {municipality}.",
     "imageAlt": "Zidni štampač štampa crno-bijelog tigra na crni zid.",
     "story": {
-      "what": "Štampamo logotipe, umjetničke slike, rečenice i grafike po mjeri direktno na zid: bez folije i bez ljepila, na unutrašnje i vanjske zidove.",
-      "how": "Mašinama najnovije generacije štampamo do {height} visine i bez ograničenja širine. Naše ekološke boje su certificirane i zadržavaju žive boje i oštre detalje više od {years} godina, i na otvorenom.",
-      "who": "Radimo za firme, hotele, restorane, škole, kancelarije i privatne kuće.",
-      "canvas": "Uz direktnu štampu, svaki zid postaje platno za vašu priču."
+      "idea": "Naša ideja nastala je iz želje da spojimo kreativnost, savremenu tehnologiju i mogućnost stvaranja jedinstvenih prostora.",
+      "how": "Koristeći naprednu tehnologiju, omogućavamo direktnu digitalnu štampu fotografija, umjetničkih motiva, logotipa i personaliziranih dizajna na različitim zidnim površinama.",
+      "every": "Svaki projekat posmatramo kao posebnu priču. Bez obzira radi li se o privatnom domu, kancelariji, restoranu, hotelu ili poslovnom prostoru, naš cilj je stvoriti nešto što će prostoru dati karakter, identitet i posebnu atmosferu.",
+      "care": "Posebnu pažnju posvećujemo kvalitetu, preciznosti i individualnom pristupu svakom klijentu.",
+      "where": "Djelujemo na području Ticina i cijele Švicarske, uz mogućnost realizacije projekata širom Evrope.",
+      "canvas": "Ne štampamo samo slike. Stvaramo prostore koji pričaju priče."
+    },
+    "facts": {
+      "founded": "Osnovana",
+      "base": "Sjedište",
+      "area": "Gdje radimo",
+      "areaValue": "Ticino, Švicarska, Evropa"
     }
+  },
+  "Projects": {
+    "eyebrow": "Projekti",
+    "title": "Zidovi koji <em>pričaju priče</em>",
+    "lead": "Svaki projekat je posebna priča: ovo su neki od zidova koje smo odštampali.",
+    "photosPending": "Fotografije nekih projekata uskoro stižu.",
+    "photoPending": "Fotografija uskoro",
+    "readStory": "Pročitajte priču",
+    "closeStory": "Zatvorite priču",
+    "moreStory": "Prikažite više",
+    "closeSheet": "Zatvorite"
   },
   "Gallery": {
     "eyebrow": "Galerija",
-    "title": "Odštampani <em>zidovi</em>",
-    "lead": "Izbor naših radova: filtrirajte po vrsti prostora i otvorite fotografiju u velikom formatu.",
+    "title": "Još <em>zidova</em>",
+    "lead": "Filtrirajte po vrsti prostora i otvorite fotografiju da je vidite u velikom formatu.",
     "mockNote": "Gotovo sve fotografije su primjeri za pregled: bit će zamijenjene stvarnim radovima."
   },
   "GalleryGrid": {
@@ -288,7 +363,61 @@
     "phone": "Telefon",
     "location": "Gdje smo",
     "openMap": "Otvori mapu",
-    "formTitle": "Pišite nam"
+    "formTitle": "Pišite nam",
+    "hours": "Radno vrijeme",
+    "hoursValue": "{opens}–{closes}",
+    "area": "Gdje radimo",
+    "areaValue": "Ticino, cijela Švicarska i, na upit, Evropa"
+  },
+  "Faq": {
+    "eyebrow": "FAQ",
+    "title": "Česta <em>pitanja</em>",
+    "lead": "Odgovori na pitanja koja nam najčešće postavljate o direktnoj zidnoj štampi.",
+    "more": "Niste pronašli odgovor?",
+    "moreText": "Pišite nam, nazovite nas ili pošaljite poruku na WhatsApp: rado ćemo odgovoriti.",
+    "moreLink": "Kontaktirajte nas",
+    "items": {
+      "what": {
+        "q": "Šta je direktna zidna štampa?",
+        "a": "Vertikalni štampač štampa vašu sliku direktno na zid: fotografije, umjetničke motive, logotipe ili personalizirane dizajne. Bez tapeta, folije ili naljepnica."
+      },
+      "surfaces": {
+        "q": "Na kojim površinama se može štampati?",
+        "a": "Na malteru, gipsu, betonu, drvetu, staklu i metalu. Prije svakog posla provjeravamo prikladnost površine."
+      },
+      "size": {
+        "q": "Kolike dimenzije mogu biti odštampane?",
+        "a": "Do približno {height} visine; širina je praktično neograničena."
+      },
+      "outdoor": {
+        "q": "Da li je štampa moguća na vanjskim zidovima?",
+        "a": "Da. Štampamo u unutrašnjim i vanjskim prostorima, uz odgovarajuću pripremu površine."
+      },
+      "durability": {
+        "q": "Koliko dugo traje zidna štampa?",
+        "a": "Certificirane boje koje koristimo zadržavaju sjajne boje i oštre detalje više od {years} godina, i na otvorenom."
+      },
+      "preparation": {
+        "q": "Da li se zid mora prethodno pripremiti?",
+        "a": "Ponekad da. Prije štampe zajedno s vama analiziramo površinu i, ako je potrebno, pravilno je pripremimo."
+      },
+      "ownImage": {
+        "q": "Mogu li koristiti vlastitu fotografiju ili dizajn?",
+        "a": "Naravno. Pošaljite nam svoju fotografiju ili dizajn, a mi pripremamo i prilagođavamo grafiku za kvalitetan rezultat. U 3D konfiguratoru je možete odmah isprobati na svom zidu."
+      },
+      "duration": {
+        "q": "Koliko traje realizacija projekta?",
+        "a": "Zavisi od dimenzija, motiva i površine. Vrijeme izrade navodimo zajedno s ponudom."
+      },
+      "price": {
+        "q": "Koliko košta zidna štampa?",
+        "a": "Cijena zavisi od površine, motiva i dimenzija. U 3D konfiguratoru odmah vidite okvirnu cijenu; ponuda je besplatna."
+      },
+      "quote": {
+        "q": "Kako mogu zatražiti ponudu?",
+        "a": "Putem kontaktnog formulara, telefonom, na WhatsApp ili e-mailom. Iz 3D konfiguratora možete nam poslati upit s dimenzijama i pregledom vašeg zida."
+      }
+    }
   },
   "Legal": {
     "missing": "nedostaje",

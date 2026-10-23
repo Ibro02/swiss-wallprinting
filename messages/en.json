@@ -8,7 +8,8 @@
     "home": "Home",
     "about": "About us",
     "services": "Services",
-    "gallery": "Gallery",
+    "projects": "Projects",
+    "faq": "FAQ",
     "contact": "Contact",
     "tryYourWall": "Try your wall printing",
     "imprint": "Imprint",
@@ -31,8 +32,11 @@
     "services": {
       "title": "Services"
     },
-    "gallery": {
-      "title": "Gallery"
+    "projects": {
+      "title": "Projects"
+    },
+    "faq": {
+      "title": "Frequently asked questions"
     },
     "contact": {
       "title": "Contact"
@@ -61,7 +65,8 @@
     "legalTitle": "Legal",
     "rights": "All rights reserved.",
     "phoneLanguages": "Languages: {languages}",
-    "region": "Ticino, Switzerland"
+    "region": "Ticino, Switzerland",
+    "hours": "Opening hours: {opens}–{closes}"
   },
   "WhatsApp": {
     "label": "Chat with us on WhatsApp",
@@ -69,21 +74,22 @@
   },
   "Home": {
     "hero": {
-      "eyebrow": "Direct wall printing · Ticino",
-      "title": "Your image, printed <em>straight onto</em> the wall.",
-      "lead": "No film, no stickers: we print logos, photos and graphics on interior and exterior walls. Up to {height} high, with no limit on width.",
+      "eyebrow": "Swiss Wall Printing · Ticino",
+      "title": "High resolution. No limits. <em>Straight onto your wall.</em>",
+      "lead": "We turn your ideas, photos and creative visions into unique wall decorations. With direct wall printing we create original spaces for private and business clients.",
       "ctaConfigurator": "Try it on your wall",
-      "ctaQuote": "Free quote",
+      "ctaQuote": "Request a quote",
       "imageAlt": "A wall printer prints a watercolour of a Swiss lakeside village onto an office wall.",
       "scrollHint": "Scroll to print",
-      "outroTitle": "The next wall <em>could be yours</em>.",
+      "outroTitle": "We don't just print pictures. We create <em>spaces that tell stories</em>.",
       "card": {
         "title": "Say hello!",
         "phone": "Call us: {phone}",
         "whatsapp": "Message us on WhatsApp",
         "instagram": "Swiss Wall Printing on Instagram",
         "facebook": "Swiss Wall Printing on Facebook"
-      }
+      },
+      "ctaProjects": "See our projects"
     },
     "testimonials": {
       "eyebrow": "Reviews",
@@ -124,20 +130,20 @@
       "configuratorLink": "Open the 3D configurator",
       "steps": {
         "idea": {
-          "title": "Idea and wall",
-          "text": "Tell us what you want to print, and send us the measurements and a photo of the wall."
+          "title": "Idea and contact",
+          "text": "You tell us your idea, the photo or the design you have in mind. You can already try it on your wall in the 3D configurator."
+        },
+        "consulting": {
+          "title": "Advice and preparation",
+          "text": "Together we look at the surface, the measurements and the technical options. If needed, we visit the site."
         },
         "design": {
-          "title": "Design and preview",
-          "text": "We prepare the artwork and show you the result before printing. You can already try it in our 3D configurator."
+          "title": "Artwork preparation",
+          "text": "We prepare and adapt the artwork so the result is of high quality."
         },
         "print": {
-          "title": "Printing on site",
-          "text": "We print directly onto your wall, with no film and no stickers."
-        },
-        "done": {
-          "title": "Finished wall",
-          "text": "Bright colours and sharp details for more than {years} years, also outdoors."
+          "title": "Direct print",
+          "text": "Our technology transfers the chosen design straight onto the surface: no wallpaper, stickers or pasted photos."
         }
       }
     },
@@ -205,7 +211,7 @@
   "Services": {
     "eyebrow": "Services",
     "title": "Direct printing on <em>any wall</em>",
-    "lead": "From the office to the facade: choose the situation closest to yours, see the difference, and try it in the 3D configurator.",
+    "lead": "Direct digital printing on many surfaces, for private and business clients. Pick the situation closest to yours, see the difference and try it in the 3D configurator.",
     "rooms": {
       "title": "Choose your <em>situation</em>",
       "mockNote": "Example photos for this preview: they will be replaced by real work.",
@@ -215,25 +221,75 @@
     },
     "what": {
       "eyebrow": "What we print",
-      "title": "From your logo to <em>custom graphics</em>",
-      "intro": "On interior and exterior walls, up to {height} high with no limit on width, with bright colours for more than {years} years.",
+      "title": "From photos to <em>company history</em>",
+      "intro": "Straight onto the wall, with no film and no stickers.",
       "kinds": {
-        "logo": {
-          "title": "Company logo",
+        "photos": {
+          "title": "Photos and art",
+          "text": "Your photos, paintings and artworks, in large format too."
+        },
+        "logos": {
+          "title": "Logos and visual identity",
           "text": "Your brand and colours, sharp across the whole wall."
         },
-        "art": {
-          "title": "Artistic images",
-          "text": "Landscapes, photos and works of art, also in large format."
+        "history": {
+          "title": "Historical photos and company stories",
+          "text": "Your company's history, told on its own walls."
         },
-        "phrase": {
-          "title": "Phrases",
-          "text": "An inspiring phrase or a message for clients and staff."
+        "homes": {
+          "title": "Home decoration",
+          "text": "Living rooms, bedrooms and hallways made unique."
+        },
+        "business": {
+          "title": "Restaurants, hotels and offices",
+          "text": "Business spaces with a character people remember."
         },
         "custom": {
-          "title": "Custom graphics",
-          "text": "A design made for your space."
+          "title": "Personalised designs",
+          "text": "A design created for your space."
+        },
+        "advertising": {
+          "title": "Advertising and promotion",
+          "text": "Advertising and promotional motifs where your customers see them."
+        },
+        "architects": {
+          "title": "For architects and designers",
+          "text": "Made-to-measure prints for architecture and interior projects."
         }
+      }
+    },
+    "audiences": {
+      "eyebrow": "Who it is for",
+      "title": "For businesses <em>and homes</em>",
+      "tryIt": "Try it in the configurator",
+      "business": {
+        "title": "Business clients",
+        "text": "Architects, planners and interior designers, hotels, restaurants, offices, shops, schools, museums, salons, garages and other companies.",
+        "highlight": "Your company's history and identity, told on its walls."
+      },
+      "private": {
+        "title": "Private clients",
+        "text": "Living rooms, bedrooms, children's rooms, hallways and other living spaces.",
+        "highlight": "Make your home one of a kind."
+      }
+    },
+    "surfaces": {
+      "eyebrow": "Surfaces and technology",
+      "title": "On almost <em>any surface</em>",
+      "intro": "Before every job we check that the surface is suitable.",
+      "list": {
+        "plaster": "Plaster",
+        "gypsum": "Gypsum",
+        "concrete": "Concrete",
+        "wood": "Wood",
+        "glass": "Glass",
+        "metal": "Metal"
+      },
+      "facts": {
+        "height": "Up to about {height} high",
+        "width": "Practically unlimited width",
+        "inOut": "Indoors and outdoors, with the right surface preparation",
+        "uv": "UV technology and solvent-free inks"
       }
     }
   },
@@ -253,20 +309,39 @@
   },
   "About": {
     "eyebrow": "About us",
-    "title": "Every wall can tell <em>a story</em>",
-    "lead": "Swiss Wall Printing prints images directly onto walls, from {locality} in Ticino.",
+    "title": "Every wall has <em>its story</em>",
+    "lead": "Swiss Wall Printing is a Swiss company, founded in {year} in {locality}, in the municipality of {municipality}.",
     "imageAlt": "A wall printer prints a black-and-white tiger onto a black wall.",
     "story": {
-      "what": "We print logos, artistic images, phrases and custom graphics directly onto the wall: with no film and no stickers, on interior and exterior walls.",
-      "how": "With state-of-the-art machines we print up to {height} high with no limit on width. Our eco-friendly inks are certified and keep colours bright and details sharp for more than {years} years, also outdoors.",
-      "who": "We work for companies, hotels, restaurants, schools, offices and private homes.",
-      "canvas": "With direct printing, every wall becomes a canvas for your story."
+      "idea": "Our idea grew from the wish to bring together creativity, modern technology and the chance to create unique spaces.",
+      "how": "With advanced technology we print photos, artistic motifs, logos and personalised designs directly onto a range of wall surfaces.",
+      "every": "To us, every project is a story of its own. Whether it is a home, an office, a restaurant, a hotel or a business space, our aim is to create something that gives the place character, identity and a special atmosphere.",
+      "care": "We pay particular attention to quality, precision and a personal approach to every client.",
+      "where": "We work in Ticino and across Switzerland, and we also carry out projects elsewhere in Europe.",
+      "canvas": "We don't just print pictures. We create spaces that tell stories."
+    },
+    "facts": {
+      "founded": "Founded",
+      "base": "Based in",
+      "area": "Where we work",
+      "areaValue": "Ticino, Switzerland, Europe"
     }
+  },
+  "Projects": {
+    "eyebrow": "Projects",
+    "title": "Walls that <em>tell stories</em>",
+    "lead": "Every project is a story: here are some of the walls we have printed.",
+    "photosPending": "Photos of some projects are coming soon.",
+    "photoPending": "Photo coming soon",
+    "readStory": "Read the story",
+    "closeStory": "Close the story",
+    "moreStory": "Show more",
+    "closeSheet": "Close"
   },
   "Gallery": {
     "eyebrow": "Gallery",
-    "title": "Printed <em>walls</em>",
-    "lead": "A selection of our work: filter by type of space and open a photo to see it large.",
+    "title": "More <em>walls</em>",
+    "lead": "Filter by type of space and open a photo to see it large.",
     "mockNote": "Almost all photos are examples for this preview: they will be replaced by real work."
   },
   "GalleryGrid": {
@@ -288,7 +363,61 @@
     "phone": "Phone",
     "location": "Where we are",
     "openMap": "Open the map",
-    "formTitle": "Write to us"
+    "formTitle": "Write to us",
+    "hours": "Opening hours",
+    "hoursValue": "{opens}–{closes}",
+    "area": "Where we work",
+    "areaValue": "Ticino, all of Switzerland and, on request, Europe"
+  },
+  "Faq": {
+    "eyebrow": "FAQ",
+    "title": "Frequently asked <em>questions</em>",
+    "lead": "Answers to the questions we hear most about direct wall printing.",
+    "more": "Can't find your answer?",
+    "moreText": "Write to us, call us or send a WhatsApp message: we're happy to help.",
+    "moreLink": "Contact us",
+    "items": {
+      "what": {
+        "q": "What is direct wall printing?",
+        "a": "A vertical printer prints your image straight onto the wall: photos, artistic motifs, logos or personalised designs. No wallpaper, film or stickers."
+      },
+      "surfaces": {
+        "q": "Which surfaces can you print on?",
+        "a": "Plaster, gypsum, concrete, wood, glass and metal. Before every job we check that the surface is suitable."
+      },
+      "size": {
+        "q": "How large can a print be?",
+        "a": "Up to about {height} high; the width is practically unlimited."
+      },
+      "outdoor": {
+        "q": "Can you print on exterior walls?",
+        "a": "Yes. We print indoors and outdoors, with the right surface preparation."
+      },
+      "durability": {
+        "q": "How long does a wall print last?",
+        "a": "The certified inks we use keep colours bright and details sharp for more than {years} years, outdoors too."
+      },
+      "preparation": {
+        "q": "Does the wall need to be prepared?",
+        "a": "Sometimes. Before printing we look at the surface with you and, if needed, prepare it properly."
+      },
+      "ownImage": {
+        "q": "Can I use my own photo or design?",
+        "a": "Of course. Send us your photo or design, and we prepare and adapt the artwork for a high-quality result. In the 3D configurator you can try it on your wall straight away."
+      },
+      "duration": {
+        "q": "How long does a project take?",
+        "a": "It depends on the size, the design and the surface. We give you the timing together with the quote."
+      },
+      "price": {
+        "q": "How much does a wall print cost?",
+        "a": "The price depends on the area, the design and the surface. The 3D configurator shows an indicative price at once; the quote is free."
+      },
+      "quote": {
+        "q": "How can I request a quote?",
+        "a": "Through the contact form, by phone, on WhatsApp or by e-mail. From the 3D configurator you can send us the request with the measurements and a preview of your wall."
+      }
+    }
   },
   "Legal": {
     "missing": "to be completed",

@@ -57,6 +57,7 @@ export function localBusinessJsonLd({
     logo,
     image,
     email: company.email,
+    foundingDate: String(company.founded),
     ...(phone ? { telephone: phone.e164 } : {}),
     address: {
       '@type': 'PostalAddress',
@@ -65,6 +66,8 @@ export function localBusinessJsonLd({
       addressRegion: company.canton,
       addressCountry: 'CH',
     },
-    sameAs: [company.social.instagram, company.social.facebook],
+    sameAs: [company.social.instagram, company.social.facebook, company.social.tiktok].filter(
+      (link) => link !== null,
+    ),
   }
 }

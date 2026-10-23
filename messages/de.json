@@ -8,7 +8,8 @@
     "home": "Start",
     "about": "Über uns",
     "services": "Leistungen",
-    "gallery": "Galerie",
+    "projects": "Projekte",
+    "faq": "FAQ",
     "contact": "Kontakt",
     "tryYourWall": "Wand testen",
     "imprint": "Impressum",
@@ -31,8 +32,11 @@
     "services": {
       "title": "Leistungen"
     },
-    "gallery": {
-      "title": "Galerie"
+    "projects": {
+      "title": "Projekte"
+    },
+    "faq": {
+      "title": "Häufige Fragen"
     },
     "contact": {
       "title": "Kontakt"
@@ -61,7 +65,8 @@
     "legalTitle": "Rechtliches",
     "rights": "Alle Rechte vorbehalten.",
     "phoneLanguages": "Sprachen: {languages}",
-    "region": "Tessin, Schweiz"
+    "region": "Tessin, Schweiz",
+    "hours": "Öffnungszeiten: {opens}–{closes}"
   },
   "WhatsApp": {
     "label": "Schreiben Sie uns auf WhatsApp",
@@ -69,21 +74,22 @@
   },
   "Home": {
     "hero": {
-      "eyebrow": "Direktdruck auf Wände · Tessin",
-      "title": "Ihr Bild, <em>direkt</em> auf die Wand gedruckt.",
-      "lead": "Ohne Folie, ohne Kleber: Wir drucken Logos, Fotos und Grafiken auf Innen- und Aussenwände. Bis {height} hoch, in unbegrenzter Breite.",
+      "eyebrow": "Swiss Wall Printing · Tessin",
+      "title": "Hohe Auflösung. Ohne Grenzen. <em>Direkt auf Ihrer Wand.</em>",
+      "lead": "Wir verwandeln Ihre Ideen, Fotos und kreativen Visionen in einzigartige Wandgestaltungen. Mit modernem Wanddirektdruck schaffen wir besondere Räume für Privat- und Geschäftskunden.",
       "ctaConfigurator": "An Ihrer Wand testen",
-      "ctaQuote": "Kostenlose Offerte",
+      "ctaQuote": "Offerte anfragen",
       "imageAlt": "Ein Wanddrucker druckt ein Aquarell eines Schweizer Dorfs am See auf eine Bürowand.",
       "scrollHint": "Scrollen, um zu drucken",
-      "outroTitle": "Die nächste Wand <em>könnte Ihre sein</em>.",
+      "outroTitle": "Wir drucken nicht nur Bilder. Wir schaffen <em>Räume, die Geschichten erzählen</em>.",
       "card": {
         "title": "Hallo!",
         "phone": "Rufen Sie uns an: {phone}",
         "whatsapp": "Schreiben Sie uns auf WhatsApp",
         "instagram": "Swiss Wall Printing auf Instagram",
         "facebook": "Swiss Wall Printing auf Facebook"
-      }
+      },
+      "ctaProjects": "Unsere Projekte ansehen"
     },
     "testimonials": {
       "eyebrow": "Bewertungen",
@@ -124,20 +130,20 @@
       "configuratorLink": "3D-Konfigurator öffnen",
       "steps": {
         "idea": {
-          "title": "Idee und Wand",
-          "text": "Erzählen Sie uns, was Sie drucken möchten, und senden Sie uns die Masse und ein Foto der Wand."
+          "title": "Idee und Kontakt",
+          "text": "Sie zeigen uns Ihre Idee, Ihr Wunschfoto oder Ihr Design. Im 3D-Konfigurator können Sie es schon jetzt an Ihrer Wand testen."
+        },
+        "consulting": {
+          "title": "Beratung und Vorbereitung",
+          "text": "Gemeinsam prüfen wir Untergrund, Masse und technische Möglichkeiten. Wenn nötig, besichtigen wir den Ort."
         },
         "design": {
-          "title": "Entwurf und Vorschau",
-          "text": "Wir bereiten die Grafik vor und zeigen Ihnen das Ergebnis vor dem Druck. Im 3D-Konfigurator können Sie es schon jetzt testen."
+          "title": "Grafische Aufbereitung",
+          "text": "Wir bereiten das Bildmaterial auf und passen es an, damit das Ergebnis überzeugt."
         },
         "print": {
-          "title": "Druck vor Ort",
-          "text": "Wir drucken direkt auf Ihre Wand, ohne Folie und ohne Kleber."
-        },
-        "done": {
-          "title": "Fertige Wand",
-          "text": "Leuchtende Farben und scharfe Details für über {years} Jahre, auch draussen."
+          "title": "Direktdruck",
+          "text": "Unsere Technik bringt das gewählte Motiv direkt auf die Oberfläche: ohne Tapete, Aufkleber oder aufgeklebte Fotos."
         }
       }
     },
@@ -205,7 +211,7 @@
   "Services": {
     "eyebrow": "Leistungen",
     "title": "Direktdruck auf <em>jede Wand</em>",
-    "lead": "Vom Büro bis zur Fassade: Wählen Sie die Situation, die Ihrer am nächsten kommt, sehen Sie den Unterschied und testen Sie sie im 3D-Konfigurator.",
+    "lead": "Digitaler Direktdruck auf verschiedene Oberflächen, für Privat- und Geschäftskunden. Wählen Sie die Situation, die Ihrer am nächsten kommt, sehen Sie den Unterschied und testen Sie sie im 3D-Konfigurator.",
     "rooms": {
       "title": "Wählen Sie Ihre <em>Situation</em>",
       "mockNote": "Beispielfotos für die Vorschau: Sie werden durch echte Arbeiten ersetzt.",
@@ -215,25 +221,75 @@
     },
     "what": {
       "eyebrow": "Was wir drucken",
-      "title": "Vom Logo bis zur <em>Grafik nach Mass</em>",
-      "intro": "Auf Innen- und Aussenwände, bis {height} hoch und in unbegrenzter Breite, mit leuchtenden Farben für über {years} Jahre.",
+      "title": "Vom Foto bis zur <em>Firmengeschichte</em>",
+      "intro": "Direkt auf die Wand, ohne Folie und ohne Kleber.",
       "kinds": {
-        "logo": {
-          "title": "Firmenlogo",
+        "photos": {
+          "title": "Fotos und Kunstbilder",
+          "text": "Ihre Fotos, Bilder und Kunstwerke, auch im Grossformat."
+        },
+        "logos": {
+          "title": "Logos und Corporate Design",
           "text": "Marke und Firmenfarben, scharf über die ganze Wand."
         },
-        "art": {
-          "title": "Kunstbilder",
-          "text": "Landschaften, Fotos und Kunstwerke, auch im Grossformat."
+        "history": {
+          "title": "Historische Fotos und Firmengeschichten",
+          "text": "Die Geschichte Ihres Unternehmens, erzählt auf seinen Wänden."
         },
-        "phrase": {
-          "title": "Sprüche",
-          "text": "Ein inspirierender Satz oder eine Botschaft für Kundschaft und Team."
+        "homes": {
+          "title": "Gestaltung für Zuhause",
+          "text": "Wohnzimmer, Schlafzimmer und Flure, die einzigartig werden."
+        },
+        "business": {
+          "title": "Restaurants, Hotels und Büros",
+          "text": "Geschäftsräume mit einem Charakter, der in Erinnerung bleibt."
         },
         "custom": {
-          "title": "Grafik nach Mass",
-          "text": "Ein Entwurf, der eigens für Ihren Raum entsteht."
+          "title": "Individuelle Designs",
+          "text": "Ein Entwurf, eigens für Ihren Raum gestaltet."
+        },
+        "advertising": {
+          "title": "Werbung und Promotion",
+          "text": "Werbe- und Promotionsmotive dort, wo Ihre Kunden sie sehen."
+        },
+        "architects": {
+          "title": "Für Architekten und Designer",
+          "text": "Massgeschneiderte Drucke für Architektur- und Innenarchitekturprojekte."
         }
+      }
+    },
+    "audiences": {
+      "eyebrow": "Für wen",
+      "title": "Für Unternehmen <em>und Private</em>",
+      "tryIt": "Im Konfigurator testen",
+      "business": {
+        "title": "Geschäftskunden",
+        "text": "Architekten, Planer und Innenarchitekten, Hotels, Restaurants, Büros, Läden, Schulen, Museen, Salons, Garagen und weitere Unternehmen.",
+        "highlight": "Die Geschichte und Identität Ihres Unternehmens, erzählt auf seinen Wänden."
+      },
+      "private": {
+        "title": "Privatkunden",
+        "text": "Wohnzimmer, Schlafzimmer, Kinderzimmer, Flure und weitere Wohnräume.",
+        "highlight": "Machen Sie Ihr Zuhause einzigartig."
+      }
+    },
+    "surfaces": {
+      "eyebrow": "Untergründe und Technik",
+      "title": "Auf fast <em>jeder Oberfläche</em>",
+      "intro": "Vor jedem Auftrag prüfen wir, ob der Untergrund geeignet ist.",
+      "list": {
+        "plaster": "Putz",
+        "gypsum": "Gips",
+        "concrete": "Beton",
+        "wood": "Holz",
+        "glass": "Glas",
+        "metal": "Metall"
+      },
+      "facts": {
+        "height": "Bis etwa {height} hoch",
+        "width": "Praktisch unbegrenzte Breite",
+        "inOut": "Innen und aussen, mit der passenden Vorbereitung des Untergrunds",
+        "uv": "UV-Technik und lösungsmittelfreie Tinten"
       }
     }
   },
@@ -253,20 +309,39 @@
   },
   "About": {
     "eyebrow": "Über uns",
-    "title": "Jede Wand kann <em>eine Geschichte</em> erzählen",
-    "lead": "Swiss Wall Printing druckt Bilder direkt auf Wände, aus {locality} im Tessin.",
+    "title": "Jede Wand hat <em>ihre Geschichte</em>",
+    "lead": "Swiss Wall Printing ist ein Schweizer Unternehmen, gegründet {year} in {locality}, Gemeinde {municipality}.",
     "imageAlt": "Ein Wanddrucker druckt einen schwarz-weissen Tiger auf eine schwarze Wand.",
     "story": {
-      "what": "Wir drucken Logos, Kunstbilder, Sprüche und Grafiken nach Mass direkt auf die Wand: ohne Folie und ohne Kleber, auf Innen- und Aussenwände.",
-      "how": "Mit Maschinen der neuesten Generation drucken wir bis {height} hoch und in unbegrenzter Breite. Unsere ökologischen Tinten sind zertifiziert und halten Farben leuchtend und Details scharf, über {years} Jahre und auch draussen.",
-      "who": "Wir arbeiten für Firmen, Hotels, Restaurants, Schulen, Büros und Privathäuser.",
-      "canvas": "Mit dem Direktdruck wird jede Wand zur Leinwand für Ihre Geschichte."
+      "idea": "Unsere Idee entstand aus dem Wunsch, Kreativität, moderne Technik und die Möglichkeit einzigartiger Räume zu verbinden.",
+      "how": "Mit fortschrittlicher Technik drucken wir Fotos, künstlerische Motive, Logos und individuelle Designs direkt auf verschiedene Wandflächen.",
+      "every": "Jedes Projekt ist für uns eine eigene Geschichte. Ob Wohnung, Büro, Restaurant, Hotel oder Geschäftsraum: Wir wollen etwas schaffen, das dem Raum Charakter, Identität und eine besondere Atmosphäre gibt.",
+      "care": "Besonders wichtig sind uns Qualität, Präzision und die persönliche Betreuung jedes Kunden.",
+      "where": "Wir arbeiten im Tessin und in der ganzen Schweiz und realisieren Projekte auch im übrigen Europa.",
+      "canvas": "Wir drucken nicht nur Bilder. Wir schaffen Räume, die Geschichten erzählen."
+    },
+    "facts": {
+      "founded": "Gegründet",
+      "base": "Sitz",
+      "area": "Einsatzgebiet",
+      "areaValue": "Tessin, Schweiz, Europa"
     }
+  },
+  "Projects": {
+    "eyebrow": "Projekte",
+    "title": "Wände, die <em>Geschichten erzählen</em>",
+    "lead": "Jedes Projekt ist eine Geschichte: einige Wände, die wir bedruckt haben.",
+    "photosPending": "Die Fotos einiger Projekte folgen in Kürze.",
+    "photoPending": "Foto folgt",
+    "readStory": "Geschichte lesen",
+    "closeStory": "Geschichte schliessen",
+    "moreStory": "Mehr anzeigen",
+    "closeSheet": "Schliessen"
   },
   "Gallery": {
     "eyebrow": "Galerie",
-    "title": "Bedruckte <em>Wände</em>",
-    "lead": "Eine Auswahl unserer Arbeiten: Filtern Sie nach Raumtyp und öffnen Sie ein Foto in gross.",
+    "title": "Weitere <em>Wände</em>",
+    "lead": "Filtern Sie nach Raumtyp und öffnen Sie ein Foto, um es gross zu sehen.",
     "mockNote": "Fast alle Fotos sind Beispiele für die Vorschau: Sie werden durch echte Arbeiten ersetzt."
   },
   "GalleryGrid": {
@@ -288,7 +363,61 @@
     "phone": "Telefon",
     "location": "Standort",
     "openMap": "Karte öffnen",
-    "formTitle": "Schreiben Sie uns"
+    "formTitle": "Schreiben Sie uns",
+    "hours": "Öffnungszeiten",
+    "hoursValue": "{opens}–{closes}",
+    "area": "Einsatzgebiet",
+    "areaValue": "Tessin, ganze Schweiz und auf Anfrage Europa"
+  },
+  "Faq": {
+    "eyebrow": "FAQ",
+    "title": "Häufige <em>Fragen</em>",
+    "lead": "Die Antworten auf die Fragen, die wir zum Wanddirektdruck am häufigsten hören.",
+    "more": "Ihre Frage ist nicht dabei?",
+    "moreText": "Schreiben Sie uns, rufen Sie an oder senden Sie eine WhatsApp-Nachricht: Wir antworten gerne.",
+    "moreLink": "Kontakt aufnehmen",
+    "items": {
+      "what": {
+        "q": "Was ist Wanddirektdruck?",
+        "a": "Ein vertikaler Drucker druckt Ihr Bild direkt auf die Wand: Fotos, künstlerische Motive, Logos oder individuelle Designs. Ohne Tapete, Folie oder Aufkleber."
+      },
+      "surfaces": {
+        "q": "Auf welche Oberflächen kann gedruckt werden?",
+        "a": "Auf Putz, Gips, Beton, Holz, Glas und Metall. Vor jedem Auftrag prüfen wir, ob der Untergrund geeignet ist."
+      },
+      "size": {
+        "q": "Wie gross kann ein Druck sein?",
+        "a": "Bis etwa {height} hoch; die Breite ist praktisch unbegrenzt."
+      },
+      "outdoor": {
+        "q": "Ist ein Druck auch auf Aussenwänden möglich?",
+        "a": "Ja. Wir drucken innen und aussen, mit der passenden Vorbereitung des Untergrunds."
+      },
+      "durability": {
+        "q": "Wie lange hält ein Wanddruck?",
+        "a": "Die zertifizierten Tinten, die wir verwenden, halten Farben brillant und Details scharf, über {years} Jahre lang, auch im Aussenbereich."
+      },
+      "preparation": {
+        "q": "Muss die Wand vorbereitet werden?",
+        "a": "Manchmal ja. Vor dem Druck prüfen wir den Untergrund gemeinsam mit Ihnen und bereiten ihn, wenn nötig, richtig vor."
+      },
+      "ownImage": {
+        "q": "Kann ich mein eigenes Foto oder Design verwenden?",
+        "a": "Natürlich. Sie senden uns Ihr Foto oder Design, und wir bereiten die Grafik auf, damit das Ergebnis überzeugt. Im 3D-Konfigurator können Sie es sofort an Ihrer Wand testen."
+      },
+      "duration": {
+        "q": "Wie lange dauert ein Projekt?",
+        "a": "Das hängt von Grösse, Motiv und Untergrund ab. Den Zeitbedarf nennen wir Ihnen mit der Offerte."
+      },
+      "price": {
+        "q": "Was kostet ein Wanddruck?",
+        "a": "Der Preis hängt von Fläche, Motiv und Untergrund ab. Im 3D-Konfigurator sehen Sie sofort einen Richtpreis; die Offerte ist kostenlos."
+      },
+      "quote": {
+        "q": "Wie kann ich eine Offerte anfragen?",
+        "a": "Über das Kontaktformular, per Telefon, WhatsApp oder E-Mail. Aus dem 3D-Konfigurator senden Sie uns die Anfrage mit den Massen und einer Vorschau Ihrer Wand."
+      }
+    }
   },
   "Legal": {
     "missing": "noch offen",

@@ -10,7 +10,8 @@ export const routing = defineRouting({
     '/': '/',
     '/about': { it: '/chi-siamo', de: '/ueber-uns', en: '/about', bs: '/o-nama' },
     '/services': { it: '/servizi', de: '/leistungen', en: '/services', bs: '/usluge' },
-    '/gallery': { it: '/galleria', de: '/galerie', en: '/gallery', bs: '/galerija' },
+    '/projects': { it: '/progetti', de: '/projekte', en: '/projects', bs: '/projekti' },
+    '/faq': { it: '/domande-frequenti', de: '/haeufige-fragen', en: '/faq', bs: '/cesta-pitanja' },
     '/contact': { it: '/contatti', de: '/kontakt', en: '/contact', bs: '/kontakt' },
     '/try-your-wall': {
       it: '/prova-la-tua-parete',

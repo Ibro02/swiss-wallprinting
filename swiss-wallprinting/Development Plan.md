@@ -153,12 +153,15 @@ interface ConfiguratorState {
 | Home | `/it`, `/de`, `/en`, `/bs` | Static |
 | About us | `/it/chi-siamo`, `/de/ueber-uns`, `/en/about`, `/bs/o-nama` | Static |
 | Services | `/it/servizi`, `/de/leistungen`, `/en/services`, `/bs/usluge` | Static |
-| Gallery | `/it/galleria`, `/de/galerie`, `/en/gallery`, `/bs/galerija` | Static, filter by search param |
+| Projects (was Gallery) | `/it/progetti`, `/de/projekte`, `/en/projects`, `/bs/projekti` | Static; the project stories, then the photo grid (filter in component state) |
+| FAQ | `/it/domande-frequenti`, `/de/haeufige-fragen`, `/en/faq`, `/bs/cesta-pitanja` | Static, `<details>` without JavaScript |
 | Contact | `/it/contatti`, `/de/kontakt`, `/en/contact`, `/bs/kontakt` | Static shell + Server Action |
 | Try your wall | `/it/prova-la-tua-parete`, `/de/wand-testen`, `/en/try-your-wall`, `/bs/isprobaj-zid` | Static shell + client canvas |
 | Legal | Imprint and privacy policy per locale | Static |
 
 Localized paths come from next-intl `pathnames`. Each page has `hreflang` alternates and is in `sitemap.xml`.
+
+**2026-10-22, the client's brief** ([[Specs/Client brief]], [[2026-10-22 12 - Client brief, projects and FAQ]]): the Gallery tab became **Projects** (the client's "gallery of finished projects", with their stories), and **FAQ** is a new tab (the client's ten questions; three of the four reference sites have one). Navigation: About, Services, Projects, FAQ, Contact, and the configurator button.
 
 **Domains (proposal P8):** one codebase and one deployment for both domains. `swisswallprinting.ch` serves `it`, `de`, `en`; `swisswallprinting.com` serves `it`, `de`, `en`, `bs`. Italian is the default because the company is in Ticino.
 
@@ -185,12 +188,15 @@ Localized paths come from next-intl `pathnames`. Each page has `hreflang` altern
 2. **Testimonials.** Pattern from faberwall.nl/reviews: a header with the aggregate rating ("Excellent, based on N Google reviews") and a link to the Google profile; review cards with avatar initial, name, stars, date, text, and an optional owner reply. Improvement: on the home page the cards move as a slow horizontal band (pauses on hover, static grid with reduced motion). All reviews are mock until the client sends real ones (see 6.3).
 3. **Why Swiss Wall Printing.** Large numbers: 3.80 m height, unlimited width, 12+ years durability, certified eco inks, indoor and outdoor, no film or adhesive. Facts from [[Old Website#Facts to reuse]] only.
 4. **Process.** Four steps: idea and wall photo → design and 3D preview → printing on site → finished wall. Steps are a draft until the client confirms them.
+   - **2026-10-22: the client's own four steps** (brief): idea and contact → advice and preparation (site visit if needed) → artwork preparation → direct print. Step one carries the configurator button and the glow.
 5. **Application areas.** Pattern from wall-wonderprint.art: icon cards with a title and one line. Areas from the old site: companies and offices, hotels and restaurants, schools and kindergartens, private homes, shops, facades and outdoor. Each card links to the configurator with a matching preset.
 6. **Question form.** Name, e-mail, phone (optional), message, consent. Server Action, see 4.6.
 
 ### 4.3 About us
 
 One photo (mock) and a short story. The text waits for the client (company story, people, region). Until then: a short neutral text from the old site.
+
+**2026-10-22:** the client's story ("O nama": founded 2025 in Camignolo, Monteceneri; Ticino, Switzerland, and Europe), his closing line, and three facts (founded, base, where we work). The tiger photo stays until he sends team or workshop photos.
 
 ### 4.4 Services
 
@@ -204,7 +210,12 @@ Pattern from muurprints.com/zakelijk ("choose your situation" grid of room cards
 
 Touch: drag to move the split. Keyboard: the card is a slider (`role="slider"`), arrow keys move it, Escape resets.
 
-### 4.5 Gallery
+**2026-10-22 (the client's brief):** "What we print" lists his eight kinds of print; two new sections follow: **For whom** (business and private clients, with his emphasis on company history and identity) and **Surfaces and technology** (plaster, gypsum, concrete, wood, glass, metal after a check; about 3.80 m high, practically unlimited width, indoors and outdoors with surface preparation, UV technology and solvent-free inks).
+
+### 4.5 Gallery (Projects since 2026-10-22)
+
+**2026-10-22:** the page is now **Projects**: the client's seven projects with their stories (Monteceneri, holiday cottage, Milly Torte, by the pool, Barber House Bellinzona, Caviezel, a living room) as cards, each with "Read the story" (`<details>`), then the photo grid below. The photos come from the client (Google Drive); until then each card shows a placeholder, and the projects are mock (`src/content/projects.ts`), so the launch build stops.
+
 
 `next/image` masonry grid (CSS columns), category filters (application areas), a lightbox (client island), blur placeholders from the image manifests. Mock images first.
 
@@ -222,6 +233,10 @@ E-mail, phones, location (Camignolo) with a link to the map (no embedded Google 
 - Transport: SMTP from the company mailbox (when `info@swisswallprinting.ch` exists) or Resend. **Both are built (Phase 3)**; `MAIL_TRANSPORT` selects one. Which one, and the credentials, are decided before launch. A production build stops while the transport is not set up.
 - Quote request fields (from the offer letter): wall size, city, indoor/outdoor, wall photo (phase 2), and the configurator link plus a small screenshot.
 - Error messages follow the `write-better-error-messages` skill: what happened, what was not lost, what to do next.
+
+### 4.6a FAQ (2026-10-22)
+
+The client's ten questions, in his order, as an accordion of `<details name="faq">` (no JavaScript, all answers in the HTML), with a dark card beside them for other questions (contact, WhatsApp). The answers are drafts from his facts and the old site's, with no numbers he did not give; he reviews them.
 
 ### 4.7 Try your wall printing (configurator)
 
@@ -379,11 +394,15 @@ Later ideas (not in scope now): **"Your wall photo" mode** (upload a photo of th
 | ID | Question | Used in | Status |
 |---|---|---|---|
 | Q5 | Prices: CHF per m² indoor and outdoor, minimum order, travel costs | Configurator estimate | **Display decided by the author:** "approx. CHF X" and "Request exact quote". The rates are still open |
-| Q6 | E-mail: will there be `info@swisswallprinting.ch`? Who receives the forms? | Forms | **For now:** the author's own address (`CONTACT_TO` in `.env.local`) for tests. The client mailbox is still open |
-| Q7 | Real reviews (Google profile?), real photos and videos (a time-lapse of a print is the best hero), before/after pairs | Testimonials, hero, gallery | Open |
+| Q6 | E-mail: will there be `info@swisswallprinting.ch`? Who receives the forms? | Forms | **For now:** the author's own address (`CONTACT_TO` in `.env.local`) for tests. **2026-10-22:** the client wants `info@swisswallprinting.ch` instead of Gmail (with the domain and hosting, Phase 7) |
+| Q7 | Real reviews (Google profile?), real photos and videos (a time-lapse of a print is the best hero), before/after pairs | Testimonials, hero, gallery | **2026-10-23:** photos and videos received for six projects and other walls; used on the Projects page and in the gallery (the sea-view living room has none yet, and the videos are not used yet). **2026-10-22:** photos and videos will come by Google Drive. Reviews: the client has not decided (he can send screenshots of happy clients' messages; he wants to open a Google Business Profile) |
 | Q8 | French as a 4th Swiss language? | i18n | **Not now.** Add it later; the i18n setup makes it a translation job only |
 | Q9 | WhatsApp button (+41 79 350 08 85)? | Global | **Yes** |
-| Q10 | Company story, team photos, service area (Ticino only or all of Switzerland), ink certificate name | About, Why | Open |
+| Q10 | Company story, team photos, service area (Ticino only or all of Switzerland), ink certificate name | About, Why | **2026-10-22:** story and service area received (Ticino, Switzerland, Europe on request). Team photos and the ink certificate name are still open |
+| Q12 | TikTok: the link to the account | Footer, contact, JSON-LD | Open (the brief names TikTok without a link) |
+| Q13 | May Milly Torte, Barber House, and Caviezel be named on the site? | Projects | Open |
+| Q14 | Durability: the old site says "more than 12 years, also outdoors"; a competitor with the same wallPen printer gives 12 years indoors and 3 years outdoors | Why, FAQ | Open: confirm the outdoor wording with the client and the ink data sheet |
+| Q15 | Domain access, hosting, the yearly costs, and `.com` | Phase 7 | Open (the client checks them) |
 | Q11 | Minimum image resolution for print (pixels per cm) | Configurator warning | Open |
 
 ---

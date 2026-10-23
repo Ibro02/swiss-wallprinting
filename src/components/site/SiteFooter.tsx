@@ -72,6 +72,7 @@ export async function SiteFooter() {
                   {company.postalCode} {company.locality}, {t('region')}
                 </address>
               </li>
+              <li className="text-mute-dark">{t('hours', company.hours)}</li>
             </ul>
           </div>
 

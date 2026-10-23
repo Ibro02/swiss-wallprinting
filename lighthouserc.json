@@ -4,7 +4,7 @@
       "url": [
         "http://localhost:3001/it",
         "http://localhost:3001/it/servizi",
-        "http://localhost:3001/it/galleria",
+        "http://localhost:3001/it/progetti",
         "http://localhost:3001/it/contatti",
         "http://localhost:3001/it/prova-la-tua-parete"
       ],

@@ -3,10 +3,136 @@
 import type { ImageAsset } from './types.ts'
 
 export const photos = {
+  "projects/barber-house": {
+    "src": "/photos/projects/barber-house.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAADQAwCdASoMABoAPu1iqk2ppaQiMAgBMB2JZQAAXg0IU0Z9OPScwUAA/QLnMgYhOfzC09uyifZ8aWIPhiRyLQrD2kfPGBRRTgzVvtOF7DZcqwZdE3fBtSZI+XRgeK8gRDEqzrIy1w6UBOp77XErN2J/xBGGC8W0qflm0YE34cgAXmqN24n/MRAQXDlIAAAA"
+  },
+  "projects/barber-house-cover": {
+    "src": "/photos/projects/barber-house-cover.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACQAQCdASoMAAkAA4BaJZQAApetOcAA/tht2LmR7X1yae05Xv5SfCj5OCdC/MpuBD6rdgzhvlKyi4kMaS1dHAAA"
+  },
+  "projects/caviezel-cover": {
+    "src": "/photos/projects/caviezel-cover.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoMAAkAA4BaJZwCw7EKVGfNAgAA/t/2qWiIz2A8GIQ+aHExtsgTa1+TzouKCufeYV+t9wRwI6M2OxB2AM7glzdgAAA="
+  },
+  "projects/caviezel-headquarters": {
+    "src": "/photos/projects/caviezel-headquarters.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAAAQBACdASoMABoAPu1kqk2ppaQiMAgBMB2JZACdMoAKRet96C2/cwurQADNbNLLf1/LEY0qMMTMdfEFPHWhEAQg51DsX4zh2SD8Q818rb7PXczhzzUFATPifE5kU9QPFDgNxKN/esXGLtgdo1PEE+Askb5FYUok2BNautuQF0AKCAX6PLNfOqGQjt+/S39IbdDvAk+26nAAAA=="
+  },
+  "projects/caviezel-history": {
+    "src": "/photos/projects/caviezel-history.jpg",
+    "width": 1321,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwAwCdASoMABIAPu1kqk4ppaQiMAgBMB2JZwDCgCDaSYGdJXG80/UQAP7DWZyPOGU5ZA4cgrnnSzH8QX6pRKq/V3QJRvrPG7aD/2HRkQv7x2Qb9ULkeha8rGtn/+K9BS7giOPEXvjWUOMVwXHhDGcblyXSBjwA"
+  },
+  "projects/holiday-cottage": {
+    "src": "/photos/projects/holiday-cottage.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoMABoAPu1iqk2ppaQiMAgBMB2JYwCdACB8IyxPRlf5Ng62oADrTNgZbEwWa/SYVzfmLTujrZOBK5mTh6WBsaHu6IgX6tV5rrWW1T/u6/9jz/CLqpdE2vva2U3Z8f56jLKxBUMkFM7Nf7kI8G4KAAAA"
+  },
+  "projects/holiday-cottage-cover": {
+    "src": "/photos/projects/holiday-cottage-cover.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoMAAkAA4BaJYwCdADdppKfQGAA/MwLEZlVKy2e6gk9S5BNSmXbHS/gnIrh9ekoI3mSGEeW2Axy2pklx+dFIHp4AAA="
+  },
+  "projects/milly-torte": {
+    "src": "/photos/projects/milly-torte.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADQAwCdASoMABoAPu1kqk4ppaQiMAgBMB2JYwCo9CB7IvQEnz+VBOAA/fBZPh/TlN8KgeJlY0O7wzQ2dgO1OMyM0sAtL4j0r+ljOFqWn3hVdfJ9iTBGUGl54Av0U0IMboXGsnuSYfRQAA=="
+  },
+  "projects/milly-torte-cover": {
+    "src": "/photos/projects/milly-torte-cover.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACQAQCdASoMAAkAA4BaJYwCdABVCAAA/o8+dHah86tFkQ6D/MeoiGDtYHuE/4vyXeltfoHzgAA="
+  },
+  "projects/monteceneri-cover": {
+    "src": "/photos/projects/monteceneri-cover.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAQAgCdASoMAAkAA4BaJZQCdAEQOAvWsLgAAP2ay1/YC1QUzbytPInOPE2faN1/oCD5R1x2237NWoN2AAA="
+  },
+  "projects/monteceneri-detail": {
+    "src": "/photos/projects/monteceneri-detail.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAADQAwCdASoMABoAPu1iqk2ppaQiMAgBMB2JZQC2yBuwE8jSjHc/mOAA2/g3Jp9PqIOsxBaqztsvtCwDEOy6w2CWoGcW/NjMctXWl8moDPbbcPtz80jmXs4ry65Ys8kjekjDqQ2e+uzYAAAA"
+  },
+  "projects/monteceneri-wall": {
+    "src": "/photos/projects/monteceneri-wall.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACQAwCdASoMABoAPu1iqU2ppaQiMAgBMB2JZwCdABY6quuzddAAAOsXSBoV9y0mwVa+QgMMulHThG+wZdJSnCdryAhFTU431vLbNnTwoAnMSD+UvAAAAA=="
+  },
+  "projects/pool-before": {
+    "src": "/photos/projects/pool-before.jpg",
+    "width": 1126,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAABwAwCdASoMABUAPu1iqk4ppaQiMAgBMB2JZQCdAArQx+uhLQAA/shYNoC98izTwB/FyNlnoR0eGGU7yhYV9THs6T0h8i61vmNj2j+ifVWmr6AA"
+  },
+  "projects/pool-cover": {
+    "src": "/photos/projects/pool-cover.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADQAQCdASoMAAkAA4BaJZQC7ADhj4VwoAD+84kmv3gPPalTIoY5YNt1WVCa2B015tv6bRxH4lclLqrmhEAAAA=="
+  },
+  "projects/pool-finished": {
+    "src": "/photos/projects/pool-finished.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAwBACdASoMABoAPu1kqU2ppaQiMAgBMB2JYwCw7CHhndDpNFuEqyHO2QwA/ucqGQCkeBY1jOUBMkeHHp034pUpT0cRsCcvoCkaG7gJtJUE3DDKrDW3F3Jrzv9vbynTRspaFHK3Z7Lo+sBRwNZr08YeL5lFLC3guxjxDLIAAAA="
+  },
+  "projects/pool-printing": {
+    "src": "/photos/projects/pool-printing.jpg",
+    "width": 1126,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASoMABUAPu1iqU2ppaOiMAgBMB2JZACw7BtoattaBNjBwvxJAAD+tZvCN44eQ1Pju1D4AvDFxX/1KQHw2SrAlUegHo72EvEmYJYRZE8zJ8zgQELuNOQadb3QG2nyrP2s0Sfi4n6mmuDV7diYkfuUWycsAAA="
+  },
   "tiger-mid-print": {
     "src": "/photos/tiger-mid-print.jpg",
     "width": 1280,
     "height": 960,
     "blurDataURL": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAACwAQCdASoMAAkAA4BaJZwAAhbwJA7wAP7yq805j/+4F67SOjo3CXOMSG8PhvX/P4pOJIpg1dyaOyICDs5TzBe6vQoAAA=="
+  },
+  "work/forest-wall": {
+    "src": "/photos/work/forest-wall.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADwAwCdASoMABoAPu1iqU2ppaOiMAgBMB2JYwAAW8+SWN8koMtyn2dAAP6uWbGAS+sSV7pHh4DhEgAty09EFAhhN0I/+W8egoNiQjICT5sZLOfcjYsU+Agik5e3lS2oTU9ay7+VX2sspLlS/HkO8K/fxT7/K9w5tSENadqboYAAAA=="
+  },
+  "work/lake-at-night": {
+    "src": "/photos/work/lake-at-night.jpg",
+    "width": 1277,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAQBACdASoMABMAPu1iqU2ppaQiMAgBMB2JYwC/OCILkdqdMYeGjyykKAD+kGVZvmlbExc5OLWTgRRuoII/U34FnfB3yj/e5eW7bqyt8+dWNO3x5YBIgcfQRcV2miXgQQ0rBQoAAAA="
+  },
+  "work/motif-collage": {
+    "src": "/photos/work/motif-collage.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAAAwBACdASoMABoAPu1iqU2ppaOiMAgBMB2JZQC2yB6UptH2/bLeOyaYowAA/peYlcqrKn0ykbJNRNErF0uvkTvPq7vlHrhLIu+02crH8RQ5UaqAkmyKyH+w3q1PMwQbPpmFsc+UZ2mHka/+7n/39keUtWS3BvuYDZ+u+D4e2nonebL2MJLxHHQn9mN+PrkGlx4AAA=="
+  },
+  "work/office-logo": {
+    "src": "/photos/work/office-logo.jpg",
+    "width": 1115,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADwAwCdASoMABYAPu1iqU2ppaOiMAgBMB2JQBOgA4RotctdtM3/hx4AAPxdb6Qt3xw2Ob8CAzwZMHL/tUyNlMIO1heidW0pd5GPB1e5zvUfqyGDgb5xBDn6mH3Al8fyPjtsIZcTfmTUbBJtmx7n6kMAAAA="
+  },
+  "work/racing-car": {
+    "src": "/photos/work/racing-car.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABQBACdASoMABoAPu1kqU4ppaOiMAgBMB2JYgC7ACHdd41IPnxuH3ajrDgAAP6vB/eKwvwJv35ullVldTFjNAatMIZeNAc1XymiUjBrhoG01fUPOiHHDo4ZGfCq8zCxOC2zMIFmHdsGJ05+KYAAAA=="
   }
 } as const satisfies Record<string, ImageAsset>

@@ -5,7 +5,8 @@ export const PAGES = {
   home: '/',
   about: '/about',
   services: '/services',
-  gallery: '/gallery',
+  projects: '/projects',
+  faq: '/faq',
   contact: '/contact',
   tryYourWall: '/try-your-wall',
   imprint: '/imprint',
@@ -19,7 +20,8 @@ export const NAV_PAGES = [
   'home',
   'about',
   'services',
-  'gallery',
+  'projects',
+  'faq',
   'contact',
 ] as const satisfies readonly PageKey[]
 
