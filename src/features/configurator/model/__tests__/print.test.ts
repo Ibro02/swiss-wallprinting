@@ -16,12 +16,23 @@ const wall = { width: 5, height: 2.7 }
 
 describe('printLimits', () => {
   it('limits the height by the wall when the wall is lower than the machine limit', () => {
-    expect(printLimits(wall, MACHINE)).toEqual({ maxWidth: 5, maxHeight: 2.7, heightLimit: 'wall' })
+    expect(printLimits(wall, MACHINE)).toEqual({
+      maxWidth: 4.8,
+      maxHeight: 2.1,
+      heightLimit: 'wall',
+    })
+  })
+
+  it('leaves 30 cm at the top and the bottom and 10 cm at the sides: a 3 m wall takes 2.40 m', () => {
+    expect(printLimits({ width: 4, height: 3 }, MACHINE)).toMatchObject({
+      maxWidth: 3.8,
+      maxHeight: 2.4,
+    })
   })
 
   it('limits the height by the machine (3.80 m) on a high wall', () => {
     expect(printLimits({ width: 9, height: 6 }, MACHINE)).toEqual({
-      maxWidth: 9,
+      maxWidth: 8.8,
       maxHeight: 3.8,
       heightLimit: 'machine',
     })
@@ -33,7 +44,7 @@ describe('clampPrintSize', () => {
 
   it('rounds to centimetres and keeps the size in the limits', () => {
     expect(clampPrintSize('width', 2.345, limits)).toBe(2.35)
-    expect(clampPrintSize('width', 12, limits)).toBe(9)
+    expect(clampPrintSize('width', 12, limits)).toBe(8.8)
     expect(clampPrintSize('height', 5, limits)).toBe(3.8)
     expect(clampPrintSize('height', 0, limits)).toBe(MIN_PRINT_SIDE)
     expect(clampPrintSize('height', Number.NaN, limits)).toBe(MIN_PRINT_SIDE)
@@ -48,13 +59,13 @@ describe('fitPrintToWall', () => {
 
   it('makes a print smaller when the wall is smaller', () => {
     const fitted = fitPrintToWall({ width: 7, height: 3, x: 0, y: 0 }, wall, MACHINE)
-    expect(fitted).toEqual({ width: 5, height: 2.7, x: 0, y: 0 })
+    expect(fitted).toEqual({ width: 4.8, height: 2.1, x: 0, y: 0 })
   })
 
   it('moves a print back onto the wall', () => {
     const fitted = fitPrintToWall({ width: 2, height: 1, x: 3, y: -4 }, wall, MACHINE)
-    expect(fitted.x).toBeCloseTo(1.5)
-    expect(fitted.y).toBeCloseTo(-0.85)
+    expect(fitted.x).toBeCloseTo(1.4)
+    expect(fitted.y).toBeCloseTo(-0.55)
   })
 })
 
@@ -75,13 +86,13 @@ describe('edgesOf and offsetFromEdges', () => {
 
 describe('defaultPrint', () => {
   it('uses 70 % of the wall width with the image proportions, centred', () => {
-    expect(defaultPrint(2, wall, MACHINE)).toEqual({ width: 3.5, height: 1.75, x: 0, y: 0 })
+    expect(defaultPrint(2, wall, MACHINE)).toEqual({ width: 3.36, height: 1.68, x: 0, y: 0 })
   })
 
   it('makes a tall image at most 80 % of the allowed height', () => {
     const print = defaultPrint(0.5, wall, MACHINE)
-    expect(print.height).toBe(2.16)
-    expect(print.width).toBe(1.08)
+    expect(print.height).toBe(1.68)
+    expect(print.width).toBe(0.84)
   })
 })
 

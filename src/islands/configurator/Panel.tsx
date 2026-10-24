@@ -3,7 +3,7 @@
 import { useFormatter, useTranslations } from 'next-intl'
 import { LinkIcon } from '@/components/icons.tsx'
 import { type ReactNode, type RefObject, useEffect, useState } from 'react'
-import { edgesOf, FITS, imageCrop } from '@/features/configurator/model/print.ts'
+import { edgesOf, FITS, imageCrop, WALL_MARGIN } from '@/features/configurator/model/print.ts'
 import {
   estimatePrice,
   type Environment,
@@ -332,7 +332,10 @@ function PrintFields({
         <MetreField
           label={t('width')}
           value={print.width}
-          note={t('maxWidth', { max: metres(limits.maxWidth) })}
+          note={t('maxWidth', {
+            max: metres(limits.maxWidth),
+            margin: metres(WALL_MARGIN.horizontal),
+          })}
           onCommit={(value) => {
             store.getState().setPrintSize('width', value)
             return fitted().print.width
@@ -343,6 +346,7 @@ function PrintFields({
           value={print.height}
           note={t(limits.heightLimit === 'machine' ? 'maxHeightMachine' : 'maxHeightWall', {
             max: metres(limits.maxHeight),
+            margin: metres(WALL_MARGIN.vertical),
           })}
           onCommit={(value) => {
             store.getState().setPrintSize('height', value)

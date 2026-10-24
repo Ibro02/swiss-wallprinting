@@ -22,18 +22,26 @@ export type PrintDimension = (typeof PRINT_DIMENSIONS)[number]
 /** Smallest print side the inputs accept, metres. */
 export const MIN_PRINT_SIDE = 0.1
 
+/**
+ * The free strip that stays between the print and the edges of the wall, metres (the
+ * author, 2026-10-24): 30 cm at the top and the bottom, 10 cm at the left and the right.
+ * A 3 m high wall takes a print up to 2.40 m high.
+ */
+export const WALL_MARGIN = { vertical: 0.3, horizontal: 0.1 } as const
+
 export interface PrintLimits {
   maxWidth: number
   maxHeight: number
-  /** What limits the height: the wall, or the machine (it prints up to 3.80 m). */
+  /** What limits the height: the wall (with its margins), or the machine (it prints up to 3.80 m). */
   heightLimit: 'wall' | 'machine'
 }
 
 export function printLimits(wall: WallSize, machineMaxHeight: number): PrintLimits {
-  const machine = machineMaxHeight < wall.height
+  const wallHeight = roundCm(wall.height - 2 * WALL_MARGIN.vertical)
+  const machine = machineMaxHeight < wallHeight
   return {
-    maxWidth: wall.width,
-    maxHeight: machine ? machineMaxHeight : wall.height,
+    maxWidth: roundCm(wall.width - 2 * WALL_MARGIN.horizontal),
+    maxHeight: machine ? machineMaxHeight : wallHeight,
     heightLimit: machine ? 'machine' : 'wall',
   }
 }
@@ -49,7 +57,7 @@ export function clampPrintSize(
   return clamp(roundCm(metres), MIN_PRINT_SIDE, max)
 }
 
-/** The print as it fits on this wall: not larger than the limits, and fully on the wall. */
+/** The print as it fits on this wall: not larger than the limits, and inside the margins. */
 export function fitPrintToWall(
   print: PrintBox,
   wall: WallSize,
@@ -58,8 +66,8 @@ export function fitPrintToWall(
   const limits = printLimits(wall, machineMaxHeight)
   const width = clamp(print.width, MIN_PRINT_SIDE, limits.maxWidth)
   const height = clamp(print.height, MIN_PRINT_SIDE, limits.maxHeight)
-  const maxX = (wall.width - width) / 2
-  const maxY = (wall.height - height) / 2
+  const maxX = (wall.width - 2 * WALL_MARGIN.horizontal - width) / 2
+  const maxY = (wall.height - 2 * WALL_MARGIN.vertical - height) / 2
   return { width, height, x: clamp(print.x, -maxX, maxX), y: clamp(print.y, -maxY, maxY) }
 }
 

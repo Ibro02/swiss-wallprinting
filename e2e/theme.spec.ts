@@ -5,7 +5,7 @@ import { expect, type Page, test } from '@playwright/test'
 // <html> before React hydrates (the head script), so the page never shows the other theme.
 
 const LIGHT_PAGE = 'rgb(255, 255, 255)'
-const DARK_PAGE = 'rgb(38, 38, 36)'
+const DARK_PAGE = 'rgb(31, 42, 61)'
 
 const pageColour = (page: Page) =>
   page.evaluate(() => getComputedStyle(document.body).backgroundColor)

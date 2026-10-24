@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vite-plus/test'
-import { edgesOf } from '../model/print.ts'
+import { edgesOf, WALL_MARGIN } from '../model/print.ts'
 import { fromSearchParams, toSearchParams } from '../model/share.ts'
 import { startConfig, type StartContent } from '../start.ts'
 import { createConfiguratorStore, placementOf, type PrintImage, sharedConfigOf } from '../store.ts'
@@ -29,7 +29,7 @@ describe('startConfig', () => {
     expect(config.room).toEqual({ width: 5, length: 4, height: 2.7 })
     expect(config.wall).toBe('north')
     expect(config.environment).toBe('interior')
-    expect(config.print).toEqual({ width: 3.5, height: 1.75, x: 0, y: 0 })
+    expect(config.print).toEqual({ width: 3.36, height: 1.68, x: 0, y: 0 })
   })
 
   it('starts with the wall and artwork of the area (?area=)', () => {
@@ -54,8 +54,8 @@ describe('startConfig', () => {
     })
     expect(config).toMatchObject({ wall: 'west', fit: 'contain', environment: 'interior' })
     expect(config.image).toMatchObject({ id: 'peaks' })
-    // The west wall is as wide as the room is long: 3 m.
-    expect(config.print.width).toBe(3)
+    // The west wall is as wide as the room is long (3 m), less 10 cm at each side.
+    expect(config.print.width).toBe(2.8)
   })
 
   it('opens a link to an uploaded image with the first preset', () => {
@@ -110,8 +110,8 @@ describe('configurator store', () => {
     expect(placementOf(store.getState()).print).toMatchObject({ x: 0.4, y: -0.2 })
     store.getState().movePrint({ x: 99, y: 99 })
     const { print, wall } = placementOf(store.getState())
-    expect(print.x).toBeCloseTo((wall.width - print.width) / 2)
-    expect(print.y).toBeCloseTo((wall.height - print.height) / 2)
+    expect(print.x).toBeCloseTo((wall.width - 2 * WALL_MARGIN.horizontal - print.width) / 2)
+    expect(print.y).toBeCloseTo((wall.height - 2 * WALL_MARGIN.vertical - print.height) / 2)
   })
 
   it('keeps typed room sizes in the limits', () => {
@@ -124,9 +124,9 @@ describe('configurator store', () => {
     const store = newStore()
     const { setRoomSize } = store.getState()
     setRoomSize('width', 2.5)
-    expect(placementOf(store.getState()).print.width).toBe(2.5)
+    expect(placementOf(store.getState()).print.width).toBe(2.3)
     setRoomSize('width', 5)
-    expect(placementOf(store.getState()).print.width).toBe(3.5)
+    expect(placementOf(store.getState()).print.width).toBe(3.36)
   })
 
   it('limits the print height by the machine on a high wall', () => {
@@ -146,7 +146,7 @@ describe('configurator store', () => {
 
     store.getState().setPrintEdges({ left: 10 })
     ;({ print, wall } = placementOf(store.getState()))
-    expect(edgesOf(print, wall).left).toBeCloseTo(wall.width - print.width)
+    expect(edgesOf(print, wall).left).toBeCloseTo(wall.width - WALL_MARGIN.horizontal - print.width)
 
     store.getState().centrePrint()
     expect(placementOf(store.getState()).print).toMatchObject({ x: 0, y: 0 })
@@ -176,6 +176,6 @@ describe('configurator store', () => {
     store.getState().setFit('contain')
     const contain = placementOf(store.getState()).areaM2
     expect(contain).toBeLessThan(cover)
-    expect(contain).toBeCloseTo(3.5 * 1.75)
+    expect(contain).toBeCloseTo(3.36 * 1.68)
   })
 })

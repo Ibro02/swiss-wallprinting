@@ -50,6 +50,7 @@ This folder records each prompt that the author gives to an AI agent, and the re
 ## Entries
 
 | Date | No. | Title | Status |
+| 2026-10-24 | 03 | [[2026-10-24 03 - Wall margins in the configurator]] | Done (committed on `main`, not pushed) |
 |---|---|---|---|
 | 2026-10-24 | 02 | [[2026-10-24 02 - Navy dark theme, logo, About and Services alignment]] | Done (first part committed as 767616a; fixes not committed) |
 | 2026-10-24 | 01 | [[2026-10-24 01 - Reviews swipe, story scroll lock, FAQ open look]] | Done (committed on `main`, not pushed) |
@@ -78,9 +79,9 @@ This folder records each prompt that the author gives to an AI agent, and the re
 | 2026-10-22 | 03 | [[2026-10-22 03 - Responsive fixes and configurator tabs]] | Done (branches merged in 04) |
 | 2026-10-22 | 02 | [[2026-10-22 02 - Commit, hero room, sliding reviews, glow cards]] | Done (committed in `177c390`) |
 | 2026-10-22 | 01 | [[2026-10-22 01 - Print on scroll hero]] | Done (committed in `39d40e5`; video is mock) |
-| 2026-10-21 | 07 | [[2026-10-21 07 - Question card back in the Questions section]] | Done (not committed) |
-| 2026-10-21 | 06 | [[2026-10-21 06 - Colour, area cards, compact sizes, no flash]] | Done (not committed) |
-| 2026-10-21 | 05 | [[2026-10-21 05 - Studio light redesign]] | Done (not committed) |
+| 2026-10-21 | 07 | [[2026-10-21 07 - Question card back in the Questions section]] | Done (committed on `main`, not pushed) |
+| 2026-10-21 | 06 | [[2026-10-21 06 - Colour, area cards, compact sizes, no flash]] | Done (committed on `main`, not pushed) |
+| 2026-10-21 | 05 | [[2026-10-21 05 - Studio light redesign]] | Done (committed on `main`, not pushed) |
 | 2026-10-21 | 04 | [[2026-10-21 04 - First commit and push to GitHub]] | Done |
 | 2026-10-21 | 03 | [[2026-10-21 03 - Phase 5 configurator complete]] | Done |
 | 2026-10-21 | 02 | [[2026-10-21 02 - Phase 4 browser check, build, docs]] | Done |
