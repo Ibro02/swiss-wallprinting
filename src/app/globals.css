@@ -102,16 +102,16 @@
 }
 
 /*
- * Dark theme: Claude's warm dark palette, not black (the author's wish): a charcoal page,
- * lighter mist and paper surfaces, ivory ink, warm grey secondary text. The logo's colours
+ * Dark theme: the client's navy #29374E, kept as dark as graphite (the author, 2026-10-24): a deep navy page,
+ * the navy itself as the mist surface, a lighter paper, near-white ink, cool grey secondary text. The logo's colours
  * stay: magenta for the main buttons, lime for the accents (dark grounds everywhere now).
  * It follows the device (prefers-color-scheme) until the visitor chooses with ThemeToggle,
  * which sets data-theme on <html>; a small script in <head> sets the saved choice before the
  * first paint (layout.tsx), so no page ever flashes the other theme.
  *
- * Contrast (measured): ink on page 14.4, on plaster 12.6, on paper 10.8; mute on page 8.3,
- * on plaster 7.2, on paper 6.3; magenta-200 (links and errors, `dark:text-magenta-200`) on
- * page 6.7, on plaster 5.8, on paper 5.0; lime on page 9.1, on paper 6.8; white on
+ * Contrast (measured): ink on page 13.7, on plaster 11.4, on paper 9.9; mute on page 8.5,
+ * on plaster 7.1, on paper 6.2; magenta-200 (links and errors, `dark:text-magenta-200`) on
+ * page 6.3, on plaster 5.3, on paper 4.6; lime on page 8.6, on paper 6.3; white on
  * graphite 16.6. Buttons keep magenta with white text (4.6).
  */
 @custom-variant dark {
@@ -139,25 +139,25 @@
   }
 
   :root[data-theme='dark'] {
-    --color-page: #262624;
-    --color-paper: #3a3a37;
-    --color-ink: #faf9f5;
-    --color-plaster: #30302e;
-    --color-plaster-200: #45453f;
-    --color-mute: #c2c0b6;
-    --color-graphite: #1f1e1d;
+    --color-page: #1f2a3d;
+    --color-paper: #314058;
+    --color-ink: #f7f8fa;
+    --color-plaster: #29374e;
+    --color-plaster-200: #3b4b66;
+    --color-mute: #bfc8d6;
+    --color-graphite: #141b29;
     color-scheme: dark;
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) {
-      --color-page: #262624;
-      --color-paper: #3a3a37;
-      --color-ink: #faf9f5;
-      --color-plaster: #30302e;
-      --color-plaster-200: #45453f;
-      --color-mute: #c2c0b6;
-      --color-graphite: #1f1e1d;
+      --color-page: #1f2a3d;
+      --color-paper: #314058;
+      --color-ink: #f7f8fa;
+      --color-plaster: #29374e;
+      --color-plaster-200: #3b4b66;
+      --color-mute: #bfc8d6;
+      --color-graphite: #141b29;
       color-scheme: dark;
     }
   }

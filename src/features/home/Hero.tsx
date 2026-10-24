@@ -42,8 +42,6 @@ export async function Hero() {
       focus={heroVideo.focus}
       cropBottom={heroVideo.cropBottom}
       headerRoom={HEADER_ROOM}
-      // The client's black logo (Assets/SWP_LogoBlack.svg): dark ink on the light mural.
-      signature={{ src: '/brand/swp-logo-black.svg', ...heroVideo.signature }}
       alt={t('imageAlt')}
       hint={t('scrollHint')}
       className={SECTION}
