@@ -48,7 +48,7 @@ export async function WhatWePrint() {
                 aria-hidden="true"
                 className={`block size-3 rounded-[3px] ring-1 ring-white/25 ${INKS[index % INKS.length]}`}
               />
-              <h3 className="mt-auto pt-5 text-base font-medium tracking-tight sm:pt-8 sm:text-lg">
+              <h3 className="mt-5 text-base font-medium tracking-tight sm:mt-8 sm:text-lg">
                 {t(`kinds.${kind}.title`)}
               </h3>
               <p className="mt-1.5 text-[0.8125rem] leading-snug text-mute-dark sm:mt-2 sm:text-sm sm:leading-relaxed">

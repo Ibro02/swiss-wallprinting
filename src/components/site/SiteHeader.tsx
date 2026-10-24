@@ -39,7 +39,9 @@ export async function SiteHeader() {
         <div className="header-lift px-4 pt-7 [--lift:-1rem] sm:px-6 sm:pt-10 sm:[--lift:-1.5rem] md:px-8 md:pt-14 md:[--lift:-2.25rem]">
           <div className="pointer-events-auto flex w-full items-center gap-3 rounded-2xl bg-paper/70 py-2 pr-2 pl-3 text-ink shadow-[0_1px_1px_rgb(0_0_0/0.04),0_12px_32px_-16px_rgb(0_0_0/0.35)] ring-1 ring-ink/5 backdrop-blur-md backdrop-saturate-150 sm:pl-4 lg:w-fit lg:gap-6">
             <Link href="/" aria-label={t('homeLink')} className="shrink-0 rounded-lg">
-              <Logo className="h-6 w-auto sm:h-7" />
+              {/* Black logo on the white pill, colour logo on the dark one (lime on white is 1.7:1). */}
+              <Logo tone="ink" className="h-6 w-auto sm:h-7 dark:hidden" />
+              <Logo className="hidden h-6 w-auto sm:h-7 dark:block" />
             </Link>
 
             <nav aria-label={t('label')} className="hidden lg:block">

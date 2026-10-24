@@ -36,7 +36,8 @@ export default async function AboutPage() {
       </PageHeader>
 
       <section className={SECTION_Y}>
-        <Container className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-8">
+        <Container className="grid gap-8 lg:grid-cols-12 lg:items-stretch lg:gap-8">
+          {/* The picture fills the height of the story beside it: both start and end together. */}
           <div
             data-reveal
             className="overflow-hidden rounded-2xl bg-graphite sm:rounded-3xl lg:col-span-7"
@@ -46,7 +47,7 @@ export default async function AboutPage() {
               alt={t('imageAlt')}
               sizes="(min-width: 1024px) 55vw, 100vw"
               placeholder="blur"
-              className="h-auto w-full"
+              className="h-auto w-full lg:h-full lg:object-cover"
             />
           </div>
           <div
@@ -59,11 +60,11 @@ export default async function AboutPage() {
             <p className="pt-3 font-serif text-2xl leading-snug text-magenta dark:text-lime italic sm:text-3xl">
               {t('story.canvas')}
             </p>
-            <dl className="grid gap-x-6 gap-y-4 border-t border-ink/10 pt-6 text-sm sm:grid-cols-3">
+            <dl className="flex flex-wrap gap-x-8 gap-y-4 border-t border-ink/10 pt-6 text-sm">
               {facts.map(([label, value]) => (
                 <div key={label}>
                   <dt className="text-mute">{label}</dt>
-                  <dd className="mt-1 font-medium text-ink">{value}</dd>
+                  <dd className="mt-1 font-medium whitespace-nowrap text-ink">{value}</dd>
                 </div>
               ))}
             </dl>

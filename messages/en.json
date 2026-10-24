@@ -418,7 +418,7 @@
       },
       "preparation": {
         "q": "Does the wall need to be prepared?",
-        "a": "Sometimes. Before printing we look at the surface with you and, if needed, prepare it properly."
+        "a": "Sometimes. First we check your wall. If it is dirty or dusty, we clean it and get it ready for printing. You do not have to do anything."
       },
       "ownImage": {
         "q": "Can I use my own photo or design?",
