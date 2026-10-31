@@ -5,7 +5,7 @@ import { spamVerdict } from '@/features/contact/question.ts'
 import type { MailTransport } from '@/lib/mail.ts'
 import type { FieldError, QuoteField, QuoteValues } from './fields.ts'
 import {
-  parseDesign,
+  parseConfiguration,
   parseQuote,
   parseScreenshot,
   type QuoteMailMeta,
@@ -46,8 +46,8 @@ export async function handleQuote(formData: FormData, deps: QuoteDeps): Promise<
   if (!parsed.ok) return { status: 'invalid', errors: parsed.errors, values }
 
   // The configurator fills these fields; a broken value is a bug, not the visitor's fault.
-  const design = parseDesign(formData, deps.presets)
-  if (!design) {
+  const configuration = parseConfiguration(formData, deps.presets)
+  if (!configuration) {
     deps.logError('Quote form: the configuration in the form is missing or not valid.')
     return { status: 'failed', values }
   }
@@ -60,7 +60,7 @@ export async function handleQuote(formData: FormData, deps: QuoteDeps): Promise<
   }
 
   try {
-    const mail = quoteMail(parsed.contact, design, parseScreenshot(formData), {
+    const mail = quoteMail(parsed.contact, configuration, parseScreenshot(formData), {
       to: deps.to,
       locale: deps.locale,
       configuratorUrl: deps.configuratorUrl,

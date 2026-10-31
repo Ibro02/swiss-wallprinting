@@ -37,7 +37,7 @@ export function toSearchParams(config: SharedConfig): URLSearchParams {
   return params
 }
 
-type SearchParams = Record<string, string | string[] | undefined>
+export type SearchParams = Record<string, string | string[] | undefined>
 
 function first(params: SearchParams, name: string): string | undefined {
   const value = params[name]

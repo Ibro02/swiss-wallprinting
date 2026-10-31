@@ -6,11 +6,8 @@ import { z } from 'zod'
 import { edgesOf } from '@/features/configurator/model/print.ts'
 import { estimatePrice, type PriceRates } from '@/features/configurator/model/price.ts'
 import type { Wall } from '@/features/configurator/model/room.ts'
-import {
-  fromSearchParams,
-  type SharedConfig,
-  toSearchParams,
-} from '@/features/configurator/model/share.ts'
+import { sharedConfigurationOf } from '@/features/configurator/model/configuration.ts'
+import { type SharedConfig, toSearchParams } from '@/features/configurator/model/share.ts'
 import { placementOf } from '@/features/configurator/store.ts'
 import type { MailMessage } from '@/lib/mail.ts'
 import {
@@ -92,8 +89,11 @@ export interface QuotePreset {
   aspect: number
 }
 
-/** What the visitor configured, read back from the form and checked like a share link. */
-export interface QuoteDesign {
+/**
+ * What the visitor configured, read back from the form like a share link: checked and
+ * corrected to the product rules, so the e-mail describes what the page showed.
+ */
+export interface QuoteConfiguration {
   config: SharedConfig
   /** Preset title, or null for an uploaded image. */
   preset: QuotePreset | null
@@ -102,12 +102,12 @@ export interface QuoteDesign {
   aspect: number
 }
 
-export function parseDesign(
+export function parseConfiguration(
   formData: FormData,
   presets: readonly QuotePreset[],
-): QuoteDesign | null {
+): QuoteConfiguration | null {
   const params = Object.fromEntries(new URLSearchParams(text(formData, QUOTE_HIDDEN.config)))
-  const config = fromSearchParams(
+  const config = sharedConfigurationOf(
     params,
     presets.map((preset) => preset.id),
   )
@@ -151,14 +151,14 @@ export interface QuoteMailMeta {
 /** The e-mail to the client. In Italian: the client reads Italian, whatever the page language. */
 export function quoteMail(
   contact: QuoteContact,
-  design: QuoteDesign,
+  configuration: QuoteConfiguration,
   screenshot: Uint8Array | null,
   meta: QuoteMailMeta,
 ): MailMessage {
-  const { config } = design
+  const { config } = configuration
   const placement = placementOf({
     ...config,
-    image: { aspect: design.aspect },
+    image: { aspect: configuration.aspect },
     machineMaxHeight: meta.machineMaxHeight,
   })
   const price = estimatePrice(placement.areaM2, config.environment, meta.rates)
@@ -174,9 +174,9 @@ export function quoteMail(
       maximumFractionDigits: 0,
     }).format(value)
 
-  const image = design.preset
-    ? `${design.preset.title} (immagine pronta del sito)`
-    : `immagine propria "${design.upload}" (il file resta al cliente: chiedere l'originale)`
+  const image = configuration.preset
+    ? `${configuration.preset.title} (immagine pronta del sito)`
+    : `immagine propria "${configuration.upload}" (il file resta al cliente: chiedere l'originale)`
   const link = `${meta.configuratorUrl}?${toSearchParams(config).toString()}`
 
   const lines = [

@@ -78,6 +78,26 @@ describe('handleQuote', () => {
     })
   })
 
+  it('describes a link that breaks the product rules as the page showed it', async () => {
+    const { value, sent } = deps()
+    await handleQuote(
+      form({
+        ...valid,
+        [QUOTE_HIDDEN.config]:
+          'room=5x4x2.7&wall=e&image=lake&print=3x1.5&pos=0x0&fit=contain&env=out',
+      }),
+      value,
+    )
+
+    const text = sent[0]?.text
+    // Outdoors there is one wall, the front one; "whole image" is off, so the print fills.
+    expect(text).toContain('Parete: 5.00 × 2.70 m (di fronte)')
+    expect(text).toContain("Area di stampa: 3.00 × 1.50 m (l'immagine riempie l'area)")
+    expect(text).toContain('Superficie stampata: 4.50 m²')
+    expect(text).toContain('Ambiente: esterno')
+    expect(text).toContain('?room=5x4x2.7&wall=n&image=lake&print=3x1.5&pos=0x0&env=out')
+  })
+
   it('names an uploaded image and asks for the original file', async () => {
     const { value, sent } = deps()
     await handleQuote(

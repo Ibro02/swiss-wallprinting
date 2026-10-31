@@ -3,13 +3,7 @@
 import { useFormatter, useTranslations } from 'next-intl'
 import { LinkIcon } from '@/components/icons.tsx'
 import { type ReactNode, type RefObject, useEffect, useState } from 'react'
-import {
-  edgesOf,
-  type Fit,
-  FITS,
-  imageCrop,
-  WALL_MARGIN,
-} from '@/features/configurator/model/print.ts'
+import { edgesOf, FITS, imageCrop, WALL_MARGIN } from '@/features/configurator/model/print.ts'
 import {
   estimatePrice,
   type Environment,
@@ -23,6 +17,7 @@ import {
   WALLS,
 } from '@/features/configurator/model/room.ts'
 import { toSearchParams } from '@/features/configurator/model/share.ts'
+import { DISABLED_FITS } from '@/features/configurator/model/configuration.ts'
 import { placementOf, sharedConfigOf } from '@/features/configurator/store.ts'
 import { ImagePicker, type PresetOption } from './ImagePicker.tsx'
 import { MetreField } from './MetreField.tsx'
@@ -72,13 +67,6 @@ const WALL_NAMES: Record<Wall, 'front' | 'right' | 'back' | 'left'> = {
 }
 
 const ENVIRONMENTS: readonly Environment[] = ['interior', 'exterior']
-
-/**
- * "Whole image" (contain) is off for now (the client, 2026-10-31: it seemed to do nothing,
- * because a new print already has the image's proportions). `startConfig` opens old links
- * with "Fill the area".
- */
-const DISABLED_FITS: readonly Fit[] = ['contain']
 
 export function Panel(props: PanelProps) {
   const t = useTranslations('Configurator')

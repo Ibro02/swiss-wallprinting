@@ -9,7 +9,7 @@ import {
   type UploadError,
   UPLOAD_TYPES,
 } from '@/features/configurator/model/upload.ts'
-import { presetImage } from '@/features/configurator/start.ts'
+import { presetImage } from '@/features/configurator/model/configuration.ts'
 import type { PrintImage } from '@/features/configurator/store.ts'
 import { prepareUpload } from './prepare-upload.ts'
 import { useConfigurator } from './store-context.tsx'
