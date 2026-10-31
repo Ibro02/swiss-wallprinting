@@ -3,7 +3,13 @@
 import { useFormatter, useTranslations } from 'next-intl'
 import { LinkIcon } from '@/components/icons.tsx'
 import { type ReactNode, type RefObject, useEffect, useState } from 'react'
-import { edgesOf, FITS, imageCrop, WALL_MARGIN } from '@/features/configurator/model/print.ts'
+import {
+  edgesOf,
+  type Fit,
+  FITS,
+  imageCrop,
+  WALL_MARGIN,
+} from '@/features/configurator/model/print.ts'
 import {
   estimatePrice,
   type Environment,
@@ -66,6 +72,13 @@ const WALL_NAMES: Record<Wall, 'front' | 'right' | 'back' | 'left'> = {
 }
 
 const ENVIRONMENTS: readonly Environment[] = ['interior', 'exterior']
+
+/**
+ * "Whole image" (contain) is off for now (the client, 2026-10-31: it seemed to do nothing,
+ * because a new print already has the image's proportions). `startConfig` opens old links
+ * with "Fill the area".
+ */
+const DISABLED_FITS: readonly Fit[] = ['contain']
 
 export function Panel(props: PanelProps) {
   const t = useTranslations('Configurator')
@@ -215,6 +228,7 @@ function Choices<T extends string>({
   value,
   label,
   onChange,
+  disabled = [],
 }: {
   name: string
   legend: string
@@ -222,6 +236,8 @@ function Choices<T extends string>({
   value: T
   label: (option: T) => string
   onChange: (option: T) => void
+  /** Options shown but not available yet. */
+  disabled?: readonly T[]
 }) {
   return (
     <fieldset>
@@ -230,13 +246,14 @@ function Choices<T extends string>({
         {options.map((option) => (
           <label
             key={option}
-            className="cursor-pointer rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-ink/12 transition-[background-color,color,transform] duration-150 ease-out ring-inset select-none hover:bg-plaster active:scale-[0.97] has-checked:bg-graphite has-checked:text-white has-checked:ring-graphite has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink motion-reduce:active:scale-100"
+            className="relative cursor-pointer rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-ink/12 transition-[background-color,color,transform] duration-150 ease-out ring-inset select-none hover:bg-plaster active:scale-[0.97] has-checked:bg-graphite has-checked:text-white has-checked:ring-graphite has-disabled:cursor-not-allowed has-disabled:text-mute has-disabled:hover:bg-transparent has-disabled:active:scale-100 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink motion-reduce:active:scale-100"
           >
             <input
               type="radio"
               name={name}
               value={option}
               checked={value === option}
+              disabled={disabled.includes(option)}
               onChange={() => onChange(option)}
               className="sr-only"
             />
@@ -254,37 +271,125 @@ function useMetres() {
     format.number(value, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
+/** Where each wall's button stands around the sketch (a 3 × 3 grid, the sketch in the middle). */
+const WALL_CELLS: Record<Wall, string> = {
+  north: 'col-start-2 row-start-1',
+  east: 'col-start-3 row-start-2 justify-self-start',
+  south: 'col-start-2 row-start-3',
+  west: 'col-start-1 row-start-2 justify-self-end',
+}
+
+/**
+ * The wall choice (the client, 2026-10-31): a sketch of the room seen from above, with a
+ * button next to each wall. The selected wall is lime; the others are black outlines.
+ */
 function WallPicker() {
   const t = useTranslations('Configurator.wall')
   const wall = useConfigurator((state) => state.wall)
   const selectWall = useConfigurator((state) => state.selectWall)
+  const outdoors = useConfigurator((state) => state.environment === 'exterior')
   const { wall: size } = usePlacement()
   const metres = useMetres()
+  const sizes = { width: metres(size.width), height: metres(size.height) }
+  // Outdoors there is one wall (`setEnvironment`): no choice to make, so the section says
+  // which wall it is and where its size is set, instead of showing walls that do nothing.
+  if (outdoors) return <p className="text-sm leading-relaxed text-mute">{t('outdoors', sizes)}</p>
   return (
     <div>
-      <Choices
-        name="wall"
-        legend={t('title')}
-        options={WALLS}
-        value={wall}
-        label={(option) => t(WALL_NAMES[option])}
-        onChange={selectWall}
-      />
+      <fieldset className="grid grid-cols-[1fr_auto_1fr] grid-rows-[auto_auto_auto] items-center justify-items-center gap-1.5">
+        <legend className="sr-only">{t('title')}</legend>
+        {WALLS.map((option) => (
+          <label
+            key={option}
+            className={`relative cursor-pointer rounded-lg px-3 py-1.5 text-sm font-medium ring-1 ring-ink/12 transition-[background-color,color,transform] duration-150 ease-out ring-inset select-none hover:bg-plaster active:scale-[0.97] has-checked:bg-graphite has-checked:text-white has-checked:ring-graphite has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink motion-reduce:active:scale-100 ${WALL_CELLS[option]}`}
+          >
+            <input
+              type="radio"
+              name="wall"
+              value={option}
+              checked={wall === option}
+              onChange={() => selectWall(option)}
+              className="sr-only"
+            />
+            {t(WALL_NAMES[option])}
+          </label>
+        ))}
+        <RoomSketch selected={wall} onSelect={selectWall} />
+      </fieldset>
       <p className="mt-2 text-xs text-mute">
-        {t('size', { width: metres(size.width), height: metres(size.height) })} {t('hint')}
+        {t('size', sizes)} {t('hint')}
       </p>
     </div>
+  )
+}
+
+/** The sketch fits this box, pixels; the wall strokes are WALL_STROKE thick. */
+const SKETCH = { width: 150, height: 84 } as const
+const WALL_STROKE = 9
+
+/**
+ * The room from above, in its own proportions (north at the top, as the first camera looks).
+ * A click on a wall selects it too; the buttons beside it are the accessible control.
+ */
+function RoomSketch({ selected, onSelect }: { selected: Wall; onSelect: (wall: Wall) => void }) {
+  const room = useConfigurator((state) => state.room)
+  const scale = Math.min(SKETCH.width / room.width, SKETCH.height / room.length)
+  // A very long, thin room stays wide enough to show four walls.
+  const minSide = 3 * WALL_STROKE
+  const width = Math.max(minSide, room.width * scale)
+  const height = Math.max(minSide, room.length * scale)
+  const t = WALL_STROKE
+  // Each wall as a rectangle inside the outline; north and south take the corners.
+  const rects: Record<Wall, { x: number; y: number; width: number; height: number }> = {
+    north: { x: 0, y: 0, width, height: t },
+    south: { x: 0, y: height - t, width, height: t },
+    west: { x: 0, y: t, width: t, height: height - 2 * t },
+    east: { x: width - t, y: t, width: t, height: height - 2 * t },
+  }
+  return (
+    <svg
+      aria-hidden="true"
+      className="col-start-2 row-start-2 overflow-visible text-ink"
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+    >
+      {WALLS.map((wall) => {
+        const rect = rects[wall]
+        const isSelected = wall === selected
+        return (
+          // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- the radio buttons beside the sketch are the keyboard control
+          <rect
+            key={wall}
+            // Half the stroke inside, so the outline is not cut at the edge of the sketch.
+            x={rect.x + 0.75}
+            y={rect.y + 0.75}
+            width={rect.width - 1.5}
+            height={rect.height - 1.5}
+            rx={1.5}
+            strokeWidth={1.5}
+            className={`stroke-current transition-[fill] duration-150 ease-out ${isSelected ? 'fill-lime' : 'cursor-pointer fill-transparent hover:fill-lime/40'}`}
+            onClick={() => onSelect(wall)}
+          />
+        )
+      })}
+    </svg>
   )
 }
 
 function RoomFields() {
   const t = useTranslations('Configurator.room')
   const room = useConfigurator((state) => state.room)
+  const outdoors = useConfigurator((state) => state.environment === 'exterior')
   const store = useConfiguratorStore()
   const metres = useMetres()
+  // Outdoors the one wall has a width and a height; the depth would change nothing.
+  const dimensions = outdoors
+    ? ROOM_DIMENSIONS.filter((dimension) => dimension !== 'length')
+    : ROOM_DIMENSIONS
   return (
-    <div className="grid grid-cols-3 gap-3">
-      {ROOM_DIMENSIONS.map((dimension) => (
+    <div className={`grid gap-3 ${outdoors ? 'grid-cols-2' : 'grid-cols-3'}`}>
+      {dimensions.map((dimension) => (
         <MetreField
           key={dimension}
           label={t(dimension)}
@@ -364,6 +469,7 @@ function PrintFields({
           value={fit}
           label={(option) => t(option)}
           onChange={setFit}
+          disabled={DISABLED_FITS}
         />
         <p className="mt-2 text-xs leading-relaxed text-mute">{t(`${fit}Hint`)}</p>
       </div>

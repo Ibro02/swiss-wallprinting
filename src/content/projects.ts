@@ -5,8 +5,8 @@
 // Photos: the client's own (2026-10-23, `vp run images`); the first is the card's cover, a
 // 4:3 crop (`projects/*-cover`), so a phone decodes only what the card shows. A
 // project without photos stays MOCK: the page shows "photo coming soon" in its place, and the
-// production build stops. "sea-view" has none yet: the photos in its folder show other walls
-// or are not the client's (see the prompt log of 2026-10-23).
+// production build stops. "sea-view" got the client's two photos on 2026-10-31 ("Lamperija");
+// the other pictures in its folder are not the client's (see the prompt log of 2026-10-23).
 
 import type { Project } from './schema.ts'
 
@@ -246,8 +246,8 @@ export const projects: readonly Project[] = [
   },
   {
     id: 'sea-view',
-    mock: true,
-    photos: [],
+    mock: false,
+    photos: ['projects/sea-view-cover', 'projects/sea-view', 'projects/sea-view-printing'],
     place: {
       it: 'Cliente privato, soggiorno',
       de: 'Privatkunde, Wohnzimmer',

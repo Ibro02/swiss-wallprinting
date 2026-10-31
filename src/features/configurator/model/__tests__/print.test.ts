@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
+  anchorFor,
   clampPrintSize,
+  cornerOf,
   defaultPrint,
   edgesOf,
   fitPrintToWall,
@@ -9,6 +11,7 @@ import {
   offsetFromEdges,
   printedRect,
   printLimits,
+  resizeFromCorner,
 } from '../print.ts'
 
 const MACHINE = 3.8
@@ -127,5 +130,67 @@ describe('imageCrop', () => {
       repeat: [1, 1],
       offset: [0, 0],
     })
+  })
+})
+
+/** Equal to the micrometre: the corner arithmetic leaves float noise. */
+function expectNear<T extends object>(actual: T, expected: T) {
+  expect(Object.keys(actual).sort()).toEqual(Object.keys(expected).sort())
+  for (const key of Object.keys(expected) as (keyof T)[]) {
+    expect(actual[key]).toBeCloseTo(expected[key] as number, 6)
+  }
+}
+
+describe('resizeFromCorner', () => {
+  // A 2 × 1 m print in the middle of a 5 × 2.7 m wall.
+  const print = { width: 2, height: 1, x: 0, y: 0 }
+
+  it('keeps the opposite corner still and follows the pointer', () => {
+    const anchor = anchorFor(print, 'top-right')
+    expect(anchor).toEqual({ x: -1, y: -0.5 })
+    expectNear(resizeFromCorner('top-right', anchor, { x: 1.5, y: 0.7 }, wall, MACHINE), {
+      width: 2.5,
+      height: 1.2,
+      x: 0.25,
+      y: 0.1,
+    })
+  })
+
+  it('works from a left or bottom corner too', () => {
+    const anchor = anchorFor(print, 'bottom-left')
+    expect(anchor).toEqual({ x: 1, y: 0.5 })
+    const resized = resizeFromCorner('bottom-left', anchor, { x: -0.5, y: -0.3 }, wall, MACHINE)
+    expectNear(resized, { width: 1.5, height: 0.8, x: 0.25, y: 0.1 })
+    expectNear(cornerOf(resized, 'top-right'), anchor)
+  })
+
+  it('stops the corner at the wall margins', () => {
+    const anchor = anchorFor(print, 'top-right')
+    const resized = resizeFromCorner('top-right', anchor, { x: 9, y: 9 }, wall, MACHINE)
+    expect(resized.width).toBeGreaterThan(print.width)
+    // Right edge 2.5 - 0.1 = 2.4 from the centre; top edge 1.35 - 0.3 = 1.05.
+    expectNear(cornerOf(resized, 'top-right'), { x: 2.4, y: 1.05 })
+    expectNear(cornerOf(resized, 'bottom-left'), anchor)
+  })
+
+  it('keeps the machine height limit on a high wall', () => {
+    const high = { width: 6, height: 6 }
+    const anchor = { x: 0, y: -2.7 }
+    const resized = resizeFromCorner('top-right', anchor, { x: 1, y: 2.7 }, high, MACHINE)
+    expect(resized.height).toBe(MACHINE)
+  })
+
+  it('never makes a side smaller than the minimum, nor crosses the anchor', () => {
+    const anchor = anchorFor(print, 'top-right')
+    const resized = resizeFromCorner('top-right', anchor, { x: -3, y: -3 }, wall, MACHINE)
+    expect(resized.width).toBe(MIN_PRINT_SIDE)
+    expect(resized.height).toBe(MIN_PRINT_SIDE)
+    expectNear(cornerOf(resized, 'bottom-left'), anchor)
+  })
+
+  it('rounds the sides to centimetres', () => {
+    const anchor = anchorFor(print, 'top-right')
+    const resized = resizeFromCorner('top-right', anchor, { x: 1.2345, y: 0.5 }, wall, MACHINE)
+    expect(resized.width).toBe(2.23)
   })
 })

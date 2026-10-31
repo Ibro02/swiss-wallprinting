@@ -412,10 +412,6 @@
         "q": "Si può stampare anche sui muri esterni?",
         "a": "Sì. Stampiamo all'interno e all'esterno, con la giusta preparazione della superficie."
       },
-      "durability": {
-        "q": "Quanto dura la stampa?",
-        "a": "Gli inchiostri certificati che usiamo mantengono colori brillanti e dettagli nitidi per oltre {years} anni, anche all'esterno."
-      },
       "preparation": {
         "q": "La parete va preparata prima?",
         "a": "A volte sì. Prima controlliamo la tua parete. Se è sporca o impolverata, la puliamo noi e la prepariamo per la stampa. Non devi fare nulla."
@@ -555,7 +551,8 @@
       "back": "Dietro",
       "left": "Sinistra",
       "size": "Parete scelta: {width} × {height} m.",
-      "hint": "Puoi anche cliccare una parete nella stanza."
+      "hint": "Puoi anche cliccare una parete nella stanza.",
+      "outdoors": "All'esterno mostriamo una sola parete: {width} × {height} m. Cambia le misure in «Misure della stanza»."
     },
     "room": {
       "title": "Misure della stanza",
@@ -601,7 +598,7 @@
       "exampleNote": "Le tariffe qui sono un esempio: i prezzi reali arrivano presto."
     },
     "stage": {
-      "hint": "Trascina per guardarti intorno, trascina la stampa per spostarla. Clicca una parete per stamparci sopra.",
+      "hint": "Trascina per guardarti intorno, trascina la stampa per spostarla e un suo angolo per cambiarne la misura. Clicca una parete per stamparci sopra.",
       "open3d": "Apri la vista 3D",
       "canvasLabel": "Anteprima 3D della stanza, con la stampa sulla parete scelta",
       "loading": "Prepariamo la stanza 3D…",

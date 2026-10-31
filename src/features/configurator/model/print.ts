@@ -153,3 +153,57 @@ export function imageCrop(
   const y = imageAspect / boxAspect
   return { repeat: [1, y], offset: [0, (1 - y) / 2] }
 }
+
+export const CORNERS = ['top-left', 'top-right', 'bottom-left', 'bottom-right'] as const
+export type Corner = (typeof CORNERS)[number]
+
+/** +1 for a right or top corner, -1 for a left or bottom one (wall axes: right, up). */
+export function cornerSigns(corner: Corner): { x: 1 | -1; y: 1 | -1 } {
+  return { x: corner.endsWith('right') ? 1 : -1, y: corner.startsWith('top') ? 1 : -1 }
+}
+
+/** Where a corner of the print is, in wall coordinates (offset from the wall centre). */
+export function cornerOf(print: PrintBox, corner: Corner): { x: number; y: number } {
+  const sign = cornerSigns(corner)
+  return { x: print.x + (sign.x * print.width) / 2, y: print.y + (sign.y * print.height) / 2 }
+}
+
+const OPPOSITE: Record<Corner, Corner> = {
+  'top-left': 'bottom-right',
+  'top-right': 'bottom-left',
+  'bottom-left': 'top-right',
+  'bottom-right': 'top-left',
+}
+
+/**
+ * The print while the visitor drags one of its corners (desktop, in 3D). The opposite corner
+ * (`anchor`, taken when the drag starts) stays where it is; the dragged corner follows the
+ * pointer, but not past the wall margins, the size limits, or MIN_PRINT_SIDE, and it never
+ * crosses to the other side of the anchor. The same rules as the typed sizes.
+ */
+export function resizeFromCorner(
+  corner: Corner,
+  anchor: { x: number; y: number },
+  pointer: { x: number; y: number },
+  wall: WallSize,
+  machineMaxHeight: number,
+): PrintBox {
+  const limits = printLimits(wall, machineMaxHeight)
+  const sign = cornerSigns(corner)
+  const edgeX = wall.width / 2 - WALL_MARGIN.horizontal
+  const edgeY = wall.height / 2 - WALL_MARGIN.vertical
+  const x = clamp(pointer.x, -edgeX, edgeX)
+  const y = clamp(pointer.y, -edgeY, edgeY)
+  const width = clamp(roundCm(sign.x * (x - anchor.x)), MIN_PRINT_SIDE, limits.maxWidth)
+  const height = clamp(roundCm(sign.y * (y - anchor.y)), MIN_PRINT_SIDE, limits.maxHeight)
+  return fitPrintToWall(
+    { width, height, x: anchor.x + (sign.x * width) / 2, y: anchor.y + (sign.y * height) / 2 },
+    wall,
+    machineMaxHeight,
+  )
+}
+
+/** The corner that stays still while `corner` is dragged. */
+export function anchorFor(print: PrintBox, corner: Corner): { x: number; y: number } {
+  return cornerOf(print, OPPOSITE[corner])
+}

@@ -23,7 +23,6 @@ const QUESTIONS = [
   'surfaces',
   'size',
   'outdoor',
-  'durability',
   'preparation',
   'ownImage',
   'duration',

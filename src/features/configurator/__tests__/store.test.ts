@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
-import { edgesOf, WALL_MARGIN } from '../model/print.ts'
+import { anchorFor, cornerOf, edgesOf, WALL_MARGIN } from '../model/print.ts'
+import { OUTDOOR_WALL } from '../model/room.ts'
 import { fromSearchParams, toSearchParams } from '../model/share.ts'
 import { startConfig, type StartContent } from '../start.ts'
 import { createConfiguratorStore, placementOf, type PrintImage, sharedConfigOf } from '../store.ts'
@@ -52,7 +53,8 @@ describe('startConfig', () => {
       fit: 'contain',
       environment: 'interior',
     })
-    expect(config).toMatchObject({ wall: 'west', fit: 'contain', environment: 'interior' })
+    // Whole image is off for now (2026-10-31): a link with it fills the area.
+    expect(config).toMatchObject({ wall: 'west', fit: 'cover', environment: 'interior' })
     expect(config.image).toMatchObject({ id: 'peaks' })
     // The west wall is as wide as the room is long (3 m), less 10 cm at each side.
     expect(config.print.width).toBe(2.8)
@@ -73,20 +75,31 @@ describe('startConfig', () => {
 
 describe('sharedConfigOf', () => {
   it('opens the same configuration again from its link', () => {
-    const store = newStore('facade')
+    const store = newStore('office')
     store.getState().selectWall('east')
-    store.getState().setFit('contain')
     const shared = sharedConfigOf(store.getState())
     const params = Object.fromEntries(toSearchParams(shared).entries())
     const reopened = startConfig(undefined, content, fromSearchParams(params, ['cmyk', 'peaks']))
     expect(reopened).toMatchObject({
       room: store.getState().room,
       wall: 'east',
-      fit: 'contain',
-      environment: 'exterior',
-      image: { id: 'peaks' },
+      fit: 'cover',
+      environment: 'interior',
+      image: { id: 'cmyk' },
       print: placementOf(store.getState()).print,
     })
+  })
+
+  it('opens an outdoor link on the one outdoor wall', () => {
+    const store = newStore('office')
+    store.getState().selectWall('west')
+    store.getState().setEnvironment('exterior')
+    expect(store.getState().wall).toBe(OUTDOOR_WALL)
+    const params = Object.fromEntries(
+      toSearchParams({ ...sharedConfigOf(store.getState()), wall: 'west' }).entries(),
+    )
+    const reopened = startConfig(undefined, content, fromSearchParams(params, ['cmyk', 'peaks']))
+    expect(reopened).toMatchObject({ wall: OUTDOOR_WALL, environment: 'exterior' })
   })
 
   it('leaves an uploaded image out of the link', () => {
@@ -112,6 +125,18 @@ describe('configurator store', () => {
     const { print, wall } = placementOf(store.getState())
     expect(print.x).toBeCloseTo((wall.width - 2 * WALL_MARGIN.horizontal - print.width) / 2)
     expect(print.y).toBeCloseTo((wall.height - 2 * WALL_MARGIN.vertical - print.height) / 2)
+  })
+
+  it('resizes the print from a dragged corner and keeps it in the margins', () => {
+    const store = newStore()
+    const before = placementOf(store.getState()).print
+    const anchor = anchorFor(before, 'top-right')
+    store.getState().resizePrint('top-right', anchor, { x: 99, y: 99 })
+    const { print, wall } = placementOf(store.getState())
+    expect(cornerOf(print, 'bottom-left').x).toBeCloseTo(anchor.x)
+    expect(cornerOf(print, 'bottom-left').y).toBeCloseTo(anchor.y)
+    expect(cornerOf(print, 'top-right').x).toBeCloseTo(wall.width / 2 - WALL_MARGIN.horizontal)
+    expect(cornerOf(print, 'top-right').y).toBeCloseTo(wall.height / 2 - WALL_MARGIN.vertical)
   })
 
   it('keeps typed room sizes in the limits', () => {

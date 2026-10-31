@@ -412,10 +412,6 @@
         "q": "Can you print on exterior walls?",
         "a": "Yes. We print indoors and outdoors, with the right surface preparation."
       },
-      "durability": {
-        "q": "How long does a wall print last?",
-        "a": "The certified inks we use keep colours bright and details sharp for more than {years} years, outdoors too."
-      },
       "preparation": {
         "q": "Does the wall need to be prepared?",
         "a": "Sometimes. First we check your wall. If it is dirty or dusty, we clean it and get it ready for printing. You do not have to do anything."
@@ -555,7 +551,8 @@
       "back": "Back",
       "left": "Left",
       "size": "Selected wall: {width} × {height} m.",
-      "hint": "You can also click a wall in the room."
+      "hint": "You can also click a wall in the room.",
+      "outdoors": "Outdoors we show one wall: {width} × {height} m. Change its size under “Room size”."
     },
     "room": {
       "title": "Room size",
@@ -601,7 +598,7 @@
       "exampleNote": "These rates are an example: the real prices follow soon."
     },
     "stage": {
-      "hint": "Drag to look around; drag the print to move it. Click a wall to print on it.",
+      "hint": "Drag to look around; drag the print to move it, or one of its corners to resize it. Click a wall to print on it.",
       "open3d": "Open the 3D view",
       "canvasLabel": "3D preview of the room, with the print on the selected wall",
       "loading": "Preparing the 3D room…",

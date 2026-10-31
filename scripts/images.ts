@@ -4,6 +4,7 @@
 // an entry in src/content/images/photos.ts (for content files: gallery, about).
 // Mock photos are scripts/mockups.ts.
 
+import { existsSync } from 'node:fs'
 import { copyFile, mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import sharp from 'sharp'
@@ -81,6 +82,12 @@ const PHOTOS: readonly Photo[] = [
   },
   { name: 'projects/caviezel-history', source: project('Caviezel', '20260504_141327.jpg') },
   { name: 'projects/caviezel-headquarters', source: project('Caviezel', '20260429_134529.jpg') },
+  // The sea view (2026-10-31, the client's "Lamperija"): the finished wall, the print half done.
+  { name: 'projects/sea-view', source: project('Private client, living room', 'Lamperija.jpg') },
+  {
+    name: 'projects/sea-view-printing',
+    source: project('Private client, living room', 'Lamperija2.jpg'),
+  },
   // The project cards' covers: 4:3 crops of the same photos.
   ...(
     [
@@ -91,6 +98,7 @@ const PHOTOS: readonly Photo[] = [
       ['pool', 'By the pool', '20260921_160051.jpg'],
       ['barber-house', 'Barber House, Bellinzona', 'Barbershop After.jpg'],
       ['caviezel', 'Caviezel', '20260504_141327.jpg'],
+      ['sea-view', 'Private client, living room', 'Lamperija.jpg'],
     ] as const
   ).map(([id, folder, file, position]: readonly [string, string, string, Photo['position']?]) => ({
     name: `projects/${id}-cover`,
@@ -206,6 +214,14 @@ console.log('src/app/favicon.ico, src/app/apple-icon.png: made from icon.svg')
 const manifest: Record<string, ImageAsset> = {}
 for (const photo of PHOTOS) {
   const publicFile = path.join(root, `public/photos/${photo.name}.jpg`)
+  // The client sometimes removes an original that the site already uses (2026-10-31: the
+  // pool's "before"). Keep the published copy then, and say so; only a photo that was never
+  // published stops the run.
+  if (!existsSync(path.join(root, photo.source)) && existsSync(publicFile)) {
+    console.warn(`${photo.name}.jpg: original missing (${photo.source}), kept the published copy`)
+    manifest[photo.name] = await describeImage(publicFile, `/photos/${photo.name}.jpg`)
+    continue
+  }
   await mkdir(path.dirname(publicFile), { recursive: true })
   const info = await (
     await upright(photo)

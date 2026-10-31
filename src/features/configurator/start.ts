@@ -5,7 +5,7 @@
 import type { ImageAsset } from '@/content/images/types.ts'
 import { defaultPrint, fitPrintToWall } from './model/print.ts'
 import type { Environment } from './model/price.ts'
-import { DEFAULT_ROOM, wallSize } from './model/room.ts'
+import { DEFAULT_ROOM, OUTDOOR_WALL, wallSize } from './model/room.ts'
 import type { SharedConfig } from './model/share.ts'
 import type { ConfiguratorConfig, PrintImage } from './store.ts'
 
@@ -40,13 +40,16 @@ export function startConfig(
 
   if (shared) {
     const preset = content.presets.find((item) => item.id === shared.preset) ?? first
-    const wall = wallSize(shared.room, shared.wall)
+    // Outdoors there is only one wall (`setEnvironment`).
+    const chosen = shared.environment === 'exterior' ? OUTDOOR_WALL : shared.wall
+    const wall = wallSize(shared.room, chosen)
     return {
       room: shared.room,
-      wall: shared.wall,
+      wall: chosen,
       image: presetImage(preset),
       print: fitPrintToWall(shared.print, wall, content.machineMaxHeight),
-      fit: shared.fit,
+      // "Whole image" (contain) is off for now (the author, 2026-10-31): an old link fills.
+      fit: 'cover',
       environment: shared.environment,
     }
   }

@@ -412,10 +412,6 @@
         "q": "Da li je štampa moguća na vanjskim zidovima?",
         "a": "Da. Štampamo u unutrašnjim i vanjskim prostorima, uz odgovarajuću pripremu površine."
       },
-      "durability": {
-        "q": "Koliko dugo traje zidna štampa?",
-        "a": "Certificirane boje koje koristimo zadržavaju sjajne boje i oštre detalje više od {years} godina, i na otvorenom."
-      },
       "preparation": {
         "q": "Da li se zid mora prethodno pripremiti?",
         "a": "Ponekad da. Prvo pregledamo vaš zid. Ako je prljav ili prašnjav, mi ga očistimo i pripremimo za štampu. Vi ne morate ništa raditi."
@@ -555,7 +551,8 @@
       "back": "Nazad",
       "left": "Lijevo",
       "size": "Izabrani zid: {width} × {height} m.",
-      "hint": "Možete i kliknuti na zid u prostoriji."
+      "hint": "Možete i kliknuti na zid u prostoriji.",
+      "outdoors": "Napolju prikazujemo jedan zid: {width} × {height} m. Mjere mijenjate pod „Mjere prostorije“."
     },
     "room": {
       "title": "Mjere prostorije",
@@ -601,7 +598,7 @@
       "exampleNote": "Ove cijene su primjer: prave cijene stižu uskoro."
     },
     "stage": {
-      "hint": "Povucite da se osvrnete; povucite print da ga pomjerite. Kliknite na zid da printate na njemu.",
+      "hint": "Povucite da se osvrnete; povucite print da ga pomjerite, ili jedan njegov ugao da promijenite veličinu. Kliknite na zid da printate na njemu.",
       "open3d": "Otvorite 3D prikaz",
       "canvasLabel": "3D prikaz prostorije sa printom na izabranom zidu",
       "loading": "Pripremamo 3D prostoriju…",

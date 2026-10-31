@@ -99,6 +99,24 @@ export const photos = {
     "height": 2000,
     "blurDataURL": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASoMABUAPu1iqU2ppaOiMAgBMB2JZACw7BtoattaBNjBwvxJAAD+tZvCN44eQ1Pju1D4AvDFxX/1KQHw2SrAlUegHo72EvEmYJYRZE8zJ8zgQELuNOQadb3QG2nyrP2s0Sfi4n6mmuDV7diYkfuUWycsAAA="
   },
+  "projects/sea-view": {
+    "src": "/photos/projects/sea-view.jpg",
+    "width": 1124,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoMABUAPu1iqU2ppaOiMAgBMB2JZgCdACICpNzqo+CrMhEAAPzW+aey9EqQ3/Xlq6CKSIMtKN5QyslCHfhVvtTnvtRAkJDKkWiOfvLwTGZ3lExzEwvAWr4ghCnRtIKxGNnrNT0efjpz+AAA"
+  },
+  "projects/sea-view-cover": {
+    "src": "/photos/projects/sea-view-cover.jpg",
+    "width": 1200,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADQAQCdASoMAAkAA4BaJbACdAD0eQsNEAD+a+q0rLNfp8k+ziHd83KVilmDNfZPRO/cy0WpR7A5JUSjnKab4NMnP7cnFEc7NRGML9ag4JWC/QAA"
+  },
+  "projects/sea-view-printing": {
+    "src": "/photos/projects/sea-view-printing.jpg",
+    "width": 924,
+    "height": 2000,
+    "blurDataURL": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAABQBACdASoMABoAPu1iqk2ppaQiMAgBMB2JQBOgBER/sYUWNnBDLsDmC1UgAPx/ONkDfwvgDoUlJEtMKAVeaObaZJmRnWrk3v8u7YA0KgkmaPrTKyCR3jqLx2o+EJdYTSHJfsganuD6d2zulhRM9cSmAxzIiLoi7wTwe2d+kh/XFAAA"
+  },
   "services/barber-house-after": {
     "src": "/photos/services/barber-house-after.jpg",
     "width": 1000,

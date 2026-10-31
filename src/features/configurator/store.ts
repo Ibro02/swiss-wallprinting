@@ -16,12 +16,15 @@ import {
   type PrintEdges,
   type PrintLimits,
   clampPrintSize,
+  type Corner,
   printedRect,
   printLimits,
+  resizeFromCorner,
 } from './model/print.ts'
 import type { Environment } from './model/price.ts'
 import {
   clampRoomSize,
+  OUTDOOR_WALL,
   type Room,
   type RoomDimension,
   type Wall,
@@ -72,6 +75,12 @@ export interface ConfiguratorState extends ConfiguratorConfig {
   /** Moves the print centre to this offset from the wall centre (dragging in 3D). */
   movePrint: (offset: Pick<PrintBox, 'x' | 'y'>) => void
   centrePrint: () => void
+  /** Drags a corner of the print to `pointer`; `anchor`, the opposite corner, stays still. */
+  resizePrint: (
+    corner: Corner,
+    anchor: Pick<PrintBox, 'x' | 'y'>,
+    pointer: Pick<PrintBox, 'x' | 'y'>,
+  ) => void
   setFit: (fit: Fit) => void
   setEnvironment: (environment: Environment) => void
   setView: (view: View) => void
@@ -170,8 +179,14 @@ export function createConfiguratorStore(initial: ConfiguratorConfig, machineMaxH
 
       centrePrint: () => set({ print: { ...fitted().print, x: 0, y: 0 } }),
 
+      resizePrint: (corner, anchor, pointer) =>
+        set({ print: resizeFromCorner(corner, anchor, pointer, fitted().wall, machineMaxHeight) }),
+
       setFit: (fit) => set({ fit }),
-      setEnvironment: (environment) => set({ environment }),
+      // Outdoors there is one wall (the client, 2026-10-31): the front one, as wide as the
+      // room width, so the panel needs no wall choice there.
+      setEnvironment: (environment) =>
+        set(environment === 'exterior' ? { environment, wall: OUTDOOR_WALL } : { environment }),
       setView: (view) => set({ view }),
       setPanelOpen: (panelOpen) => set({ panelOpen }),
     }

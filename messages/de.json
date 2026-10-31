@@ -412,10 +412,6 @@
         "q": "Ist ein Druck auch auf Aussenwänden möglich?",
         "a": "Ja. Wir drucken innen und aussen, mit der passenden Vorbereitung des Untergrunds."
       },
-      "durability": {
-        "q": "Wie lange hält ein Wanddruck?",
-        "a": "Die zertifizierten Tinten, die wir verwenden, halten Farben brillant und Details scharf, über {years} Jahre lang, auch im Aussenbereich."
-      },
       "preparation": {
         "q": "Muss die Wand vorbereitet werden?",
         "a": "Manchmal ja. Zuerst prüfen wir Ihre Wand. Ist sie schmutzig oder staubig, reinigen wir sie und machen sie bereit für den Druck. Sie müssen nichts tun."
@@ -555,7 +551,8 @@
       "back": "Hinten",
       "left": "Links",
       "size": "Gewählte Wand: {width} × {height} m.",
-      "hint": "Sie können auch im Raum auf eine Wand klicken."
+      "hint": "Sie können auch im Raum auf eine Wand klicken.",
+      "outdoors": "Aussen zeigen wir eine einzige Wand: {width} × {height} m. Die Masse ändern Sie unter «Raummasse»."
     },
     "room": {
       "title": "Raummasse",
@@ -601,7 +598,7 @@
       "exampleNote": "Die Tarife hier sind ein Beispiel: Die echten Preise folgen bald."
     },
     "stage": {
-      "hint": "Ziehen, um sich umzusehen; den Druck ziehen, um ihn zu verschieben. Auf eine Wand klicken, um darauf zu drucken.",
+      "hint": "Ziehen, um sich umzusehen; den Druck ziehen, um ihn zu verschieben, oder eine seiner Ecken, um seine Grösse zu ändern. Auf eine Wand klicken, um darauf zu drucken.",
       "open3d": "3D-Ansicht öffnen",
       "canvasLabel": "3D-Vorschau des Raums mit dem Druck auf der gewählten Wand",
       "loading": "Der 3D-Raum wird vorbereitet …",

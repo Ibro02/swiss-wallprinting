@@ -31,7 +31,7 @@ const INPUT =
   'block w-full min-w-0 rounded-xl border border-ink/12 bg-paper px-3.5 py-2.5 text-base text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-mute focus:border-transparent focus:ring-2 focus:ring-ink focus:outline-none sm:text-sm aria-[invalid=true]:border-magenta-700 aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-magenta-700'
 
 const CHIP =
-  'cursor-pointer rounded-lg border border-ink/12 bg-paper px-3 py-2 text-xs font-medium text-ink/80 transition-[border-color,background-color,color,transform] duration-150 ease-out select-none hover:border-ink/35 active:scale-[0.97] has-checked:border-lime has-checked:bg-lime has-checked:text-graphite has-focus-visible:ring-2 has-focus-visible:ring-ink has-focus-visible:ring-offset-2 motion-reduce:active:scale-100'
+  'relative cursor-pointer rounded-lg border border-ink/12 bg-paper px-3 py-2 text-xs font-medium text-ink/80 transition-[border-color,background-color,color,transform] duration-150 ease-out select-none hover:border-ink/35 active:scale-[0.97] has-checked:border-lime has-checked:bg-lime has-checked:text-graphite has-focus-visible:ring-2 has-focus-visible:ring-ink has-focus-visible:ring-offset-2 motion-reduce:active:scale-100'
 
 export function QuestionForm({ contact, areas, variant = 'page' }: QuestionFormProps) {
   const t = useTranslations('QuestionForm')

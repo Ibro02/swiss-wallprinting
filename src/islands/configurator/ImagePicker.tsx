@@ -77,7 +77,7 @@ export function ImagePicker({
           {presets.map((preset) => (
             <label
               key={preset.id}
-              className="group cursor-pointer rounded-xl p-1 ring-1 ring-ink/10 max-lg:w-20 max-lg:shrink-0 max-lg:snap-start transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.98] has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink motion-reduce:active:scale-100"
+              className="group relative cursor-pointer rounded-xl p-1 ring-1 ring-ink/10 max-lg:w-20 max-lg:shrink-0 max-lg:snap-start transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-plaster active:scale-[0.98] has-checked:ring-2 has-checked:ring-magenta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink motion-reduce:active:scale-100"
             >
               <input
                 type="radio"
@@ -113,7 +113,7 @@ export function ImagePicker({
           }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
-          className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm max-lg:py-2 font-medium transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink ${
+          className={`relative flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed px-4 py-3 text-sm max-lg:py-2 font-medium transition-colors duration-150 has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink ${
             image.kind === 'upload'
               ? 'border-ink bg-plaster'
               : dragging

@@ -8,6 +8,7 @@ import { CubeIcon } from '@/components/icons.tsx'
 import { PHONE_MAX_WIDTH } from '@/features/configurator/model/quality.ts'
 import { CAMERA_MARGIN } from '@/features/configurator/model/room.ts'
 import type { View } from '@/features/configurator/store.ts'
+import { STAGE_COLOURS } from './colours.ts'
 import type { CaptureView } from './Scene.tsx'
 import { useConfigurator, usePlacement } from './store-context.tsx'
 
@@ -37,6 +38,7 @@ export function Stage({
   const [ready, setReady] = useState(false)
   const onReady = useCallback(() => setReady(true), [])
   const start = useCallback(() => setLoad(true), [])
+  const outdoors = useConfigurator((state) => state.environment === 'exterior')
 
   // The poster and the panel are complete without 3D, and the 3D code costs about 0.7 s of
   // main thread on a desktop (more on a phone). So it runs only when a person is there:
@@ -54,7 +56,11 @@ export function Stage({
   }, [start])
 
   return (
-    <div className="relative size-full bg-[#e9e5de]" onPointerDown={start}>
+    <div
+      className="relative size-full"
+      style={{ backgroundColor: outdoors ? STAGE_COLOURS.sky : STAGE_COLOURS.room }}
+      onPointerDown={start}
+    >
       <Poster />
       <SceneBoundary fallback={(kind) => <SceneError kind={kind} contactHref={contactHref} />}>
         {load && (
@@ -97,6 +103,9 @@ export function Stage({
 function Poster() {
   const image = useConfigurator((state) => state.image)
   const view = useConfigurator((state) => state.view)
+  // Outdoors the wall stands under the sky on paving, as in the 3D view. The server renders
+  // the start's environment, so the first paint is already right.
+  const outdoors = useConfigurator((state) => state.environment === 'exterior')
   const { wall, print, printed } = usePlacement()
   const fill = 100 / CAMERA_MARGIN
   const aspect = wall.width / wall.height
@@ -110,7 +119,12 @@ function Poster() {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 overflow-hidden bg-[linear-gradient(#f1eee9_0_50%,#a3856a_50%_100%)] [container-type:size]"
+      className="absolute inset-0 overflow-hidden [container-type:size]"
+      style={{
+        background: outdoors
+          ? `linear-gradient(${STAGE_COLOURS.sky} 0 50%, ${STAGE_COLOURS.ground} 50% 100%)`
+          : 'linear-gradient(#f1eee9 0 50%, #a3856a 50% 100%)',
+      }}
     >
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#ebe7e0] shadow-[0_0_0_100vmax_rgb(14_14_16/0.06)]"
@@ -184,7 +198,7 @@ function ViewToggle() {
       {views.map((option) => (
         <label
           key={option}
-          className="cursor-pointer rounded-lg px-4 py-1.5 font-medium transition-colors duration-150 select-none has-checked:bg-graphite has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink"
+          className="relative cursor-pointer rounded-lg px-4 py-1.5 font-medium transition-colors duration-150 select-none has-checked:bg-graphite has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink"
         >
           <input
             type="radio"

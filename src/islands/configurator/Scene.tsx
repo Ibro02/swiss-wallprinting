@@ -1,8 +1,16 @@
 'use client'
 
-import { AdaptiveDpr, CameraControls, Preload, useGLTF, useTexture } from '@react-three/drei'
+import { AdaptiveDpr, CameraControls, Line, Preload, useGLTF, useTexture } from '@react-three/drei'
 import { Canvas, type ThreeEvent, useFrame, useThree } from '@react-three/fiber'
-import { type ReactNode, type RefObject, Suspense, useEffect, useMemo, useRef } from 'react'
+import {
+  type ReactNode,
+  type RefObject,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import {
   Box3,
   CanvasTexture,
@@ -22,7 +30,14 @@ import {
   Vector3,
 } from 'three'
 import type { QualityTier } from '@/features/configurator/model/budget.ts'
-import { imageCrop } from '@/features/configurator/model/print.ts'
+import {
+  anchorFor,
+  type Corner,
+  CORNERS,
+  cornerOf,
+  imageCrop,
+  type PrintBox,
+} from '@/features/configurator/model/print.ts'
 import { pickQualityTier } from '@/features/configurator/model/quality.ts'
 import {
   cameraFor,
@@ -32,6 +47,7 @@ import {
   wallFrame,
   WALLS,
 } from '@/features/configurator/model/room.ts'
+import { STAGE_COLOURS } from './colours.ts'
 import { useConfigurator, useConfiguratorStore, usePlacement } from './store-context.tsx'
 
 // The 3D room of the configurator (Development Plan 2.5 and 4.7). Loaded only on this
@@ -85,10 +101,11 @@ export default function Scene({ presetSources, onReady, captureRef }: SceneProps
       }}
       className="touch-none"
     >
-      <color attach="background" args={['#e9e5de']} />
+      <Background />
       <Suspense fallback={null}>
         <Lights />
         <RoomShell tier={SCENE_TIER} />
+        <OutdoorWall tier={SCENE_TIER} />
         <RoomProps tier={SCENE_TIER} />
         <PrintOnWall />
         <Preload all />
@@ -160,9 +177,24 @@ function Ready({ presetSources, onReady }: Omit<SceneProps, 'captureRef'>) {
   return null
 }
 
+/**
+ * Indoors the room; outdoors (the client, 2026-10-31) one wall alone on paving under the
+ * sky. The colours are the poster's (Stage.tsx, `STAGE_COLOURS`), so the 3D fades in
+ * without a change of colour.
+ */
+function useOutdoors() {
+  return useConfigurator((state) => state.environment === 'exterior')
+}
+
+function Background() {
+  const outdoors = useOutdoors()
+  return <color attach="background" args={[outdoors ? STAGE_COLOURS.sky : STAGE_COLOURS.room]} />
+}
+
 function Lights() {
   const room = useConfigurator((state) => state.room)
   const wall = useConfigurator((state) => state.wall)
+  const outdoors = useOutdoors()
   // The light comes from the upper left of the viewer, so the selected wall is always lit.
   // A directional light uses only the direction from its target (the origin) to it.
   const { normal, right } = wallFrame(room, wall)
@@ -175,7 +207,9 @@ function Lights() {
   // light wall needs intensities of about 2 to 3.
   return (
     <>
-      <hemisphereLight args={['#ffffff', '#d6ccbf', 2.4]} />
+      <hemisphereLight
+        args={outdoors ? ['#f4f8fb', '#b9b3a8', 2.4] : ['#ffffff', '#d6ccbf', 2.4]}
+      />
       <directionalLight position={position} intensity={2.2} />
     </>
   )
@@ -233,10 +267,12 @@ function RoomShell({ tier }: { tier: QualityTier }) {
   const room = useConfigurator((state) => state.room)
   const selected = useConfigurator((state) => state.wall)
   const selectWall = useConfigurator((state) => state.selectWall)
+  const outdoors = useOutdoors()
   const materials = useRoomMaterials(tier)
   const floor = useTiledPlane(room.width, room.length, TILE.floor)
   const ceiling = useTiledPlane(room.width, room.length, TILE.floor)
 
+  if (outdoors) return null
   return (
     <group>
       {WALLS.map((wall) => (
@@ -315,8 +351,65 @@ function WallMesh({
   )
 }
 
+/** Outdoors: how thick the wall is, and how far the paving reaches, metres. */
+const OUTDOOR = { thickness: 0.3, ground: 80 } as const
+
+/**
+ * Outdoors: only the selected wall, as a freestanding wall with some thickness (seen from
+ * the side when the visitor turns), on paving. No window, door, or other walls.
+ */
+function OutdoorWall({ tier }: { tier: QualityTier }) {
+  const room = useConfigurator((state) => state.room)
+  const wall = useConfigurator((state) => state.wall)
+  const outdoors = useOutdoors()
+  const materials = useRoomMaterials(tier)
+  const frame = wallFrame(room, wall)
+  const face = useTiledPlane(frame.width, frame.height, TILE.plaster)
+  const ground = useMemo(
+    () => new MeshStandardMaterial({ color: STAGE_COLOURS.ground, roughness: 1 }),
+    [],
+  )
+  const body = useMemo(
+    () => new MeshStandardMaterial({ color: STAGE_COLOURS.wall, roughness: 1 }),
+    [],
+  )
+  useEffect(
+    () => () => {
+      ground.dispose()
+      body.dispose()
+    },
+    [ground, body],
+  )
+  if (!outdoors) return null
+
+  const [cx, cy, cz] = frame.center
+  const [nx, , nz] = frame.normal
+  // The body sits just behind the face, so the two never fight for the same pixels.
+  const back = OUTDOOR.thickness / 2 + 0.002
+  return (
+    <group>
+      <mesh
+        geometry={face}
+        material={materials.wall}
+        position={frame.center}
+        rotation-y={frame.rotationY}
+      />
+      <mesh
+        material={body}
+        position={[cx - nx * back, cy, cz - nz * back]}
+        rotation-y={frame.rotationY}
+      >
+        <boxGeometry args={[frame.width, frame.height, OUTDOOR.thickness]} />
+      </mesh>
+      <mesh material={ground} rotation-x={-Math.PI / 2} position={[cx, 0, cz]}>
+        <planeGeometry args={[OUTDOOR.ground, OUTDOOR.ground]} />
+      </mesh>
+    </group>
+  )
+}
+
 /** The pointer over something to click or drag (as in the three.js examples: on the page). */
-function setCursor(cursor: '' | 'pointer' | 'grab' | 'grabbing') {
+function setCursor(cursor: '' | 'pointer' | 'grab' | 'grabbing' | 'nwse-resize' | 'nesw-resize') {
   document.body.style.cursor = cursor
 }
 
@@ -395,9 +488,11 @@ const DOOR = { height: 2.05, fromCorner: 0.45 } as const
 function RoomProps({ tier }: { tier: QualityTier }) {
   const room = useConfigurator((state) => state.room)
   const wall = useConfigurator((state) => state.wall)
+  const outdoors = useOutdoors()
   const frame = useModelPart(roomModel(tier), 'Window1001_7')
   const door = useModelPart(propsModel(tier), 'door_12')
   const { left, right } = neighbours(wall)
+  if (outdoors) return null
 
   const leftWall = wallFrame(room, left)
   const windowScale = frame ? Math.min(1, (leftWall.width - 2 * WINDOW.margin) / frame.width) : 0
@@ -509,6 +604,8 @@ function PrintPlane({ texture }: { texture: Texture }) {
     if (controls) controls.enabled = !locked
   }
   const grab = useRef<{ dx: number; dy: number } | null>(null)
+  // Desktop: the corner handles show while the pointer is over the print or a handle.
+  const [hovered, setHovered] = useState({ print: false, handle: false })
   const onWall = (ray: Ray) => {
     const normal = new Vector3(nx, 0, nz)
     const plane = new Plane(normal, -normal.dot(new Vector3(cx, cy, cz)))
@@ -540,35 +637,214 @@ function PrintPlane({ texture }: { texture: Texture }) {
   }
 
   return (
-    <mesh
-      position={position}
+    <>
+      <mesh
+        position={position}
+        rotation-y={frame.rotationY}
+        scale={[printed.width, printed.height, 1]}
+        visible={visible}
+        renderOrder={1}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onPointerOver={() => {
+          setHovered((state) => ({ ...state, print: true }))
+          if (visible && !grab.current) setCursor('grab')
+        }}
+        onPointerOut={() => {
+          setHovered((state) => ({ ...state, print: false }))
+          if (!grab.current) setCursor('')
+        }}
+      >
+        <planeGeometry />
+        <meshBasicMaterial
+          map={map}
+          transparent
+          blending={MultiplyBlending}
+          premultipliedAlpha
+          depthWrite={false}
+          toneMapped={false}
+          polygonOffset
+          polygonOffsetFactor={-2}
+        />
+      </mesh>
+      {visible && CAN_RESIZE && (
+        <ResizeHandles
+          frame={frame}
+          print={print}
+          shown={hovered.print || hovered.handle}
+          onHover={(handle) => setHovered((state) => ({ ...state, handle }))}
+          onWall={onWall}
+          lockCamera={lockCamera}
+        />
+      )}
+    </>
+  )
+}
+
+/**
+ * Corner resizing needs a mouse (the client, 2026-10-31: desktop). On a touch screen a drag
+ * on the print moves it, and the panel has the sizes.
+ */
+const CAN_RESIZE =
+  typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
+/** Screen size of the handles: a fraction of the camera distance (about 7 px of radius). */
+const HANDLE_RADIUS = 0.008
+/** The part of a handle that takes the mouse, as a multiple of the dot. */
+const HANDLE_HIT = 2.4
+/** The handles sit this far in front of the wall, above the print, metres. */
+const HANDLE_GAP = PRINT_GAP * 3
+/** The logo's lime and the ink (`--color-lime`, `--color-graphite` in globals.css). */
+const LIME = '#c5d20d'
+const GRAPHITE = '#0a0a0a'
+const handleOrigin = new Vector3()
+
+/**
+ * Desktop: drag a corner of the print to resize it (the client, 2026-10-31). At rest, white
+ * handles show on hover; while a corner is dragged, lime dots on the four corners joined by a
+ * lime line. The store applies the same limits as the typed sizes (`resizeFromCorner`).
+ */
+function ResizeHandles({
+  frame,
+  print,
+  shown,
+  onHover,
+  onWall,
+  lockCamera,
+}: {
+  frame: ReturnType<typeof wallFrame>
+  print: PrintBox
+  shown: boolean
+  onHover: (hovered: boolean) => void
+  onWall: (ray: Ray) => { x: number; y: number } | null
+  lockCamera: (locked: boolean) => void
+}) {
+  const resizePrint = useConfigurator((state) => state.resizePrint)
+  const [dragging, setDragging] = useState<Corner | null>(null)
+  const anchor = useRef<{ x: number; y: number } | null>(null)
+  const dots = useRef<(Group | null)[]>([])
+  const group = useRef<Group>(null)
+
+  // Keep the handles the same size on the screen, however near the camera is.
+  useFrame(({ camera }) => {
+    const origin = group.current
+    if (!origin) return
+    const scale = camera.position.distanceTo(origin.getWorldPosition(handleOrigin)) * HANDLE_RADIUS
+    for (const dot of dots.current) dot?.scale.setScalar(scale)
+  })
+
+  const corners = CORNERS.map((corner) => ({ corner, ...cornerOf(print, corner) }))
+  const outline = (
+    ['top-left', 'top-right', 'bottom-right', 'bottom-left', 'top-left'] as const
+  ).map((corner): [number, number, number] => {
+    const point = cornerOf(print, corner)
+    return [point.x, point.y, 0]
+  })
+
+  const end = (event: ThreeEvent<PointerEvent>) => {
+    if (!dragging) return
+    ;(event.target as Element).releasePointerCapture(event.pointerId)
+    anchor.current = null
+    setDragging(null)
+    lockCamera(false)
+    setCursor('')
+  }
+
+  return (
+    <group
+      ref={group}
+      position={[frame.center[0], frame.center[1], frame.center[2]]}
       rotation-y={frame.rotationY}
-      scale={[printed.width, printed.height, 1]}
-      visible={visible}
-      renderOrder={1}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-      onPointerOver={() => {
-        if (visible && !grab.current) setCursor('grab')
-      }}
-      onPointerOut={() => {
-        if (!grab.current) setCursor('')
-      }}
     >
-      <planeGeometry />
-      <meshBasicMaterial
-        map={map}
-        transparent
-        blending={MultiplyBlending}
-        premultipliedAlpha
-        depthWrite={false}
-        toneMapped={false}
-        polygonOffset
-        polygonOffsetFactor={-2}
-      />
-    </mesh>
+      <group position-z={HANDLE_GAP}>
+        {dragging && (
+          <>
+            {/* A dark line under the lime one: lime alone is faint on a light wall. */}
+            <Line
+              points={outline}
+              color={GRAPHITE}
+              lineWidth={5}
+              transparent
+              opacity={0.2}
+              toneMapped={false}
+              depthTest={false}
+              renderOrder={2}
+            />
+            <Line
+              points={outline}
+              color={LIME}
+              lineWidth={3}
+              toneMapped={false}
+              depthTest={false}
+              renderOrder={3}
+            />
+          </>
+        )}
+        {corners.map(({ corner, x, y }, index) => (
+          <group
+            key={corner}
+            ref={(dot) => {
+              dots.current[index] = dot
+            }}
+            position={[x, y, 0]}
+          >
+            <mesh
+              renderOrder={4}
+              onPointerOver={(event) => {
+                event.stopPropagation()
+                onHover(true)
+                if (!dragging)
+                  setCursor(
+                    corner === 'top-left' || corner === 'bottom-right'
+                      ? 'nwse-resize'
+                      : 'nesw-resize',
+                  )
+              }}
+              onPointerOut={() => {
+                onHover(false)
+                if (!dragging) setCursor('')
+              }}
+              onPointerDown={(event) => {
+                event.stopPropagation()
+                anchor.current = anchorFor(print, corner)
+                ;(event.target as Element).setPointerCapture(event.pointerId)
+                lockCamera(true)
+                setDragging(corner)
+              }}
+              onPointerMove={(event) => {
+                if (dragging !== corner || !anchor.current) return
+                event.stopPropagation()
+                const point = onWall(event.ray)
+                if (point) resizePrint(corner, anchor.current, point)
+              }}
+              onPointerUp={end}
+              onPointerCancel={end}
+            >
+              <circleGeometry args={[HANDLE_HIT, 24]} />
+              <meshBasicMaterial transparent opacity={0} depthWrite={false} depthTest={false} />
+            </mesh>
+            {(shown || dragging) && (
+              <>
+                <mesh renderOrder={5}>
+                  <circleGeometry args={[1, 24]} />
+                  <meshBasicMaterial color={GRAPHITE} depthTest={false} toneMapped={false} />
+                </mesh>
+                <mesh renderOrder={6} position-z={0.0005}>
+                  <circleGeometry args={[0.7, 24]} />
+                  <meshBasicMaterial
+                    color={dragging ? LIME : '#ffffff'}
+                    depthTest={false}
+                    toneMapped={false}
+                  />
+                </mesh>
+              </>
+            )}
+          </group>
+        ))}
+      </group>
+    </group>
   )
 }
 
