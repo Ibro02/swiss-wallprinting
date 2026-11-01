@@ -46,7 +46,7 @@ const VIDEO = {
 /** libaom effort, 0 … 9. 6 and 8 made files under 2 % smaller and took 3 and 4.5 times as long. */
 const AVIF_EFFORT = 4
 
-/** Frames that encode at the same time (each is about 3.5 MB of pixels at 1280 px). */
+/** Frames that encode at the same time (each is about 5.5 MB of pixels at 1600 px). */
 const PARALLEL = 4
 
 interface Variant {
@@ -60,13 +60,16 @@ interface Variant {
   fallbackQuality: number
 }
 
+// Sharper since 2026-11-01 (the author): 1280 and 960 px looked soft. The widths stay below
+// the video's 1920 px because every decoded frame stays in memory while the hero scrolls
+// (1600 px: 5.8 MB each; 1920 px on a phone would be about 830 MB for 100 frames).
 const VARIANTS: readonly Variant[] = [
-  // About 4.5 MB for all 100 frames. Quality 55 looks like the WebP q80 of the old frames
-  // (about 6.7 MB), measured on a detail of the last frame at 100 % (2026-11-01).
-  { name: 'desktop', width: 1280, quality: 55, fallbackQuality: 80 },
-  // Phones (PrintOnScroll `mobileQuery`): about 2.5 MB. A phone shows only a narrow slice of
-  // each frame, so a smaller width soon looks soft.
-  { name: 'mobile', width: 960, quality: 50, fallbackQuality: 75 },
+  // About 6.2 MB for all 100 frames (1280 px: 4.5 MB). A laptop at 150 % shows the frame
+  // about 2,100 device pixels wide: 1280 px frames were stretched 1.6 times.
+  { name: 'desktop', width: 1600, quality: 55, fallbackQuality: 80 },
+  // Phones (PrintOnScroll `mobileQuery`): about 3.9 MB (960 px: 2.6 MB). A phone shows only a
+  // third of each frame's width, so the frame is stretched about 2.4 times (960 px: 3.2).
+  { name: 'mobile', width: 1280, quality: 50, fallbackQuality: 75 },
 ]
 
 if (!existsSync(path.join(root, SOURCE))) {

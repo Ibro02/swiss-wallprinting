@@ -7,14 +7,14 @@ export const heroFrames = {
     "pattern": "/frames/hero/desktop/%04d.avif",
     "fallback": "/frames/hero/desktop/%04d.webp",
     "count": 100,
-    "width": 1280,
-    "height": 720
+    "width": 1600,
+    "height": 900
   },
   "mobile": {
     "pattern": "/frames/hero/mobile/%04d.avif",
     "fallback": "/frames/hero/mobile/%04d.webp",
     "count": 100,
-    "width": 960,
-    "height": 540
+    "width": 1280,
+    "height": 720
   }
 } as const satisfies Record<'desktop' | 'mobile', FrameSet>
