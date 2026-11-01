@@ -60,22 +60,32 @@ function required(env: Env, transport: string, names: readonly string[]): string
   return names.map((name) => env[name] as string)
 }
 
+/**
+ * A deployed site needs a real transport: the production site, and every Vercel deployment
+ * (Vercel sets VERCEL=1 in the build and at run time). Its file system is read-only, so the
+ * outbox would fail on every form message, also on a preview without SITE_ENV=production.
+ */
+export function isDeployed(env: Env): boolean {
+  return env.SITE_ENV === 'production' || Boolean(env.VERCEL)
+}
+
 /** The mail settings from the environment. Throws a MailConfigError that says what to fix. */
 export function mailConfigFromEnv(env: Env): MailConfig {
-  const production = env.SITE_ENV === 'production'
-  const transport = env.MAIL_TRANSPORT || (production ? '' : 'outbox')
+  const deployed = isDeployed(env)
+  const transport = env.MAIL_TRANSPORT || (deployed ? '' : 'outbox')
 
   switch (transport) {
     case '':
       throw new MailConfigError(
-        'MAIL_TRANSPORT is not set for the production site. Set it to "smtp" or "resend", ' +
-          'with the matching settings (see .env.example).',
+        'MAIL_TRANSPORT is not set for this deployment. Set it to "smtp" or "resend", ' +
+          'with the matching settings (see .env.example). On Vercel, set the variables for ' +
+          'Production and Preview, then redeploy.',
       )
     case 'outbox':
-      if (production) {
+      if (deployed) {
         throw new MailConfigError(
           'MAIL_TRANSPORT is "outbox", which only writes files on a developer machine. ' +
-            'Use "smtp" or "resend" for the production site.',
+            'Use "smtp" or "resend" for a deployed site.',
         )
       }
       return { transport: 'outbox' }

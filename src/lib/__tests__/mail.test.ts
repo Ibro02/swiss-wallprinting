@@ -47,6 +47,14 @@ describe('mailConfigFromEnv', () => {
     )
   })
 
+  it('refuses the outbox and a missing transport on every Vercel deployment', () => {
+    expect(() => mailConfigFromEnv({ VERCEL: '1' })).toThrow('not set for this deployment')
+    expect(() => mailConfigFromEnv({ VERCEL: '1', MAIL_TRANSPORT: 'outbox' })).toThrow(
+      'only writes files',
+    )
+    expect(mailConfigFromEnv({ ...smtpEnv, VERCEL: '1' })).toMatchObject({ transport: 'smtp' })
+  })
+
   it('reads SMTP with port 587 and STARTTLS by default, TLS for port 465', () => {
     expect(mailConfigFromEnv(smtpEnv)).toMatchObject({
       transport: 'smtp',

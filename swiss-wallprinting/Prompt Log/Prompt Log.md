@@ -19,7 +19,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 > [!summary] For the next agent
 > Read this section first. Update it after each prompt.
 >
-> - **Latest (2026-11-01, [[2026-11-01 20 - Minimum speed of the scroll hero]], committed on `main`, not pushed):** one scroll forwards plays the whole print by itself in 2 s (`playSeconds`, `playTowards`; the video's print is 2.6 s), faster where the scroll is ahead; a scroll back rewinds with the scroll (`minSpeed` 0.5 for the rewind). A frame blend was tried and removed on the author's request (production was already smooth).
+> - **Latest (2026-11-01, [[2026-11-01 21 - SMTP on Vercel, deploy guard]], committed on `main`, not pushed):** the form e-mails fail on Vercel; cause not confirmed (no Vercel access): the author reads the `[form]` line in Vercel's Logs. Likely: no redeploy, variables only for Production while testing a preview (then the outbox ran on a read-only file system), or Gmail refusing Vercel's IPs. Guard added: `isDeployed` in `mail.ts`; every Vercel build (previews too) refuses the outbox, and `check-mail.ts` stops it without mail settings or `FORM_SECRET`.
+> - **Before that (2026-11-01, [[2026-11-01 20 - Minimum speed of the scroll hero]], committed on `main`, not pushed):** one scroll forwards plays the whole print by itself in 2 s (`playSeconds`, `playTowards`; the video's print is 2.6 s), faster where the scroll is ahead; a scroll back rewinds with the scroll (`minSpeed` 0.5 for the rewind). A frame blend was tried and removed on the author's request (production was already smooth).
 > - **Before that (2026-11-01, [[2026-11-01 19 - Smooth hero on phones, 4 s video]], committed on `main` and pushed; the author: smooth on the phone):** the scroll hero stuttered on phones. Measured cause: every frame drawn was decoded again on the main thread (~18 ms on a slow phone), and every scroll frame restyled the whole stage. Now the frames download as files and `createImageBitmap` decodes the ones near the scroll off the main thread (`decodeWindow`, 64 MB); `--p` changes only during the intro and the outro, the pan is a number on the frame. The hero uses the author's 4 s video (78 frames, phone 2.1 MB) over `200vh` (one swipe prints the wall). Emulated phone: frames over 34 ms 215 → 2. To check on the real iPhone (WebKit may decode on the main thread).
 > - **Before that (2026-11-01, [[2026-11-01 18 - Privacy page finished]], committed on `main`, pushed):** the privacy page is complete: `legal.ts` names the host (Vercel Inc.) and the mail provider (Gmail (Google)), the draft banner shows only while those two are missing, and the texts (4 languages) now cover the configurator's quote request, the language cookie and the theme in the browser, and providers in the USA. The imprint stays a draft (legal name, responsible person, street, UID from the client), so the production build still stops. The footer links the privacy page again (`FOOTER_LEGAL`; the imprint once the facts are in). `locale-names.ts` has the author's uncommitted edit.
 > - **Before that (2026-11-01, [[2026-11-01 17 - Vercel settings]], advice only):** hosting on Vercel. Root directory `./` (not the `swiss-wallprinting/` vault), default Next.js build and output (`pnpm run build`, `pnpm install`), Node 24.x; env: `ENABLE_EXPERIMENTAL_COREPACK=1`, `SITE_URL`, `FORM_SECRET`, the mail settings and `CONTACT_TO`; not `SITE_ENV=production` while mock content exists. `main` is pushed (`ed25c5e..5abd16b`, "Yes, push"); the log is committed with entry 18.
@@ -75,6 +76,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 ## Entries
 
 | Date | No. | Title | Status |
+|---|---|---|---|
+| 2026-11-01 | 21 | [[2026-11-01 21 - SMTP on Vercel, deploy guard]] | Waiting for the author (Vercel logs; committed on `main`, not pushed) |
 | 2026-11-01 | 20 | [[2026-11-01 20 - Minimum speed of the scroll hero]] | Done (committed on `main`, not pushed) |
 | 2026-11-01 | 19 | [[2026-11-01 19 - Smooth hero on phones, 4 s video]] | Done (committed on `main`, pushed) |
 | 2026-11-01 | 18 | [[2026-11-01 18 - Privacy page finished]] | Done (committed on `main`, pushed) |
@@ -100,7 +103,6 @@ This folder records each prompt that the author gives to an AI agent, and the re
 | 2026-10-31 | 02 | [[2026-10-31 02 - 3D view jumping up, no wall choice outdoors]] | Done (committed on `main` as f916965, not pushed) |
 | 2026-10-31 | 01 | [[2026-10-31 01 - Client changes, sea view photo and configurator]] | Done (committed on `main` as f916965, not pushed) |
 | 2026-10-24 | 03 | [[2026-10-24 03 - Wall margins in the configurator]] | Done (committed on `main`, pushed) |
-|---|---|---|---|
 | 2026-10-24 | 02 | [[2026-10-24 02 - Navy dark theme, logo, About and Services alignment]] | Done (first part committed as 767616a; fixes not committed) |
 | 2026-10-24 | 01 | [[2026-10-24 01 - Reviews swipe, story scroll lock, FAQ open look]] | Done (committed on `main`, pushed) |
 | 2026-10-23 | 09 | [[2026-10-23 09 - Demo speech]] | Done (not committed; the speech is private) |
