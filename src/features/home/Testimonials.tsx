@@ -103,8 +103,6 @@ export async function Testimonials() {
             </div>
           </div>
         </div>
-
-        {hasMock && <p className="mt-6 max-w-xl text-sm text-mute">{t('mockNote')}</p>}
       </Container>
 
       {/* The band runs to the card frame's edges and fades out there. A region that takes

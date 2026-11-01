@@ -478,7 +478,7 @@
     },
     "data": {
       "title": "What data we process",
-      "text": "When you use the form, we process your name, email address, phone number (if you give it) and your message. When you write to us or call us directly, we process the data of the message or the call. When you visit the website, the server records technical data such as the IP address, date and time, the page visited and the browser type."
+      "text": "When you use the contact form, we process your name, email address, phone number (if you give it), the spaces you choose and your message. When you request a quote in the configurator, we also receive the place, your notes, the sizes of the wall and of the print, the chosen image and a snapshot of the 3D view; an image you upload stays on your device and reaches us only inside that snapshot, with its file name. When you write to us or call us directly, we process the data of the message or the call. When you visit the website, the server records technical data such as the IP address, date and time, the page visited and the browser type."
     },
     "purpose": {
       "title": "Why we process it",
@@ -490,11 +490,11 @@
     },
     "abroad": {
       "title": "Data abroad",
-      "text": "If a provider processes data outside Switzerland, it does so only in countries with adequate protection or with contractual safeguards, as the law requires."
+      "text": "Our providers can process data outside Switzerland, also in the USA. They do so only in countries with adequate protection or with contractual safeguards, as the law requires."
     },
     "cookies": {
       "title": "Cookies and statistics",
-      "text": "The website uses no tracking cookies and no statistics or advertising tools. The fonts load from our own server, with no requests to Google."
+      "text": "The website uses no tracking cookies and no statistics or advertising tools. It sets one technical cookie that remembers the language and is deleted when you close the browser; the light or dark theme you choose is stored only in your browser. The fonts load from our own server, with no requests to Google."
     },
     "links": {
       "title": "Links to other services",

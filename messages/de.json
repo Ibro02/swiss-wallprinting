@@ -478,7 +478,7 @@
     },
     "data": {
       "title": "Welche Daten wir bearbeiten",
-      "text": "Wenn Sie das Formular nutzen, bearbeiten wir Name, E-Mail-Adresse, Telefonnummer (falls angegeben) und Ihre Nachricht. Wenn Sie uns direkt schreiben oder anrufen, bearbeiten wir die Daten der Nachricht oder des Anrufs. Beim Besuch der Website speichert der Server technische Daten wie IP-Adresse, Datum und Uhrzeit, besuchte Seite und Browsertyp."
+      "text": "Wenn Sie das Kontaktformular nutzen, bearbeiten wir Name, E-Mail-Adresse, Telefonnummer (falls angegeben), die gewählten Räume und Ihre Nachricht. Wenn Sie im Konfigurator eine Offerte anfragen, erhalten wir zusätzlich den Ort, Ihre Notizen, die Masse der Wand und des Drucks, das gewählte Bild und eine Momentaufnahme der 3D-Ansicht; ein Bild, das Sie hochladen, bleibt auf Ihrem Gerät und erreicht uns nur in dieser Momentaufnahme, mit seinem Dateinamen. Wenn Sie uns direkt schreiben oder anrufen, bearbeiten wir die Daten der Nachricht oder des Anrufs. Beim Besuch der Website speichert der Server technische Daten wie IP-Adresse, Datum und Uhrzeit, besuchte Seite und Browsertyp."
     },
     "purpose": {
       "title": "Wozu wir sie bearbeiten",
@@ -490,11 +490,11 @@
     },
     "abroad": {
       "title": "Daten im Ausland",
-      "text": "Bearbeitet ein Anbieter Daten ausserhalb der Schweiz, dann nur in Ländern mit angemessenem Schutz oder mit vertraglichen Garantien, wie es das Gesetz verlangt."
+      "text": "Unsere Anbieter können Daten ausserhalb der Schweiz bearbeiten, auch in den USA. Sie tun dies nur in Ländern mit angemessenem Schutz oder mit vertraglichen Garantien, wie es das Gesetz verlangt."
     },
     "cookies": {
       "title": "Cookies und Statistik",
-      "text": "Die Website verwendet keine Tracking-Cookies, keine Statistik- und keine Werbewerkzeuge. Die Schriften werden von unserem Server geladen, ohne Anfragen an Google."
+      "text": "Die Website verwendet keine Tracking-Cookies, keine Statistik- und keine Werbewerkzeuge. Sie setzt ein einziges technisches Cookie, das sich die Sprache merkt und beim Schliessen des Browsers gelöscht wird; das helle oder dunkle Design, das Sie wählen, bleibt nur in Ihrem Browser gespeichert. Die Schriften werden von unserem Server geladen, ohne Anfragen an Google."
     },
     "links": {
       "title": "Links zu anderen Diensten",

@@ -478,7 +478,7 @@
     },
     "data": {
       "title": "Koje podatke obrađujemo",
-      "text": "Kada koristite obrazac, obrađujemo ime, e-mail adresu, broj telefona (ako ga navedete) i vašu poruku. Kada nam pišete ili nas nazovete direktno, obrađujemo podatke poruke ili poziva. Kada posjetite stranicu, server bilježi tehničke podatke kao što su IP adresa, datum i vrijeme, posjećena stranica i vrsta preglednika."
+      "text": "Kada koristite kontakt obrazac, obrađujemo ime, e-mail adresu, broj telefona (ako ga navedete), prostore koje odaberete i vašu poruku. Kada u konfiguratoru zatražite ponudu, primamo i mjesto, vaše napomene, dimenzije zida i printa, odabranu sliku i snimak 3D prikaza; slika koju učitate ostaje na vašem uređaju i do nas dolazi samo unutar tog snimka, s nazivom datoteke. Kada nam pišete ili nas nazovete direktno, obrađujemo podatke poruke ili poziva. Kada posjetite stranicu, server bilježi tehničke podatke kao što su IP adresa, datum i vrijeme, posjećena stranica i vrsta preglednika."
     },
     "purpose": {
       "title": "Zašto ih obrađujemo",
@@ -486,15 +486,15 @@
     },
     "recipients": {
       "title": "Kome ih prosljeđujemo",
-      "text": "Stranicu hostuje {hosting}. Poruke iz obrasca primamo e-mailom preko {mailProvider}. Ovi pružatelji usluga obrađuju podatke samo u naše ime. Vaše podatke ne prodajemo i ne koristimo ih za reklame."
+      "text": "Stranicu hostuje {hosting}. Poruke iz obrasca primamo e-mailom preko servisa {mailProvider}. Ovi pružatelji usluga obrađuju podatke samo u naše ime. Vaše podatke ne prodajemo i ne koristimo ih za reklame."
     },
     "abroad": {
       "title": "Podaci u inostranstvu",
-      "text": "Ako pružatelj usluge obrađuje podatke izvan Švicarske, to radi samo u zemljama s odgovarajućom zaštitom ili uz ugovorne garancije, kako zakon zahtijeva."
+      "text": "Naši pružatelji usluga mogu obrađivati podatke izvan Švicarske, i u SAD-u. To rade samo u zemljama s odgovarajućom zaštitom ili uz ugovorne garancije, kako zakon zahtijeva."
     },
     "cookies": {
       "title": "Kolačići i statistika",
-      "text": "Stranica ne koristi kolačiće za praćenje niti alate za statistiku ili reklame. Fontovi se učitavaju s našeg servera, bez zahtjeva prema Googleu."
+      "text": "Stranica ne koristi kolačiće za praćenje niti alate za statistiku ili reklame. Postavlja samo jedan tehnički kolačić, koji pamti jezik i briše se kada zatvorite preglednik; svijetla ili tamna tema koju odaberete ostaje sačuvana samo u vašem pregledniku. Fontovi se učitavaju s našeg servera, bez zahtjeva prema Googleu."
     },
     "links": {
       "title": "Linkovi prema drugim uslugama",

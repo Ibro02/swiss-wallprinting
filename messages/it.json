@@ -478,7 +478,7 @@
     },
     "data": {
       "title": "Quali dati trattiamo",
-      "text": "Quando usi il modulo trattiamo nome, indirizzo e-mail, numero di telefono (se lo indichi) e il tuo messaggio. Quando ci scrivi o ci chiami direttamente, trattiamo i dati del messaggio o della chiamata. Quando visiti il sito, il server registra dati tecnici come indirizzo IP, data e ora, pagina visitata e tipo di browser."
+      "text": "Quando usi il modulo di contatto trattiamo nome, indirizzo e-mail, numero di telefono (se lo indichi), gli spazi che scegli e il tuo messaggio. Quando chiedi un preventivo nel configuratore riceviamo anche il luogo, le tue note, le misure della parete e della stampa, l'immagine scelta e un'istantanea della vista 3D; un'immagine che carichi resta sul tuo dispositivo e ci arriva solo dentro l'istantanea, con il nome del file. Quando ci scrivi o ci chiami direttamente, trattiamo i dati del messaggio o della chiamata. Quando visiti il sito, il server registra dati tecnici come indirizzo IP, data e ora, pagina visitata e tipo di browser."
     },
     "purpose": {
       "title": "Perché li trattiamo",
@@ -490,11 +490,11 @@
     },
     "abroad": {
       "title": "Dati all'estero",
-      "text": "Se un fornitore tratta i dati fuori dalla Svizzera, lo fa solo in Paesi con una protezione adeguata o con garanzie contrattuali, come previsto dalla legge."
+      "text": "I nostri fornitori possono trattare dati fuori dalla Svizzera, anche negli Stati Uniti. Lo fanno solo in Paesi con una protezione adeguata o con garanzie contrattuali, come previsto dalla legge."
     },
     "cookies": {
       "title": "Cookie e statistiche",
-      "text": "Il sito non usa cookie di tracciamento né strumenti di statistica o pubblicità. I caratteri tipografici sono caricati dal nostro server, senza richieste a Google."
+      "text": "Il sito non usa cookie di tracciamento né strumenti di statistica o pubblicità. Usa un solo cookie tecnico, che ricorda la lingua e si cancella quando chiudi il browser; il tema chiaro o scuro che scegli resta salvato solo nel tuo browser. I caratteri tipografici sono caricati dal nostro server, senza richieste a Google."
     },
     "links": {
       "title": "Link ad altri servizi",
