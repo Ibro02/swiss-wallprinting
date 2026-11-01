@@ -18,3 +18,9 @@ export const heroFrames = {
     "height": 720
   }
 } as const satisfies Record<'desktop' | 'mobile', FrameSet>
+
+/**
+ * Where the printer is (x, 0 … 1) at progress 0, 0.1, … 1, measured in the frames
+ * (scripts/lib/hero-video.ts). A phone shows a third of the width and follows it.
+ */
+export const heroFocus: number[] = [0.256,0.306,0.374,0.459,0.54,0.628,0.709,0.787,0.878,0.511,0.511]

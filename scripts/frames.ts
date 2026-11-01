@@ -1,47 +1,49 @@
-// Turns the hero video into AVIF frame sequences for the scroll hero (PrintOnScroll):
-// `vp run frames` (run it after the video changes). Needs ffmpeg on PATH
-// (`winget install Gyan.FFmpeg`). Writes public/frames/hero/<variant>/0000.avif …, a WebP copy
-// of the first and the last frame (the poster's fallback for browsers without AVIF), and the
-// manifest src/content/images/frames.ts.
+// Turns the hero video into AVIF frame sequences for the scroll hero (PrintOnScroll). Needs
+// ffmpeg on PATH (`winget install Gyan.FFmpeg`).
+//
+//   vp run frames "C:\path\to\new video.mp4"   a new video: copied to Assets/Videos/hero.mp4
+//                                               (the one before moves to Assets/Videos/old/)
+//   vp run frames                               the video already in Assets/Videos/hero.mp4
+//
+// Writes public/frames/hero/<variant>/0000.avif …, a WebP copy of the first and the last frame
+// (the poster's fallback for browsers without AVIF), and src/content/images/frames.ts: the
+// frame sets and the printer's track (`heroFocus`). Nothing is measured by hand: the frames
+// to show and the track come from the video itself (scripts/lib/hero-video.ts, with tests),
+// and the script prints what it found.
 //
 // Why frames and not the video: a <video> scrubbed with `currentTime` must decode from the
 // last keyframe at every seek, so it stutters. Images drawn to a canvas show any frame at
 // once, forward and backward.
 //
-// The video is not in git (Assets/Videos/, see .gitignore): put the file there first.
-//
-// Only frames that differ go out (`VIDEO`): a frame that repeats the one before it, or a
-// still end, costs bytes and scroll length and shows nothing. For a new video, list how much
-// each frame differs from the one before it (PowerShell; 0.00 is a copy):
-//   ffmpeg -i Assets/Videos/<file>.mp4 -vf "scale=480:-2,format=gray,tblend=all_mode=difference,signalstats,metadata=print:key=lavfi.signalstats.YAVG:file=-" -f null -
-// A 0.00 at every 5th frame is 24 fps stretched to 30 (`repeatEvery: 5`); the frame before
-// a long run of 0.00 at the end is `lastFrame`.
+// The video is not in git (Assets/Videos/, see .gitignore): the repo is public.
 
 import { execFile } from 'node:child_process'
 import { existsSync } from 'node:fs'
-import { mkdir, readdir, rm, stat, writeFile } from 'node:fs/promises'
+import { copyFile, mkdir, readdir, rename, rm, stat, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { promisify } from 'node:util'
 import sharp from 'sharp'
 import type { FrameSet } from '../src/content/images/types.ts'
+import { chooseFrames, type GrayFrame, meanDifference, printerTrack } from './lib/hero-video.ts'
 
 const run = promisify(execFile)
 const root = path.resolve(import.meta.dirname, '..')
 
-const SOURCE = 'Assets/Videos/SWP_PrintVideo.mp4'
+const SOURCE = 'Assets/Videos/hero.mp4'
+/** Where a replaced video goes, with the date in its name. */
+const OLD = 'Assets/Videos/old'
 const OUT = 'public/frames/hero'
 const MANIFEST = 'src/content/images/frames.ts'
 // Lossless frames for the encoder. In the project, not in the system temp folder: its path
 // has the user name's "ž" and "ć". OneDrive does not sync node_modules.
 const TEMP = 'node_modules/.cache/hero-frames'
 
-/** Facts of SWP_PrintVideo.mp4 (1920 × 1080, 30 fps, 180 frames, 2026-11-01). */
-const VIDEO = {
-  /** The finished picture; frames 125 … 179 do not change. */
-  lastFrame: 124,
-  /** Every 5th frame repeats the one before it (24 fps stretched to 30); 0: no repeats. */
-  repeatEvery: 5,
-}
+/** At most this many frames: about 61 KB each on desktops and 38 KB on phones. */
+const MAX_FRAMES = 100
+/** Seconds of the video kept before the print starts: the wall under the hero's intro. */
+const LEAD_IN_SECONDS = 0.5
+/** Width of the gray frames that the analysis compares (the track was calibrated at 320). */
+const ANALYSIS_WIDTH = 320
 
 /** libaom effort, 0 … 9. 6 and 8 made files under 2 % smaller and took 3 and 4.5 times as long. */
 const AVIF_EFFORT = 4
@@ -72,35 +74,116 @@ const VARIANTS: readonly Variant[] = [
   { name: 'mobile', width: 1280, quality: 50, fallbackQuality: 75 },
 ]
 
-if (!existsSync(path.join(root, SOURCE))) {
-  console.error(
-    [
-      `${SOURCE} was not found, so no frames were made. The frames in ${OUT}/ are unchanged.`,
-      'The video is not in git: copy it to Assets/Videos/ (or change SOURCE in scripts/frames.ts), then run `vp run frames` again.',
-    ].join('\n'),
-  )
+const fail = (...lines: string[]): never => {
+  console.error([...lines, `No frames were made; the frames in ${OUT}/ are unchanged.`].join('\n'))
   process.exit(1)
+}
+
+// A new video: it becomes Assets/Videos/hero.mp4, and the one before is kept in old/. A path
+// is read from where the command was typed (pnpm's INIT_CWD), so a relative one works too.
+const [input] = process.argv.slice(2)
+const source = path.join(root, SOURCE)
+if (input) {
+  const video = path.resolve(process.env.INIT_CWD ?? process.cwd(), input)
+  if (!existsSync(video)) fail(`${video} was not found. Check the path (put it in quotes).`)
+  if (path.relative(video, source) !== '') {
+    await mkdir(path.dirname(source), { recursive: true })
+    if (existsSync(source)) {
+      const stamp = new Date().toISOString().slice(0, 16).replace('T', ' ').replace(':', '-')
+      await mkdir(path.join(root, OLD), { recursive: true })
+      await rename(source, path.join(root, OLD, `hero ${stamp}.mp4`))
+      console.log(`The video before is now ${OLD}/hero ${stamp}.mp4.`)
+    }
+    await copyFile(video, source)
+    console.log(`${video} is now ${SOURCE}.`)
+  }
+}
+
+if (!existsSync(source)) {
+  fail(
+    `${SOURCE} was not found. The video is not in git: give its path, for example`,
+    '  vp run frames "C:\\Users\\<you>\\Downloads\\new video.mp4"',
+  )
 }
 
 try {
   await run('ffmpeg', ['-hide_banner', '-version'])
 } catch {
-  console.error(
-    [
-      `ffmpeg was not found, so no frames were made. The frames in ${OUT}/ are unchanged.`,
-      'Install it with `winget install Gyan.FFmpeg`, open a new terminal (so PATH has it), and run `vp run frames` again.',
-    ].join('\n'),
+  fail(
+    'ffmpeg was not found. Install it with `winget install Gyan.FFmpeg`, open a new terminal (so PATH has it), and run the command again.',
   )
-  process.exit(1)
 }
 
-/** The ffmpeg filter: the frames up to the finished picture, without repeats, scaled. */
-function filter(width: number) {
-  return [
-    `trim=end_frame=${VIDEO.lastFrame + 1}`,
-    ...(VIDEO.repeatEvery ? [`decimate=cycle=${VIDEO.repeatEvery}`] : []),
-    `scale=${width}:-2`,
-  ].join(',')
+// The video's size and frame rate.
+const probe = JSON.parse(
+  (
+    await run('ffprobe', [
+      '-v',
+      'error',
+      '-select_streams',
+      'v:0',
+      '-of',
+      'json',
+      '-show_entries',
+      'stream=width,height,avg_frame_rate',
+      source,
+    ])
+  ).stdout,
+) as { streams: { width: number; height: number; avg_frame_rate: string }[] }
+const stream = probe.streams[0] ?? fail(`${SOURCE} has no video stream.`)
+const [rate = 30, per = 1] = stream.avg_frame_rate.split('/').map(Number)
+const fps = rate / per
+
+// Every frame, small and gray, for the analysis.
+const analysisHeight = Math.round((ANALYSIS_WIDTH * stream.height) / stream.width / 2) * 2
+const { stdout: gray } = await run(
+  'ffmpeg',
+  [
+    '-v',
+    'error',
+    '-i',
+    source,
+    '-map',
+    '0:v:0',
+    '-fps_mode',
+    'passthrough',
+    '-vf',
+    `scale=${ANALYSIS_WIDTH}:${analysisHeight},format=gray`,
+    '-f',
+    'rawvideo',
+    '-',
+  ],
+  { encoding: 'buffer', maxBuffer: 1 << 30 },
+)
+const pixels = ANALYSIS_WIDTH * analysisHeight
+const grayFrames = Array.from({ length: gray.length / pixels }, (_, index): GrayFrame => ({
+  width: ANALYSIS_WIDTH,
+  height: analysisHeight,
+  data: gray.subarray(index * pixels, (index + 1) * pixels),
+}))
+const lastGray = grayFrames.at(-1) ?? fail(`ffmpeg read no frames from ${SOURCE}.`)
+const steps = grayFrames.map((frame, index) =>
+  index === 0 ? 0 : meanDifference(frame, grayFrames[index - 1] ?? frame),
+)
+const toLast = grayFrames.map((frame) => meanDifference(frame, lastGray))
+const chosen = chooseFrames(steps, toLast, {
+  leadIn: Math.round(LEAD_IN_SECONDS * fps),
+  max: MAX_FRAMES,
+})
+const heroFocus = printerTrack(chosen.frames.map((index) => grayFrames[index] ?? lastGray))
+
+console.log(
+  [
+    `${SOURCE}: ${stream.width} × ${stream.height}, ${fps.toFixed(0)} fps, ${grayFrames.length} frames.`,
+    `The print: frames ${chosen.start} … ${chosen.end} (before and after it the video hardly changes); the hero shows ${chosen.frames.length} of them, and frame ${grayFrames.length - 1} as the finished picture.`,
+    `The printer's track (heroFocus): ${JSON.stringify(heroFocus)}`,
+  ].join('\n'),
+)
+const widest = Math.max(...VARIANTS.map((variant) => variant.width))
+if (stream.width < widest) {
+  console.warn(
+    `Note: the video is ${stream.width} px wide, the desktop frames ${widest} px: they are scaled up and look soft. A video 1920 px wide looks best.`,
+  )
 }
 
 const frameName = (index: number, extension: string) =>
@@ -115,18 +198,20 @@ for (const variant of VARIANTS) {
   await rm(temp, { recursive: true, force: true })
   await mkdir(temp, { recursive: true })
   await mkdir(dir, { recursive: true })
+  // Only the chosen frames, numbered from 0, at the variant's width.
+  const select = chosen.frames.map((index) => `eq(n,${index})`).join('+')
   await run('ffmpeg', [
     '-hide_banner',
     '-v',
     'error',
     '-i',
-    path.join(root, SOURCE),
+    source,
     '-map',
     '0:v:0',
     '-fps_mode',
     'passthrough',
     '-vf',
-    filter(variant.width),
+    `select='${select}',scale=${variant.width}:-2`,
     '-start_number',
     '0',
     path.join(temp, '%04d.png'),
@@ -134,7 +219,9 @@ for (const variant of VARIANTS) {
 
   const frames = (await readdir(temp)).filter((file) => file.endsWith('.png')).sort()
   const first = frames[0]
-  if (!first) throw new Error(`ffmpeg wrote no frames to ${temp}`)
+  if (!first || frames.length !== chosen.frames.length) {
+    throw new Error(`ffmpeg wrote ${frames.length} frames to ${temp}, not ${chosen.frames.length}`)
+  }
   const { width, height } = await sharp(path.join(temp, first)).metadata()
 
   const queue = frames.map((_, index) => index)
@@ -178,6 +265,12 @@ await writeFile(
 import type { FrameSet } from './types.ts'
 
 export const heroFrames = ${JSON.stringify(manifest, null, 2)} as const satisfies Record<'desktop' | 'mobile', FrameSet>
+
+/**
+ * Where the printer is (x, 0 … 1) at progress 0, 0.1, … 1, measured in the frames
+ * (scripts/lib/hero-video.ts). A phone shows a third of the width and follows it.
+ */
+export const heroFocus: number[] = ${JSON.stringify(heroFocus)}
 `,
 )
 console.log(`${MANIFEST} written`)

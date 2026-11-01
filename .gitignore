@@ -68,8 +68,7 @@ swiss-wallprinting/Demo/
 # public/photos/projects/ and the manifest, which are in git.
 Assets/Projects/
 
-# The hero video originals (2026-11-01; the author's SWP_PrintVideo.mp4, 11 MB, and the old
-# Dreamina mock): they stay on this machine. `vp run frames` writes the frames to
-# public/frames/hero/ and the manifest, which are in git. The repo is public, and a video
-# would stay in its history for good.
+# The hero video (hero.mp4, 11 MB; the ones before in old/): it stays on this machine.
+# `vp run frames` writes the frames to public/frames/hero/ and the manifest, which are in
+# git. The repo is public, and a video would stay in its history for good.
 Assets/Videos/
