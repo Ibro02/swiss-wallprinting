@@ -40,15 +40,14 @@ test('one scroll plays the print, a scroll back rewinds it', async ({ page, isMo
   const stage = page.locator('.print-scroll__stage')
 
   // A short scroll forwards plays the whole print, up to the call to action.
-  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 4)
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 8)
   await expect.poll(() => progress(page)).toBe(1)
   await expect(stage).toHaveAttribute('data-done', '')
 
-  // Back: the picture follows the scroll back; the call to action goes. The step back is
-  // larger than REWIND_PX (24 px) on every screen: a smaller one counts as no rewind.
-  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 8)
+  // Back to the middle: the picture follows the scroll back; the call to action goes.
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 16)
   await expect
-    .poll(async () => Math.abs((await shownFrame(page)) - (count - 1) / 8))
+    .poll(async () => Math.abs((await shownFrame(page)) - (count - 1) / 16))
     .toBeLessThanOrEqual(2)
   await expect(stage).not.toHaveAttribute('data-done')
 
