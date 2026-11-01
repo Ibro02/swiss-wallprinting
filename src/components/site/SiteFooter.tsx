@@ -4,6 +4,7 @@ import { Container } from '@/components/Container.tsx'
 import { FacebookIcon, InstagramIcon } from '@/components/icons.tsx'
 import { Logo } from '@/components/Logo.tsx'
 import { company } from '@/content/company.ts'
+import { legal } from '@/content/legal.ts'
 import { Link } from '@/i18n/navigation.ts'
 import { LEGAL_PAGES, NAV_PAGES, PAGES } from '@/i18n/pages.ts'
 
@@ -16,6 +17,10 @@ const LINK = 'text-white/85 transition-colors duration-150 hover:text-lime'
 
 // The pages are prerendered, so this is the build year: each deploy updates it.
 const YEAR = new Date().getFullYear()
+
+// The finished legal pages: the privacy policy, and the imprint once the client's facts are
+// in (`legal.mock`; the author, 2026-11-01, keeps the draft imprint out of the footer).
+const FOOTER_LEGAL = LEGAL_PAGES.filter((page) => page !== 'imprint' || !legal.mock)
 
 export async function SiteFooter() {
   const t = await getTranslations('Footer')
@@ -109,15 +114,15 @@ export async function SiteFooter() {
           © {YEAR} {company.name}. {t('rights')}
         </p>
         <nav aria-label={t('legalTitle')} className="sm:mr-20">
-          {/* <ul className="flex gap-6">
-            {LEGAL_PAGES.map((page) => (
+          <ul className="flex gap-6">
+            {FOOTER_LEGAL.map((page) => (
               <li key={page}>
                 <Link href={PAGES[page]} className={LINK}>
                   {nav(page)}
                 </Link>
               </li>
             ))}
-          </ul> */}
+          </ul>
         </nav>
       </Container>
     </footer>

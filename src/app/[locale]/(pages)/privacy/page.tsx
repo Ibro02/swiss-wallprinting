@@ -10,8 +10,9 @@ export const generateMetadata = metadataFor('privacy')
 
 // Privacy policy under the Swiss Federal Act on Data Protection (FADP, in force since
 // 2023-09-01), with the GDPR rights for visitors from the EU. It describes what this site
-// really does: the form, e-mail and phone contacts, server logs, no cookies, self-hosted
-// fonts, links to other services. A DRAFT: the client (or a lawyer) must check it.
+// really does: the contact form and the configurator's quote request, e-mail and phone
+// contacts, server logs, one language cookie (no tracking), self-hosted fonts, links to
+// other services. Before launch the client (or a lawyer) checks it.
 
 const SECTIONS = [
   'data',
@@ -37,19 +38,28 @@ export default async function PrivacyPage() {
     hosting: legal.hosting ?? missing,
     mailProvider: legal.mailProvider ?? missing,
   }
+  // Only this page's own facts: the imprint's (legal name, street, UID) keep `legal.mock`
+  // on, and the legal name and the street appear here as soon as the client sends them.
+  const draft = legal.hosting === null || legal.mailProvider === null
 
   return (
     <main id="main" tabIndex={-1} className="outline-none">
       <PageHeader eyebrow={t('eyebrow')} title={t('title')}>
         <p>{t('lead')}</p>
       </PageHeader>
-      {legal.mock && <DraftBanner />}
+      {draft && <DraftBanner />}
       <Container className="pt-6 pb-24">
         <LegalSection title={t('controller.title')}>
           <p>{t('controller.text', values)}</p>
           <address className="not-italic">
             {values.company}
             <br />
+            {legal.street && (
+              <>
+                {legal.street}
+                <br />
+              </>
+            )}
             {company.postalCode} {company.locality}
             <br />
             <a href={`mailto:${company.email}`}>{company.email}</a>

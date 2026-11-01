@@ -2,7 +2,7 @@
 tags: [prompt-log, hero, performance]
 date: 2026-11-01
 agent: Claude Code (Opus 5.5)
-status: done (built in 15, committed on main, not pushed)
+status: done (built in 15, committed on main, pushed)
 ---
 # 2026-11-01 14 - Sharper hero frames
 

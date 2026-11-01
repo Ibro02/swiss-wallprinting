@@ -2,7 +2,7 @@
 tags: [prompt-log, hero, maintenance]
 date: 2026-11-01
 agent: Claude Code (Opus 5.5)
-status: done (committed on main, not pushed)
+status: done (committed on main, pushed)
 ---
 # 2026-11-01 16 - New hero video, one-command change
 
