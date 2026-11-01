@@ -399,6 +399,15 @@
     }
   }
 
+  /*
+   * After a client-side page change (`data-page-change`, set by PageChangeMark), the first
+   * screen fades in at once: the full entrance on every page made page changes feel slow
+   * (about 1.1 s; the author, 2026-11-01). The first page load keeps the entrance.
+   */
+  :root[data-page-change] [data-rise] {
+    animation: fade 150ms var(--ease-out) both;
+  }
+
   @keyframes fade {
     from {
       opacity: 0;
