@@ -57,7 +57,7 @@ export const testimonials: readonly Testimonial[] = [
     place: 'Mendrisio',
     rating: 5,
     date: '2026-06-30',
-    language: 'de',
+    language: 'it',
     text: 'La parete interna del nostro negozio ora è davvero accattivante. Contatto molto cordiale, finitura pulita e professionale.',
     source: 'google',
   },
