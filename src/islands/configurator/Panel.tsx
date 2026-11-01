@@ -618,7 +618,12 @@ function PriceSummary({
     <div className="flex items-center gap-3 bg-paper px-5 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 lg:block lg:border-t lg:border-ink/10 lg:pt-5 lg:pb-5 lg:shadow-[0_-12px_30px_-20px_rgb(14_14_16/0.4)]">
       <div className="min-w-0 shrink-0">
         <div className="flex items-baseline justify-between gap-3">
-          <p className="text-xs font-medium text-mute max-lg:text-[0.6875rem]">
+          {/* Phones: the label only for screen readers, so the agreement line below fits in
+              the bar without taking height from the tool panel ("ca." says it is an
+              estimate). An "Example" badge always stays visible. */}
+          <p
+            className={`text-xs font-medium text-mute max-lg:text-[0.6875rem] ${ratesAreExamples ? '' : 'max-lg:sr-only'}`}
+          >
             {t('label')}
             {ratesAreExamples && (
               <span className="ml-2 rounded-full bg-plaster px-2 py-0.5 text-[0.7rem] font-medium max-lg:ml-1 max-lg:px-1.5">
@@ -631,7 +636,7 @@ function PriceSummary({
         <p
           id="configurator-price"
           aria-live="polite"
-          className="mt-1 text-3xl font-medium tracking-tight tabular-nums max-lg:mt-0.5 max-lg:text-xl"
+          className="mt-1 text-3xl font-medium tracking-tight tabular-nums max-lg:mt-0 max-lg:text-xl"
         >
           {t('approx', { price: chf(price.approx) })}
         </p>

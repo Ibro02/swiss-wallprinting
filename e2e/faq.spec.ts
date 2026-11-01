@@ -13,7 +13,17 @@ test('on a phone the open question keeps the lift look', async ({ page, isMobile
   await expect(first).toHaveJSProperty('open', true)
   await expect(first).toHaveCSS('border-color', 'rgba(197, 210, 13, 0.32)')
   await expect(first).toHaveCSS('translate', '0px -6px')
-  await expect(first).toHaveCSS('background-color', 'rgb(255, 255, 255)')
+  // The paper surface of the current theme (white in light, navy in dark; the site is dark
+  // only while THEME_CHOICE is off), read from the token rather than written here.
+  const paper = await page.evaluate(() => {
+    const probe = document.createElement('div')
+    probe.className = 'bg-paper'
+    document.body.append(probe)
+    const colour = getComputedStyle(probe).backgroundColor
+    probe.remove()
+    return colour
+  })
+  await expect(first).toHaveCSS('background-color', paper)
   await expect(second).toHaveCSS('translate', 'none')
 
   // Opening another closes the first (an accordion), and the look moves with it.
