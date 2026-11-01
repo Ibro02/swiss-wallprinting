@@ -109,7 +109,7 @@ export async function SiteFooter() {
           © {YEAR} {company.name}. {t('rights')}
         </p>
         <nav aria-label={t('legalTitle')} className="sm:mr-20">
-          <ul className="flex gap-6">
+          {/* <ul className="flex gap-6">
             {LEGAL_PAGES.map((page) => (
               <li key={page}>
                 <Link href={PAGES[page]} className={LINK}>
@@ -117,7 +117,7 @@ export async function SiteFooter() {
                 </Link>
               </li>
             ))}
-          </ul>
+          </ul> */}
         </nav>
       </Container>
     </footer>

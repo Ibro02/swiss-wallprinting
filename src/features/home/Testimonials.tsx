@@ -43,11 +43,11 @@ export async function Testimonials() {
     >
       <div className="flex items-center justify-between gap-3">
         <Stars rating={review.rating} label={starsLabel(review.rating)} />
-        {review.mock && (
+        {/* {review.mock && (
           <span className="rounded-full bg-paper px-2.5 py-0.5 text-[0.7rem] font-medium text-mute ring-1 ring-ink/8">
             {t('mockBadge')}
           </span>
-        )}
+        )} */}
       </div>
       <blockquote
         lang={review.language}
