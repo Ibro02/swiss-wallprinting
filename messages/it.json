@@ -588,6 +588,7 @@
       "example": "Esempio",
       "area": "{area} m² di stampa · IVA inclusa",
       "approx": "ca. {price}",
+      "agreement": "Prezzo finale su accordo",
       "details": "Come lo calcoliamo",
       "print": "Stampa: {area} m² × {rate}/m²",
       "minimum": "Stampa: prezzo minimo",

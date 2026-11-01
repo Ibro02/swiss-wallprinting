@@ -588,6 +588,7 @@
       "example": "Primjer",
       "area": "{area} m² printa · sa PDV-om",
       "approx": "oko {price}",
+      "agreement": "Konačna cijena po dogovoru",
       "details": "Kako računamo",
       "print": "Print: {area} m² × {rate}/m²",
       "minimum": "Print: minimalna cijena",

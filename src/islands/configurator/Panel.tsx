@@ -635,6 +635,10 @@ function PriceSummary({
         >
           {t('approx', { price: chf(price.approx) })}
         </p>
+        {/* The client's wording (2026-11-01): the estimate is not the final price. */}
+        <p className="mt-0.5 text-xs text-mute max-lg:mt-0 max-lg:text-[0.6875rem]">
+          {t('agreement')}
+        </p>
       </div>
 
       {/* Desktop only: on phones the quote dialog shows the configuration and the price. */}

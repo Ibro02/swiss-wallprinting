@@ -588,6 +588,7 @@
       "example": "Example",
       "area": "{area} m² of print · incl. VAT",
       "approx": "approx. {price}",
+      "agreement": "Final price by agreement",
       "details": "How we calculate it",
       "print": "Print: {area} m² × {rate}/m²",
       "minimum": "Print: minimum price",

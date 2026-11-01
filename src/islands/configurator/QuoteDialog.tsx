@@ -55,6 +55,7 @@ export function QuoteButton({
   privacyHref,
 }: QuoteDialogProps) {
   const t = useTranslations('Configurator.quote')
+  const tPrice = useTranslations('Configurator.price')
   const format = useFormatter()
   const store = useConfiguratorStore()
   const dialog = useRef<HTMLDialogElement>(null)
@@ -86,11 +87,14 @@ export function QuoteButton({
           area: metres(placement.areaM2),
         }),
         image,
-        price: format.number(price.approx, {
-          style: 'currency',
-          currency: 'CHF',
-          maximumFractionDigits: 0,
-        }),
+        // As in the panel: the estimate, and that the final price is agreed (the client).
+        price: `${tPrice('approx', {
+          price: format.number(price.approx, {
+            style: 'currency',
+            currency: 'CHF',
+            maximumFractionDigits: 0,
+          }),
+        })} · ${tPrice('agreement')}`,
       },
     })
     dialog.current?.showModal()

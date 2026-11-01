@@ -19,7 +19,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 > [!summary] For the next agent
 > Read this section first. Update it after each prompt.
 >
-> - **Latest (2026-11-01, [[2026-11-01 26 - Price 250 CHF per square metre]], not committed):** the configurator estimates CHF 250 per m², indoors and outdoors, VAT included, no set-up and no minimum (`pricing.ts`; the extras are 0, and the breakdown hides zero rows). The approximate word ("ca.", "approx.", "oko") stays. The rate is confirmed: `pricing.ts` is no longer mock (no "Example" badge).
+> - **Latest (2026-11-01, [[2026-11-01 27 - Final price by agreement]], not committed):** under the configurator's price a small line says the final price is agreed (IT "Prezzo finale su accordo", the client's words; `Configurator.price.agreement` in four languages); the quote summary and the e-mail say it too. "ca." stays in front of the number.
+> - **Before that (2026-11-01, [[2026-11-01 26 - Price 250 CHF per square metre]], committed `3a81f14`):** the configurator estimates CHF 250 per m², indoors and outdoors, VAT included, no set-up and no minimum (`pricing.ts`; the extras are 0, and the breakdown hides zero rows). The approximate word ("ca.", "approx.", "oko") stays. The rate is confirmed: `pricing.ts` is no longer mock (no "Example" badge).
 > - **Before that (2026-11-01, [[2026-11-01 25 - Shorter hero scroll]], committed `f63b578`):** the home hero is `140vh` (was `200vh`): the stage stays pinned for about 0.4 of a screen, so there is no idle scroll after the print (one scroll plays it). The home e2e rewind test scrolls back by more than `REWIND_PX`.
 > - **Before that (2026-11-01, [[2026-11-01 24 - Dark only, Italian default, WhatsApp, phone hero]], committed `c3b9434`, review language `d99abb4`):** the site is dark only (`THEME_CHOICE = false` in `theme.ts`: `data-theme="dark"` from the server, no switch, no head script; set it to `true` to bring the light theme back). `/` always opens Italian (`localeDetection: false`), and the site sets no cookies (`localeCookie: false`; privacy text updated in 4 languages). WhatsApp: +41 76 411 55 06. Phones see at least 85 % of the hero video's width (`--min-share`), the texts below the picture, so the armchair and the plant are in view. Build and e2e (theme, a11y, smoke, home) pass.
 > - **Before that (2026-11-01, [[2026-11-01 23 - German card text overflows]], committed `893700e`):** on phones the "Was wir drucken" cards (`WhatWePrint`) let long German words run out of the card. The list hyphenates now (`hyphens-auto break-words`), and `de.json` has soft hyphens in "Massgeschneiderte", "Innenarchitekturprojekte", and "Firmengeschichten" (Chromium on Windows has no German hyphenation). Checked at 360 px in all four languages.
@@ -82,7 +83,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 
 | Date | No. | Title | Status |
 |---|---|---|---|
-| 2026-11-01 | 26 | [[2026-11-01 26 - Price 250 CHF per square metre]] | Done (not committed) |
+| 2026-11-01 | 27 | [[2026-11-01 27 - Final price by agreement]] | Done (not committed) |
+| 2026-11-01 | 26 | [[2026-11-01 26 - Price 250 CHF per square metre]] | Done (committed `3a81f14`) |
 | 2026-11-01 | 25 | [[2026-11-01 25 - Shorter hero scroll]] | Done (committed `f63b578`) |
 | 2026-11-01 | 24 | [[2026-11-01 24 - Dark only, Italian default, WhatsApp, phone hero]] | Done (committed `c3b9434`, `d99abb4`) |
 | 2026-11-01 | 23 | [[2026-11-01 23 - German card text overflows]] | Done (committed `893700e`) |

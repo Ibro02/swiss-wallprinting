@@ -70,7 +70,7 @@ describe('handleQuote', () => {
     expect(mail?.text).toContain('Lingua del sito: DE')
     // 4.5 m² × 100 + 100 = 550, + 8.1 % VAT = 594.55 → about 590.
     expect(mail?.text).toMatch(
-      /Prezzo indicativo mostrato: ca\. CHF\s590 IVA inclusa \(tariffe di esempio/,
+      /Prezzo indicativo mostrato: ca\. CHF\s590 IVA inclusa, prezzo finale su accordo \(tariffe di esempio/,
     )
     expect(mail?.text).toContain(
       'Configurazione: https://www.example.ch/de/wand-testen?room=5x4x2.7&wall=n&image=lake&print=3x1.5&pos=0x0',

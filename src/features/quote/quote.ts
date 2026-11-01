@@ -195,7 +195,7 @@ export function quoteMail(
     `Posizione: ${m(edges.left)} m dal bordo sinistro, ${m(edges.bottom)} m da terra`,
     `Immagine: ${image}`,
     `Ambiente: ${config.environment === 'interior' ? 'interno' : 'esterno'}`,
-    `Prezzo indicativo mostrato: ca. ${chf(price.approx)} IVA inclusa${meta.ratesAreExamples ? ' (tariffe di esempio del sito, non ancora quelle reali)' : ''}`,
+    `Prezzo indicativo mostrato: ca. ${chf(price.approx)} IVA inclusa, prezzo finale su accordo${meta.ratesAreExamples ? ' (tariffe di esempio del sito, non ancora quelle reali)' : ''}`,
     '',
     `Configurazione: ${link}`,
     screenshot ? 'Anteprima 3D: in allegato.' : 'Anteprima 3D: non disponibile.',

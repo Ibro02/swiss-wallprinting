@@ -588,6 +588,7 @@
       "example": "Beispiel",
       "area": "{area} m² Druck · inkl. MWST",
       "approx": "ca. {price}",
+      "agreement": "Endpreis nach Vereinbarung",
       "details": "So rechnen wir",
       "print": "Druck: {area} m² × {rate}/m²",
       "minimum": "Druck: Mindestpreis",
