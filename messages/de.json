@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Swiss Wall Printing – Direktdruck auf Wände",
-    "description": "Wir drucken Bilder direkt auf Innen- und Aussenwände, ohne Folie und ohne Kleber. Bis 3,80 m hoch, unbegrenzt breit. Camignolo, Tessin."
+    "description": "Wir drucken Bilder direkt auf Innenwände, ohne Folie und ohne Kleber. Bis 3,80 m hoch, unbegrenzt breit. Camignolo, Tessin."
   },
   "Nav": {
     "label": "Hauptnavigation",
@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "Wir drucken <em>direkt</em> auf Wände.",
-    "intro": "Direktdruck auf Innen- und Aussenwände, ohne Folie und ohne Kleber.",
+    "intro": "Direktdruck auf Innenwände, ohne Folie und ohne Kleber.",
     "navTitle": "Navigation",
     "contactTitle": "Kontakt",
     "followTitle": "Folgen Sie uns",
@@ -114,12 +114,13 @@
       "stats": {
         "height": "Maximale Druckhöhe",
         "width": "Unbegrenzte Breite",
-        "durability": "Jahre leuchtende Farben, auch draussen",
+        "durability": "Leuchtende Farben",
+        "durabilityValue": "Lebenslang",
         "ink": "Zertifizierte ökologische Tinten"
       },
       "features": {
         "noFilm": "Keine Folie und kein Kleber: Der Druck ist auf der Wand.",
-        "inOut": "Innen- und Aussenwände.",
+        "inOut": "Innenwände.",
         "anyDesign": "Logos, Kunstbilder, Sprüche und Grafiken nach Mass.",
         "freeQuote": "Kostenlose Offerte."
       }
@@ -307,7 +308,6 @@
       "facts": {
         "height": "Bis etwa {height} hoch",
         "width": "Praktisch unbegrenzte Breite",
-        "inOut": "Innen und aussen, mit der passenden Vorbereitung des Untergrunds",
         "uv": "UV-Technik und lösungsmittelfreie Tinten"
       }
     }
@@ -407,10 +407,6 @@
       "size": {
         "q": "Wie gross kann ein Druck sein?",
         "a": "Bis etwa {height} hoch; die Breite ist praktisch unbegrenzt."
-      },
-      "outdoor": {
-        "q": "Ist ein Druck auch auf Aussenwänden möglich?",
-        "a": "Ja. Wir drucken innen und aussen, mit der passenden Vorbereitung des Untergrunds."
       },
       "preparation": {
         "q": "Muss die Wand vorbereitet werden?",

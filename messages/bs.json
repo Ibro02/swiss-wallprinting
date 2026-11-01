@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Swiss Wall Printing – Direktna štampa na zid",
-    "description": "Štampamo slike direktno na unutrašnje i vanjske zidove, bez folije i bez ljepila. Do 3,80 m visine, neograničena širina. Camignolo, Ticino."
+    "description": "Štampamo slike direktno na unutrašnje zidove, bez folije i bez ljepila. Do 3,80 m visine, neograničena širina. Camignolo, Ticino."
   },
   "Nav": {
     "label": "Glavna navigacija",
@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "Štampamo <em>direktno</em> na zidove.",
-    "intro": "Direktna štampa na unutrašnje i vanjske zidove, bez folije i bez ljepila.",
+    "intro": "Direktna štampa na unutrašnje zidove, bez folije i bez ljepila.",
     "navTitle": "Navigacija",
     "contactTitle": "Kontakt",
     "followTitle": "Pratite nas",
@@ -114,12 +114,13 @@
       "stats": {
         "height": "Maksimalna visina štampe",
         "width": "Neograničena širina",
-        "durability": "Godina živih boja, i na otvorenom",
+        "durability": "Žive boje",
+        "durabilityValue": "Doživotno",
         "ink": "Certificirane ekološke boje"
       },
       "features": {
         "noFilm": "Bez folije i bez ljepila: štampa je na zidu.",
-        "inOut": "Unutrašnji i vanjski zidovi.",
+        "inOut": "Unutrašnji zidovi.",
         "anyDesign": "Logotipi, umjetničke slike, rečenice i grafike po mjeri.",
         "freeQuote": "Besplatna ponuda."
       }
@@ -307,7 +308,6 @@
       "facts": {
         "height": "Do približno {height} visine",
         "width": "Širina praktično neograničena",
-        "inOut": "U unutrašnjim i vanjskim prostorima, uz odgovarajuću pripremu površine",
         "uv": "UV tehnologija i boje bez rastvarača"
       }
     }
@@ -407,10 +407,6 @@
       "size": {
         "q": "Kolike dimenzije mogu biti odštampane?",
         "a": "Do približno {height} visine; širina je praktično neograničena."
-      },
-      "outdoor": {
-        "q": "Da li je štampa moguća na vanjskim zidovima?",
-        "a": "Da. Štampamo u unutrašnjim i vanjskim prostorima, uz odgovarajuću pripremu površine."
       },
       "preparation": {
         "q": "Da li se zid mora prethodno pripremiti?",

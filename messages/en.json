@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Swiss Wall Printing – Direct wall printing",
-    "description": "We print images directly on interior and exterior walls, with no film and no stickers. Up to 3.80 m high, unlimited width. Camignolo, Ticino."
+    "description": "We print images directly on interior walls, with no film and no stickers. Up to 3.80 m high, unlimited width. Camignolo, Ticino."
   },
   "Nav": {
     "label": "Main navigation",
@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "We print <em>directly</em> on walls.",
-    "intro": "Direct printing on interior and exterior walls, with no film and no stickers.",
+    "intro": "Direct printing on interior walls, with no film and no stickers.",
     "navTitle": "Navigation",
     "contactTitle": "Contact",
     "followTitle": "Follow us",
@@ -114,12 +114,13 @@
       "stats": {
         "height": "Maximum print height",
         "width": "Unlimited width",
-        "durability": "Years of bright colours, also outdoors",
+        "durability": "Bright colours",
+        "durabilityValue": "Lifelong",
         "ink": "Certified eco-friendly inks"
       },
       "features": {
         "noFilm": "No film and no stickers: the print is on the wall.",
-        "inOut": "Interior and exterior walls.",
+        "inOut": "Interior walls.",
         "anyDesign": "Logos, artistic images, phrases and custom graphics.",
         "freeQuote": "Free quote."
       }
@@ -307,7 +308,6 @@
       "facts": {
         "height": "Up to about {height} high",
         "width": "Practically unlimited width",
-        "inOut": "Indoors and outdoors, with the right surface preparation",
         "uv": "UV technology and solvent-free inks"
       }
     }
@@ -407,10 +407,6 @@
       "size": {
         "q": "How large can a print be?",
         "a": "Up to about {height} high; the width is practically unlimited."
-      },
-      "outdoor": {
-        "q": "Can you print on exterior walls?",
-        "a": "Yes. We print indoors and outdoors, with the right surface preparation."
       },
       "preparation": {
         "q": "Does the wall need to be prepared?",

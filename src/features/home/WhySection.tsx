@@ -7,7 +7,7 @@ import { printFacts } from '@/content/company.ts'
 
 // "Why Swiss Wall Printing": a dark card with the facts from the old site as large lime
 // numbers, then the four promises. The numbers come from the content file, never from
-// the message files.
+// the message files; the durability is a word ("lifelong"), so it is a message.
 
 const FEATURES = ['noFilm', 'inOut', 'anyDesign', 'freeQuote'] as const
 
@@ -20,10 +20,12 @@ export async function WhySection() {
       key: 'height',
       // No-break space: "3,80" and "m" stay on one line.
       value: `${format.number(printFacts.maxPrintHeightM, { minimumFractionDigits: 2 })} m`,
+      word: false,
     },
-    { key: 'width', value: '∞' },
-    { key: 'durability', value: `${printFacts.durabilityYears}+` },
-    { key: 'ink', value: 'Eco' },
+    { key: 'width', value: '∞', word: false },
+    // A word, not a number (the author, 2026-11-02: "lifelong" instead of 12+).
+    { key: 'durability', value: t('stats.durabilityValue'), word: true },
+    { key: 'ink', value: 'Eco', word: false },
   ] as const
 
   return (
@@ -47,12 +49,18 @@ export async function WhySection() {
             <div
               key={stat.key}
               data-reveal={String(index + 1)}
-              className="flex flex-col-reverse justify-end gap-2 rounded-2xl bg-white/[0.05] p-4 ring-1 ring-white/10 ring-inset sm:min-h-40 sm:justify-between sm:gap-5 sm:p-6"
+              className="@container flex flex-col-reverse justify-end gap-2 rounded-2xl bg-white/[0.05] p-4 ring-1 ring-white/10 ring-inset sm:min-h-40 sm:justify-between sm:gap-5 sm:p-6"
             >
               <dt className="max-w-[16rem] text-[0.8125rem] leading-snug text-mute-dark sm:text-sm sm:leading-relaxed">
                 {t(`stats.${stat.key}`)}
               </dt>
-              <dd className="text-stat font-medium whitespace-nowrap text-lime">{stat.value}</dd>
+              {/* A word ("Lebenslang") is longer than a number: it shrinks to the card's
+                  width (a phone's half-width card), the numbers keep their size. */}
+              <dd
+                className={`text-stat font-medium whitespace-nowrap text-lime ${stat.word ? 'text-[length:min(var(--text-stat),20cqi)]' : ''}`}
+              >
+                {stat.value}
+              </dd>
             </div>
           ))}
         </dl>

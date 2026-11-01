@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "Swiss Wall Printing – Stampa diretta su pareti",
-    "description": "Stampiamo immagini direttamente su pareti interne ed esterne, senza pellicole né adesivi. Fino a 3,80 m di altezza, larghezza illimitata. Camignolo, Ticino."
+    "description": "Stampiamo immagini direttamente su pareti interne, senza pellicole né adesivi. Fino a 3,80 m di altezza, larghezza illimitata. Camignolo, Ticino."
   },
   "Nav": {
     "label": "Navigazione principale",
@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "Stampiamo <em>direttamente</em> sui muri.",
-    "intro": "Stampa diretta su pareti interne ed esterne, senza pellicole né adesivi.",
+    "intro": "Stampa diretta su pareti interne, senza pellicole né adesivi.",
     "navTitle": "Navigazione",
     "contactTitle": "Contatti",
     "followTitle": "Seguici",
@@ -114,12 +114,13 @@
       "stats": {
         "height": "Altezza massima di stampa",
         "width": "Larghezza illimitata",
-        "durability": "Anni di colori brillanti, anche all'esterno",
+        "durability": "Colori brillanti",
+        "durabilityValue": "A vita",
         "ink": "Inchiostri ecologici certificati"
       },
       "features": {
         "noFilm": "Nessuna pellicola e nessun adesivo: la stampa è sulla parete.",
-        "inOut": "Pareti interne ed esterne.",
+        "inOut": "Pareti interne.",
         "anyDesign": "Loghi, immagini artistiche, frasi e grafiche su misura.",
         "freeQuote": "Preventivo gratuito."
       }
@@ -307,7 +308,6 @@
       "facts": {
         "height": "Fino a circa {height} di altezza",
         "width": "Larghezza praticamente illimitata",
-        "inOut": "All'interno e all'esterno, con la giusta preparazione della superficie",
         "uv": "Tecnologia UV e inchiostri senza solventi"
       }
     }
@@ -407,10 +407,6 @@
       "size": {
         "q": "Quanto può essere grande la stampa?",
         "a": "Fino a circa {height} di altezza; la larghezza è praticamente illimitata."
-      },
-      "outdoor": {
-        "q": "Si può stampare anche sui muri esterni?",
-        "a": "Sì. Stampiamo all'interno e all'esterno, con la giusta preparazione della superficie."
       },
       "preparation": {
         "q": "La parete va preparata prima?",

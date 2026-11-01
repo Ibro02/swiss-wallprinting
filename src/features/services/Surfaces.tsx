@@ -22,7 +22,8 @@ const SURFACES = [
   { key: 'metal', text: 'text-graphite' },
 ] as const
 
-const FACTS = ['height', 'width', 'inOut', 'uv'] as const
+// No "indoors and outdoors" fact: outdoors is not offered for now (the author, 2026-11-02).
+const FACTS = ['height', 'width', 'uv'] as const
 
 export async function Surfaces() {
   const t = await getTranslations('Services.surfaces')

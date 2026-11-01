@@ -19,7 +19,10 @@ This folder records each prompt that the author gives to an AI agent, and the re
 > [!summary] For the next agent
 > Read this section first. Update it after each prompt.
 >
-> - **Latest (2026-11-02, [[2026-11-02 01 - Hide outdoors]], not committed):** the configurator offers no "Outdoors": `DISABLED_ENVIRONMENTS` (a product rule) opens outdoor links indoors, and the panel leaves out "Where" (phones: five tabs). An empty list brings it back. Full e2e and unit tests pass.
+> - **Latest (2026-11-02, [[2026-11-02 04 - Outdoors out of services and FAQ]], not committed):** the services fact "Indoors and outdoors" and the FAQ question about exterior walls are removed (code and four languages). Follow-up: the footer line and the search description say interior walls only. Outdoors is still in the DE and EN application-areas intro.
+> - **Before that (2026-11-02, [[2026-11-02 03 - Lifelong colours in the why card]], not committed):** the why card says "Lifelong / Bright colours" (4 languages, `Home.why.stats.durabilityValue`) instead of "12+ / years of bright colours, also outdoors"; a word value shrinks to its card (`20cqi`). The promise under the cards says "Interior walls" (was interior and exterior). Outdoors is still on the services page and in the FAQ. That session's hero work was superseded by entry 02 (the hero as in `c3b9434`). Full e2e and Lighthouse passed.
+> - **Before that (2026-11-02, [[2026-11-02 02 - Hero back to c3b9434]], not committed):** the home hero is again as in commit `c3b9434` (`Hero.tsx`, `PrintOnScroll.tsx`, the hero CSS, `e2e/home.spec.ts`, the CLAUDE.md note): `200vh`, `playSeconds={2}`, the video across the full width; the shorter scroll (`f63b578`) and the blurred side backdrop are gone. Nothing else changed
+> - **Before that (2026-11-02, [[2026-11-02 01 - Hide outdoors]], not committed):** the configurator offers no "Outdoors": `DISABLED_ENVIRONMENTS` (a product rule) opens outdoor links indoors, and the panel leaves out "Where" (phones: five tabs). An empty list brings it back. Full e2e and unit tests pass.
 > - **Before that (2026-11-01, [[2026-11-01 28 - CI quality fixes]], committed `744a4a0`, pushed):** CI's `quality` failed on the FAQ e2e test (it expected the light theme's white paper); it now reads the paper token. The full e2e suite also found the phone tool panel scrolling after the agreement line: on phones the price label is `sr-only`. Full e2e (138), unit tests, and Lighthouse pass locally; home performance 76 is close to the 75 floor.
 > - **Before that (2026-11-01, [[2026-11-01 27 - Final price by agreement]], committed `609d905`):** under the configurator's price a small line says the final price is agreed (IT "Prezzo finale su accordo", the client's words; `Configurator.price.agreement` in four languages); the quote summary and the e-mail say it too. "ca." stays in front of the number.
 > - **Before that (2026-11-01, [[2026-11-01 26 - Price 250 CHF per square metre]], committed `3a81f14`):** the configurator estimates CHF 250 per m², indoors and outdoors, VAT included, no set-up and no minimum (`pricing.ts`; the extras are 0, and the breakdown hides zero rows). The approximate word ("ca.", "approx.", "oko") stays. The rate is confirmed: `pricing.ts` is no longer mock (no "Example" badge).
@@ -85,7 +88,10 @@ This folder records each prompt that the author gives to an AI agent, and the re
 
 | Date | No. | Title | Status |
 |---|---|---|---|
-| 2026-11-02 | 01 | [[2026-11-02 01 - Hide outdoors]] | Done (not committed) |
+| 2026-11-02 | 04 | [[2026-11-02 04 - Outdoors out of services and FAQ]] | Done (not committed) |
+| 2026-11-02 | 03 | [[2026-11-02 03 - Lifelong colours in the why card]] | Done (not committed) |
+| 2026-11-02 | 02 | [[2026-11-02 02 - Hero back to c3b9434]] | Done (not committed) |
+| 2026-11-02 | 01 | [[2026-11-02 01 - Hide outdoors]] | Done (committed `7f83f91`, pushed) |
 | 2026-11-01 | 28 | [[2026-11-01 28 - CI quality fixes]] | Done (committed `744a4a0`, pushed) |
 | 2026-11-01 | 27 | [[2026-11-01 27 - Final price by agreement]] | Done (committed `609d905`) |
 | 2026-11-01 | 26 | [[2026-11-01 26 - Price 250 CHF per square metre]] | Done (committed `3a81f14`) |

@@ -22,7 +22,7 @@ const QUESTIONS = [
   'what',
   'surfaces',
   'size',
-  'outdoor',
+  // No "outdoor" question: outdoors is not offered for now (the author, 2026-11-02).
   'preparation',
   'ownImage',
   'duration',
