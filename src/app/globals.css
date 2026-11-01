@@ -211,7 +211,7 @@
    * smoothed progress (0 … 1), on the stage; the rest follows from it here, with transform
    * and opacity only. Before hydration a scroll timeline sets `--p` (below), so even a
    * reload in the middle of the section paints the right overlays. The phases
-   * (`--intro-out`, `--outro-in`, `--signature-in`), the video's proportions (`--ar`),
+   * (`--intro-out`, `--outro-in`), the video's proportions (`--ar`),
    * `--crop-bottom`, and `--room` come from the component; `--frame` (the page margin
    * around the stage) from the page.
    */
@@ -226,10 +226,9 @@
 
   .print-scroll__stage {
     --p: 0;
-    /* 1 → 0 while the print begins; 0 → 1 at the end; 0 → 1 over the last stretch. */
+    /* 1 → 0 while the print begins; 0 → 1 at the end. */
     --intro: clamp(0, 1 - var(--p) / var(--intro-out), 1);
     --outro: clamp(0, (var(--p) - var(--outro-in)) / (0.96 - var(--outro-in)), 1);
-    --signature: clamp(0, (var(--p) - var(--signature-in)) / (1 - var(--signature-in)), 1);
     position: sticky;
     top: var(--stage-top);
     height: var(--stage-h);
@@ -291,13 +290,6 @@
     }
   }
 
-  /* The logo "signs" the mural: ink that multiplies with the paint, like a print. */
-  .print-scroll__signature {
-    opacity: calc(var(--signature) * 0.85);
-    scale: calc(0.94 + var(--signature) * 0.06);
-    mix-blend-mode: multiply;
-  }
-
   .print-scroll__shade {
     opacity: max(var(--intro), var(--outro));
   }
@@ -335,7 +327,7 @@
     transition-delay: 300ms;
   }
 
-  /* Reduced motion: the finished picture with the signature, the intro, and the outro. */
+  /* Reduced motion: the finished picture, the intro, and the outro. */
   @media (prefers-reduced-motion: reduce) {
     .print-scroll {
       height: auto;

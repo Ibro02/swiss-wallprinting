@@ -4,14 +4,16 @@ import type { FrameSet } from './types.ts'
 
 export const heroFrames = {
   "desktop": {
-    "pattern": "/frames/hero/desktop/%04d.webp",
-    "count": 121,
+    "pattern": "/frames/hero/desktop/%04d.avif",
+    "fallback": "/frames/hero/desktop/%04d.webp",
+    "count": 100,
     "width": 1280,
     "height": 720
   },
   "mobile": {
-    "pattern": "/frames/hero/mobile/%04d.webp",
-    "count": 121,
+    "pattern": "/frames/hero/mobile/%04d.avif",
+    "fallback": "/frames/hero/mobile/%04d.webp",
+    "count": 100,
     "width": 960,
     "height": 540
   }

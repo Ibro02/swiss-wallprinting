@@ -12,6 +12,11 @@ export interface ImageAsset {
 export interface FrameSet {
   /** Path of each frame, with `%04d` for the zero-padded frame index (as in ffmpeg). */
   pattern: string
+  /**
+   * The same `%04d` path of a copy in an older format (WebP), for the poster's <picture> in
+   * browsers without the frames' format (AVIF). Only the first and the last frame have one.
+   */
+  fallback?: string
   count: number
   width: number
   height: number
