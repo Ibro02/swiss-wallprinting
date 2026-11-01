@@ -58,7 +58,7 @@ export const testimonials: readonly Testimonial[] = [
     rating: 5,
     date: '2026-06-30',
     language: 'de',
-    text: 'Die Aussenwand unseres Geschäfts ist jetzt ein echter Blickfang. Sehr freundlicher Kontakt und eine saubere Ausführung.',
+    text: 'La parete interna del nostro negozio ora è davvero accattivante. Contatto molto cordiale, finitura pulita e professionale.',
     source: 'google',
   },
   {

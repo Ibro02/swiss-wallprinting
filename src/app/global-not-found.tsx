@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { FIXED_THEME, THEME_CHOICE } from '@/lib/theme.ts'
 import './globals.css'
 
 // 404 for URLs that match no route at all (for example /missing.txt). It bypasses
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="it">
+    <html lang="it" data-theme={THEME_CHOICE ? undefined : FIXED_THEME}>
       <body className="grid min-h-dvh place-items-center px-4 text-center">
         <main>
           <h1 className="text-4xl font-bold tracking-tight">Pagina non trovata</h1>

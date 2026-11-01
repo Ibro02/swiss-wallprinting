@@ -1,8 +1,11 @@
 import { expect, type Page, test } from '@playwright/test'
+import { THEME_CHOICE } from '../src/lib/theme.ts'
 
-// The dark theme (globals.css, "Dark theme"; ThemeToggle; THEME_SCRIPT): it follows the
-// device until the visitor chooses, the choice survives a reload, and a saved choice is on
-// <html> before React hydrates (the head script), so the page never shows the other theme.
+// The dark theme (globals.css, "Dark theme"; ThemeToggle; THEME_SCRIPT). The site is dark only
+// while THEME_CHOICE is off (the author, 2026-11-01): dark from the server, on every device.
+// With the choice on, it follows the device until the visitor chooses, the choice survives a
+// reload, and a saved choice is on <html> before React hydrates (the head script), so the page
+// never shows the other theme.
 
 const LIGHT_PAGE = 'rgb(255, 255, 255)'
 const DARK_PAGE = 'rgb(31, 42, 61)'
@@ -10,7 +13,36 @@ const DARK_PAGE = 'rgb(31, 42, 61)'
 const pageColour = (page: Page) =>
   page.evaluate(() => getComputedStyle(document.body).backgroundColor)
 
+test.describe('dark only (THEME_CHOICE off)', () => {
+  test.skip(THEME_CHOICE, 'Visitors choose the theme.')
+  test.use({ colorScheme: 'light' })
+
+  test('a light device gets the dark page from the server, with no switch', async ({ page }) => {
+    // What <html> says when the body starts to parse: before any React code ran.
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'light')
+      document.addEventListener(
+        'readystatechange',
+        () => {
+          if (document.readyState === 'interactive') {
+            ;(window as unknown as { themeAtParse?: string }).themeAtParse =
+              document.documentElement.dataset.theme
+          }
+        },
+        { once: true },
+      )
+    })
+    await page.goto('/it')
+    expect(
+      await page.evaluate(() => (window as unknown as { themeAtParse?: string }).themeAtParse),
+    ).toBe('dark')
+    expect(await pageColour(page)).toBe(DARK_PAGE)
+    await expect(page.getByRole('switch', { name: 'Tema scuro' })).toHaveCount(0)
+  })
+})
+
 test.describe('device in light mode', () => {
+  test.skip(!THEME_CHOICE, 'The site is dark only.')
   test.use({ colorScheme: 'light' })
 
   test('the header switch turns the dark theme on, and it stays after a reload', async ({
@@ -61,6 +93,7 @@ test.describe('device in light mode', () => {
 })
 
 test.describe('device in dark mode', () => {
+  test.skip(!THEME_CHOICE, 'The site is dark only.')
   test.use({ colorScheme: 'dark' })
 
   test('the page is dark from the start, without a choice', async ({ page }) => {

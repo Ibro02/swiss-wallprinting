@@ -250,16 +250,22 @@
    * the middle, never past an edge: the camera follows the printer. On wide screens the
    * clamp keeps it still. A layer of its own: the pan moves it on every scrolled frame of a
    * phone, and without the layer each step repainted the poster.
+   *
+   * A tall stage (a phone, a tablet upright) never zooms in further than `--min-share` of the
+   * video's width: covering it showed a third, and the client missed the armchair and the
+   * plant at the sides (2026-11-01). There the frame stands at the top of the stage, and the
+   * intro and the outro are on the dark ground below it. A wide stage still covers.
    */
   .print-scroll__frame {
     --visible: calc(1 - var(--crop-bottom, 0));
+    --min-share: 0.85;
     position: absolute;
     top: 0;
     left: 0;
-    width: max(100cqw, 100cqh * var(--ar) / var(--visible));
+    width: max(100cqw, min(100cqh * var(--ar) / var(--visible), 100cqw / var(--min-share)));
     aspect-ratio: var(--ar);
     translate: clamp(100cqw - 100%, 50cqw - var(--focus) * 100%, 0px)
-      calc((100cqh - 100% * var(--visible)) / 2);
+      min(0px, (100cqh - 100% * var(--visible)) / 2);
     will-change: transform;
   }
 

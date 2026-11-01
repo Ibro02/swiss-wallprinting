@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "Štampamo <em>direktno</em> na zidove.",
-    "intro": "Direktna štampa na unutrašnje i vanjske zidove, bez folije i bez ljepila. Iz Camignola, u Ticinu.",
+    "intro": "Direktna štampa na unutrašnje i vanjske zidove, bez folije i bez ljepila.",
     "navTitle": "Navigacija",
     "contactTitle": "Kontakt",
     "followTitle": "Pratite nas",
@@ -494,7 +494,7 @@
     },
     "cookies": {
       "title": "Kolačići i statistika",
-      "text": "Stranica ne koristi kolačiće za praćenje niti alate za statistiku ili reklame. Postavlja samo jedan tehnički kolačić, koji pamti jezik i briše se kada zatvorite preglednik; svijetla ili tamna tema koju odaberete ostaje sačuvana samo u vašem pregledniku. Fontovi se učitavaju s našeg servera, bez zahtjeva prema Googleu."
+      "text": "Stranica ne koristi kolačiće za praćenje niti alate za statistiku ili reklame. Ne postavlja nikakve kolačiće: jezik je u adresi stranice. Fontovi se učitavaju s našeg servera, bez zahtjeva prema Googleu."
     },
     "links": {
       "title": "Linkovi prema drugim uslugama",

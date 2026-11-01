@@ -11,7 +11,7 @@ import { company } from '@/content/company.ts'
 import { routing } from '@/i18n/routing.ts'
 import { PageChangeMark } from '@/islands/PageChangeMark.tsx'
 import { siteUrl } from '@/lib/site.ts'
-import { THEME_SCRIPT } from '@/lib/theme.ts'
+import { FIXED_THEME, THEME_CHOICE, THEME_SCRIPT } from '@/lib/theme.ts'
 import { sans, serif } from '../fonts.ts'
 import '../globals.css'
 
@@ -24,14 +24,18 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-// The browser bar follows the device's theme (a visitor's own choice cannot reach this
-// static tag; the page itself follows the choice).
-export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#1f2a3d' },
-  ],
-}
+const DARK_PAGE = '#1f2a3d'
+
+// The browser bar: dark while the site is dark only (THEME_CHOICE off); with the choice on, it
+// follows the device's theme (a visitor's own choice cannot reach this static tag).
+export const viewport: Viewport = THEME_CHOICE
+  ? {
+      themeColor: [
+        { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+        { media: '(prefers-color-scheme: dark)', color: DARK_PAGE },
+      ],
+    }
+  : { themeColor: DARK_PAGE, colorScheme: 'dark' }
 
 export async function generateMetadata({ params }: Omit<Props, 'children'>): Promise<Metadata> {
   const { locale } = await params
@@ -60,20 +64,23 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   return (
-    // suppressHydrationWarning: THEME_SCRIPT may set data-theme on <html> before React hydrates.
+    // data-theme: the site is dark only (THEME_CHOICE off), so the server renders it and the
+    // first paint is dark on every device. With the choice on, THEME_SCRIPT may set data-theme
+    // on <html> before React hydrates (suppressHydrationWarning).
     // data-scroll-behavior: Next.js turns the root's smooth scrolling (globals.css, for in-page
     // anchors) off while it puts a new page at the top; without it every page change scrolled
     // up for 0.6–0.8 s (the author's Firefox profile, 2026-11-01).
     <html
       lang={locale}
       className={`${sans.variable} ${serif.variable}`}
+      data-theme={THEME_CHOICE ? undefined : FIXED_THEME}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
         {/* Before the first paint: the visitor's saved theme (no flash of the other one). */}
         {/* oxlint-disable-next-line react/no-danger -- a fixed string from src/lib/theme.ts */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {THEME_CHOICE && <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />}
       </head>
       <body className="antialiased">
         <NextIntlClientProvider messages={clientMessages}>

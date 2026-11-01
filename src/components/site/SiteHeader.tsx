@@ -11,6 +11,7 @@ import { MobileMenu } from '@/islands/MobileMenu.tsx'
 import { NavLink } from '@/islands/NavLink.tsx'
 import { ThemeToggle } from '@/islands/ThemeToggle.tsx'
 import { NAV_PAGES, PAGES } from '@/i18n/pages.ts'
+import { THEME_CHOICE } from '@/lib/theme.ts'
 
 // A frosted pill that floats over the first card of every page (the hero photo, or the
 // mist header of an inner page), with the client's black logo: the colour logo needs a
@@ -62,7 +63,7 @@ export async function SiteHeader() {
             <div className="ml-auto flex items-center gap-1.5">
               {/* Wide screens: the theme and the language in the pill; phones: in the menu. */}
               <div className="hidden items-center gap-1 lg:flex">
-                <ThemeToggle label={t('themeDark')} variant="icon" />
+                {THEME_CHOICE && <ThemeToggle label={t('themeDark')} variant="icon" />}
                 <LanguageSwitcher />
               </div>
               <ConfiguratorIntent>
@@ -95,9 +96,11 @@ export async function SiteHeader() {
                     </ButtonLink>
                     <div>
                       <LanguageSwitcher variant="list" />
-                      <div className="mt-4 border-y border-ink/8">
-                        <ThemeToggle label={t('themeDark')} variant="row" />
-                      </div>
+                      {THEME_CHOICE && (
+                        <div className="mt-4 border-y border-ink/8">
+                          <ThemeToggle label={t('themeDark')} variant="row" />
+                        </div>
+                      )}
                     </div>
                     <ul className="mt-auto space-y-3 text-sm text-mute">
                       <li>

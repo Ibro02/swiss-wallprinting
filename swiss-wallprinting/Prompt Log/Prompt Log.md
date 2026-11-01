@@ -19,7 +19,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 > [!summary] For the next agent
 > Read this section first. Update it after each prompt.
 >
-> - **Latest (2026-11-01, [[2026-11-01 23 - German card text overflows]], not committed):** on phones the "Was wir drucken" cards (`WhatWePrint`) let long German words run out of the card. The list hyphenates now (`hyphens-auto break-words`), and `de.json` has soft hyphens in "Massgeschneiderte", "Innenarchitekturprojekte", and "Firmengeschichten" (Chromium on Windows has no German hyphenation). Checked at 360 px in all four languages.
+> - **Latest (2026-11-01, [[2026-11-01 24 - Dark only, Italian default, WhatsApp, phone hero]], not committed):** the site is dark only (`THEME_CHOICE = false` in `theme.ts`: `data-theme="dark"` from the server, no switch, no head script; set it to `true` to bring the light theme back). `/` always opens Italian (`localeDetection: false`), and the site sets no cookies (`localeCookie: false`; privacy text updated in 4 languages). WhatsApp: +41 76 411 55 06. Phones see at least 85 % of the hero video's width (`--min-share`), the texts below the picture, so the armchair and the plant are in view. Build and e2e (theme, a11y, smoke, home) pass.
+> - **Before that (2026-11-01, [[2026-11-01 23 - German card text overflows]], committed `893700e`):** on phones the "Was wir drucken" cards (`WhatWePrint`) let long German words run out of the card. The list hyphenates now (`hyphens-auto break-words`), and `de.json` has soft hyphens in "Massgeschneiderte", "Innenarchitekturprojekte", and "Firmengeschichten" (Chromium on Windows has no German hyphenation). Checked at 360 px in all four languages.
 > - **Before that (2026-11-01, [[2026-11-01 22 - Vercel build fails]], no code change):** the Vercel build of `366507d` fails (`pnpm run build` exit 1). The same commit builds locally in a clean clone with `VERCEL=1` and the `.env.local` settings, and stops without them; so the deployment lacks the mail variables or `FORM_SECRET` (or has `SITE_ENV=production`). The author checks the Vercel variables and redeploys.
 > - **Before that (2026-11-01, [[2026-11-01 21 - SMTP on Vercel, deploy guard]], committed on `main`, pushed):** the form e-mails fail on Vercel; cause not confirmed (no Vercel access): the author reads the `[form]` line in Vercel's Logs. Likely: no redeploy, variables only for Production while testing a preview (then the outbox ran on a read-only file system), or Gmail refusing Vercel's IPs. Guard added: `isDeployed` in `mail.ts`; every Vercel build (previews too) refuses the outbox, and `check-mail.ts` stops it without mail settings or `FORM_SECRET`.
 > - **Before that (2026-11-01, [[2026-11-01 20 - Minimum speed of the scroll hero]], committed on `main`, not pushed):** one scroll forwards plays the whole print by itself in 2 s (`playSeconds`, `playTowards`; the video's print is 2.6 s), faster where the scroll is ahead; a scroll back rewinds with the scroll (`minSpeed` 0.5 for the rewind). A frame blend was tried and removed on the author's request (production was already smooth).
@@ -79,7 +80,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 
 | Date | No. | Title | Status |
 |---|---|---|---|
-| 2026-11-01 | 23 | [[2026-11-01 23 - German card text overflows]] | Done (not committed) |
+| 2026-11-01 | 24 | [[2026-11-01 24 - Dark only, Italian default, WhatsApp, phone hero]] | Done (not committed) |
+| 2026-11-01 | 23 | [[2026-11-01 23 - German card text overflows]] | Done (committed `893700e`) |
 | 2026-11-01 | 22 | [[2026-11-01 22 - Vercel build fails]] | Waiting for the author (Vercel environment variables) |
 | 2026-11-01 | 21 | [[2026-11-01 21 - SMTP on Vercel, deploy guard]] | Waiting for the author (Vercel logs; committed on `main`, pushed) |
 | 2026-11-01 | 20 | [[2026-11-01 20 - Minimum speed of the scroll hero]] | Done (committed on `main`, not pushed) |

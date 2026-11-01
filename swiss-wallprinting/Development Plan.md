@@ -178,7 +178,7 @@ Localized paths come from next-intl `pathnames`. Each page has `hreflang` altern
 
 - **Header:** logo, links, language switcher, and a highlighted button **"Try your wall printing"** (magenta). Glass pill navigation (from the design reference). Mobile: menu button + the same highlighted button.
 - **Footer:** contacts from [[Old Website#Contact data]], socials, legal links, small credits link (3D models, mock photos).
-- **Floating WhatsApp button** to +41 79 350 08 85 with a prefilled message (decided: yes, Q9). The number comes from the content file, not the component.
+- **Floating WhatsApp button** to +41 76 411 55 06 (the client's number, 2026-11-01) with a prefilled message (decided: yes, Q9). The number comes from the content file, not the component.
 
 ### 4.2 Home
 
@@ -400,7 +400,7 @@ Later ideas (not in scope now): **"Your wall photo" mode** (upload a photo of th
 | Q6 | E-mail: will there be `info@swisswallprinting.ch`? Who receives the forms? | Forms | **For now:** the author's own address (`CONTACT_TO` in `.env.local`) for tests. **2026-10-22:** the client wants `info@swisswallprinting.ch` instead of Gmail (with the domain and hosting, Phase 7) |
 | Q7 | Real reviews (Google profile?), real photos and videos (a time-lapse of a print is the best hero), before/after pairs | Testimonials, hero, gallery | **2026-10-23 (later):** before/after pairs of five walls are on the services page; their "before" photos match the "after" photos outside the print, so they are probably edited from them: ask the client to confirm that they show the real wall. **2026-10-23:** photos and videos received for six projects and other walls; used on the Projects page and in the gallery (the sea-view living room has none yet, and the videos are not used yet). **2026-10-22:** photos and videos will come by Google Drive. Reviews: the client has not decided (he can send screenshots of happy clients' messages; he wants to open a Google Business Profile) |
 | Q8 | French as a 4th Swiss language? | i18n | **Not now.** Add it later; the i18n setup makes it a translation job only |
-| Q9 | WhatsApp button (+41 79 350 08 85)? | Global | **Yes** |
+| Q9 | WhatsApp button (+41 76 411 55 06 since 2026-11-01)? | Global | **Yes** |
 | Q10 | Company story, team photos, service area (Ticino only or all of Switzerland), ink certificate name | About, Why | **2026-10-22:** story and service area received (Ticino, Switzerland, Europe on request). Team photos and the ink certificate name are still open |
 | Q12 | TikTok: the link to the account | Footer, contact, JSON-LD | Open (the brief names TikTok without a link) |
 | Q13 | May Milly Torte, Barber House, and Caviezel be named on the site? | Projects | Open |

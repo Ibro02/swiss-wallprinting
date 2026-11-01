@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "We print <em>directly</em> on walls.",
-    "intro": "Direct printing on interior and exterior walls, with no film and no stickers. From Camignolo, Ticino.",
+    "intro": "Direct printing on interior and exterior walls, with no film and no stickers.",
     "navTitle": "Navigation",
     "contactTitle": "Contact",
     "followTitle": "Follow us",
@@ -494,7 +494,7 @@
     },
     "cookies": {
       "title": "Cookies and statistics",
-      "text": "The website uses no tracking cookies and no statistics or advertising tools. It sets one technical cookie that remembers the language and is deleted when you close the browser; the light or dark theme you choose is stored only in your browser. The fonts load from our own server, with no requests to Google."
+      "text": "The website uses no tracking cookies and no statistics or advertising tools. It sets no cookies: the language is in the page’s address. The fonts load from our own server, with no requests to Google."
     },
     "links": {
       "title": "Links to other services",

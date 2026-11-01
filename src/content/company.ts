@@ -19,8 +19,8 @@ export const company: Company = {
     { e164: '+41764115506', display: '+41 76 411 55 06', languages: 'IT' },
     { e164: '+41793500885', display: '+41 79 350 08 85', languages: 'IT - DE - CH' },
   ],
-  // Decided by the author (Q9); confirm with the client before launch.
-  whatsapp: '+41793500885',
+  // The client's WhatsApp number (the author, 2026-11-01).
+  whatsapp: '+41764115506',
   social: {
     facebook: 'https://www.facebook.com/p/swisswallprinting-61578563834876/',
     instagram: 'https://www.instagram.com/swisswallprinting/',

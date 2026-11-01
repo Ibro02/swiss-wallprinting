@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "Wir drucken <em>direkt</em> auf Wände.",
-    "intro": "Direktdruck auf Innen- und Aussenwände, ohne Folie und ohne Kleber. Aus Camignolo im Tessin.",
+    "intro": "Direktdruck auf Innen- und Aussenwände, ohne Folie und ohne Kleber.",
     "navTitle": "Navigation",
     "contactTitle": "Kontakt",
     "followTitle": "Folgen Sie uns",
@@ -231,7 +231,7 @@
         },
         "homes": {
           "title": "Gestaltung für Zuhause",
-          "text": "Wohnzimmer, Schlafzimmer und Flure, die einzigartig werden."
+          "text": "Wohnzimmer, Schlafzimmer und Flur, die einzigartig werden."
         },
         "business": {
           "title": "Restaurants, Hotels und Büros",
@@ -281,7 +281,7 @@
           "livingRooms": "Wohnzimmer",
           "bedrooms": "Schlafzimmer",
           "childrensRooms": "Kinderzimmer",
-          "hallways": "Flure",
+          "hallways": "Flur",
           "others": "Weitere Wohnräume"
         },
         "highlight": "Machen Sie Ihr Zuhause einzigartig."
@@ -494,7 +494,7 @@
     },
     "cookies": {
       "title": "Cookies und Statistik",
-      "text": "Die Website verwendet keine Tracking-Cookies, keine Statistik- und keine Werbewerkzeuge. Sie setzt ein einziges technisches Cookie, das sich die Sprache merkt und beim Schliessen des Browsers gelöscht wird; das helle oder dunkle Design, das Sie wählen, bleibt nur in Ihrem Browser gespeichert. Die Schriften werden von unserem Server geladen, ohne Anfragen an Google."
+      "text": "Die Website verwendet keine Tracking-Cookies, keine Statistik- und keine Werbewerkzeuge. Sie setzt keine Cookies: Die Sprache steht in der Adresse der Seite. Die Schriften werden von unserem Server geladen, ohne Anfragen an Google."
     },
     "links": {
       "title": "Links zu anderen Diensten",

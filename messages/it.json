@@ -58,7 +58,7 @@
   },
   "Footer": {
     "claim": "Stampiamo <em>direttamente</em> sui muri.",
-    "intro": "Stampa diretta su pareti interne ed esterne, senza pellicole né adesivi. Da Camignolo, in Ticino.",
+    "intro": "Stampa diretta su pareti interne ed esterne, senza pellicole né adesivi.",
     "navTitle": "Navigazione",
     "contactTitle": "Contatti",
     "followTitle": "Seguici",
@@ -494,7 +494,7 @@
     },
     "cookies": {
       "title": "Cookie e statistiche",
-      "text": "Il sito non usa cookie di tracciamento né strumenti di statistica o pubblicità. Usa un solo cookie tecnico, che ricorda la lingua e si cancella quando chiudi il browser; il tema chiaro o scuro che scegli resta salvato solo nel tuo browser. I caratteri tipografici sono caricati dal nostro server, senza richieste a Google."
+      "text": "Il sito non usa cookie di tracciamento né strumenti di statistica o pubblicità. Non imposta alcun cookie: la lingua è nell’indirizzo della pagina. I caratteri tipografici sono caricati dal nostro server, senza richieste a Google."
     },
     "links": {
       "title": "Link ad altri servizi",

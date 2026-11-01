@@ -11,7 +11,7 @@ export const generateMetadata = metadataFor('privacy')
 // Privacy policy under the Swiss Federal Act on Data Protection (FADP, in force since
 // 2023-09-01), with the GDPR rights for visitors from the EU. It describes what this site
 // really does: the contact form and the configurator's quote request, e-mail and phone
-// contacts, server logs, one language cookie (no tracking), self-hosted fonts, links to
+// contacts, server logs, no cookies (the language is in the address), self-hosted fonts, links to
 // other services. Before launch the client (or a lawyer) checks it.
 
 const SECTIONS = [

@@ -6,6 +6,11 @@ export const routing = defineRouting({
   locales: ['it', 'de', 'en', 'bs'],
   defaultLocale: 'it',
   localePrefix: 'always',
+  // An address without a language (/) always opens Italian (the author, 2026-11-01): no
+  // redirect by the browser's language or by an earlier visit's cookie. Without detection
+  // nothing reads the language cookie, so none is set (the privacy page says so).
+  localeDetection: false,
+  localeCookie: false,
   pathnames: {
     '/': '/',
     '/about': { it: '/chi-siamo', de: '/ueber-uns', en: '/about', bs: '/o-nama' },
