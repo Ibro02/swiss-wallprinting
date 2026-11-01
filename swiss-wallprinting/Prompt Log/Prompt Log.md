@@ -19,7 +19,10 @@ This folder records each prompt that the author gives to an AI agent, and the re
 > [!summary] For the next agent
 > Read this section first. Update it after each prompt.
 >
-> - **Latest (2026-11-01, [[2026-11-01 10 - Commit, merge, and push the hero video]]):** `feat/hero-video` is committed, merged into `main` (`--no-ff`), and pushed to `origin/main`. `.claude/` and `swiss-wallprinting.rar` are still not in git.
+> - **Latest (2026-11-01, [[2026-11-01 13 - One second page fade]], committed on `main`, not pushed):** after a client-side page change the new page's `<main>` fades in as a whole in 1 s (the author's choice; before: 150 ms on the first screen only), with the strong ease-out from the tokens, so most of it is in the first 0.3 s; the header and the footer stay; reduced motion 0.4 s; the first load keeps the entrance. Firefox: the first frame of the new page is at opacity 0 (no flash). `vp check`, the build, and the full e2e (143 passed) pass. The author keeps the fast start ("Keep the fast start"); still to look at in Firefox and on a phone.
+> - **Before that (2026-11-01, [[2026-11-01 12 - Dev warm-up]], committed on `main`, not pushed):** `vp run dev` now runs `scripts/dev.ts`: `next dev`, then one request per page, one by one (17–19 s, ` ✓ Warm-up` in the output). After a restart the first click on a page in dev takes 0.2–0.5 s instead of 1.5–2.1 s (Firefox, measured on a copy of the project). The 1.4–1.6 s was mostly Next.js's "generate-params" (about 1 s per page after every start, not kept by the compile cache). Parallel requests raced in Next.js 16.4 (500s), so the warm-up stays sequential. `vp check` and `vp test` (282) pass. The author's dev server on port 3000 must be restarted with `vp run dev` to get it.
+> - **Before that (2026-11-01, [[2026-11-01 11 - Instant page changes]], committed on `main`, not pushed):** the author's Firefox profile of page changes was the dev server: 1.35–1.6 s per first visit is Next.js compiling the page ("Compiling…" badge), and after the new page came, it scrolled up for 0.6–0.8 s. That scroll was also in production: the root's `scroll-behavior: smooth` without `data-scroll-behavior="smooth"` on `<html>`, which Next.js 16 needs to turn it off during a page change. Fixed in the layout, with an e2e test (desktop and phone menu). Production in Playwright's Firefox: 34–132 ms from click to the new page, at the top at once. `vp check` and the full e2e (143 passed) pass. Offered: a dev warm-up for the first visits.
+> - **Before that (2026-11-01, [[2026-11-01 10 - Commit, merge, and push the hero video]]):** `feat/hero-video` is committed, merged into `main` (`--no-ff`), and pushed to `origin/main`. `.claude/` and `swiss-wallprinting.rar` are still not in git.
 > - **Before that (2026-11-01, [[2026-11-01 09 - Implement the hero video plan]]):** [[Specs/Hero video]] is built.
 >   - **Frames:** the hero uses the author's video with 100 AVIF frames (desktop 4.5 MB, phone 2.5 MB, posters 22 and 12 KB) and WebP poster fallbacks. A browser without AVIF loads no frames (`choseFallback`).
 >   - **Video and look:** `cropBottom` is `0`, the printer track is measured again, and the signature's code is gone. Both videos are in `Assets/Videos/` (git ignores the folder; `vp run frames` reads the video from there). The poster's alt text is new in four languages (DE, EN, and BS are drafts).
@@ -65,6 +68,9 @@ This folder records each prompt that the author gives to an AI agent, and the re
 ## Entries
 
 | Date | No. | Title | Status |
+| 2026-11-01 | 13 | [[2026-11-01 13 - One second page fade]] | Done (committed on `main`, not pushed) |
+| 2026-11-01 | 12 | [[2026-11-01 12 - Dev warm-up]] | Done (committed on `main`, not pushed) |
+| 2026-11-01 | 11 | [[2026-11-01 11 - Instant page changes]] | Done (committed on `main`, not pushed) |
 | 2026-11-01 | 10 | [[2026-11-01 10 - Commit, merge, and push the hero video]] | Done (merged into `main`, pushed) |
 | 2026-11-01 | 09 | [[2026-11-01 09 - Implement the hero video plan]] | Done (merged into `main` in 10) |
 | 2026-11-01 | 08 | [[2026-11-01 08 - Hero video plan in Plannotator]] | Done (Plannotator installed; the plan approved in chat) |

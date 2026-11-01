@@ -61,7 +61,15 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     // suppressHydrationWarning: THEME_SCRIPT may set data-theme on <html> before React hydrates.
-    <html lang={locale} className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
+    // data-scroll-behavior: Next.js turns the root's smooth scrolling (globals.css, for in-page
+    // anchors) off while it puts a new page at the top; without it every page change scrolled
+    // up for 0.6–0.8 s (the author's Firefox profile, 2026-11-01).
+    <html
+      lang={locale}
+      className={`${sans.variable} ${serif.variable}`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
         {/* Before the first paint: the visitor's saved theme (no flash of the other one). */}
         {/* oxlint-disable-next-line react/no-danger -- a fixed string from src/lib/theme.ts */}

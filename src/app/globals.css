@@ -392,12 +392,24 @@
   }
 
   /*
-   * After a client-side page change (`data-page-change`, set by PageChangeMark), the first
-   * screen fades in at once: the full entrance on every page made page changes feel slow
-   * (about 1.1 s; the author, 2026-11-01). The first page load keeps the entrance.
+   * After a client-side page change (`data-page-change`, set by PageChangeMark), the new
+   * page fades in as a whole in 1 s, instead of the entrance (the author, 2026-11-01); the
+   * header and the footer stay. The strong ease-out does most of the fade in the first
+   * 0.3 s, so the page reads at once and then settles. No fill: after the fade, `main` has
+   * no animation (and no stacking context). The first page load keeps the entrance.
    */
+  :root[data-page-change] main {
+    animation: fade 1s var(--ease-out);
+  }
+
   :root[data-page-change] [data-rise] {
-    animation: fade 150ms var(--ease-out) both;
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-page-change] main {
+      animation-duration: 0.4s;
+    }
   }
 
   @keyframes fade {
