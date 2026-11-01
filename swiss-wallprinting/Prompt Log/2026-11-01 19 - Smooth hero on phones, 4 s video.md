@@ -56,4 +56,4 @@ The scroll hero must play smoothly on a phone, with the 4 s video, and print the
 
 - **Look at it on the real phone.** Safari on an iPhone may decode `createImageBitmap(blob)` on its main thread (WebKit); the style fixes help there in any case. If it still stutters on the iPhone, the next step is to keep `img.decode()` + `createImageBitmap(img)` for WebKit, or a WebCodecs stream.
 - The poster's alt text (`Home.hero.imageAlt`) is unchanged: the 4 s video shows the same picture, to check.
-- Committed on `main` (the author: "Smooth now, commit"), not pushed.
+- Committed on `main` (the author: "Smooth now, commit") and pushed.

@@ -40,6 +40,12 @@ export async function Hero() {
       // 2026-11-01: "when user scrolls one time it prints out on the wall").
       length="200vh"
       smoothing={0.12}
+      // At least half of the print per second: the picture does not crawl over the last frames
+      // of a swipe (the author, 2026-11-01: "I would like it faster so it can be smoother").
+      minSpeed={0.5}
+      // One scroll plays the whole print, in 2 s: a little faster than the video (78 frames at
+      // 30 fps, 2.6 s), so the printer moves as filmed, without dropped frames (the author).
+      playSeconds={2}
       focus={heroVideo.focus}
       cropBottom={heroVideo.cropBottom}
       headerRoom={HEADER_ROOM}

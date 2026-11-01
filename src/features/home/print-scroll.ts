@@ -62,18 +62,40 @@ const SETTLED = 0.0002
  * One step of the shown progress towards the scroll position. `smoothing` is the share of
  * the remaining distance covered in one 60 Hz frame (1 = no smoothing). The step is scaled
  * by the real frame time, so the motion feels the same on 60 Hz and 120 Hz screens, and
- * after a long frame it catches up instead of lagging.
+ * after a long frame it catches up instead of lagging. `minSpeed` (progress per second) is
+ * the slowest it moves: the easing alone crawls over the last frames before it stops.
  */
 export function smoothTowards(
   current: number,
   target: number,
   smoothing: number,
   elapsedMs: number,
+  minSpeed = 0,
 ): number {
   const share = Math.min(1, Math.max(0.01, smoothing))
-  const k = 1 - (1 - share) ** (Math.min(elapsedMs, 100) / FRAME_MS)
-  const next = current + (target - current) * k
+  const elapsed = Math.min(elapsedMs, 100)
+  const k = 1 - (1 - share) ** (elapsed / FRAME_MS)
+  const distance = target - current
+  const step = Math.max(Math.abs(distance) * k, (minSpeed * elapsed) / 1000)
+  if (step >= Math.abs(distance)) return target
+  const next = current + Math.sign(distance) * step
   return Math.abs(target - next) < SETTLED ? target : next
+}
+
+/**
+ * One step of the picture while the print plays (PrintOnScroll, after a scroll forwards):
+ * on at the speed of `playSeconds` for the whole print, or faster where the scroll is ahead
+ * (followed as in smoothTowards), never backwards, and never past the end.
+ */
+export function playTowards(
+  current: number,
+  scrolled: number,
+  smoothing: number,
+  elapsedMs: number,
+  playSeconds: number,
+): number {
+  const played = current + Math.min(elapsedMs, 100) / 1000 / playSeconds
+  return Math.min(1, Math.max(played, smoothTowards(current, scrolled, smoothing, elapsedMs)))
 }
 
 /**

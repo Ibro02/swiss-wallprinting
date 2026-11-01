@@ -32,24 +32,24 @@ const shownFrame = (page: Page) =>
     Number(document.querySelector<HTMLElement>('.print-scroll__canvas')?.dataset.frame ?? -1),
   )
 
-test('the hero follows the scroll forwards and backwards', async ({ page, isMobile }) => {
+test('one scroll plays the print, a scroll back rewinds it', async ({ page, isMobile }) => {
   await page.goto('/it')
   expect(await progress(page)).toBe(0)
   const { distance } = await heroRange(page)
   const { count } = isMobile ? heroFrames.mobile : heroFrames.desktop
+  const stage = page.locator('.print-scroll__stage')
 
-  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 2)
-  // The canvas draws a frame from the middle of the video; the call to action waits.
-  await expect
-    .poll(async () => Math.abs((await shownFrame(page)) - (count - 1) / 2))
-    .toBeLessThanOrEqual(2)
-  await expect(page.locator('.print-scroll__stage')).not.toHaveAttribute('data-done')
-  // Between the intro and the outro `--p` stands still: the stage is not restyled.
-  expect(await progress(page)).toBe(0.1)
-
-  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance)
+  // A short scroll forwards plays the whole print, up to the call to action.
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 8)
   await expect.poll(() => progress(page)).toBe(1)
-  await expect(page.locator('.print-scroll__stage')).toHaveAttribute('data-done', '')
+  await expect(stage).toHaveAttribute('data-done', '')
+
+  // Back to the middle: the picture follows the scroll back; the call to action goes.
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 16)
+  await expect
+    .poll(async () => Math.abs((await shownFrame(page)) - (count - 1) / 16))
+    .toBeLessThanOrEqual(2)
+  await expect(stage).not.toHaveAttribute('data-done')
 
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
   await expect.poll(() => progress(page)).toBe(0)

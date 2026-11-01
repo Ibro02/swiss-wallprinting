@@ -11,6 +11,7 @@ import {
   loadOrder,
   nearestLoaded,
   overlayProgress,
+  playTowards,
   scrollProgress,
   smoothTowards,
 } from '../print-scroll.ts'
@@ -98,6 +99,17 @@ describe('smoothTowards', () => {
 
   it('jumps with smoothing 1', () => {
     expect(smoothTowards(0, 0.7, 1, 16)).toBe(0.7)
+  })
+
+  it('moves at least at the minimum speed near the end, in both directions', () => {
+    // The easing alone would cover 12 % of 0.01 in one frame; 0.5 per second is 0.0083.
+    expect(smoothTowards(0.5, 0.51, 0.12, 1000 / 60, 0.5)).toBeCloseTo(0.5 + 0.5 / 60, 6)
+    expect(smoothTowards(0.51, 0.5, 0.12, 1000 / 60, 0.5)).toBeCloseTo(0.51 - 0.5 / 60, 6)
+  })
+
+  it('keeps the easing where it is faster, and never passes the target', () => {
+    expect(smoothTowards(0, 1, 0.2, 1000 / 60, 0.5)).toBeCloseTo(0.2)
+    expect(smoothTowards(0.5, 0.505, 0.12, 1000 / 60, 0.5)).toBe(0.505)
   })
 })
 
@@ -249,5 +261,22 @@ describe('decodeWindow', () => {
     expect(new Set(decodeWindow(10, 0, 0, 20))).toEqual(
       new Set(Array.from({ length: 10 }, (_, i) => i)),
     )
+  })
+})
+
+describe('playTowards', () => {
+  it('plays on at the speed of playSeconds when the scroll is behind', () => {
+    // 2 s for the whole print: one 60 Hz frame is 1/120 of it.
+    expect(playTowards(0.3, 0.1, 0.12, 1000 / 60, 2)).toBeCloseTo(0.3 + 1 / 120, 6)
+  })
+
+  it('follows a scroll that is ahead, as fast as smoothTowards', () => {
+    expect(playTowards(0.1, 0.9, 0.12, 1000 / 60, 2)).toBeCloseTo(
+      smoothTowards(0.1, 0.9, 0.12, 1000 / 60),
+    )
+  })
+
+  it('stops at the end', () => {
+    expect(playTowards(0.999, 0.5, 0.12, 1000 / 60, 2)).toBe(1)
   })
 })

@@ -18,6 +18,7 @@ import {
   type Phases,
   type ScrollRange,
   scrollProgress,
+  playTowards,
   smoothTowards,
 } from '@/features/home/print-scroll.ts'
 
@@ -56,6 +57,9 @@ import {
 /** Progress at which the intro has faded out and the outro starts. */
 const PHASES: Phases = { introOut: 0.1, outroIn: 0.88 }
 
+/** A scroll back shorter than this (px) does not stop the print while it plays. */
+const REWIND_PX = 24
+
 /** Frames that download at the same time. */
 const PARALLEL_LOADS = 6
 
@@ -84,6 +88,17 @@ interface Props {
    * (0 … 1). Lower is smoother but lags more; 1 is no smoothing.
    */
   smoothing?: number
+  /**
+   * The slowest the picture moves towards the scroll position (progress per second), so it
+   * does not crawl over the last frames. 0: the easing alone.
+   */
+  minSpeed?: number
+  /**
+   * After a scroll forwards the print plays on to the end by itself, in this many seconds for
+   * the whole of it (faster where the scroll is ahead); a scroll back rewinds with the
+   * scroll. 0: the picture only follows the scroll.
+   */
+  playSeconds?: number
   /**
    * Where the subject is (x, 0 … 1 of the frame width), at equal steps of progress from the
    * first frame to the last (focusTrack). Screens narrower than the video keep this point in
@@ -117,6 +132,8 @@ export function PrintOnScroll({
   mobileQuery = '(max-width: 47.99rem)',
   length = '400vh',
   smoothing = 0.12,
+  minSpeed = 0,
+  playSeconds = 0,
   focus = [0.5],
   cropBottom = 0,
   headerRoom = 0,
@@ -164,6 +181,9 @@ export function PrintOnScroll({
     let keptFor = ''
     const downloads = new AbortController()
     let range: ScrollRange = { start: 0, distance: 0 }
+    // The scroll's progress; where the picture goes (the end while the print plays); where it is.
+    let scrolled = 0
+    let playing = false
     let target = 0
     let current = 0
     let drawn = -1
@@ -179,7 +199,8 @@ export function PrintOnScroll({
         start: section.getBoundingClientRect().top + window.scrollY + room - stickyTop,
         distance: section.offsetHeight - room - stage.offsetHeight,
       }
-      target = scrollProgress(window.scrollY, range)
+      scrolled = scrollProgress(window.scrollY, range)
+      if (!playing) target = scrolled
     }
 
     const decodeNext = () => {
@@ -244,7 +265,10 @@ export function PrintOnScroll({
     }
 
     const tick = (time: number) => {
-      current = smoothTowards(current, target, smoothing, lastTime ? time - lastTime : 1000 / 60)
+      const elapsed = lastTime ? time - lastTime : 1000 / 60
+      current = playing
+        ? playTowards(current, scrolled, smoothing, elapsed, playSeconds)
+        : smoothTowards(current, target, smoothing, elapsed, minSpeed)
       lastTime = time
       render()
       if (current === target) {
@@ -262,8 +286,14 @@ export function PrintOnScroll({
     const onScroll = () => {
       loadAll()
       const next = scrollProgress(window.scrollY, range)
-      if (next === target) return
-      target = next
+      if (next === scrolled) return
+      // One scroll forwards plays the whole print (the author, 2026-11-01: "with one scroll
+      // through the entire transformation"); a scroll back stops it and rewinds with the scroll.
+      // A few pixels back (the browser's scroll anchoring as the page loads) is no rewind.
+      const rewind = scrolled - next > REWIND_PX / Math.max(range.distance, 1)
+      playing = playSeconds > 0 && (next > scrolled || (playing && !rewind))
+      scrolled = next
+      target = playing ? 1 : next
       wake()
     }
 
@@ -354,7 +384,7 @@ export function PrintOnScroll({
       downloads.abort()
       for (const bitmap of decoded) bitmap?.close()
     }
-  }, [frames, mobileFrames, mobileQuery, smoothing, focus])
+  }, [frames, mobileFrames, mobileQuery, smoothing, minSpeed, playSeconds, focus])
 
   const sectionStyle = {
     '--print-length': length,
