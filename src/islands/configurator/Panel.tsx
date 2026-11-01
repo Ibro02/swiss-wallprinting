@@ -649,8 +649,11 @@ function PriceSummary({
             }
             value={chf(price.print, 2)}
           />
-          <Row term={t('fixed')} value={chf(price.fixed, 2)} />
-          <Row term={t('vat', { rate: vatRate })} value={chf(price.vat, 2)} />
+          {/* Only the costs that exist: the rate may include everything (pricing.ts). */}
+          {price.fixed > 0 && <Row term={t('fixed')} value={chf(price.fixed, 2)} />}
+          {rates.vatRate > 0 && (
+            <Row term={t('vat', { rate: vatRate })} value={chf(price.vat, 2)} />
+          )}
           <Row term={t('total')} value={chf(price.total, 2)} strong />
         </dl>
         <p className="mt-2 leading-relaxed">
