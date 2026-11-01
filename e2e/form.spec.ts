@@ -10,6 +10,15 @@ test.skip(({ isMobile }) => isMobile, 'The same form; it would only use up the r
 
 const form = (page: Page) => page.locator('form').filter({ has: page.locator('[name="message"]') })
 
+/**
+ * The spam check counts the fill time from the server's signed token, which arrives after
+ * hydration (src/lib/form-token.ts): wait for it, then for a person's typing time.
+ */
+async function waitForFillTime(page: Page) {
+  await expect(form(page).locator('[name="formToken"]')).toHaveValue(/^\d+\.[\w-]{43}$/)
+  await page.waitForTimeout(MIN_FILL_MS + 200)
+}
+
 async function fillValid(page: Page) {
   const fields = form(page)
   await fields.locator('[name="name"]').fill('Test E2E')
@@ -22,8 +31,7 @@ test('the server says which fields are missing, and the focus goes to the first'
   page,
 }) => {
   await page.goto('/it/contatti')
-  // The spam check refuses a form sent faster than a person can type.
-  await page.waitForTimeout(MIN_FILL_MS + 200)
+  await waitForFillTime(page)
   await form(page).locator('[type="submit"]').click()
   const name = form(page).locator('[name="name"]')
   await expect(name).toHaveAttribute('aria-invalid', 'true')
@@ -33,7 +41,7 @@ test('the server says which fields are missing, and the focus goes to the first'
 
 test('a filled form is sent', async ({ page }) => {
   await page.goto('/it/contatti')
-  await page.waitForTimeout(MIN_FILL_MS + 200)
+  await waitForFillTime(page)
   await fillValid(page)
   await form(page).locator('[type="submit"]').click()
   await expect(page.getByRole('status')).toBeVisible()

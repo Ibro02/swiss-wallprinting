@@ -12,6 +12,8 @@ const notSource = [
   'Assets/**',
   'swiss-wallprinting/**',
   '.claude/**',
+  // The deepsec workspace: its own package (deepsec's format and its dependencies).
+  '.deepsec/**',
   'next-env.d.ts',
   'pnpm-lock.yaml',
 ]

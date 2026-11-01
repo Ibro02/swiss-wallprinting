@@ -5,6 +5,7 @@
 // pure functions in model/ compute them.
 
 import { createStore } from 'zustand/vanilla'
+import { applyProductRules } from './model/configuration.ts'
 import {
   defaultPrint,
   edgesOf,
@@ -24,7 +25,6 @@ import {
 import type { Environment } from './model/price.ts'
 import {
   clampRoomSize,
-  OUTDOOR_WALL,
   type Room,
   type RoomDimension,
   type Wall,
@@ -136,12 +136,21 @@ export function sharedConfigOf(
 }
 
 export function createConfiguratorStore(initial: ConfiguratorConfig, machineMaxHeight: number) {
-  return createStore<ConfiguratorState>()((set, get) => {
+  return createStore<ConfiguratorState>()((setState, get) => {
+    /** Every change passes the product rules once (model/configuration.ts), also a new action. */
+    const set = (
+      change:
+        | Partial<ConfiguratorState>
+        | ((state: ConfiguratorState) => Partial<ConfiguratorState>),
+    ) =>
+      setState((state) =>
+        applyProductRules({ ...state, ...(typeof change === 'function' ? change(state) : change) }),
+      )
     /** The print as it shows now; edits start from it, not from an older, larger request. */
     const fitted = () => placementOf(get())
 
     return {
-      ...initial,
+      ...applyProductRules(initial),
       view: 'after',
       panelOpen: true,
       machineMaxHeight,
@@ -183,10 +192,8 @@ export function createConfiguratorStore(initial: ConfiguratorConfig, machineMaxH
         set({ print: resizeFromCorner(corner, anchor, pointer, fitted().wall, machineMaxHeight) }),
 
       setFit: (fit) => set({ fit }),
-      // Outdoors there is one wall (the client, 2026-10-31): the front one, as wide as the
-      // room width, so the panel needs no wall choice there.
-      setEnvironment: (environment) =>
-        set(environment === 'exterior' ? { environment, wall: OUTDOOR_WALL } : { environment }),
+      // Outdoors the rules choose the one wall (`OUTDOOR_WALL`), so the panel has no choice.
+      setEnvironment: (environment) => set({ environment }),
       setView: (view) => set({ view }),
       setPanelOpen: (panelOpen) => set({ panelOpen }),
     }

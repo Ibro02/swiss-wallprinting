@@ -1,7 +1,7 @@
 ---
 tags: [spec, architecture, content]
 date: 2026-10-22
-status: waiting for the author (which candidate to explore)
+status: second review on 2026-10-31 (see the end); candidate 1 built on 2026-11-01 (refactor/architecture, not committed)
 ---
 # Architecture review (2026-10-22)
 
@@ -74,3 +74,22 @@ TypeScript checks image keys and the enums while editing. Everything else (forma
 - "12 anni" is typed into the facade line in four languages (`application-areas.ts:90-93`), and "3,80 m" into `Metadata.description` in the four message files; `CLAUDE.md` says these numbers come from the content files as ICU parameters.
 - `resolution.ts` is tested in `share.test.ts`, and `quality.ts` in `upload.test.ts`.
 - The rule "only `Scene.tsx` imports three" is checked only by the E2E budget test after a build, not by a lint rule.
+
+## Second review (2026-10-31, branch `refactor/architecture`)
+
+The author asked for a refactoring branch and the skill again ([[2026-10-31 03 - Refactoring branch, architecture review]]). The round 1 questions of [[2026-10-22 15 - Content catalogue grilling]] were never answered, and the configurator changed most since then. The HTML report was shown to the author. The candidates, ranked:
+
+1. **Deepen the configuration module so it owns the product rules — Strong (in-process, new).** The client's rules of 2026-10-31 sit in 3–4 modules: "outdoors means one wall" in `store.ts:189` (`setEnvironment`), `start.ts:44`, and the panel; "whole image is off" in `Panel.tsx:81` (`DISABLED_FITS`) and `start.ts:52`. The model accepts states that the product forbids (`share.test.ts` asserts `wall=e&fit=contain&env=out`). The quote action reads the link with `fromSearchParams` → `placementOf` (`quote.ts:110, 159`) and skips `startConfig`, so a crafted or old link makes the e-mail describe a wall and a fit that the page never showed. One configuration module turns any input (link, `?area=`, store action) into a valid configuration; the page, the store, and the server go through it.
+2. **One configurator readout (old candidate 4) — Strong, worse.** `Panel.tsx` went from 648 to 758 lines. The CHF and metre formats are in 4 places (Panel `useMetres`/`useChf`, QuoteDialog, `quote.ts`, `MetreField`); `estimatePrice` and `toSearchParams(sharedConfigOf())` are called 3 times each; there are two wall-name tables; `CONFIG_KEYS` still repeats `sharedConfigOf`. Pairs with 1.
+3. **One form intake module (old 3) — Strong, unchanged.** About 90 server lines and 150 client lines are copied; `ErrorText` and the input classes have drifted.
+4. **Content catalogue (old 1) — Strong, slightly worse.** `(await getLocale()) as Locale` 8 times; 11 project photos are described again in `gallery.ts` with their own alt texts in four languages.
+5. **Move single-owner styles out of `globals.css` — Worth exploring (new).** 1,304 lines, the top hot spot (13 changes); `.print-scroll` (about 180 lines) and `.flip-card`/`.story-sheet` (about 300 lines) each have one owner. Check the Tailwind `@layer` order with App Router CSS imports first.
+6. **One stage palette and print rectangle for poster and 3D — Worth exploring (new).** The indoor poster (`Stage.tsx:126, 130`) and the 3D room (`Scene.tsx:251-252`) already use different wall and floor colours; the poster derives the print's edges again by hand.
+
+Still open and smaller: the photo pipeline (old 2), page lists from the registry (old 5), section lists as content (old 6, now also `BUSINESS_CLIENTS`, `SURFACES`, `FACTS`). Found on the way: the item about room cards without a badge is fixed (the cards are gone); the other three items still hold.
+
+**Top recommendation:** 1, then 2. Every client change of 2026-10-31 landed in the configurator, and the server already skips its rules (a correctness gap). Candidate 3 is the smaller, lower-risk choice.
+
+### Built: candidate 1 (2026-11-01)
+
+Decided in [[2026-10-31 04 - Configuration module grilling]] and built on `refactor/architecture`: `model/configuration.ts` owns the product rules (`OUTDOOR_WALL`, `DISABLED_FITS`, `applyProductRules`) and the first configuration (`startConfiguration`, which replaces `start.ts`). The store's `set` applies the rules on every change; the quote reads the link with `sharedConfigurationOf`, so a link that breaks a rule gives the same wall and fit in the e-mail as on the page. `configuratorContent(locale)` gives the page and the quote action the same data. Terms: [[Glossary]]. Next candidate on the list: 2, the configurator readout.

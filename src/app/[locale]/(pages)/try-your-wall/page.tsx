@@ -1,12 +1,9 @@
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
-import { company, printFacts } from '@/content/company.ts'
-import { images } from '@/content/images/index.ts'
-import { collections } from '@/content/index.ts'
-import { pricing } from '@/content/pricing.ts'
+import { company } from '@/content/company.ts'
 import { printQuality } from '@/content/print-quality.ts'
-import { fromSearchParams } from '@/features/configurator/model/share.ts'
-import { startConfig } from '@/features/configurator/start.ts'
+import { configuratorContent } from '@/features/configurator/content.ts'
+import { startConfiguration } from '@/features/configurator/model/configuration.ts'
 import { QUESTION_FORM_ID } from '@/features/contact/fields.ts'
 import { metadataFor } from '@/i18n/metadata.ts'
 import { getPathname } from '@/i18n/navigation.ts'
@@ -28,26 +25,8 @@ export default async function TryYourWallPage({ searchParams }: Props) {
   const locale = (await getLocale()) as Locale
   const messages = await getMessages()
 
-  const presets = collections.presets.map((preset) => ({
-    id: preset.id,
-    title: preset.title[locale],
-    image: images[preset.image],
-  }))
-  const shared = fromSearchParams(
-    params,
-    presets.map((preset) => preset.id),
-  )
-  const initial = startConfig(
-    typeof params.area === 'string' ? params.area : undefined,
-    {
-      presets,
-      rooms: collections.areaStarts,
-      areas: collections.applicationAreas,
-      machineMaxHeight: printFacts.maxPrintHeightM,
-    },
-    shared,
-  )
-  const { id: _, mock: ratesAreExamples, ...rates } = pricing
+  const content = configuratorContent(locale)
+  const initial = startConfiguration(params, content)
   // The number with WhatsApp (it speaks IT, DE, CH): the quote form offers it.
   const whatsappPhone =
     company.phones.find((phone) => phone.e164 === company.whatsapp) ?? company.phones[0]
@@ -59,11 +38,11 @@ export default async function TryYourWallPage({ searchParams }: Props) {
       <NextIntlClientProvider messages={{ Configurator: messages.Configurator }}>
         <Configurator
           initial={initial}
-          machineMaxHeight={printFacts.maxPrintHeightM}
-          presets={presets}
-          presetsAreExamples={collections.presets.some((preset) => preset.mock)}
-          rates={rates}
-          ratesAreExamples={ratesAreExamples}
+          machineMaxHeight={content.machineMaxHeight}
+          presets={content.presets}
+          presetsAreExamples={content.presetsAreExamples}
+          rates={content.rates}
+          ratesAreExamples={content.ratesAreExamples}
           quality={{
             minPixelsPerCm: printQuality.minPixelsPerCm,
             isExample: printQuality.mock,

@@ -3,13 +3,24 @@
 import { headers } from 'next/headers'
 import { hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing.ts'
+import { createFormToken, FORM_NAMES, type FormName, formSecret } from '@/lib/form-token.ts'
 import { mailTransport } from '@/lib/mail.ts'
-import { createRateLimiter } from '@/lib/rate-limit.ts'
+import { createRateLimiter, FORM_LIMIT, FORM_LIMIT_WITHOUT_TOKEN } from '@/lib/rate-limit.ts'
 import { clientIp, refererPath } from '@/lib/request.ts'
 import { handleQuestion, type QuestionState } from './handle-question.ts'
 
-// 5 messages per visitor in 10 minutes, and 30 of all visitors together (src/lib/rate-limit.ts).
-const allow = createRateLimiter({ perKey: 5, total: 30, windowMs: 10 * 60_000 })
+const allow = createRateLimiter(FORM_LIMIT)
+const allowWithoutToken = createRateLimiter(FORM_LIMIT_WITHOUT_TOKEN)
+
+/**
+ * The signed fill-time token (src/lib/form-token.ts). Both forms ask for it after
+ * hydration; the static pages cannot carry one.
+ */
+export async function issueFormToken(form: FormName): Promise<string> {
+  // The argument comes from the browser.
+  if (!FORM_NAMES.includes(form)) throw new Error('Unknown form.')
+  return createFormToken(form, Date.now(), formSecret())
+}
 
 export async function submitQuestion(
   _previous: QuestionState,
@@ -22,7 +33,8 @@ export async function submitQuestion(
 
   return handleQuestion(formData, {
     now,
-    allow: () => allow(ip, now),
+    secret: formSecret(),
+    allow: (withToken) => (withToken ? allow : allowWithoutToken)(ip, now),
     to: process.env.CONTACT_TO || undefined,
     transport: mailTransport,
     locale:

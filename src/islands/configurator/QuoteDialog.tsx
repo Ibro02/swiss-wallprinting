@@ -10,6 +10,7 @@ import { placementOf, sharedConfigOf } from '@/features/configurator/store.ts'
 import { submitQuote } from '@/features/quote/actions.ts'
 import { QUOTE_HIDDEN, QUOTE_LIMITS, type QuoteField } from '@/features/quote/fields.ts'
 import type { QuoteState } from '@/features/quote/handle-quote.ts'
+import { useFormToken } from '../use-form-token.ts'
 import type { PresetOption } from './ImagePicker.tsx'
 import type { CaptureView } from './Scene.tsx'
 import { useConfiguratorStore } from './store-context.tsx'
@@ -209,12 +210,7 @@ function QuoteForm({
   const [state, action, pending] = useActionState(submitQuote, INITIAL)
   const form = useRef<HTMLFormElement>(null)
   const status = useRef<HTMLDivElement>(null)
-  const startedAt = useRef<HTMLInputElement>(null)
-
-  // Fill time for the spam check (set after hydration).
-  useEffect(() => {
-    if (startedAt.current) startedAt.current.value = String(Date.now())
-  }, [])
+  const token = useFormToken('quote')
 
   // After an answer: the first invalid field, or the status message, gets the focus.
   useEffect(() => {
@@ -279,7 +275,7 @@ function QuoteForm({
       <input type="hidden" name={QUOTE_HIDDEN.upload} value={snapshot.upload} />
       <input type="hidden" name={QUOTE_HIDDEN.aspect} value={snapshot.aspect} />
       <input type="hidden" name={QUOTE_HIDDEN.screenshot} value={snapshot.screenshot} />
-      <input ref={startedAt} type="hidden" name={SPAM_FIELDS.startedAt} defaultValue="" />
+      <input ref={token} type="hidden" name={SPAM_FIELDS.token} defaultValue="" />
       {/* Honeypot: hidden from people and assistive tech; bots fill it. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>

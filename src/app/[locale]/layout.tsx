@@ -9,6 +9,7 @@ import { SiteHeader } from '@/components/site/SiteHeader.tsx'
 import { WhatsAppButton } from '@/components/site/WhatsAppButton.tsx'
 import { company } from '@/content/company.ts'
 import { routing } from '@/i18n/routing.ts'
+import { PageChangeMark } from '@/islands/PageChangeMark.tsx'
 import { siteUrl } from '@/lib/site.ts'
 import { THEME_SCRIPT } from '@/lib/theme.ts'
 import { sans, serif } from '../fonts.ts'
@@ -75,6 +76,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <SiteFooter />
           </div>
           <WhatsAppButton />
+          <PageChangeMark />
         </NextIntlClientProvider>
       </body>
     </html>

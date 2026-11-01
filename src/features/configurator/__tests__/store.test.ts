@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vite-plus/test'
 import { anchorFor, cornerOf, edgesOf, WALL_MARGIN } from '../model/print.ts'
-import { OUTDOOR_WALL } from '../model/room.ts'
-import { fromSearchParams, toSearchParams } from '../model/share.ts'
-import { startConfig, type StartContent } from '../start.ts'
+import { OUTDOOR_WALL, type StartContent, startConfiguration } from '../model/configuration.ts'
+import { toSearchParams } from '../model/share.ts'
 import { createConfiguratorStore, placementOf, type PrintImage, sharedConfigOf } from '../store.ts'
 
 const MACHINE = 3.8
@@ -21,65 +20,21 @@ const content: StartContent = {
   machineMaxHeight: MACHINE,
 }
 
-const newStore = (area?: string) => createConfiguratorStore(startConfig(area, content), MACHINE)
+const newStore = (area?: string) =>
+  createConfiguratorStore(startConfiguration(area ? { area } : {}, content), MACHINE)
 
-describe('startConfig', () => {
-  it('starts with the first preset, the default room, and the north wall', () => {
-    const config = startConfig(undefined, content)
-    expect(config.image).toMatchObject({ kind: 'preset', id: 'cmyk', aspect: 2 })
-    expect(config.room).toEqual({ width: 5, length: 4, height: 2.7 })
-    expect(config.wall).toBe('north')
-    expect(config.environment).toBe('interior')
-    expect(config.print).toEqual({ width: 3.36, height: 1.68, x: 0, y: 0 })
-  })
-
-  it('starts with the wall and artwork of the area (?area=)', () => {
-    const config = startConfig('facade', content)
-    expect(config.image).toMatchObject({ id: 'peaks' })
-    expect(config.room).toMatchObject({ width: 9, height: 6 })
-    expect(config.environment).toBe('exterior')
-  })
-
-  it('ignores an unknown area', () => {
-    expect(startConfig('castle', content)).toEqual(startConfig(undefined, content))
-  })
-
-  it('restores a share link, before the area, and fits the print to the wall', () => {
-    const config = startConfig('facade', content, {
-      room: { width: 4, length: 3, height: 2.5 },
-      wall: 'west',
-      preset: 'peaks',
-      print: { width: 9, height: 1, x: 0, y: 0 },
-      fit: 'contain',
-      environment: 'interior',
-    })
-    // Whole image is off for now (2026-10-31): a link with it fills the area.
-    expect(config).toMatchObject({ wall: 'west', fit: 'cover', environment: 'interior' })
-    expect(config.image).toMatchObject({ id: 'peaks' })
-    // The west wall is as wide as the room is long (3 m), less 10 cm at each side.
-    expect(config.print.width).toBe(2.8)
-  })
-
-  it('opens a link to an uploaded image with the first preset', () => {
-    const config = startConfig(undefined, content, {
-      room: { width: 5, length: 4, height: 2.7 },
-      wall: 'north',
-      preset: undefined,
-      print: { width: 2, height: 1, x: 0, y: 0 },
-      fit: 'cover',
-      environment: 'interior',
-    })
-    expect(config.image).toMatchObject({ id: 'cmyk' })
-  })
-})
+/** The configuration that the store's share link opens. */
+const reopen = (store: ReturnType<typeof newStore>) =>
+  startConfiguration(
+    Object.fromEntries(toSearchParams(sharedConfigOf(store.getState())).entries()),
+    content,
+  )
 
 describe('sharedConfigOf', () => {
   it('opens the same configuration again from its link', () => {
     const store = newStore('office')
     store.getState().selectWall('east')
-    const shared = sharedConfigOf(store.getState())
-    const params = Object.fromEntries(toSearchParams(shared).entries())
-    const reopened = startConfig(undefined, content, fromSearchParams(params, ['cmyk', 'peaks']))
+    const reopened = reopen(store)
     expect(reopened).toMatchObject({
       room: store.getState().room,
       wall: 'east',
@@ -90,16 +45,12 @@ describe('sharedConfigOf', () => {
     })
   })
 
-  it('opens an outdoor link on the one outdoor wall', () => {
+  it('opens an outdoor configuration on the one outdoor wall', () => {
     const store = newStore('office')
     store.getState().selectWall('west')
     store.getState().setEnvironment('exterior')
     expect(store.getState().wall).toBe(OUTDOOR_WALL)
-    const params = Object.fromEntries(
-      toSearchParams({ ...sharedConfigOf(store.getState()), wall: 'west' }).entries(),
-    )
-    const reopened = startConfig(undefined, content, fromSearchParams(params, ['cmyk', 'peaks']))
-    expect(reopened).toMatchObject({ wall: OUTDOOR_WALL, environment: 'exterior' })
+    expect(reopen(store)).toMatchObject({ wall: OUTDOOR_WALL, environment: 'exterior' })
   })
 
   it('leaves an uploaded image out of the link', () => {
@@ -198,9 +149,30 @@ describe('configurator store', () => {
     const store = newStore()
     store.getState().setPrintSize('height', 2.5)
     const cover = placementOf(store.getState()).areaM2
-    store.getState().setFit('contain')
-    const contain = placementOf(store.getState()).areaM2
+    // The store keeps "whole image" off (the product rules); the placement still knows it.
+    const contain = placementOf({ ...store.getState(), fit: 'contain' }).areaM2
     expect(contain).toBeLessThan(cover)
     expect(contain).toBeCloseTo(3.36 * 1.68)
+  })
+})
+
+describe('product rules in the store', () => {
+  it('keeps an outdoor configuration on the one outdoor wall', () => {
+    const store = newStore('facade')
+    store.getState().selectWall('east')
+    expect(store.getState().wall).toBe(OUTDOOR_WALL)
+  })
+
+  it('keeps a turned-off fit off', () => {
+    const store = newStore()
+    store.getState().setFit('contain')
+    expect(store.getState().fit).toBe('cover')
+  })
+
+  it('gives the wall choice back indoors', () => {
+    const store = newStore('facade')
+    store.getState().setEnvironment('interior')
+    store.getState().selectWall('east')
+    expect(store.getState().wall).toBe('east')
   })
 })

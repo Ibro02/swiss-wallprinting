@@ -38,4 +38,4 @@ Stop the configurator's 3D view from jumping up on a click in the panel, and rem
 ## Open items
 
 - Follow-up prompt ("run the production build and the e2e tests now"): `SITE_URL=http://localhost:3001 vp run build` passed (the dev server writes to `.next/dev`, so both can run), and `vp run e2e` passed: 138 passed, 28 skipped (the desktop-only and phone-only tests on the other device), 0 failed. This covers both prompts of 2026-10-31.
-- Not committed.
+- Committed with prompt 01 as f916965 on `main` ("Commit on main"), not pushed. Before the commit, `git fsck` found 188 missing objects (the index and trees of HEAD; OneDrive); `git fetch --refetch origin` restored them (`origin/main` was HEAD). Still lost: the commit of the local branch `design/premium-ui` and the old stash. `.claude/` deletion and `swiss-wallprinting.rar` were left out of the commit.

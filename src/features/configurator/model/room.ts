@@ -6,9 +6,6 @@
 export const WALLS = ['north', 'east', 'south', 'west'] as const
 export type Wall = (typeof WALLS)[number]
 
-/** Outdoors the configurator shows one wall (the client, 2026-10-31): the front one. */
-export const OUTDOOR_WALL: Wall = 'north'
-
 export const ROOM_DIMENSIONS = ['width', 'length', 'height'] as const
 export type RoomDimension = (typeof ROOM_DIMENSIONS)[number]
 

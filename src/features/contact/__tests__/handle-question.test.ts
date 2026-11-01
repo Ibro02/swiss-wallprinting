@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vite-plus/test'
+import { createFormToken } from '@/lib/form-token.ts'
 import type { MailMessage, MailTransport } from '@/lib/mail.ts'
 import { handleQuestion, type QuestionDeps } from '../handle-question.ts'
+
+const SECRET = 's'.repeat(32)
+const NOW = 100_000
 
 function form(fields: Record<string, string>): FormData {
   const data = new FormData()
@@ -14,6 +18,7 @@ const valid = {
   phone: '',
   message: 'Vorrei un preventivo.',
   consent: 'on',
+  formToken: createFormToken('question', NOW - 30_000, SECRET),
 }
 
 function setup(overrides: Partial<QuestionDeps> = {}) {
@@ -25,7 +30,8 @@ function setup(overrides: Partial<QuestionDeps> = {}) {
     },
   }
   const deps: QuestionDeps = {
-    now: 100_000,
+    now: NOW,
+    secret: SECRET,
     allow: () => true,
     to: 'owner@example.ch',
     transport: () => transport,
@@ -65,9 +71,20 @@ describe('handleQuestion', () => {
 
   it('stops a form sent too fast', async () => {
     const { deps, sent } = setup()
-    const state = await handleQuestion(form({ ...valid, startedAt: String(99_500) }), deps)
+    const formToken = createFormToken('question', NOW - 500, SECRET)
+    const state = await handleQuestion(form({ ...valid, formToken }), deps)
     expect(state.status).toBe('tooFast')
     expect(sent).toHaveLength(0)
+  })
+
+  it('counts a form without a valid token against the smaller limit', async () => {
+    const lanes: boolean[] = []
+    const { deps, sent } = setup({ allow: (withToken) => (lanes.push(withToken), withToken) })
+    await handleQuestion(form(valid), deps)
+    const state = await handleQuestion(form({ ...valid, formToken: '' }), deps)
+    expect(lanes).toEqual([true, false])
+    expect(state.status).toBe('rateLimited')
+    expect(sent).toHaveLength(1)
   })
 
   it('stops a visitor over the rate limit', async () => {

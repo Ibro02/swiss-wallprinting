@@ -24,8 +24,13 @@ export type QuestionState =
 
 export interface QuestionDeps {
   now: number
-  /** True if this visitor may send now (rate limit). */
-  allow: () => boolean
+  /** FORM_SECRET (src/lib/form-token.ts), to check the fill-time token. */
+  secret: string
+  /**
+   * True if this visitor may send now (rate limit). `withToken` false: the request has no
+   * valid fill-time token, so the much smaller limit applies.
+   */
+  allow: (withToken: boolean) => boolean
   /** Recipient (CONTACT_TO). Undefined: not configured. */
   to: string | undefined
   /** Lazy, so a missing transport is a "not sent" state and not a crash. */
@@ -41,7 +46,7 @@ export async function handleQuestion(
 ): Promise<QuestionState> {
   const values = questionValues(formData)
 
-  const verdict = spamVerdict(formData, deps.now)
+  const verdict = spamVerdict(formData, 'question', deps.now, deps.secret)
   // A bot gets the normal success answer, so it learns nothing. No mail is sent.
   if (verdict === 'honeypot') return { status: 'sent', email: values.email }
   if (verdict === 'tooFast') return { status: 'tooFast', values }
@@ -49,7 +54,7 @@ export async function handleQuestion(
   const parsed = parseQuestion(formData)
   if (!parsed.ok) return { status: 'invalid', errors: parsed.errors, values }
 
-  if (!deps.allow()) return { status: 'rateLimited', values }
+  if (!deps.allow(verdict === 'ok')) return { status: 'rateLimited', values }
 
   if (!deps.to) {
     deps.logError('Question form: CONTACT_TO is not set, so the message has no recipient.')

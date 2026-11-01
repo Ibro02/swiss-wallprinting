@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vite-plus/test'
+import { createFormToken } from '@/lib/form-token.ts'
 import {
   LIMITS,
   MIN_FILL_MS,
@@ -96,18 +97,27 @@ describe('questionValues', () => {
 
 describe('spamVerdict', () => {
   const now = 1_000_000
+  const secret = 's'.repeat(32)
+  const token = (issuedAt: number, name: 'question' | 'quote' = 'question') =>
+    form({ formToken: createFormToken(name, issuedAt, secret) })
+  const verdict = (data: FormData) => spamVerdict(data, 'question', now, secret)
 
   it('flags a filled honeypot', () => {
-    expect(spamVerdict(form({ website: 'http://spam.example' }), now)).toBe('honeypot')
+    expect(verdict(form({ website: 'http://spam.example' }))).toBe('honeypot')
   })
 
   it('flags a form sent faster than a person can type', () => {
-    expect(spamVerdict(form({ startedAt: String(now - MIN_FILL_MS + 1) }), now)).toBe('tooFast')
+    expect(verdict(token(now - MIN_FILL_MS + 1))).toBe('tooFast')
   })
 
-  it('accepts a normal fill time, and a form without JavaScript (no start time)', () => {
-    expect(spamVerdict(form({ startedAt: String(now - 30_000) }), now)).toBe('ok')
-    expect(spamVerdict(form({}), now)).toBe('ok')
+  it('accepts a token with a normal fill time', () => {
+    expect(verdict(token(now - 30_000))).toBe('ok')
+  })
+
+  it('marks a form without a valid token (no JavaScript, a forged time, the other form)', () => {
+    expect(verdict(form({}))).toBe('noToken')
+    expect(verdict(form({ formToken: `${now - 30_000}.forged` }))).toBe('noToken')
+    expect(verdict(token(now - 30_000, 'quote'))).toBe('noToken')
   })
 })
 

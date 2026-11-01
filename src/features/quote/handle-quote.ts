@@ -5,7 +5,7 @@ import { spamVerdict } from '@/features/contact/question.ts'
 import type { MailTransport } from '@/lib/mail.ts'
 import type { FieldError, QuoteField, QuoteValues } from './fields.ts'
 import {
-  parseDesign,
+  parseConfiguration,
   parseQuote,
   parseScreenshot,
   type QuoteMailMeta,
@@ -26,7 +26,10 @@ export type QuoteState =
 
 export interface QuoteDeps extends Omit<QuoteMailMeta, 'to'> {
   now: number
-  allow: () => boolean
+  /** FORM_SECRET (src/lib/form-token.ts), to check the fill-time token. */
+  secret: string
+  /** Rate limit; `withToken` false: no valid fill-time token, the much smaller limit. */
+  allow: (withToken: boolean) => boolean
   /** Recipient (CONTACT_TO). Undefined: not configured. */
   to: string | undefined
   transport: () => MailTransport
@@ -37,7 +40,7 @@ export interface QuoteDeps extends Omit<QuoteMailMeta, 'to'> {
 export async function handleQuote(formData: FormData, deps: QuoteDeps): Promise<QuoteState> {
   const values = quoteValues(formData)
 
-  const verdict = spamVerdict(formData, deps.now)
+  const verdict = spamVerdict(formData, 'quote', deps.now, deps.secret)
   // A bot gets the normal success answer, so it learns nothing. No mail is sent.
   if (verdict === 'honeypot') return { status: 'sent', email: values.email }
   if (verdict === 'tooFast') return { status: 'tooFast', values }
@@ -46,13 +49,13 @@ export async function handleQuote(formData: FormData, deps: QuoteDeps): Promise<
   if (!parsed.ok) return { status: 'invalid', errors: parsed.errors, values }
 
   // The configurator fills these fields; a broken value is a bug, not the visitor's fault.
-  const design = parseDesign(formData, deps.presets)
-  if (!design) {
+  const configuration = parseConfiguration(formData, deps.presets)
+  if (!configuration) {
     deps.logError('Quote form: the configuration in the form is missing or not valid.')
     return { status: 'failed', values }
   }
 
-  if (!deps.allow()) return { status: 'rateLimited', values }
+  if (!deps.allow(verdict === 'ok')) return { status: 'rateLimited', values }
 
   if (!deps.to) {
     deps.logError('Quote form: CONTACT_TO is not set, so the request has no recipient.')
@@ -60,7 +63,7 @@ export async function handleQuote(formData: FormData, deps: QuoteDeps): Promise<
   }
 
   try {
-    const mail = quoteMail(parsed.contact, design, parseScreenshot(formData), {
+    const mail = quoteMail(parsed.contact, configuration, parseScreenshot(formData), {
       to: deps.to,
       locale: deps.locale,
       configuratorUrl: deps.configuratorUrl,

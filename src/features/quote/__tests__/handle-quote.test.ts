@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vite-plus/test'
+import { createFormToken } from '@/lib/form-token.ts'
 import type { MailMessage, MailTransport } from '@/lib/mail.ts'
 import { MAX_SCREENSHOT_CHARS, QUOTE_HIDDEN } from '../fields.ts'
 import { handleQuote, type QuoteDeps } from '../handle-quote.ts'
 import { parseScreenshot } from '../quote.ts'
 
 const NOW = 1_800_000_000_000
+const SECRET = 's'.repeat(32)
 const JPEG = `data:image/jpeg;base64,${Buffer.from([0xff, 0xd8, 0xff, 0xe0]).toString('base64')}`
 
 function form(fields: Record<string, string>): FormData {
@@ -20,7 +22,7 @@ const valid = {
   place: 'Bellinzona',
   notes: 'Parete del soggiorno',
   consent: 'on',
-  startedAt: String(NOW - 60_000),
+  formToken: createFormToken('quote', NOW - 60_000, SECRET),
   [QUOTE_HIDDEN.config]: 'room=5x4x2.7&wall=n&image=lake&print=3x1.5&pos=0x0',
   [QUOTE_HIDDEN.screenshot]: JPEG,
 }
@@ -31,6 +33,7 @@ function deps(overrides: Partial<QuoteDeps> = {}) {
   const transport: MailTransport = { send: async (mail) => void sent.push(mail) }
   const value: QuoteDeps = {
     now: NOW,
+    secret: SECRET,
     allow: () => true,
     to: 'owner@example.ch',
     transport: () => transport,
@@ -76,6 +79,26 @@ describe('handleQuote', () => {
       filename: 'configurazione.jpg',
       contentType: 'image/jpeg',
     })
+  })
+
+  it('describes a link that breaks the product rules as the page showed it', async () => {
+    const { value, sent } = deps()
+    await handleQuote(
+      form({
+        ...valid,
+        [QUOTE_HIDDEN.config]:
+          'room=5x4x2.7&wall=e&image=lake&print=3x1.5&pos=0x0&fit=contain&env=out',
+      }),
+      value,
+    )
+
+    const text = sent[0]?.text
+    // Outdoors there is one wall, the front one; "whole image" is off, so the print fills.
+    expect(text).toContain('Parete: 5.00 × 2.70 m (di fronte)')
+    expect(text).toContain("Area di stampa: 3.00 × 1.50 m (l'immagine riempie l'area)")
+    expect(text).toContain('Superficie stampata: 4.50 m²')
+    expect(text).toContain('Ambiente: esterno')
+    expect(text).toContain('?room=5x4x2.7&wall=n&image=lake&print=3x1.5&pos=0x0&env=out')
   })
 
   it('names an uploaded image and asks for the original file', async () => {

@@ -1,7 +1,7 @@
 ---
 tags: [spec, security, audit]
 date: 2026-10-22
-status: fixes on branch audit/security-architecture (not committed); two items open
+status: 2026-11-01 second round on security/deepsec (#5 partly, #6 fixed); the deepsec AI scan waits for the author
 ---
 # Security audit (2026-10-22)
 
@@ -42,8 +42,8 @@ deepsec reports CRITICAL, HIGH, and MEDIUM. Nothing CRITICAL or HIGH was found.
 | 2 | MEDIUM | `other-memory-exhaustion` | The rate limiter never forgot an IP address | Fixed |
 | 3 | MEDIUM | `other-email-link-injection` | `Origin` and `Referer` headers wrote links into the e-mail to the client | Fixed |
 | 4 | MEDIUM | `other-missing-security-headers` | No CSP, no framing protection, no `nosniff`, no HSTS | Fixed |
-| 5 | MEDIUM | `expensive-api-abuse` | The spam checks are client signals, and the limit lives in one server's memory | Open: decide with the hosting (Phase 7) |
-| 6 | LOW | `other-ci-supply-chain` | CI actions are pinned to tags, not commit SHAs | Open |
+| 5 | MEDIUM | `expensive-api-abuse` | The spam checks are client signals, and the limit lives in one server's memory | Partly fixed (2026-11-01: signed fill-time token, tight limit without it); the shared limit stays in Phase 7 |
+| 6 | LOW | `other-ci-supply-chain` | CI actions are pinned to tags, not commit SHAs | Fixed (2026-11-01) |
 | 7 | LOW | `other-untrusted-attachment` | The quote screenshot is the visitor's bytes, checked only for the JPEG start bytes | Open (accepted) |
 
 ### 1. Rate limit bypass with a forged X-Forwarded-For (fixed)
@@ -79,15 +79,19 @@ The client trusts these lines because the site wrote them, so a forged value was
 
 A new script, font, image, or API on another origin needs a change in this policy, or the browser blocks it (the E2E smoke test fails on the console error).
 
-### 5. Spam protection depends on the visitor and on one server (open)
+### 5. Spam protection depends on the visitor and on one server (partly fixed)
 
 The honeypot and the fill time (`startedAt`) are fields that the request itself carries: a script that posts the form directly leaves the honeypot empty and sends no `startedAt`. After fixes 1 and 2, the send limit stops it, but the limit lives in the memory of **one** server instance. On a serverless host (Vercel) each instance has its own count and a new instance starts at zero.
 
-**To decide in Phase 7** (with the host): a shared store for the limit (for example Upstash Redis), or a privacy-friendly challenge (Cloudflare Turnstile or Friendly Captcha; reCAPTCHA is not allowed, `CLAUDE.md`), or a signed fill-time token (an HMAC of `startedAt` with a server secret).
+**Fixed on 2026-11-01** ([[2026-11-01 02 - Security grilling and deepsec]]): the fill time is a **signed token** (`src/lib/form-token.ts`): an HMAC of the issue time and the form name with `FORM_SECRET`. The pages are static, so the browser asks the Server Action `issueFormToken` for it after hydration, and the server measures the fill time from the token. The form must work without JavaScript, so a request **without** a valid token still sends, but against `FORM_LIMIT_WITHOUT_TOKEN` (3 per IP, 5 of all visitors per form in 10 minutes) instead of `FORM_LIMIT` (5 and 30). A production build stops without `FORM_SECRET`. What it does not stop: a script that calls `issueFormToken` itself, waits two seconds, and posts. That script is back under the normal limit, which still lives in one server's memory.
 
-### 6. CI actions pinned to tags (open)
+**Still to decide in Phase 7** (with the host): a shared store for the limit (for example Upstash Redis), or a privacy-friendly challenge (Cloudflare Turnstile or Friendly Captcha; reCAPTCHA is not allowed, `CLAUDE.md`), or a signed fill-time token (an HMAC of `startedAt` with a server secret).
+
+### 6. CI actions pinned to tags (fixed)
 
 `.github/workflows/ci.yml` uses `actions/checkout@v7.0.1`, `voidzero-dev/setup-vp@v1.21.2`, and `actions/upload-artifact@v4`. A moved tag runs other code in CI. The job has only `contents: read` and no secrets, so the effect is small. Pin each action to a full commit SHA (with the tag as a comment) when the workflow changes next.
+
+**Fixed on 2026-11-01:** every action in `ci.yml` is pinned to the commit SHA of its tag (resolved with `git ls-remote`), with the tag as a comment. To update one, resolve the new tag the same way.
 
 ### 7. The quote screenshot is the visitor's bytes (open, accepted)
 
@@ -105,3 +109,15 @@ The honeypot and the fill time (`startedAt`) are fields that the request itself 
 - **Proxy rewrite:** to a fixed internal path on the same origin; no open redirect.
 - **Build scripts:** `scripts/frames.ts` uses `execFile` with fixed arguments (no shell); the scripts run only on the author's machine.
 - **Mail outbox:** `path.basename` on the attachment name; `outbox` throws with `SITE_ENV=production`. On a public preview deployment, set `MAIL_TRANSPORT` too, or the outbox writes files on that server.
+
+## Second round (2026-11-01, branch `security/deepsec`)
+
+The author asked for the real deepsec this time ([[2026-11-01 02 - Security grilling and deepsec]]). The decisions came from a `grilling` round. `.deepsec/` is the scanning workspace: `data/swiss-wallprinting/INFO.md` (the threat model in every AI prompt) and `config.json` (the scope: `src/`, `next.config.ts`, CI). The AI steps need the author's login, so the author runs them:
+
+```bash
+cd .deepsec
+pnpm install
+npx deepsec init --agent claude --model-auth local --limit 50 --max-cost-usd 50 --max-duration 1h
+```
+
+Then the agent reads the findings, runs `revalidate --min-severity HIGH`, and fixes every confirmed CRITICAL and HIGH finding (MEDIUM when the fix is small). The repo is public: a finding is written here only after its fix is in.

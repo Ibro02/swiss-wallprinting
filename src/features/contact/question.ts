@@ -3,6 +3,7 @@
 
 import { z } from 'zod'
 import { applicationAreas } from '@/content/application-areas.ts'
+import { type FormName, formTokenTime } from '@/lib/form-token.ts'
 import type { MailMessage } from '@/lib/mail.ts'
 import {
   type FieldError,
@@ -90,15 +91,22 @@ export function parseQuestion(formData: FormData): ParseResult {
   return { ok: false, errors }
 }
 
-export type SpamVerdict = 'ok' | 'honeypot' | 'tooFast'
+/**
+ * `noToken`: no valid fill-time token (no JavaScript, or a script that skips the page). It
+ * may still send, but against `FORM_LIMIT_WITHOUT_TOKEN` (src/lib/rate-limit.ts).
+ */
+export type SpamVerdict = 'ok' | 'noToken' | 'honeypot' | 'tooFast'
 
-export function spamVerdict(formData: FormData, now: number): SpamVerdict {
+export function spamVerdict(
+  formData: FormData,
+  form: FormName,
+  now: number,
+  secret: string,
+): SpamVerdict {
   if (text(formData, SPAM_FIELDS.honeypot) !== '') return 'honeypot'
-  // The browser sets startedAt after hydration. Without JavaScript it is empty:
-  // then only the honeypot applies.
-  const startedAt = Number(text(formData, SPAM_FIELDS.startedAt))
-  if (startedAt > 0 && now - startedAt < MIN_FILL_MS) return 'tooFast'
-  return 'ok'
+  const issuedAt = formTokenTime(text(formData, SPAM_FIELDS.token), form, now, secret)
+  if (issuedAt === null) return 'noToken'
+  return now - issuedAt < MIN_FILL_MS ? 'tooFast' : 'ok'
 }
 
 /** The Italian name of a chip, for the e-mail. */
