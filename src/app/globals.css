@@ -170,6 +170,13 @@
   initial-value: 0;
 }
 
+/* The pan's focus point (PrintOnScroll): only the frame reads it, so a new value restyles the frame alone. */
+@property --focus {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0.5;
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -241,7 +248,8 @@
    * the stage is narrower, the frame slides so that the focus point (`--focus`, the
    * subject's track as a function of `--p`, set on this element by PrintOnScroll) stays in
    * the middle, never past an edge: the camera follows the printer. On wide screens the
-   * clamp keeps it still.
+   * clamp keeps it still. A layer of its own: the pan moves it on every scrolled frame of a
+   * phone, and without the layer each step repainted the poster.
    */
   .print-scroll__frame {
     --visible: calc(1 - var(--crop-bottom, 0));
@@ -252,6 +260,7 @@
     aspect-ratio: var(--ar);
     translate: clamp(100cqw - 100%, 50cqw - var(--focus) * 100%, 0px)
       calc((100cqh - 100% * var(--visible)) / 2);
+    will-change: transform;
   }
 
   /*
@@ -263,6 +272,11 @@
    */
   .print-scroll__poster {
     opacity: calc(1 - var(--outro));
+  }
+
+  /* Once the canvas has drawn a frame (`data-drawn`), it always shows one: nothing paints under it. */
+  .print-scroll__stage[data-drawn] .print-scroll__poster {
+    visibility: hidden;
   }
 
   /* `--p` from the scroll position, until PrintOnScroll takes over (it sets `animation: none`). */
@@ -327,6 +341,11 @@
     transition-delay: 300ms;
   }
 
+  /* It runs only while it is shown: a running animation makes each restyle of the stage dearer. */
+  .print-scroll__stage[data-loading] .print-scroll__loading > span {
+    animation: loading-bar 1.2s ease-in-out infinite;
+  }
+
   /* Reduced motion: the finished picture, the intro, and the outro. */
   @media (prefers-reduced-motion: reduce) {
     .print-scroll {
@@ -337,6 +356,10 @@
       --p: 1;
       position: relative;
       top: 0;
+    }
+
+    .print-scroll__frame {
+      will-change: auto;
     }
 
     .print-scroll__canvas,
@@ -359,10 +382,12 @@
 
   /*
    * Entrance of the first screen, in order (`data-rise="1"` … "4"): a short rise with a
-   * fade. CSS only, so the text shows without JavaScript; reduced motion: fade only.
+   * fade. CSS only, so the text shows without JavaScript; reduced motion: fade only. The
+   * end is the element's own style, so the fill is only backwards: a finished animation
+   * that still fills makes every later restyle dearer (the scroll hero restyles its text).
    */
   [data-rise] {
-    animation: rise 0.8s var(--ease-out) both;
+    animation: rise 0.8s var(--ease-out) backwards;
   }
 
   [data-rise='2'] {

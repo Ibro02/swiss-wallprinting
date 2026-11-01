@@ -6,14 +6,14 @@ export const heroFrames = {
   "desktop": {
     "pattern": "/frames/hero/desktop/%04d.avif",
     "fallback": "/frames/hero/desktop/%04d.webp",
-    "count": 100,
+    "count": 78,
     "width": 1600,
     "height": 900
   },
   "mobile": {
     "pattern": "/frames/hero/mobile/%04d.avif",
     "fallback": "/frames/hero/mobile/%04d.webp",
-    "count": 100,
+    "count": 78,
     "width": 1280,
     "height": 720
   }
@@ -23,4 +23,4 @@ export const heroFrames = {
  * Where the printer is (x, 0 … 1) at progress 0, 0.1, … 1, measured in the frames
  * (scripts/lib/hero-video.ts). A phone shows a third of the width and follows it.
  */
-export const heroFocus: number[] = [0.256,0.306,0.374,0.459,0.54,0.628,0.709,0.787,0.878,0.511,0.511]
+export const heroFocus: number[] = [0.221,0.278,0.328,0.412,0.509,0.606,0.69,0.784,0.878,0.495,0.495]

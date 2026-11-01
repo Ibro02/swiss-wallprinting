@@ -2,12 +2,15 @@ import { describe, expect, it } from 'vite-plus/test'
 import {
   choseFallback,
   coarseCount,
+  decodeWindow,
+  focusAt,
   focusTrack,
   frameAt,
   framePath,
   imageType,
   loadOrder,
   nearestLoaded,
+  overlayProgress,
   scrollProgress,
   smoothTowards,
 } from '../print-scroll.ts'
@@ -170,5 +173,81 @@ describe('focusTrack', () => {
 
   it('rounds the steps, so no float noise reaches the CSS', () => {
     expect(focusTrack([0.205, 0.256])).toContain('0.051 *')
+  })
+})
+
+describe('focusAt', () => {
+  /** The CSS of focusTrack, worked out for one progress: `first + rise * clamp(0, p * s - i, 1) …`. */
+  const cssFocus = (points: number[], progress: number) => {
+    const css = focusTrack(points)
+    const first = Number(/^calc\(([-\d.]+)/.exec(css)?.[1])
+    const terms = css.matchAll(/([-\d.]+) \* clamp\(0, var\(--p\) \* (\d+) - (\d+), 1\)/g)
+    return [...terms].reduce(
+      (sum, [, rise, segments, index]) =>
+        sum + Number(rise) * Math.min(1, Math.max(0, progress * Number(segments) - Number(index))),
+      first,
+    )
+  }
+
+  it('is the point itself for one point', () => {
+    expect(focusAt([0.4], 0.7)).toBe(0.4)
+    expect(focusAt([], 0.7)).toBe(0.5)
+  })
+
+  it('moves in straight lines between the points, and stays on the ends', () => {
+    expect(focusAt([0.2, 0.6, 1], 0.25)).toBeCloseTo(0.4)
+    expect(focusAt([0.2, 0.6, 1], 0.5)).toBeCloseTo(0.6)
+    expect(focusAt([0.2, 0.6, 1], -0.1)).toBe(0.2)
+    expect(focusAt([0.2, 0.6, 1], 1.2)).toBe(1)
+  })
+
+  it('gives the point of the CSS expression (focusTrack), before and after hydration', () => {
+    const points = [0.256, 0.306, 0.374, 0.459, 0.54, 0.628, 0.709, 0.787, 0.878, 0.511, 0.511]
+    for (const progress of [0, 0.03, 0.1, 0.37, 0.5, 0.88, 0.93, 1]) {
+      expect(focusAt(points, progress), `progress ${progress}`).toBeCloseTo(
+        cssFocus(points, progress),
+        4,
+      )
+    }
+  })
+})
+
+describe('overlayProgress', () => {
+  const phases = { introOut: 0.1, outroIn: 0.88 }
+
+  it('follows the progress while the intro or the outro moves', () => {
+    expect(overlayProgress(0, phases)).toBe(0)
+    expect(overlayProgress(0.05, phases)).toBe(0.05)
+    expect(overlayProgress(0.92, phases)).toBe(0.92)
+    expect(overlayProgress(1, phases)).toBe(1)
+  })
+
+  it('stands still between them, where no overlay changes', () => {
+    for (const progress of [0.1, 0.11, 0.5, 0.87, 0.88]) {
+      expect(overlayProgress(progress, phases), `progress ${progress}`).toBe(
+        progress === 0.88 ? 0.88 : 0.1,
+      )
+    }
+  })
+})
+
+describe('decodeWindow', () => {
+  it('keeps the frame asked for and its neighbours, two ahead for each one behind', () => {
+    expect(decodeWindow(100, 50, 60, 7)).toEqual([50, 51, 52, 49, 53, 54, 48])
+  })
+
+  it('looks backwards when the scroll goes back', () => {
+    expect(decodeWindow(100, 50, 40, 4)).toEqual([50, 49, 48, 51])
+  })
+
+  it('looks forwards at rest', () => {
+    expect(decodeWindow(100, 50, 50, 3)).toEqual([50, 51, 52])
+  })
+
+  it('takes more from the other side at the ends of the video', () => {
+    expect(decodeWindow(100, 98, 99, 5)).toEqual([98, 99, 97, 96, 95])
+    expect(new Set(decodeWindow(10, 0, 0, 20))).toEqual(
+      new Set(Array.from({ length: 10 }, (_, i) => i)),
+    )
   })
 })

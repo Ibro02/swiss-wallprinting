@@ -26,21 +26,26 @@ const progress = (page: Page) =>
     ),
   )
 
-test('the hero follows the scroll forwards and backwards', async ({ page }) => {
+/** The frame the canvas shows (-1 before its first). */
+const shownFrame = (page: Page) =>
+  page.evaluate(() =>
+    Number(document.querySelector<HTMLElement>('.print-scroll__canvas')?.dataset.frame ?? -1),
+  )
+
+test('the hero follows the scroll forwards and backwards', async ({ page, isMobile }) => {
   await page.goto('/it')
   expect(await progress(page)).toBe(0)
   const { distance } = await heroRange(page)
+  const { count } = isMobile ? heroFrames.mobile : heroFrames.desktop
 
   await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 2)
-  await expect.poll(() => progress(page)).toBeCloseTo(0.5, 1)
-  // The canvas draws a frame from the middle of the video.
+  // The canvas draws a frame from the middle of the video; the call to action waits.
   await expect
-    .poll(() =>
-      page.evaluate(() =>
-        document.querySelector('.print-scroll__stage')?.hasAttribute('data-done'),
-      ),
-    )
-    .toBe(false)
+    .poll(async () => Math.abs((await shownFrame(page)) - (count - 1) / 2))
+    .toBeLessThanOrEqual(2)
+  await expect(page.locator('.print-scroll__stage')).not.toHaveAttribute('data-done')
+  // Between the intro and the outro `--p` stands still: the stage is not restyled.
+  expect(await progress(page)).toBe(0.1)
 
   await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance)
   await expect.poll(() => progress(page)).toBe(1)

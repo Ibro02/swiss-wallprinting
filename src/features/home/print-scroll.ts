@@ -1,5 +1,6 @@
 // The pure parts of the scroll hero (PrintOnScroll): which frame the scroll asks for, how
-// the shown frame follows it, and the order in which the frames load.
+// the shown frame follows it, the order in which the frames load, and which of them stay
+// decoded.
 
 /** The URL of one frame: `%04d` in the pattern becomes the zero-padded index (as in ffmpeg). */
 export function framePath(pattern: string, index: number): string {
@@ -106,6 +107,23 @@ export function coarseCount(count: number, step: number): number {
   return (count - 1) % step === 0 ? multiples : multiples + 1
 }
 
+/**
+ * The frames to keep decoded, in the order to decode them: the `size` frames nearest to `at`
+ * (the frame the scroll asks for), where a frame behind counts twice as far as one ahead.
+ * Ahead is towards `heading` (the frame of the scroll position, which the smoothed picture
+ * follows), forwards when the two are equal: a visitor mostly scrolls on.
+ */
+export function decodeWindow(count: number, at: number, heading: number, size: number): number[] {
+  const forwards = heading >= at
+  return Array.from({ length: count }, (_, index) => {
+    const ahead = forwards ? index - at : at - index
+    return { index, cost: ahead >= 0 ? ahead : 0.5 - 2 * ahead }
+  })
+    .sort((a, b) => a.cost - b.cost)
+    .slice(0, Math.max(0, size))
+    .map(({ index }) => index)
+}
+
 /** The loaded frame nearest to `wanted` (the earlier one on a tie), or -1 if none is. */
 export function nearestLoaded(loaded: ArrayLike<unknown>, wanted: number): number {
   for (let distance = 0; distance < loaded.length; distance++) {
@@ -130,4 +148,34 @@ export function focusTrack(points: readonly number[]): string {
     return `${rise} * clamp(0, var(--p) * ${segments} - ${index}, 1)`
   })
   return `calc(${first} + ${terms.join(' + ')})`
+}
+
+/**
+ * The same point as `focusTrack(points)` at `progress`, as a number. After hydration
+ * PrintOnScroll writes it on the frame, so the pan restyles only the frame, not the stage.
+ */
+export function focusAt(points: readonly number[], progress: number): number {
+  const [first = 0.5] = points
+  if (points.length < 2) return first
+  const segments = points.length - 1
+  const position = Math.min(segments, Math.max(0, progress * segments))
+  const index = Math.min(segments - 1, Math.floor(position))
+  const from = points[index] ?? first
+  const to = points[index + 1] ?? from
+  return from + (to - from) * (position - index)
+}
+
+/** Progress at which the intro has faded out, and at which the outro starts. */
+export interface Phases {
+  introOut: number
+  outroIn: number
+}
+
+/**
+ * The progress the overlays see (`--p` on the stage: intro, outro, shade, poster). Between
+ * the intro and the outro none of them changes, so it stays at `introOut` there: a new `--p`
+ * restyles every element on the stage, and on a phone that cost about half of each frame.
+ */
+export function overlayProgress(progress: number, phases: Phases): number {
+  return progress > phases.introOut && progress < phases.outroIn ? phases.introOut : progress
 }

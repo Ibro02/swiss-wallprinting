@@ -6,12 +6,16 @@ import type { FrameSet } from '@/content/images/types.ts'
 import {
   choseFallback,
   coarseCount,
+  decodeWindow,
+  focusAt,
   focusTrack,
   frameAt,
   framePath,
   imageType,
   loadOrder,
   nearestLoaded,
+  overlayProgress,
+  type Phases,
   type ScrollRange,
   scrollProgress,
   smoothTowards,
@@ -22,6 +26,12 @@ import {
 //
 // - The frames are still images (`vp run frames`) drawn to a canvas. A <video> scrubbed with
 //   `currentTime` stutters, because each seek decodes from the last keyframe.
+// - Nothing decodes on the main thread during a scroll. The frames download as files, and
+//   createImageBitmap decodes the ones near the scroll position off the main thread
+//   (decodeWindow); the canvas draws only decoded frames. Frames as <img> elements were
+//   decoded again at each draw on phones (the browser drops decoded images over its memory
+//   limit; 2026-11-01: about 18 ms per frame on a slow phone), and all of them decoded would
+//   take 370 MB (phone frames) to 580 MB (desktop frames).
 // - The server renders the first frame as an <img> (the LCP element), so the first paint is
 //   right without JavaScript. The canvas lies on it and only ever draws a loaded frame. The
 //   poster stays under it until the outro: a swipe that is faster than the network shows
@@ -33,18 +43,30 @@ import {
 //   units), and the poster and the canvas sit in it. They line up at every screen size.
 //   The canvas keeps the frame's own pixel size and the browser scales it like the <img>:
 //   no devicePixelRatio maths, no redraw on resize.
-// - JavaScript writes only `--p` (the smoothed progress, 0 … 1) on the stage. CSS turns it
-//   into the overlay fades and the pan that keeps the subject in view. Before hydration a
-//   CSS scroll timeline sets `--p`, so a reload in the middle of the section paints the
-//   right overlays at once (no-ui-flash).
+// - CSS turns the progress `--p` (0 … 1) into the overlay fades and the pan that keeps the
+//   subject in view. Before hydration a CSS scroll timeline sets `--p`, so a reload in the
+//   middle of the section paints the right overlays at once (no-ui-flash). After it,
+//   JavaScript writes the smoothed progress, and only where it changes something: `--p` on
+//   the stage only while the intro or the outro moves (overlayProgress: every element on the
+//   stage restyles for a new `--p`), and the pan as a number, `--focus`, on the frame alone.
+//   The frame is a layer of its own, so the pan moves it without a repaint.
 // - Reduced motion: no frames load. CSS shows the last frame and both overlays in a short
 //   section.
 
 /** Progress at which the intro has faded out and the outro starts. */
-const PHASES = { introOut: 0.1, outroIn: 0.88 }
+const PHASES: Phases = { introOut: 0.1, outroIn: 0.88 }
 
 /** Frames that download at the same time. */
 const PARALLEL_LOADS = 6
+
+/** Frames that decode at the same time (off the main thread). */
+const PARALLEL_DECODES = 3
+
+/**
+ * Memory for the decoded frames around the scroll position: 18 phone frames (1280 × 720)
+ * or 11 desktop frames (1600 × 900).
+ */
+const DECODED_BYTES = 64 * 2 ** 20
 
 /** Before the first scroll: every 8th frame (and the last), see loadCoarse. */
 const COARSE_STEP = 8
@@ -109,6 +131,7 @@ export function PrintOnScroll({
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const posterRef = useRef<HTMLImageElement>(null)
   // Set while scrubbing: scrolls to the end of the section, where the outro is.
@@ -117,9 +140,10 @@ export function PrintOnScroll({
   useEffect(() => {
     const section = sectionRef.current
     const stage = stageRef.current
+    const frame = frameRef.current
     const canvas = canvasRef.current
     const context = canvas?.getContext('2d')
-    if (!section || !stage || !canvas || !context) return
+    if (!section || !stage || !frame || !canvas || !context) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     // Chosen once, like the poster's <source>: a resize across the query keeps this set.
@@ -130,7 +154,15 @@ export function PrintOnScroll({
     // keeps the poster, as without JavaScript, and no frame loads.
     const framesOff = choseFallback(posterRef.current?.currentSrc ?? '', set)
 
-    const images: (HTMLImageElement | undefined)[] = Array.from({ length: set.count })
+    // Each frame's file (tens of KB), and the decoded frames near the scroll position.
+    const files: (Blob | undefined)[] = Array.from({ length: set.count })
+    const decoded: (ImageBitmap | undefined)[] = Array.from({ length: set.count })
+    const decoding = new Set<number>()
+    const windowSize = Math.max(4, Math.floor(DECODED_BYTES / (set.width * set.height * 4)))
+    // The frames to keep decoded, nearest first, and the frames they were chosen for.
+    let keep: number[] = []
+    let keptFor = ''
+    const downloads = new AbortController()
     let range: ScrollRange = { start: 0, distance: 0 }
     let target = 0
     let current = 0
@@ -150,15 +182,63 @@ export function PrintOnScroll({
       target = scrollProgress(window.scrollY, range)
     }
 
+    const decodeNext = () => {
+      for (const index of keep) {
+        if (disposed || decoding.size >= PARALLEL_DECODES) return
+        const file = files[index]
+        if (!file || decoded[index] || decoding.has(index)) continue
+        decoding.add(index)
+        createImageBitmap(file)
+          .then(
+            (bitmap) => {
+              if (disposed || !keep.includes(index)) return bitmap.close()
+              decoded[index] = bitmap
+              // A loop that is running draws it on its next frame.
+              if (!raf) render()
+            },
+            // A frame that does not decode: its neighbours stand in.
+            () => {
+              files[index] = undefined
+            },
+          )
+          .finally(() => {
+            decoding.delete(index)
+            decodeNext()
+          })
+      }
+    }
+
+    // Keeps the frames near `at` decoded and frees the others, so the memory stays bounded.
+    const keepNear = (at: number) => {
+      const heading = frameAt(target, set.count)
+      if (keptFor === `${at} ${heading}`) return
+      keptFor = `${at} ${heading}`
+      keep = decodeWindow(set.count, at, heading, windowSize)
+      for (const [index, bitmap] of decoded.entries()) {
+        if (bitmap && !keep.includes(index)) {
+          bitmap.close()
+          decoded[index] = undefined
+        }
+      }
+      decodeNext()
+    }
+
     const render = () => {
       const wanted = frameAt(current, set.count)
-      const shown = nearestLoaded(images, wanted)
-      const image = images[shown]
-      if (image && shown !== drawn) {
-        context.drawImage(image, 0, 0, set.width, set.height)
+      keepNear(wanted)
+      const shown = nearestLoaded(decoded, wanted)
+      const bitmap = decoded[shown]
+      if (bitmap && shown !== drawn) {
+        context.drawImage(bitmap, 0, 0, set.width, set.height)
         drawn = shown
+        canvas.dataset.frame = String(shown)
+        // The canvas shows a frame from now on: the poster under it can go (globals.css).
+        stage.toggleAttribute('data-drawn', true)
       }
-      stage.style.setProperty('--p', current.toFixed(4))
+      // A browser restyles only for a value that changed: the frame for each step of the
+      // pan, the whole stage only while the intro or the outro moves.
+      frame.style.setProperty('--focus', focusAt(focus, current).toFixed(4))
+      stage.style.setProperty('--p', overlayProgress(current, PHASES).toFixed(4))
       stage.toggleAttribute('data-loading', !framesOff && shown !== wanted)
       stage.toggleAttribute('data-done', current >= PHASES.outroIn)
     }
@@ -188,34 +268,33 @@ export function PrintOnScroll({
     }
 
     const queue = loadOrder(set.count)
-    const pending = new Set<HTMLImageElement>()
+    let pending = 0
     // How many frames may start: the coarse set first, all of them after the first scroll.
     let allowed = 0
     let started = 0
     const loadNext = () => {
-      while (!framesOff && !disposed && pending.size < PARALLEL_LOADS && started < allowed) {
+      while (!framesOff && !disposed && pending < PARALLEL_LOADS && started < allowed) {
         const index = queue.shift()
         if (index === undefined) return
         started++
-        const image = new Image()
-        image.fetchPriority = index === 0 ? 'high' : 'low'
-        image.src = framePath(set.pattern, index)
-        pending.add(image)
-        // decode() before the first draw, so drawImage never decodes during a scroll.
-        void image
-          .decode()
+        pending++
+        // The file only: decodeNext decodes it when the scroll comes near.
+        fetch(framePath(set.pattern, index), {
+          priority: index === 0 ? 'high' : 'low',
+          signal: downloads.signal,
+        })
+          .then((response) => (response.ok ? response.blob() : undefined))
           .then(
-            () => {
-              if (disposed) return
-              images[index] = image
-              // A loop that is running draws it on its next frame.
-              if (!raf) render()
+            (file) => {
+              if (!file || disposed) return
+              files[index] = file
+              decodeNext()
             },
             // A frame that does not load: its neighbours stand in.
             () => {},
           )
           .finally(() => {
-            pending.delete(image)
+            pending--
             loadNext()
           })
       }
@@ -271,10 +350,11 @@ export function PrintOnScroll({
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('load', afterFirstPaint)
       finishRef.current = null
-      // Cancels the downloads that are still running.
-      for (const image of pending) image.src = ''
+      // Cancels the downloads that are still running, and frees the decoded frames.
+      downloads.abort()
+      for (const bitmap of decoded) bitmap?.close()
     }
-  }, [frames, mobileFrames, mobileQuery, smoothing])
+  }, [frames, mobileFrames, mobileQuery, smoothing, focus])
 
   const sectionStyle = {
     '--print-length': length,
@@ -308,8 +388,10 @@ export function PrintOnScroll({
         ref={stageRef}
         className={`print-scroll__stage isolate overflow-hidden ${stageClassName}`}
       >
-        {/* `--focus` uses `--p`, so it is set here, under the stage that carries `--p`. */}
+        {/* `--focus` uses `--p`, so it is set here, under the stage that carries `--p`. After
+            hydration the island writes it as a number (focusAt). */}
         <div
+          ref={frameRef}
           className="print-scroll__frame"
           style={{ '--focus': focusTrack(focus) } as CSSProperties}
         >
@@ -373,7 +455,7 @@ export function PrintOnScroll({
           aria-hidden="true"
           className="print-scroll__loading absolute inset-x-0 bottom-0 h-0.5 overflow-hidden bg-white/15"
         >
-          <span className="block h-full w-1/3 animate-[loading-bar_1.2s_ease-in-out_infinite] bg-white/80" />
+          <span className="block h-full w-1/3 bg-white/80" />
         </div>
 
         {children}

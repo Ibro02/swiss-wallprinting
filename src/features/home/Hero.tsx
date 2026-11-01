@@ -36,8 +36,9 @@ export async function Hero() {
       labelledBy="hero-title"
       frames={heroVideo.frames.desktop}
       mobileFrames={heroVideo.frames.mobile}
-      // About three screens of scroll for the print: a few turns of the wheel or swipes.
-      length="400vh"
+      // About one screen of scroll for the print: one swipe on a phone (the author,
+      // 2026-11-01: "when user scrolls one time it prints out on the wall").
+      length="200vh"
       smoothing={0.12}
       focus={heroVideo.focus}
       cropBottom={heroVideo.cropBottom}
