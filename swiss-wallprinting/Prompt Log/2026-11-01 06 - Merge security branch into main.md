@@ -2,7 +2,7 @@
 tags: [prompt-log, git]
 date: 2026-11-01
 agent: Claude Code (Opus 5.5)
-status: done (merged on main, not pushed)
+status: done (merged on main and pushed)
 ---
 # 2026-11-01 06 - Merge security branch into main
 
@@ -34,6 +34,6 @@ Merge `security/deepsec` (which contains `refactor/architecture`) into `main`.
 
 ## Open items
 
-- Push `main` when the author asks.
+- Pushed on the author's request ("Yes, push"): `origin/main` went from 5e92a5d to 20e7573, then this log update was pushed too.
 - Delete the two merged branches when the author asks.
 - Still open from before: the deepsec login step, `FORM_SECRET` before launch, and checking the fade in Firefox and on a phone.
