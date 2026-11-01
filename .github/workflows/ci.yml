@@ -16,11 +16,11 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Installs Vite+, Node (from .node-version), pnpm (from packageManager),
       # and the dependencies (`vp install`).
-      - uses: voidzero-dev/setup-vp@v1.21.2
+      - uses: voidzero-dev/setup-vp@68f39c78aaf39be468cabd2afb09c162574c84af # v1.21.2
         with:
           cache: true
 
@@ -41,8 +41,8 @@ jobs:
       # Canonical and sitemap URLs on the test server itself (Lighthouse checks the canonical).
       SITE_URL: http://localhost:3001
     steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: voidzero-dev/setup-vp@v1.21.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: voidzero-dev/setup-vp@68f39c78aaf39be468cabd2afb09c162574c84af # v1.21.2
         with:
           cache: true
       - run: vp run build
@@ -60,14 +60,14 @@ jobs:
       - if: ${{ !cancelled() && steps.lighthouse.outcome != 'skipped' }}
         run: vp run lighthouse:summary
       - if: ${{ !cancelled() && steps.lighthouse.outcome != 'skipped' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: lighthouse
           path: test-results/lighthouse/
           retention-days: 14
       # Playwright traces and screenshots, only when a step failed.
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: test-results
           path: |

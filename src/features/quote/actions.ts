@@ -7,13 +7,15 @@ import { getPathname } from '@/i18n/navigation.ts'
 import { PAGES } from '@/i18n/pages.ts'
 import { routing } from '@/i18n/routing.ts'
 import { mailTransport } from '@/lib/mail.ts'
-import { createRateLimiter } from '@/lib/rate-limit.ts'
+import { formSecret } from '@/lib/form-token.ts'
+import { createRateLimiter, FORM_LIMIT, FORM_LIMIT_WITHOUT_TOKEN } from '@/lib/rate-limit.ts'
 import { clientIp } from '@/lib/request.ts'
 import { siteUrl } from '@/lib/site.ts'
 import { handleQuote, type QuoteState } from './handle-quote.ts'
 
-// The same limit as the question form (src/lib/rate-limit.ts).
-const allow = createRateLimiter({ perKey: 5, total: 30, windowMs: 10 * 60_000 })
+// The same limits as the question form, counted apart.
+const allow = createRateLimiter(FORM_LIMIT)
+const allowWithoutToken = createRateLimiter(FORM_LIMIT_WITHOUT_TOKEN)
 
 // Italian titles: the e-mail goes to the client in Italian.
 const { presets: presetsIt, machineMaxHeight, rates, ratesAreExamples } = configuratorContent('it')
@@ -33,7 +35,8 @@ export async function submitQuote(_previous: QuoteState, formData: FormData): Pr
 
   return handleQuote(formData, {
     now,
-    allow: () => allow(ip, now),
+    secret: formSecret(),
+    allow: (withToken) => (withToken ? allow : allowWithoutToken)(ip, now),
     to: process.env.CONTACT_TO || undefined,
     transport: mailTransport,
     presets,

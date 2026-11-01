@@ -39,3 +39,14 @@ export function createRateLimiter({ perKey, total, windowMs }: RateLimit) {
     return true
   }
 }
+
+const TEN_MINUTES = 10 * 60_000
+
+/** The send limit of each form: 5 per visitor and 30 of all visitors in 10 minutes. */
+export const FORM_LIMIT: RateLimit = { perKey: 5, total: 30, windowMs: TEN_MINUTES }
+
+/**
+ * Requests without a valid fill-time token (src/lib/form-token.ts): a visitor without
+ * JavaScript, or a script that skips the page. Far fewer, for all of them together.
+ */
+export const FORM_LIMIT_WITHOUT_TOKEN: RateLimit = { perKey: 3, total: 5, windowMs: TEN_MINUTES }

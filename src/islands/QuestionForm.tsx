@@ -9,6 +9,7 @@ import { LIMITS, OTHER_AREA, type QuestionField, SPAM_FIELDS } from '@/features/
 import type { QuestionState } from '@/features/contact/handle-question.ts'
 import { Link } from '@/i18n/navigation.ts'
 import { PAGES } from '@/i18n/pages.ts'
+import { useFormToken } from './use-form-token.ts'
 
 // The question form: in the home page hero card (`card`: the labels are the placeholders,
 // no phone field) and on the contact page (`page`: visible labels, phone). Works without
@@ -43,13 +44,8 @@ export function QuestionForm({ contact, areas, variant = 'page' }: QuestionFormP
   const [round, setRound] = useState(0)
   const form = useRef<HTMLFormElement>(null)
   const status = useRef<HTMLDivElement>(null)
-  const startedAt = useRef<HTMLInputElement>(null)
+  const token = useFormToken('question', round)
   const card = variant === 'card'
-
-  // Fill time for the spam check (set after hydration; empty without JavaScript).
-  useEffect(() => {
-    if (startedAt.current) startedAt.current.value = String(Date.now())
-  }, [round])
 
   // After an answer: the first invalid field, or the status message, gets the focus.
   useEffect(() => {
@@ -126,7 +122,7 @@ export function QuestionForm({ contact, areas, variant = 'page' }: QuestionFormP
       className={card ? 'flex flex-col gap-4' : 'grid gap-6'}
     >
       <input type="hidden" name="locale" value={locale} />
-      <input ref={startedAt} type="hidden" name={SPAM_FIELDS.startedAt} defaultValue="" />
+      <input ref={token} type="hidden" name={SPAM_FIELDS.token} defaultValue="" />
       {/* Honeypot: hidden from people and assistive tech; bots fill it. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>

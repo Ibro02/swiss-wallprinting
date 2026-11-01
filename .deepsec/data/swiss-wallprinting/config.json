@@ -1,0 +1,22 @@
+{
+  "priorityPaths": [
+    "src/features/contact/",
+    "src/features/quote/",
+    "src/lib/",
+    "src/proxy.ts",
+    "next.config.ts",
+    ".github/workflows/"
+  ],
+  "ignorePaths": [
+    "scripts/**",
+    "e2e/**",
+    "public/**",
+    "Assets/**",
+    "messages/**",
+    "swiss-wallprinting/**",
+    ".claude/**",
+    ".deepsec/**",
+    "**/__tests__/**",
+    "src/content/images/**"
+  ]
+}

@@ -26,10 +26,13 @@ export const OTHER_AREA = 'other'
 /** Anchor of the question form: the hero card on the home page, the form on the contact page. */
 export const QUESTION_FORM_ID = 'question'
 
-/** Fields that bots fill and people do not see (honeypot), and the fill time. */
-export const SPAM_FIELDS = { honeypot: 'website', startedAt: 'startedAt' } as const
+/**
+ * Fields that bots fill and people do not see (honeypot), and the signed fill-time token
+ * that the browser asks for after hydration (src/lib/form-token.ts).
+ */
+export const SPAM_FIELDS = { honeypot: 'website', token: 'formToken' } as const
 
-/** Faster than this from page load to submit is a bot. */
+/** Faster than this from the token to submit is a bot. */
 export const MIN_FILL_MS = 2000
 
 export interface Question {

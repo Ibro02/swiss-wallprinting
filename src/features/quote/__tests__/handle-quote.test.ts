@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vite-plus/test'
+import { createFormToken } from '@/lib/form-token.ts'
 import type { MailMessage, MailTransport } from '@/lib/mail.ts'
 import { MAX_SCREENSHOT_CHARS, QUOTE_HIDDEN } from '../fields.ts'
 import { handleQuote, type QuoteDeps } from '../handle-quote.ts'
 import { parseScreenshot } from '../quote.ts'
 
 const NOW = 1_800_000_000_000
+const SECRET = 's'.repeat(32)
 const JPEG = `data:image/jpeg;base64,${Buffer.from([0xff, 0xd8, 0xff, 0xe0]).toString('base64')}`
 
 function form(fields: Record<string, string>): FormData {
@@ -20,7 +22,7 @@ const valid = {
   place: 'Bellinzona',
   notes: 'Parete del soggiorno',
   consent: 'on',
-  startedAt: String(NOW - 60_000),
+  formToken: createFormToken('quote', NOW - 60_000, SECRET),
   [QUOTE_HIDDEN.config]: 'room=5x4x2.7&wall=n&image=lake&print=3x1.5&pos=0x0',
   [QUOTE_HIDDEN.screenshot]: JPEG,
 }
@@ -31,6 +33,7 @@ function deps(overrides: Partial<QuoteDeps> = {}) {
   const transport: MailTransport = { send: async (mail) => void sent.push(mail) }
   const value: QuoteDeps = {
     now: NOW,
+    secret: SECRET,
     allow: () => true,
     to: 'owner@example.ch',
     transport: () => transport,
