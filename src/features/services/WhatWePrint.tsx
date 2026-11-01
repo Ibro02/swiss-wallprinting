@@ -36,8 +36,10 @@ export async function WhatWePrint() {
         >
           <p>{t('intro')}</p>
         </SectionHeading>
-        {/* Phones: two by two, each card as tall as its text, so the list stays short. */}
-        <ul className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-4">
+        {/* Phones: two by two, each card as tall as its text, so the list stays short. A
+            half-width card is narrower than long German words ("Innenarchitekturprojekte"),
+            so the texts hyphenate, and break where no hyphen fits. */}
+        <ul className="mt-6 grid grid-cols-2 gap-2 hyphens-auto break-words sm:mt-10 sm:gap-3 lg:grid-cols-4">
           {KINDS.map((kind, index) => (
             <li
               key={kind}
