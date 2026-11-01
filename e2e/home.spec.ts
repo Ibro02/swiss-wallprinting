@@ -1,4 +1,6 @@
 import { expect, type Page, test } from '@playwright/test'
+import { heroFrames } from '../src/content/images/frames.ts'
+import { framePath } from '../src/features/home/print-scroll.ts'
 
 // The home page's motion: the scroll hero follows the scroll (and shows the finished picture
 // with reduced motion); the reviews band moves, pauses under the mouse, follows a finger on
@@ -48,15 +50,45 @@ test('the hero follows the scroll forwards and backwards', async ({ page }) => {
   await expect.poll(() => progress(page)).toBe(0)
 })
 
+test('a browser without AVIF keeps the WebP poster and loads no frames', async ({ page }) => {
+  // Chromium decodes AVIF. An unknown type on the AVIF sources makes it skip them, as a
+  // browser without AVIF does (Safari 15, for example).
+  await page.route('**/it', async (route) => {
+    const response = await route.fetch()
+    const body = (await response.text()).replaceAll('type="image/avif"', 'type="image/x-none"')
+    await route.fulfill({ response, body })
+  })
+  const frames: string[] = []
+  page.on('request', (request) => {
+    if (request.url().endsWith('.avif')) frames.push(request.url())
+  })
+  await page.goto('/it')
+  const poster = page.locator('.print-scroll__poster')
+  await expect
+    .poll(() => poster.evaluate((image: HTMLImageElement) => image.currentSrc))
+    .toMatch(/\/0000\.webp$/)
+
+  // The overlays still follow the scroll, and nothing waits for frames.
+  const { distance } = await heroRange(page)
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance)
+  await expect.poll(() => progress(page)).toBe(1)
+  const stage = page.locator('.print-scroll__stage')
+  await expect(stage).toHaveAttribute('data-done', '')
+  await expect(stage).not.toHaveAttribute('data-loading')
+  expect(frames).toEqual([])
+})
+
 test.describe('with reduced motion', () => {
   test.use({ reducedMotion: 'reduce' })
 
-  test('the hero shows the finished picture in a short section', async ({ page }) => {
+  test('the hero shows the finished picture in a short section', async ({ page, isMobile }) => {
     await page.goto('/it')
     const poster = page.locator('.print-scroll__poster')
+    // The last frame in the frames' own format (Chromium decodes AVIF), phone or desktop set.
+    const frames = isMobile ? heroFrames.mobile : heroFrames.desktop
     await expect
       .poll(() => poster.evaluate((image: HTMLImageElement) => image.currentSrc))
-      .toMatch(/0120\.webp$/)
+      .toContain(framePath(frames.pattern, frames.count - 1))
     const heights = await page.evaluate(() => ({
       section: document.querySelector<HTMLElement>('.print-scroll')?.offsetHeight ?? 0,
       screen: window.innerHeight,

@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
+  choseFallback,
   coarseCount,
   focusTrack,
   frameAt,
   framePath,
+  imageType,
   loadOrder,
   nearestLoaded,
   scrollProgress,
@@ -14,6 +16,38 @@ describe('framePath', () => {
   it('pads the index like ffmpeg', () => {
     expect(framePath('/frames/hero/desktop/%04d.webp', 7)).toBe('/frames/hero/desktop/0007.webp')
     expect(framePath('/f/%03d.webp', 120)).toBe('/f/120.webp')
+  })
+})
+
+describe('imageType', () => {
+  it('reads the media type from the extension of a path or a URL', () => {
+    expect(imageType('/frames/hero/desktop/%04d.avif')).toBe('image/avif')
+    expect(imageType('http://localhost:3001/frames/hero/mobile/0099.WEBP')).toBe('image/webp')
+  })
+
+  it('knows no type without a known extension', () => {
+    expect(imageType('/frames/hero/desktop/0000')).toBeUndefined()
+    expect(imageType('/frames/hero/desktop/0000.gif')).toBeUndefined()
+  })
+})
+
+describe('choseFallback', () => {
+  const frames = {
+    pattern: '/frames/hero/desktop/%04d.avif',
+    fallback: '/frames/hero/desktop/%04d.webp',
+  }
+
+  it('is true when the poster shows the fallback format', () => {
+    expect(choseFallback('https://x.ch/frames/hero/mobile/0000.webp', frames)).toBe(true)
+  })
+
+  it('is false when the poster shows the frames format', () => {
+    expect(choseFallback('https://x.ch/frames/hero/desktop/0000.avif', frames)).toBe(false)
+  })
+
+  it('is false before the browser has chosen, or without a fallback', () => {
+    expect(choseFallback('', frames)).toBe(false)
+    expect(choseFallback('https://x.ch/0000.webp', { pattern: '/f/%04d.webp' })).toBe(false)
   })
 })
 

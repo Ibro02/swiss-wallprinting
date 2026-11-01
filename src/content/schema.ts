@@ -155,8 +155,12 @@ export type PrintQuality = z.infer<typeof printQuality>
 /** A point or a length in a video frame, as a share of its width or height. */
 const fraction = z.number().min(0).max(1)
 
+const framePattern = z.string().regex(/^\/.*%0\d+d/)
+
 const frameSet = z.object({
-  pattern: z.string().regex(/^\/.*%0\d+d/),
+  pattern: framePattern,
+  /** WebP copies of the first and the last frame, for the poster in browsers without AVIF. */
+  fallback: framePattern.optional(),
   count: z.number().int().min(2),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
@@ -169,8 +173,6 @@ export const heroVideo = contentItem.extend({
   focus: z.array(fraction).min(1),
   /** The share of the frame height never shown, at the bottom. */
   cropBottom: z.number().min(0).max(0.5),
-  /** The logo "signature" on the finished mural: its left, top, and width. */
-  signature: z.object({ x: fraction, y: fraction, width: fraction }),
 })
 export type HeroVideo = z.infer<typeof heroVideo>
 

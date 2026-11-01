@@ -8,6 +8,32 @@ export function framePath(pattern: string, index: number): string {
   )
 }
 
+const IMAGE_TYPES: Readonly<Record<string, string>> = {
+  avif: 'image/avif',
+  webp: 'image/webp',
+  jpg: 'image/jpeg',
+  png: 'image/png',
+}
+
+/** The media type of an image path or URL, from its extension (a <source>'s `type`). */
+export function imageType(path: string): string | undefined {
+  const extension = /\.(\w+)$/.exec(path)?.[1]?.toLowerCase()
+  return extension ? IMAGE_TYPES[extension] : undefined
+}
+
+/**
+ * Whether the browser chose the poster's fallback (`currentSrc`) over the frames' own
+ * format: then it cannot decode the frames (AVIF before Safari 16, for example).
+ */
+export function choseFallback(
+  currentSrc: string,
+  frames: { pattern: string; fallback?: string },
+): boolean {
+  if (!frames.fallback || !currentSrc) return false
+  const shown = imageType(currentSrc)
+  return shown === imageType(frames.fallback) && shown !== imageType(frames.pattern)
+}
+
 /** Where the sticky stage scrolls, in px of `window.scrollY`. */
 export interface ScrollRange {
   /** The scroll position at which the stage starts to stick: progress 0. */
@@ -28,7 +54,7 @@ export function frameAt(progress: number, count: number): number {
 }
 
 const FRAME_MS = 1000 / 60
-/** Closer than this, the shown progress snaps to the scroll (well under one frame of 121). */
+/** Closer than this, the shown progress snaps to the scroll (well under one frame of 100). */
 const SETTLED = 0.0002
 
 /**

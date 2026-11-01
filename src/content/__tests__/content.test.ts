@@ -65,6 +65,16 @@ describe('content images', () => {
     }
   })
 
+  it('have the poster fallback of the first and the last hero frame in public/', () => {
+    for (const [variant, frames] of Object.entries(heroVideoData.frames)) {
+      expect(frames.fallback, variant).toBeDefined()
+      for (const index of [0, frames.count - 1]) {
+        const file = framePath(frames.fallback ?? '', index)
+        expect(existsSync(path.join(publicDir, file)), `${variant} ${file}`).toBe(true)
+      }
+    }
+  })
+
   it('are mock only in mock items', () => {
     const uses = [
       ...collections.services.flatMap((pair) => [

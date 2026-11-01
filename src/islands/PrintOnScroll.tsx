@@ -4,10 +4,12 @@ import { type CSSProperties, type ReactNode, useEffect, useRef } from 'react'
 import { ChevronDownIcon } from '@/components/icons.tsx'
 import type { FrameSet } from '@/content/images/types.ts'
 import {
+  choseFallback,
   coarseCount,
   focusTrack,
   frameAt,
   framePath,
+  imageType,
   loadOrder,
   nearestLoaded,
   type ScrollRange,
@@ -24,20 +26,22 @@ import {
 //   right without JavaScript. The canvas lies on it and only ever draws a loaded frame. The
 //   poster stays under it until the outro: a swipe that is faster than the network shows
 //   frame 0, never an empty stage.
+// - The frames are AVIF. The poster's <picture> also offers a WebP copy (`fallback`), so a
+//   browser without AVIF shows the poster; it never loads the frames, and the overlays
+//   still follow the scroll.
 // - Layout is CSS: a box with the video's proportions covers the stage (container query
-//   units), and the poster, the canvas, and the signature sit in it. They line up at every
-//   screen size, and the signature stays on the mural. The canvas keeps the frame's own
-//   pixel size and the browser scales it like the <img>: no devicePixelRatio maths, no
-//   redraw on resize.
+//   units), and the poster and the canvas sit in it. They line up at every screen size.
+//   The canvas keeps the frame's own pixel size and the browser scales it like the <img>:
+//   no devicePixelRatio maths, no redraw on resize.
 // - JavaScript writes only `--p` (the smoothed progress, 0 … 1) on the stage. CSS turns it
-//   into the overlay fades, the signature, and the pan that keeps the subject in view.
-//   Before hydration a CSS scroll timeline sets `--p`, so a reload in the middle of the
-//   section paints the right overlays at once (no-ui-flash).
-// - Reduced motion: no frames load. CSS shows the last frame, the signature, and both
-//   overlays in a short section.
+//   into the overlay fades and the pan that keeps the subject in view. Before hydration a
+//   CSS scroll timeline sets `--p`, so a reload in the middle of the section paints the
+//   right overlays at once (no-ui-flash).
+// - Reduced motion: no frames load. CSS shows the last frame and both overlays in a short
+//   section.
 
-/** Progress at which the intro has faded out, the outro starts, the signature starts. */
-const PHASES = { introOut: 0.1, outroIn: 0.88, signatureIn: 0.92 }
+/** Progress at which the intro has faded out and the outro starts. */
+const PHASES = { introOut: 0.1, outroIn: 0.88 }
 
 /** Frames that download at the same time. */
 const PARALLEL_LOADS = 6
@@ -68,8 +72,6 @@ interface Props {
   cropBottom?: number
   /** Share of the screen kept free above the stage, for a fixed header. */
   headerRoom?: number
-  /** A logo that "signs" the finished picture: x, y, and width are shares of the frame. */
-  signature?: { src: string; x: number; y: number; width: number }
   /** Text alternative of the poster frame. */
   alt: string
   /** Shown at the start; fades out as the print begins. */
@@ -96,7 +98,6 @@ export function PrintOnScroll({
   focus = [0.5],
   cropBottom = 0,
   headerRoom = 0,
-  signature,
   alt,
   intro,
   hint,
@@ -109,6 +110,7 @@ export function PrintOnScroll({
   const sectionRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const posterRef = useRef<HTMLImageElement>(null)
   // Set while scrubbing: scrolls to the end of the section, where the outro is.
   const finishRef = useRef<(() => void) | null>(null)
 
@@ -124,6 +126,9 @@ export function PrintOnScroll({
     const set = mobileFrames && window.matchMedia(mobileQuery).matches ? mobileFrames : frames
     canvas.width = set.width
     canvas.height = set.height
+    // The poster's <picture> chose the fallback: this browser cannot decode the frames. It
+    // keeps the poster, as without JavaScript, and no frame loads.
+    const framesOff = choseFallback(posterRef.current?.currentSrc ?? '', set)
 
     const images: (HTMLImageElement | undefined)[] = Array.from({ length: set.count })
     let range: ScrollRange = { start: 0, distance: 0 }
@@ -154,7 +159,7 @@ export function PrintOnScroll({
         drawn = shown
       }
       stage.style.setProperty('--p', current.toFixed(4))
-      stage.toggleAttribute('data-loading', shown !== wanted)
+      stage.toggleAttribute('data-loading', !framesOff && shown !== wanted)
       stage.toggleAttribute('data-done', current >= PHASES.outroIn)
     }
 
@@ -188,7 +193,7 @@ export function PrintOnScroll({
     let allowed = 0
     let started = 0
     const loadNext = () => {
-      while (!disposed && pending.size < PARALLEL_LOADS && started < allowed) {
+      while (!framesOff && !disposed && pending.size < PARALLEL_LOADS && started < allowed) {
         const index = queue.shift()
         if (index === undefined) return
         started++
@@ -278,9 +283,19 @@ export function PrintOnScroll({
     '--room': headerRoom,
     '--intro-out': PHASES.introOut,
     '--outro-in': PHASES.outroIn,
-    '--signature-in': PHASES.signatureIn,
   } as CSSProperties
-  const last = (set: FrameSet) => framePath(set.pattern, set.count - 1)
+  const lastIndex = (set: FrameSet) => set.count - 1
+  /** One poster source, typed, so a browser skips a format it cannot decode. */
+  const source = (pattern: string, index: number, media?: string) => (
+    <source media={media} type={imageType(pattern)} srcSet={framePath(pattern, index)} />
+  )
+  /** A frame in the frames' own format, then its fallback copy where there is one. */
+  const sources = (set: FrameSet, index: number, media?: string) => (
+    <>
+      {source(set.pattern, index, media)}
+      {set.fallback && source(set.fallback, index, media)}
+    </>
+  )
 
   return (
     <section
@@ -299,20 +314,22 @@ export function PrintOnScroll({
           style={{ '--focus': focusTrack(focus) } as CSSProperties}
         >
           <picture>
-            {/* Reduced motion shows the finished picture; phones get the smaller frames. */}
-            {mobileFrames && (
-              <source
-                media={`(prefers-reduced-motion: reduce) and ${mobileQuery}`}
-                srcSet={last(mobileFrames)}
-              />
-            )}
-            <source media="(prefers-reduced-motion: reduce)" srcSet={last(frames)} />
-            {mobileFrames && (
-              <source media={mobileQuery} srcSet={framePath(mobileFrames.pattern, 0)} />
-            )}
-            {/* oxlint-disable-next-line nextjs/no-img-element -- art direction by media query; the frames are already sized WebP */}
+            {/* Reduced motion shows the finished picture; phones get the smaller frames. Each
+                frame in the frames' format first (AVIF), then the fallback (WebP). */}
+            {mobileFrames &&
+              sources(
+                mobileFrames,
+                lastIndex(mobileFrames),
+                `(prefers-reduced-motion: reduce) and ${mobileQuery}`,
+              )}
+            {sources(frames, lastIndex(frames), '(prefers-reduced-motion: reduce)')}
+            {mobileFrames && sources(mobileFrames, 0, mobileQuery)}
+            {/* The <img> is the fallback; the frames' own format comes first. */}
+            {frames.fallback && source(frames.pattern, 0)}
+            {/* oxlint-disable-next-line nextjs/no-img-element -- art direction by media query; the frames are already sized AVIF and WebP */}
             <img
-              src={framePath(frames.pattern, 0)}
+              ref={posterRef}
+              src={framePath(frames.fallback ?? frames.pattern, 0)}
               alt={alt}
               width={frames.width}
               height={frames.height}
@@ -325,19 +342,6 @@ export function PrintOnScroll({
             aria-hidden="true"
             className="print-scroll__canvas absolute inset-0 size-full"
           />
-          {signature && (
-            // oxlint-disable-next-line nextjs/no-img-element
-            <img
-              src={signature.src}
-              alt=""
-              className="print-scroll__signature absolute h-auto"
-              style={{
-                left: `${signature.x * 100}%`,
-                top: `${signature.y * 100}%`,
-                width: `${signature.width * 100}%`,
-              }}
-            />
-          )}
         </div>
 
         {/* Darker where the text is; gone while the picture prints. */}
