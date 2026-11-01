@@ -36,9 +36,11 @@ export async function Hero() {
       labelledBy="hero-title"
       frames={heroVideo.frames.desktop}
       mobileFrames={heroVideo.frames.mobile}
-      // About one screen of scroll for the print: one swipe on a phone (the author,
-      // 2026-11-01: "when user scrolls one time it prints out on the wall").
-      length="200vh"
+      // About 0.4 of a screen pinned (355 px at 768 px high): one scroll plays the print
+      // (playSeconds), so a longer section only left an idle scroll after it (the author,
+      // 2026-11-01: "too much scroll after animation is done"; it was 200vh, a full screen).
+      // A faster scroll than the play speeds the print up to the scroll (playTowards).
+      length="140vh"
       smoothing={0.12}
       // At least half of the print per second: the picture does not crawl over the last frames
       // of a swipe (the author, 2026-11-01: "I would like it faster so it can be smoother").
