@@ -1,10 +1,14 @@
 import { expect, type Page, test } from '@playwright/test'
+import { ENVIRONMENTS } from '../src/features/configurator/model/configuration.ts'
 
 // The configurator without 3D (the 3D view loads only when a person asks for it): a new print
 // size changes the price and the share link; phones show one part at a time in tabs; the
 // whole panel works with the keyboard; the quote dialog opens.
 
 const PATH = '/it/prova-la-tua-parete'
+
+/** "Where" (indoors or outdoors) is in the panel only while there is a choice. */
+const WHERE = ENVIRONMENTS.length > 1
 
 const price = (page: Page) => page.locator('#configurator-price')
 
@@ -47,7 +51,9 @@ test('phones show one part at a time, chosen with the tabs', async ({ page, isMo
   await expect(page.locator('#configurator-print').getByLabel('Larghezza')).toBeHidden()
 
   // No tab needs to scroll in the tool panel.
-  for (const tab of ['Immagine', 'Parete', 'Stanza', 'Stampa', 'Posizione', 'Dove']) {
+  await expect(page.getByRole('button', { name: 'Dove', exact: true })).toHaveCount(WHERE ? 1 : 0)
+  const tabs = ['Immagine', 'Parete', 'Stanza', 'Stampa', 'Posizione', ...(WHERE ? ['Dove'] : [])]
+  for (const tab of tabs) {
     await page.getByRole('button', { name: tab, exact: true }).click()
     const overflow = await settings.evaluate(
       (element) => element.scrollHeight - element.clientHeight,
@@ -80,10 +86,11 @@ test('the whole panel works with the keyboard', async ({ page, isMobile }) => {
       'configurator-wall',
       'configurator-room',
       'configurator-print',
-      'configurator-environment',
+      ...(WHERE ? ['configurator-environment'] : []),
       'quote',
     ]),
   )
+  await expect(page.locator('#configurator-environment')).toHaveCount(WHERE ? 1 : 0)
 })
 
 test('the quote dialog opens and closes', async ({ page, isMobile }) => {

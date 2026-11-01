@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 import { anchorFor, cornerOf, edgesOf, WALL_MARGIN } from '../model/print.ts'
-import { OUTDOOR_WALL, type StartContent, startConfiguration } from '../model/configuration.ts'
+import { type StartContent, startConfiguration } from '../model/configuration.ts'
 import { toSearchParams } from '../model/share.ts'
 import { createConfiguratorStore, placementOf, type PrintImage, sharedConfigOf } from '../store.ts'
 
@@ -45,12 +45,12 @@ describe('sharedConfigOf', () => {
     })
   })
 
-  it('opens an outdoor configuration on the one outdoor wall', () => {
+  it('stays indoors while outdoors is hidden (2026-11-01)', () => {
     const store = newStore('office')
     store.getState().selectWall('west')
     store.getState().setEnvironment('exterior')
-    expect(store.getState().wall).toBe(OUTDOOR_WALL)
-    expect(reopen(store)).toMatchObject({ wall: OUTDOOR_WALL, environment: 'exterior' })
+    expect(store.getState()).toMatchObject({ wall: 'west', environment: 'interior' })
+    expect(reopen(store)).toMatchObject({ wall: 'west', environment: 'interior' })
   })
 
   it('leaves an uploaded image out of the link', () => {
@@ -157,10 +157,11 @@ describe('configurator store', () => {
 })
 
 describe('product rules in the store', () => {
-  it('keeps an outdoor configuration on the one outdoor wall', () => {
+  it('opens an outdoor area indoors, where every wall can be chosen', () => {
     const store = newStore('facade')
+    expect(store.getState().environment).toBe('interior')
     store.getState().selectWall('east')
-    expect(store.getState().wall).toBe(OUTDOOR_WALL)
+    expect(store.getState().wall).toBe('east')
   })
 
   it('keeps a turned-off fit off', () => {

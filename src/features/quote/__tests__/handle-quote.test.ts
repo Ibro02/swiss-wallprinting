@@ -93,12 +93,14 @@ describe('handleQuote', () => {
     )
 
     const text = sent[0]?.text
-    // Outdoors there is one wall, the front one; "whole image" is off, so the print fills.
-    expect(text).toContain('Parete: 5.00 × 2.70 m (di fronte)')
+    // Outdoors is hidden for now (2026-11-01), so the link opens indoors, on its own wall (the
+    // right one); "whole image" is off, so the print fills.
+    expect(text).toContain('Parete: 4.00 × 2.70 m (a destra)')
     expect(text).toContain("Area di stampa: 3.00 × 1.50 m (l'immagine riempie l'area)")
     expect(text).toContain('Superficie stampata: 4.50 m²')
-    expect(text).toContain('Ambiente: esterno')
-    expect(text).toContain('?room=5x4x2.7&wall=n&image=lake&print=3x1.5&pos=0x0&env=out')
+    expect(text).toContain('Ambiente: interno')
+    expect(text).toContain('?room=5x4x2.7&wall=e&image=lake&print=3x1.5&pos=0x0')
+    expect(text).not.toContain('env=out')
   })
 
   it('names an uploaded image and asks for the original file', async () => {

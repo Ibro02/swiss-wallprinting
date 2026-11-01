@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
   applyProductRules,
+  DISABLED_ENVIRONMENTS,
+  ENVIRONMENTS,
   OUTDOOR_WALL,
   sharedConfigurationOf,
   type StartContent,
@@ -31,11 +33,21 @@ describe('applyProductRules', () => {
     expect(applyProductRules(config)).toBe(config)
   })
 
-  it('puts an outdoor configuration on the one outdoor wall', () => {
-    expect(applyProductRules({ wall: 'west', fit: 'cover', environment: 'exterior' })).toEqual({
+  it('puts an outdoor configuration on the one outdoor wall (with outdoors on)', () => {
+    expect(applyProductRules({ wall: 'west', fit: 'cover', environment: 'exterior' }, [])).toEqual({
       wall: OUTDOOR_WALL,
       fit: 'cover',
       environment: 'exterior',
+    })
+  })
+
+  it('opens an outdoor configuration indoors while outdoors is hidden', () => {
+    expect(DISABLED_ENVIRONMENTS).toContain('exterior')
+    expect(ENVIRONMENTS).toEqual(['interior'])
+    expect(applyProductRules({ wall: 'west', fit: 'cover', environment: 'exterior' })).toEqual({
+      wall: 'west',
+      fit: 'cover',
+      environment: 'interior',
     })
   })
 
@@ -52,7 +64,8 @@ describe('sharedConfigurationOf', () => {
       link('room=5x4x2.7&wall=e&image=lake&print=3x1.5&pos=0x0&fit=contain&env=out'),
       ['lake'],
     )
-    expect(shared).toMatchObject({ wall: OUTDOOR_WALL, fit: 'cover', environment: 'exterior' })
+    // Outdoors is hidden for now (2026-11-01): the link opens indoors, on its own wall.
+    expect(shared).toMatchObject({ wall: 'east', fit: 'cover', environment: 'interior' })
   })
 
   it('gives null for an address without a configuration', () => {
@@ -74,7 +87,8 @@ describe('startConfiguration', () => {
     const config = startConfiguration({ area: 'facade' }, content)
     expect(config.image).toMatchObject({ id: 'peaks' })
     expect(config.room).toMatchObject({ width: 9, height: 6 })
-    expect(config).toMatchObject({ wall: OUTDOOR_WALL, environment: 'exterior' })
+    // An outdoor area opens indoors while outdoors is hidden (2026-11-01).
+    expect(config).toMatchObject({ wall: 'north', environment: 'interior' })
   })
 
   it('ignores an unknown area', () => {
@@ -93,14 +107,14 @@ describe('startConfiguration', () => {
     expect(config.print.width).toBe(2.8)
   })
 
-  it('opens an outdoor link on the one outdoor wall, with the print fitted to it', () => {
+  it('opens an outdoor link indoors on its wall, with the print fitted to it', () => {
     const config = startConfiguration(
       link('room=6x3x2.5&wall=w&image=peaks&print=9x1&pos=0x0&env=out'),
       content,
     )
-    expect(config).toMatchObject({ wall: OUTDOOR_WALL, environment: 'exterior' })
-    // The front wall is as wide as the room (6 m), less 10 cm at each side.
-    expect(config.print.width).toBe(5.8)
+    expect(config).toMatchObject({ wall: 'west', environment: 'interior' })
+    // The west wall is as wide as the room is long (3 m), less 10 cm at each side.
+    expect(config.print.width).toBe(2.8)
   })
 
   it('opens a link to an uploaded image with the first preset', () => {

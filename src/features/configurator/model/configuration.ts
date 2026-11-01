@@ -21,6 +21,19 @@ export const OUTDOOR_WALL: Wall = 'north'
  */
 export const DISABLED_FITS: readonly Fit[] = ['contain']
 
+/**
+ * Outdoors is hidden for now (the author, 2026-11-01): a configuration outdoors (an old share
+ * link, `?area=` of an outdoor area) opens indoors, and the panel has no "Where" choice while
+ * one environment is left. The outdoor scene and its one-wall rule stay: empty this list to
+ * bring outdoors back.
+ */
+export const DISABLED_ENVIRONMENTS: readonly Environment[] = ['exterior']
+
+/** The environments the visitor can choose. */
+export const ENVIRONMENTS: readonly Environment[] = (['interior', 'exterior'] as const).filter(
+  (environment) => !DISABLED_ENVIRONMENTS.includes(environment),
+)
+
 /** The fields that the product rules read and correct; all others pass through. */
 interface RuledFields {
   wall: Wall
@@ -28,12 +41,22 @@ interface RuledFields {
   environment: Environment
 }
 
-/** The same configuration, corrected to the product rules. Unchanged when it follows them. */
-export function applyProductRules<T extends RuledFields>(config: T): T {
-  const wall = config.environment === 'exterior' ? OUTDOOR_WALL : config.wall
+/**
+ * The same configuration, corrected to the product rules. Unchanged when it follows them.
+ * `disabledEnvironments` is for the tests of the outdoor rule while outdoors is off.
+ */
+export function applyProductRules<T extends RuledFields>(
+  config: T,
+  disabledEnvironments: readonly Environment[] = DISABLED_ENVIRONMENTS,
+): T {
+  const environment = disabledEnvironments.includes(config.environment)
+    ? 'interior'
+    : config.environment
+  const wall = environment === 'exterior' ? OUTDOOR_WALL : config.wall
   const fit = DISABLED_FITS.includes(config.fit) ? 'cover' : config.fit
-  if (wall === config.wall && fit === config.fit) return config
-  return { ...config, wall, fit }
+  if (wall === config.wall && fit === config.fit && environment === config.environment)
+    return config
+  return { ...config, wall, fit, environment }
 }
 
 /**

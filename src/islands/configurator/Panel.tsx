@@ -4,11 +4,7 @@ import { useFormatter, useTranslations } from 'next-intl'
 import { LinkIcon } from '@/components/icons.tsx'
 import { type ReactNode, type RefObject, useEffect, useState } from 'react'
 import { edgesOf, FITS, imageCrop, WALL_MARGIN } from '@/features/configurator/model/print.ts'
-import {
-  estimatePrice,
-  type Environment,
-  type PriceRates,
-} from '@/features/configurator/model/price.ts'
+import { estimatePrice, type PriceRates } from '@/features/configurator/model/price.ts'
 import { printResolution } from '@/features/configurator/model/resolution.ts'
 import {
   ROOM_DIMENSIONS,
@@ -17,7 +13,7 @@ import {
   WALLS,
 } from '@/features/configurator/model/room.ts'
 import { toSearchParams } from '@/features/configurator/model/share.ts'
-import { DISABLED_FITS } from '@/features/configurator/model/configuration.ts'
+import { DISABLED_FITS, ENVIRONMENTS } from '@/features/configurator/model/configuration.ts'
 import { placementOf, sharedConfigOf } from '@/features/configurator/store.ts'
 import { ImagePicker, type PresetOption } from './ImagePicker.tsx'
 import { MetreField } from './MetreField.tsx'
@@ -26,9 +22,9 @@ import type { CaptureView } from './Scene.tsx'
 import { useConfigurator, useConfiguratorStore, usePlacement } from './store-context.tsx'
 
 // The settings panel (Development Plan 4.7). Desktop: it opens from the right, shows the
-// five sections one under the other, and can be closed. Phones (the author's choice,
-// 2026-10-22, in place of the bottom sheet): a tool panel at the bottom, like a photo
-// editor: one section at a time above a row of five tabs, and a one-line price bar; the
+// sections one under the other (four while outdoors is hidden), and can be closed. Phones (the
+// author's choice, 2026-10-22, in place of the bottom sheet): a tool panel at the bottom, like a
+// photo editor: one section at a time above a row of tabs, and a one-line price bar; the
 // room fills the screen above it. The panel has a fixed height (`--tools-h`,
 // Configurator), so the room does not change size between tabs.
 
@@ -45,15 +41,21 @@ export interface PanelProps {
   captureRef: RefObject<CaptureView | null>
 }
 
-const SECTIONS = ['image', 'wall', 'room', 'print', 'environment'] as const
-type SectionKey = (typeof SECTIONS)[number]
+const ALL_SECTIONS = ['image', 'wall', 'room', 'print', 'environment'] as const
+type SectionKey = (typeof ALL_SECTIONS)[number]
+
+/** "Where" (indoors or outdoors) only while there is a choice (DISABLED_ENVIRONMENTS). */
+const hasChoice = (key: string) => key !== 'environment' || ENVIRONMENTS.length > 1
+
+const SECTIONS = ALL_SECTIONS.filter(hasChoice)
 
 /**
  * Phones: the tabs. The print section is two tabs there (size and fit; position), so no
  * tab needs to scroll in the tool panel.
  */
-const PHONE_TABS = ['image', 'wall', 'room', 'print', 'position', 'environment'] as const
-type PhoneTab = (typeof PHONE_TABS)[number]
+const ALL_PHONE_TABS = ['image', 'wall', 'room', 'print', 'position', 'environment'] as const
+type PhoneTab = (typeof ALL_PHONE_TABS)[number]
+const PHONE_TABS = ALL_PHONE_TABS.filter(hasChoice)
 
 /** The section that a phone tab shows. */
 const sectionOf = (tab: PhoneTab): SectionKey => (tab === 'position' ? 'print' : tab)
@@ -65,8 +67,6 @@ const WALL_NAMES: Record<Wall, 'front' | 'right' | 'back' | 'left'> = {
   south: 'back',
   west: 'left',
 }
-
-const ENVIRONMENTS: readonly Environment[] = ['interior', 'exterior']
 
 export function Panel(props: PanelProps) {
   const t = useTranslations('Configurator')
@@ -184,7 +184,9 @@ function Section({
 function PhoneTabs({ tab, onSelect }: { tab: PhoneTab; onSelect: (tab: PhoneTab) => void }) {
   const t = useTranslations('Configurator')
   return (
-    <fieldset className="grid min-w-0 grid-cols-6 gap-0.5 border-t border-ink/8 px-2 pt-2 lg:hidden">
+    <fieldset
+      className={`grid min-w-0 ${PHONE_TABS.length > 5 ? 'grid-cols-6' : 'grid-cols-5'} gap-0.5 border-t border-ink/8 px-2 pt-2 lg:hidden`}
+    >
       <legend className="sr-only">{t('panel.open')}</legend>
       {PHONE_TABS.map((key, index) => (
         <button
