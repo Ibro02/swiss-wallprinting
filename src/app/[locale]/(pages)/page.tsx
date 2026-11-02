@@ -16,7 +16,8 @@ export default function HomePage() {
     <main id="main" tabIndex={-1} className="outline-none">
       <CompanyJsonLd />
       <Hero />
-      <Testimonials />
+      {/* <Testimonials /> */}
+      <br></br> {/**Temporary commented Testemonials and added break tags */}
       <WhySection />
       <ProcessSection />
       <ApplicationAreas />
