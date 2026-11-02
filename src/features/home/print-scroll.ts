@@ -146,6 +146,17 @@ export function decodeWindow(count: number, at: number, heading: number, size: n
     .map(({ index }) => index)
 }
 
+/**
+ * The last frame from `from` on that is decoded, with every frame between them decoded too;
+ * `from - 1` when `from` itself is not. While the print plays by itself, it goes no further,
+ * so it shows every frame in order instead of jumping over the ones not decoded yet.
+ */
+export function readyThrough(decoded: ArrayLike<unknown>, from: number): number {
+  let index = Math.max(0, from)
+  while (index < decoded.length && decoded[index] !== undefined) index++
+  return index - 1
+}
+
 /** The loaded frame nearest to `wanted` (the earlier one on a tie), or -1 if none is. */
 export function nearestLoaded(loaded: ArrayLike<unknown>, wanted: number): number {
   for (let distance = 0; distance < loaded.length; distance++) {

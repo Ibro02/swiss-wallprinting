@@ -239,6 +239,11 @@
     position: sticky;
     top: var(--stage-top);
     height: var(--stage-h);
+    /* Never wider than the video at the stage's height: a wide window cut the video's top and
+       bottom (68 % of its height at 1536 × 730). There the card takes the video's shape,
+       centred on the page (the author, 2026-11-02); narrower screens keep the full width. */
+    max-width: calc(var(--stage-h) * var(--ar) / (1 - var(--crop-bottom, 0)));
+    margin-inline: auto;
     container-type: size;
   }
 

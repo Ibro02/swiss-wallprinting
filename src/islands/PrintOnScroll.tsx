@@ -19,6 +19,7 @@ import {
   type ScrollRange,
   scrollProgress,
   playTowards,
+  readyThrough,
   smoothTowards,
 } from '@/features/home/print-scroll.ts'
 
@@ -68,9 +69,13 @@ const PARALLEL_DECODES = 3
 
 /**
  * Memory for the decoded frames around the scroll position: 18 phone frames (1280 × 720)
- * or 11 desktop frames (1600 × 900).
+ * in 64 MB; 23 desktop frames (1600 × 900) in 128 MB. With 64 MB (11 frames) a desktop's play
+ * ran out of decoded frames (2026-11-02); phones were smooth with it, and have less memory.
  */
-const DECODED_BYTES = 64 * 2 ** 20
+const DECODED_BYTES = { phone: 64 * 2 ** 20, desktop: 128 * 2 ** 20 }
+
+/** The longest the play waits for one frame to decode before it goes on without it (ms). */
+const MAX_WAIT_MS = 150
 
 /** Before the first scroll: every 8th frame (and the last), see loadCoarse. */
 const COARSE_STEP = 8
@@ -175,7 +180,8 @@ export function PrintOnScroll({
     const files: (Blob | undefined)[] = Array.from({ length: set.count })
     const decoded: (ImageBitmap | undefined)[] = Array.from({ length: set.count })
     const decoding = new Set<number>()
-    const windowSize = Math.max(4, Math.floor(DECODED_BYTES / (set.width * set.height * 4)))
+    const bytes = set === frames ? DECODED_BYTES.desktop : DECODED_BYTES.phone
+    const windowSize = Math.max(4, Math.floor(bytes / (set.width * set.height * 4)))
     // The frames to keep decoded, nearest first, and the frames they were chosen for.
     let keep: number[] = []
     let keptFor = ''
@@ -187,6 +193,8 @@ export function PrintOnScroll({
     let target = 0
     let current = 0
     let drawn = -1
+    // When the play began to wait for a frame to decode (0: it does not wait).
+    let waitingSince = 0
     let raf = 0
     let lastTime = 0
     let disposed = false
@@ -266,9 +274,23 @@ export function PrintOnScroll({
 
     const tick = (time: number) => {
       const elapsed = lastTime ? time - lastTime : 1000 / 60
-      current = playing
-        ? playTowards(current, scrolled, smoothing, elapsed, playSeconds)
-        : smoothTowards(current, target, smoothing, elapsed, minSpeed)
+      if (playing) {
+        // The play goes no further than the frames decoded in a row, so it shows each frame
+        // instead of jumping (a desktop decoded about 23 of the 39 frames a second it asked
+        // for, 2026-11-02). A frame that is not ready within MAX_WAIT_MS is skipped.
+        const next = playTowards(current, scrolled, smoothing, elapsed, playSeconds)
+        const ready = readyThrough(decoded, frameAt(current, set.count)) / (set.count - 1)
+        if (next <= ready || framesOff) {
+          current = next
+          waitingSince = 0
+        } else if (time - (waitingSince ||= time) < MAX_WAIT_MS) {
+          current = Math.max(current, ready)
+        } else {
+          current = next
+        }
+      } else {
+        current = smoothTowards(current, target, smoothing, elapsed, minSpeed)
+      }
       lastTime = time
       render()
       if (current === target) {

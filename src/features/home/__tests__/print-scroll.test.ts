@@ -12,6 +12,7 @@ import {
   nearestLoaded,
   overlayProgress,
   playTowards,
+  readyThrough,
   scrollProgress,
   smoothTowards,
 } from '../print-scroll.ts'
@@ -144,6 +145,29 @@ describe('coarseCount', () => {
       )
       expect(new Set(coarse), `${count}/${step}`).toEqual(expected)
     }
+  })
+})
+
+describe('readyThrough', () => {
+  const decoded = Array.from<string | undefined>({ length: 10 })
+  for (const index of [3, 4, 5, 7]) decoded[index] = 'frame'
+
+  it('reaches the last frame decoded in a row', () => {
+    expect(readyThrough(decoded, 3)).toBe(5)
+    expect(readyThrough(decoded, 5)).toBe(5)
+  })
+
+  it('stops before a frame that is not decoded, even with later ones', () => {
+    expect(readyThrough(decoded, 6)).toBe(5)
+  })
+
+  it('reaches the end when every frame is decoded', () => {
+    expect(
+      readyThrough(
+        Array.from({ length: 4 }, () => 'frame'),
+        1,
+      ),
+    ).toBe(3)
   })
 })
 
