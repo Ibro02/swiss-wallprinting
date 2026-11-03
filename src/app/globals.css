@@ -1384,6 +1384,31 @@
     }
   }
 
+  /*
+   * The header's language list (LanguageSwitcher): it grows from its button's corner as it
+   * opens. An animation that starts with [open], never a starting-style transition: a closed
+   * <details> keeps its list unrendered, and a transition that began there (any style read
+   * starts it) never finished on CI, so the axe tests waited for it until they timed out
+   * (2026-11-03). A closed list has no animation at all. Reduced motion: a fade.
+   */
+  details[open] > .menu-pop {
+    transform-origin: top right;
+    animation: menu-pop 150ms var(--ease-out);
+  }
+
+  @keyframes menu-pop {
+    from {
+      opacity: 0;
+      scale: 0.97;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    details[open] > .menu-pop {
+      animation-name: fade;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .disclosure__mark {
       transition: none;

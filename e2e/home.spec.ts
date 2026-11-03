@@ -6,6 +6,14 @@ import { framePath } from '../src/features/home/print-scroll.ts'
 // with reduced motion); the reviews band moves, pauses under the mouse, follows a finger on
 // touch screens, and stands still with reduced motion.
 
+/**
+ * Whether the home page shows the reviews band. The author hid it (2026-11-03, `74894a2`:
+ * `<Testimonials />` is commented out in `(pages)/page.tsx`), so its tests skip; set this to
+ * `true` when the band is back.
+ */
+const REVIEWS_SHOWN = false
+const REVIEWS_HIDDEN = 'The reviews band is hidden on the home page (REVIEWS_SHOWN).'
+
 /** The hero's scroll range and its stage, as PrintOnScroll measures them. */
 async function heroRange(page: Page) {
   return page.evaluate(() => {
@@ -110,6 +118,7 @@ test.describe('with reduced motion', () => {
   })
 
   test('the reviews band stands still', async ({ page }) => {
+    test.skip(!REVIEWS_SHOWN, REVIEWS_HIDDEN)
     await page.goto('/it')
     await expect(page.locator('.marquee')).toHaveCSS('animation-name', 'none')
   })
@@ -139,6 +148,7 @@ async function showBand(page: Page) {
 }
 
 test('the reviews band moves and pauses under the mouse', async ({ page, isMobile }) => {
+  test.skip(!REVIEWS_SHOWN, REVIEWS_HIDDEN)
   test.skip(isMobile, 'Touch screens hold the band with a finger (below).')
   const { box } = await showBand(page)
   await expect(page.locator('.marquee')).toHaveCSS('animation-name', 'marquee')
@@ -154,6 +164,7 @@ test('a finger holds, drags, and lets go of the reviews band', async ({
   context,
   isMobile,
 }) => {
+  test.skip(!REVIEWS_SHOWN, REVIEWS_HIDDEN)
   test.skip(!isMobile, 'A touch gesture; a mouse pauses the band instead (above).')
   const { band, box } = await showBand(page)
   // On touch screens a script runs the band (MarqueeSwipe), and it moves.
@@ -187,6 +198,7 @@ test('a finger holds, drags, and lets go of the reviews band', async ({
 })
 
 test('the stop control stops the reviews band, for touch too', async ({ page }) => {
+  test.skip(!REVIEWS_SHOWN, REVIEWS_HIDDEN)
   await showBand(page)
   const stop = page.getByRole('checkbox', { name: 'Ferma le recensioni' })
   await page.locator('label', { has: stop }).click()
