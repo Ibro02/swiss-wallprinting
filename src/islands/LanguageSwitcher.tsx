@@ -84,7 +84,9 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
         <span className="uppercase">{locale}</span>
         <ChevronDownIcon className="size-3.5 transition-transform group-open:rotate-180 motion-reduce:transition-none" />
       </summary>
-      <ul className="absolute right-0 mt-3 w-48 rounded-2xl bg-paper p-1.5 shadow-[0_16px_40px_-16px_rgb(0_0_0/0.3)] ring-1 ring-ink/8">
+      {/* Grows from the button's corner as it opens (`starting:`, so no script): it shows
+          where it came from. Reduced motion: a fade only. */}
+      <ul className="absolute right-0 mt-3 w-48 origin-top-right rounded-2xl bg-paper p-1.5 shadow-[0_16px_40px_-16px_rgb(0_0_0/0.3)] ring-1 ring-ink/8 transition-[opacity,scale] duration-150 ease-out starting:scale-97 starting:opacity-0 motion-reduce:starting:scale-100">
         {links}
       </ul>
     </details>

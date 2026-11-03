@@ -177,6 +177,13 @@
   initial-value: 0.5;
 }
 
+/* The before/after split (BeforeAfter): a typed percentage, so it can ease back and peek. */
+@property --split {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -1350,6 +1357,30 @@
     from {
       opacity: 0;
       transform: translateY(-4px);
+    }
+  }
+
+  /*
+   * Before/after cards (BeforeAfter.tsx). The split (`--split`) follows the pointer at once.
+   * When the mouse leaves, it eases back to the print (`data-returning`) instead of jumping.
+   * Once, when a card first comes into view, it peeks at the blank wall and back (`data-peek`):
+   * the card starts on the print with the blank wall hidden, and a visitor on a phone, where
+   * nothing hovers, had no sign that it compares (the author, 2026-11-03). The peek is an
+   * animation, so it wins over the inline `--split` while it runs. Reduced motion: neither.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .before-after[data-returning] {
+      transition: --split 220ms var(--ease-out);
+    }
+
+    .before-after[data-peek] {
+      animation: split-peek 1100ms var(--ease-in-out);
+    }
+  }
+
+  @keyframes split-peek {
+    45% {
+      --split: 28%;
     }
   }
 

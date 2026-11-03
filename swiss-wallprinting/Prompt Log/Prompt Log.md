@@ -19,7 +19,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 > [!summary] For the next agent
 > Read this section first. Update it after each prompt.
 >
-> - **Latest (2026-11-03, [[2026-11-03 05 - Phone hero like the desktop]], not committed):** phones get the desktop's hero mechanism: the scroll drives the printer both ways (no auto play), blended frames, rest on a whole frame, `170vh` (about 0.7 of a screen), `mobileMaxSpeed` 1, 4 decodes, the first 18 frames loaded before the first scroll. One swipe prints about half the wall, two the rest. `mobilePlaySeconds` and `mobileSmoothing` are gone.
+> - **Latest (2026-11-03, [[2026-11-03 06 - Before-after peek and language list motion]], not committed):** three of the six motion ideas of an animation sweep (the skill `find-animation-opportunities`, in `.agents/skills/`): the before/after cards peek at the blank wall once when they come into view and ease back when the mouse leaves (`--split` is a registered property), and the language list grows from its button. The other three (the quote dialog, the gallery lightbox, the "link copied" note) are open.
+> - **Before that (2026-11-03, [[2026-11-03 05 - Phone hero like the desktop]], committed `a3e12d7`):** phones get the desktop's hero mechanism: the scroll drives the printer both ways (no auto play), blended frames, rest on a whole frame, `170vh` (about 0.7 of a screen), `mobileMaxSpeed` 1, 4 decodes, the first 18 frames loaded before the first scroll. One swipe prints about half the wall, two the rest. `mobilePlaySeconds` and `mobileSmoothing` are gone.
 > - **Before that (2026-11-03, [[2026-11-03 04 - Hero rests on one frame]], committed `301605c`):** on desktops the hero's picture comes to rest on the nearest whole frame (`restingProgress`), so a stopped scroll never shows the blend of two frames (two printers); it blends only while it moves. Phones unchanged.
 > - **Before that (2026-11-03, [[2026-11-03 03 - Hero blended frames, edge to edge]], not committed):** on desktops the canvas blends the two frames around the scroll position (`blendOf`), the picture follows faster (`smoothing` 0.2) but at most about one video frame per screen frame (`maxSpeed` 0.8), and 5 frames decode at once with as many kept behind as ahead: no more stepping printer. The hero reaches the window's edges on desktops (`md:mx-[calc(50%-50vw)]`, `html { overflow-x: clip }` from 48rem), its texts on the page's left edge. Phones unchanged.
 > - **Before that (2026-11-03, [[2026-11-03 02 - Desktop hero full height]], not committed):** on desktops the hero card fills the screen inside the page frame (no header room: `headerRoom={0}`, `mobileHeaderRoom={0.2}`; the pill floats over the video), and a landscape desktop card always covers (no dark band at 1920 × 1080). 85 % of the video's height shows at 1536 × 730, all of it at 1920 × 1080. No new lag. Phones unchanged.
@@ -95,6 +96,7 @@ This folder records each prompt that the author gives to an AI agent, and the re
 
 | Date | No. | Title | Status |
 |---|---|---|---|
+| 2026-11-03 | 06 | [[2026-11-03 06 - Before-after peek and language list motion]] | Done (not committed) |
 | 2026-11-03 | 05 | [[2026-11-03 05 - Phone hero like the desktop]] | Done (not committed) |
 | 2026-11-03 | 04 | [[2026-11-03 04 - Hero rests on one frame]] | Done (not committed) |
 | 2026-11-03 | 03 | [[2026-11-03 03 - Hero blended frames, edge to edge]] | Done (not committed) |
