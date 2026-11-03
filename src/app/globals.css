@@ -183,6 +183,14 @@
     scroll-padding-top: 7rem;
   }
 
+  /* The home hero reaches the window's edges with `100vw`, which includes a classic
+     scrollbar: clip that width instead of a horizontal scroll (desktops; Hero.tsx). */
+  @media (width >= 48rem) {
+    html {
+      overflow-x: clip;
+    }
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
@@ -219,16 +227,23 @@
    * and opacity only. Before hydration a scroll timeline sets `--p` (below), so even a
    * reload in the middle of the section paints the right overlays. The phases
    * (`--intro-out`, `--outro-in`), the video's proportions (`--ar`),
-   * `--crop-bottom`, and `--room` come from the component; `--frame` (the page margin
+   * `--crop-bottom`, `--room`, and `--room-mobile` come from the component; `--frame` (the page margin
    * around the stage) from the page.
    */
   .print-scroll {
     /* The screen inside the page margin; the header room is the top share of it. */
     --available: calc(100svh - 2 * var(--frame, 0px));
-    --stage-top: calc(var(--frame, 0px) + var(--room, 0) * var(--available));
-    --stage-h: calc((1 - var(--room, 0)) * var(--available));
+    --room-now: var(--room, 0);
+    --stage-top: calc(var(--frame, 0px) + var(--room-now) * var(--available));
+    --stage-h: calc((1 - var(--room-now)) * var(--available));
     height: var(--print-length, 400vh);
-    padding-top: calc(var(--room, 0) * var(--available));
+    padding-top: calc(var(--room-now) * var(--available));
+
+    /* PrintOnScroll's default `mobileQuery`. */
+    @media (width < 48rem) {
+      --room-now: var(--room-mobile, var(--room, 0));
+      height: var(--print-length-mobile, var(--print-length, 400vh));
+    }
   }
 
   .print-scroll__stage {
@@ -239,11 +254,10 @@
     position: sticky;
     top: var(--stage-top);
     height: var(--stage-h);
-    /* Never wider than the video at the stage's height: a wide window cut the video's top and
-       bottom (68 % of its height at 1536 × 730). There the card takes the video's shape,
-       centred on the page (the author, 2026-11-02); narrower screens keep the full width. */
-    max-width: calc(var(--stage-h) * var(--ar) / (1 - var(--crop-bottom, 0)));
-    margin-inline: auto;
+    /* Always the full width of the page, and on desktops the full height of the screen inside
+       the page frame, the pill over it (the author, 2026-11-03: "as much as it can fit"). On a
+       window wider than the video the video covers the card, and a little of its top and
+       bottom is cut (82 % of its height shows at 1536 × 730; 68 % with the header room). */
     container-type: size;
   }
 
@@ -272,6 +286,14 @@
     translate: clamp(100cqw - 100%, 50cqw - var(--focus) * 100%, 0px)
       min(0px, (100cqh - 100% * var(--visible)) / 2);
     will-change: transform;
+
+    /* A landscape desktop card always covers, with no dark ground under the video: the page's
+       widest card (1424 px) is taller than the video on a 1920 × 1080 screen (2026-11-03). */
+    @media (width >= 48rem) {
+      @container (orientation: landscape) {
+        width: max(100cqw, 100cqh * var(--ar) / var(--visible));
+      }
+    }
   }
 
   /*

@@ -54,6 +54,34 @@ export function frameAt(progress: number, count: number): number {
   return Math.round(progress * (count - 1))
 }
 
+/**
+ * The progress of the frame nearest to `progress`: where the blended picture comes to rest. A
+ * scroll stops anywhere, mostly between two frames, and a picture at rest between them showed
+ * both, two printers (the author, 2026-11-03).
+ */
+export function restingProgress(progress: number, count: number): number {
+  return count > 1 ? frameAt(progress, count) / (count - 1) : 0
+}
+
+/** Steps of the blend between two frames: finer than the eye sees, few enough to skip redraws. */
+const BLEND_STEPS = 32
+
+/**
+ * The two frames on either side of a progress and the share of the second (0 … 1, in
+ * BLEND_STEPS): drawn over the first by that share, the picture moves between the video's
+ * frames. Undefined where the progress is on one frame (`frameAt`).
+ */
+export function blendOf(
+  progress: number,
+  count: number,
+): { from: number; to: number; share: number } | undefined {
+  const position = Math.min(1, Math.max(0, progress)) * (count - 1)
+  const from = Math.floor(position)
+  const share = Math.round((position - from) * BLEND_STEPS) / BLEND_STEPS
+  if (share === 0 || share === 1) return undefined
+  return { from, to: from + 1, share }
+}
+
 const FRAME_MS = 1000 / 60
 /** Closer than this, the shown progress snaps to the scroll (well under one frame of 100). */
 const SETTLED = 0.0002
@@ -64,6 +92,7 @@ const SETTLED = 0.0002
  * by the real frame time, so the motion feels the same on 60 Hz and 120 Hz screens, and
  * after a long frame it catches up instead of lagging. `minSpeed` (progress per second) is
  * the slowest it moves: the easing alone crawls over the last frames before it stops.
+ * `maxSpeed` (progress per second) is the fastest: a fast scroll does not jump over frames.
  */
 export function smoothTowards(
   current: number,
@@ -71,12 +100,16 @@ export function smoothTowards(
   smoothing: number,
   elapsedMs: number,
   minSpeed = 0,
+  maxSpeed = Number.POSITIVE_INFINITY,
 ): number {
   const share = Math.min(1, Math.max(0.01, smoothing))
   const elapsed = Math.min(elapsedMs, 100)
   const k = 1 - (1 - share) ** (elapsed / FRAME_MS)
   const distance = target - current
-  const step = Math.max(Math.abs(distance) * k, (minSpeed * elapsed) / 1000)
+  const step = Math.min(
+    Math.max(Math.abs(distance) * k, (minSpeed * elapsed) / 1000),
+    (maxSpeed * elapsed) / 1000,
+  )
   if (step >= Math.abs(distance)) return target
   const next = current + Math.sign(distance) * step
   return Math.abs(target - next) < SETTLED ? target : next
@@ -101,9 +134,10 @@ export function playTowards(
 /**
  * The order in which to load the frames: the first and the last, then every 64th, 32nd, …,
  * so a coarse version of the whole video is there early and the gaps fill in. A visitor
- * who scrolls fast sees nearby frames, never a jump back to the start.
+ * who scrolls fast sees nearby frames, never a jump back to the start. With `leading`, the
+ * first `leading` frames come first, in order, so the start of the print is whole early.
  */
-export function loadOrder(count: number): number[] {
+export function loadOrder(count: number, leading = 0): number[] {
   const order: number[] = []
   const queued = new Set<number>()
   const add = (index: number) => {
@@ -111,6 +145,7 @@ export function loadOrder(count: number): number[] {
     queued.add(index)
     order.push(index)
   }
+  for (let index = 0; index < Math.min(leading, count); index++) add(index)
   add(0)
   add(count - 1)
   for (let step = 2 ** Math.ceil(Math.log2(Math.max(count - 1, 1))); step >= 1; step /= 2) {
@@ -131,15 +166,21 @@ export function coarseCount(count: number, step: number): number {
 
 /**
  * The frames to keep decoded, in the order to decode them: the `size` frames nearest to `at`
- * (the frame the scroll asks for), where a frame behind counts twice as far as one ahead.
- * Ahead is towards `heading` (the frame of the scroll position, which the smoothed picture
- * follows), forwards when the two are equal: a visitor mostly scrolls on.
+ * (the frame the scroll asks for), where a frame behind counts `behind` times as far as one
+ * ahead. Ahead is towards `heading` (the frame of the scroll position, which the smoothed
+ * picture follows), forwards when the two are equal: a visitor mostly scrolls on.
  */
-export function decodeWindow(count: number, at: number, heading: number, size: number): number[] {
+export function decodeWindow(
+  count: number,
+  at: number,
+  heading: number,
+  size: number,
+  behind = 2,
+): number[] {
   const forwards = heading >= at
   return Array.from({ length: count }, (_, index) => {
     const ahead = forwards ? index - at : at - index
-    return { index, cost: ahead >= 0 ? ahead : 0.5 - 2 * ahead }
+    return { index, cost: ahead >= 0 ? ahead : 0.5 - behind * ahead }
   })
     .sort((a, b) => a.cost - b.cost)
     .slice(0, Math.max(0, size))
@@ -147,14 +188,15 @@ export function decodeWindow(count: number, at: number, heading: number, size: n
 }
 
 /**
- * The last frame from `from` on that is decoded, with every frame between them decoded too;
- * `from - 1` when `from` itself is not. While the print plays by itself, it goes no further,
- * so it shows every frame in order instead of jumping over the ones not decoded yet.
+ * The last frame from `from` on (towards the end, or towards the start with `step` -1) that
+ * is decoded, with every frame between them decoded too; one step before `from` when `from`
+ * itself is not. The picture goes no further, so it shows every frame in order instead of
+ * jumping over the ones not decoded yet.
  */
-export function readyThrough(decoded: ArrayLike<unknown>, from: number): number {
-  let index = Math.max(0, from)
-  while (index < decoded.length && decoded[index] !== undefined) index++
-  return index - 1
+export function readyThrough(decoded: ArrayLike<unknown>, from: number, step: 1 | -1 = 1): number {
+  let index = Math.min(decoded.length - 1, Math.max(0, from))
+  while (index >= 0 && index < decoded.length && decoded[index] !== undefined) index += step
+  return index - step
 }
 
 /** The loaded frame nearest to `wanted` (the earlier one on a tie), or -1 if none is. */

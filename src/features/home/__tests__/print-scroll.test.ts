@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test'
 import {
+  blendOf,
   choseFallback,
   coarseCount,
   decodeWindow,
@@ -13,6 +14,7 @@ import {
   overlayProgress,
   playTowards,
   readyThrough,
+  restingProgress,
   scrollProgress,
   smoothTowards,
 } from '../print-scroll.ts'
@@ -90,6 +92,11 @@ describe('smoothTowards', () => {
     expect(smoothTowards(smoothTowards(0, 1, 0.2, half), 1, 0.2, half)).toBeCloseTo(0.2)
   })
 
+  it('moves no faster than maxSpeed, both ways', () => {
+    expect(smoothTowards(0, 1, 0.5, 100, 0, 0.6)).toBeCloseTo(0.06)
+    expect(smoothTowards(1, 0, 0.5, 100, 0, 0.6)).toBeCloseTo(0.94)
+  })
+
   it('follows backwards (scrolling up)', () => {
     expect(smoothTowards(1, 0, 0.5, 1000 / 60)).toBeCloseTo(0.5)
   })
@@ -121,11 +128,17 @@ describe('loadOrder', () => {
 
   it('lists every frame exactly once', () => {
     for (const count of [1, 2, 3, 61, 121, 128, 129]) {
-      const order = loadOrder(count)
-      expect(order, `count ${count}`).toHaveLength(count)
-      expect(new Set(order).size, `count ${count}`).toBe(count)
-      expect(Math.max(...order), `count ${count}`).toBe(count - 1)
+      for (const leading of [0, 23, 200]) {
+        const order = loadOrder(count, leading)
+        expect(order, `count ${count}, leading ${leading}`).toHaveLength(count)
+        expect(new Set(order).size, `count ${count}, leading ${leading}`).toBe(count)
+        expect(Math.max(...order), `count ${count}, leading ${leading}`).toBe(count - 1)
+      }
     }
+  })
+
+  it('loads the leading frames first, in order, then as without them', () => {
+    expect(loadOrder(78, 4).slice(0, 7)).toEqual([0, 1, 2, 3, 77, 64, 32])
   })
 })
 
@@ -148,6 +161,30 @@ describe('coarseCount', () => {
   })
 })
 
+describe('restingProgress', () => {
+  it('rounds to the nearest frame, so a picture at rest shows one frame', () => {
+    expect(restingProgress(0.33, 11)).toBe(0.3)
+    expect(restingProgress(0.36, 11)).toBe(0.4)
+    expect(restingProgress(1, 11)).toBe(1)
+    expect(blendOf(restingProgress(0.537, 78), 78)).toBeUndefined()
+  })
+})
+
+describe('blendOf', () => {
+  it('gives the frames on either side and the share of the second', () => {
+    expect(blendOf(0.5 / 10, 11)).toEqual({ from: 0, to: 1, share: 0.5 })
+    expect(blendOf(2.25 / 10, 11)).toEqual({ from: 2, to: 3, share: 0.25 })
+  })
+
+  it('is undefined on a frame, at the ends, and within half a step of a frame', () => {
+    expect(blendOf(0, 11)).toBeUndefined()
+    expect(blendOf(1, 11)).toBeUndefined()
+    expect(blendOf(0.3, 11)).toBeUndefined()
+    expect(blendOf(3.001 / 10, 11)).toBeUndefined()
+    expect(blendOf(3.999 / 10, 11)).toBeUndefined()
+  })
+})
+
 describe('readyThrough', () => {
   const decoded = Array.from<string | undefined>({ length: 10 })
   for (const index of [3, 4, 5, 7]) decoded[index] = 'frame'
@@ -159,6 +196,12 @@ describe('readyThrough', () => {
 
   it('stops before a frame that is not decoded, even with later ones', () => {
     expect(readyThrough(decoded, 6)).toBe(5)
+  })
+
+  it('goes towards the start with step -1', () => {
+    expect(readyThrough(decoded, 5, -1)).toBe(3)
+    expect(readyThrough(decoded, 2, -1)).toBe(3)
+    expect(readyThrough(decoded, 7, -1)).toBe(7)
   })
 
   it('reaches the end when every frame is decoded', () => {
@@ -268,6 +311,10 @@ describe('overlayProgress', () => {
 })
 
 describe('decodeWindow', () => {
+  it('keeps as many frames behind as ahead with behind 1', () => {
+    expect(decodeWindow(100, 50, 60, 5, 1)).toEqual([50, 51, 49, 52, 48])
+  })
+
   it('keeps the frame asked for and its neighbours, two ahead for each one behind', () => {
     expect(decodeWindow(100, 50, 60, 7)).toEqual([50, 51, 52, 49, 53, 54, 48])
   })

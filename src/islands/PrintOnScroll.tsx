@@ -4,6 +4,7 @@ import { type CSSProperties, type ReactNode, useEffect, useRef } from 'react'
 import { ChevronDownIcon } from '@/components/icons.tsx'
 import type { FrameSet } from '@/content/images/types.ts'
 import {
+  blendOf,
   choseFallback,
   coarseCount,
   decodeWindow,
@@ -20,6 +21,7 @@ import {
   scrollProgress,
   playTowards,
   readyThrough,
+  restingProgress,
   smoothTowards,
 } from '@/features/home/print-scroll.ts'
 
@@ -64,8 +66,17 @@ const REWIND_PX = 24
 /** Frames that download at the same time. */
 const PARALLEL_LOADS = 6
 
-/** Frames that decode at the same time (off the main thread). */
-const PARALLEL_DECODES = 3
+/**
+ * Frames that decode at the same time (off the main thread). Desktops scrub both ways at up
+ * to 60 frames a second (`maxSpeed`), and have the cores for more.
+ */
+const PARALLEL_DECODES = { phone: 3, desktop: 5 }
+
+/**
+ * How much farther a frame behind the picture counts than one ahead, when the decoded frames
+ * are chosen (decodeWindow). Desktops scrub back as often as forwards: as many each way.
+ */
+const BEHIND_WEIGHT = { phone: 2, desktop: 1 }
 
 /**
  * Memory for the decoded frames around the scroll position: 18 phone frames (1280 × 720)
@@ -88,22 +99,33 @@ interface Props {
   mobileQuery?: string
   /** Scroll length of the whole section (a CSS length). Longer feels heavier. */
   length?: string
+  /** `length` under 48rem (the default `mobileQuery`; globals.css). */
+  mobileLength?: string
   /**
    * Share of the way to the scroll position that the picture covers per 60 Hz frame
    * (0 … 1). Lower is smoother but lags more; 1 is no smoothing.
    */
   smoothing?: number
+  /** `smoothing` for the `mobileFrames` (default: `smoothing`). */
+  mobileSmoothing?: number
   /**
    * The slowest the picture moves towards the scroll position (progress per second), so it
    * does not crawl over the last frames. 0: the easing alone.
    */
   minSpeed?: number
   /**
+   * The fastest the picture follows the scroll (progress per second), on the wide `frames`
+   * only: a fast scroll does not jump over frames.
+   */
+  maxSpeed?: number
+  /**
    * After a scroll forwards the print plays on to the end by itself, in this many seconds for
    * the whole of it (faster where the scroll is ahead); a scroll back rewinds with the
-   * scroll. 0: the picture only follows the scroll.
+   * scroll. 0: the picture only follows the scroll, forwards and backwards.
    */
   playSeconds?: number
+  /** `playSeconds` for the `mobileFrames` (default: `playSeconds`). */
+  mobilePlaySeconds?: number
   /**
    * Where the subject is (x, 0 … 1 of the frame width), at equal steps of progress from the
    * first frame to the last (focusTrack). Screens narrower than the video keep this point in
@@ -114,6 +136,8 @@ interface Props {
   cropBottom?: number
   /** Share of the screen kept free above the stage, for a fixed header. */
   headerRoom?: number
+  /** `headerRoom` under 48rem (the default `mobileQuery`; globals.css). */
+  mobileHeaderRoom?: number
   /** Text alternative of the poster frame. */
   alt: string
   /** Shown at the start; fades out as the print begins. */
@@ -129,6 +153,8 @@ interface Props {
   className?: string
   /** The sticky stage: radius and background. */
   stageClassName?: string
+  /** The intro and outro layer: its padding. */
+  contentClassName?: string
 }
 
 export function PrintOnScroll({
@@ -136,12 +162,17 @@ export function PrintOnScroll({
   mobileFrames,
   mobileQuery = '(max-width: 47.99rem)',
   length = '400vh',
+  mobileLength,
   smoothing = 0.12,
+  mobileSmoothing = smoothing,
   minSpeed = 0,
+  maxSpeed = Number.POSITIVE_INFINITY,
   playSeconds = 0,
+  mobilePlaySeconds = playSeconds,
   focus = [0.5],
   cropBottom = 0,
   headerRoom = 0,
+  mobileHeaderRoom,
   alt,
   intro,
   hint,
@@ -150,6 +181,7 @@ export function PrintOnScroll({
   labelledBy,
   className = '',
   stageClassName = '',
+  contentClassName = 'p-4 sm:p-6 md:p-8',
 }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
@@ -170,6 +202,12 @@ export function PrintOnScroll({
 
     // Chosen once, like the poster's <source>: a resize across the query keeps this set.
     const set = mobileFrames && window.matchMedia(mobileQuery).matches ? mobileFrames : frames
+    const wide = set === frames
+    const play = wide ? playSeconds : mobilePlaySeconds
+    const ease = wide ? smoothing : mobileSmoothing
+    // Where the picture goes for a scroll progress: on wide screens, which blend two frames
+    // while the picture moves, the nearest whole frame, so it never rests on two printers.
+    const restOn = (progress: number) => (wide ? restingProgress(progress, set.count) : progress)
     canvas.width = set.width
     canvas.height = set.height
     // The poster's <picture> chose the fallback: this browser cannot decode the frames. It
@@ -180,7 +218,7 @@ export function PrintOnScroll({
     const files: (Blob | undefined)[] = Array.from({ length: set.count })
     const decoded: (ImageBitmap | undefined)[] = Array.from({ length: set.count })
     const decoding = new Set<number>()
-    const bytes = set === frames ? DECODED_BYTES.desktop : DECODED_BYTES.phone
+    const bytes = wide ? DECODED_BYTES.desktop : DECODED_BYTES.phone
     const windowSize = Math.max(4, Math.floor(bytes / (set.width * set.height * 4)))
     // The frames to keep decoded, nearest first, and the frames they were chosen for.
     let keep: number[] = []
@@ -192,7 +230,8 @@ export function PrintOnScroll({
     let playing = false
     let target = 0
     let current = 0
-    let drawn = -1
+    // What the canvas shows: a frame, or two frames and the share of the second (blendOf).
+    let drawn = ''
     // When the play began to wait for a frame to decode (0: it does not wait).
     let waitingSince = 0
     let raf = 0
@@ -208,12 +247,13 @@ export function PrintOnScroll({
         distance: section.offsetHeight - room - stage.offsetHeight,
       }
       scrolled = scrollProgress(window.scrollY, range)
-      if (!playing) target = scrolled
+      if (!playing) target = restOn(scrolled)
     }
 
     const decodeNext = () => {
       for (const index of keep) {
-        if (disposed || decoding.size >= PARALLEL_DECODES) return
+        if (disposed || decoding.size >= (wide ? PARALLEL_DECODES.desktop : PARALLEL_DECODES.phone))
+          return
         const file = files[index]
         if (!file || decoded[index] || decoding.has(index)) continue
         decoding.add(index)
@@ -242,7 +282,13 @@ export function PrintOnScroll({
       const heading = frameAt(target, set.count)
       if (keptFor === `${at} ${heading}`) return
       keptFor = `${at} ${heading}`
-      keep = decodeWindow(set.count, at, heading, windowSize)
+      keep = decodeWindow(
+        set.count,
+        at,
+        heading,
+        windowSize,
+        wide ? BEHIND_WEIGHT.desktop : BEHIND_WEIGHT.phone,
+      )
       for (const [index, bitmap] of decoded.entries()) {
         if (bitmap && !keep.includes(index)) {
           bitmap.close()
@@ -255,11 +301,23 @@ export function PrintOnScroll({
     const render = () => {
       const wanted = frameAt(current, set.count)
       keepNear(wanted)
-      const shown = nearestLoaded(decoded, wanted)
-      const bitmap = decoded[shown]
-      if (bitmap && shown !== drawn) {
+      // Wide screens draw the two frames on either side of the progress, the second over the
+      // first by its share: the printer moves between the video's frames instead of in steps
+      // (the author, 2026-11-03: "frame dropping"). Both must be decoded; else the nearest.
+      const blend = wide ? blendOf(current, set.count) : undefined
+      const pair = blend && decoded[blend.from] && decoded[blend.to] ? blend : undefined
+      const shown = pair ? wanted : nearestLoaded(decoded, wanted)
+      const bitmap = decoded[pair ? pair.from : shown]
+      const key = pair ? `${pair.from} ${pair.to} ${pair.share}` : String(shown)
+      if (bitmap && key !== drawn) {
         context.drawImage(bitmap, 0, 0, set.width, set.height)
-        drawn = shown
+        const over = pair && decoded[pair.to]
+        if (pair && over) {
+          context.globalAlpha = pair.share
+          context.drawImage(over, 0, 0, set.width, set.height)
+          context.globalAlpha = 1
+        }
+        drawn = key
         canvas.dataset.frame = String(shown)
         // The canvas shows a frame from now on: the poster under it can go (globals.css).
         stage.toggleAttribute('data-drawn', true)
@@ -274,22 +332,25 @@ export function PrintOnScroll({
 
     const tick = (time: number) => {
       const elapsed = lastTime ? time - lastTime : 1000 / 60
-      if (playing) {
-        // The play goes no further than the frames decoded in a row, so it shows each frame
-        // instead of jumping (a desktop decoded about 23 of the 39 frames a second it asked
-        // for, 2026-11-02). A frame that is not ready within MAX_WAIT_MS is skipped.
-        const next = playTowards(current, scrolled, smoothing, elapsed, playSeconds)
-        const ready = readyThrough(decoded, frameAt(current, set.count)) / (set.count - 1)
-        if (next <= ready || framesOff) {
-          current = next
-          waitingSince = 0
-        } else if (time - (waitingSince ||= time) < MAX_WAIT_MS) {
-          current = Math.max(current, ready)
-        } else {
-          current = next
-        }
+      const next = playing
+        ? playTowards(current, scrolled, ease, elapsed, play)
+        : smoothTowards(current, target, ease, elapsed, minSpeed, wide ? maxSpeed : undefined)
+      // The play, and on wide screens the scrub as well, goes no further than the frames
+      // decoded in a row, so it shows each frame instead of jumping (a desktop decoded about
+      // 23 of the 39 frames a second the play asked for, 2026-11-02). A frame that is not
+      // ready within MAX_WAIT_MS is skipped.
+      const step = next > current ? 1 : -1
+      const ready =
+        (playing || wide) && !framesOff && next !== current
+          ? readyThrough(decoded, frameAt(current, set.count), step) / (set.count - 1)
+          : next
+      if (step > 0 ? next <= ready : next >= ready) {
+        current = next
+        waitingSince = 0
+      } else if (time - (waitingSince ||= time) < MAX_WAIT_MS) {
+        current = step > 0 ? Math.max(current, ready) : Math.min(current, ready)
       } else {
-        current = smoothTowards(current, target, smoothing, elapsed, minSpeed)
+        current = next
       }
       lastTime = time
       render()
@@ -313,13 +374,14 @@ export function PrintOnScroll({
       // through the entire transformation"); a scroll back stops it and rewinds with the scroll.
       // A few pixels back (the browser's scroll anchoring as the page loads) is no rewind.
       const rewind = scrolled - next > REWIND_PX / Math.max(range.distance, 1)
-      playing = playSeconds > 0 && (next > scrolled || (playing && !rewind))
+      playing = play > 0 && (next > scrolled || (playing && !rewind))
       scrolled = next
-      target = playing ? 1 : next
+      target = playing ? 1 : restOn(next)
       wake()
     }
 
-    const queue = loadOrder(set.count)
+    // Wide screens: the frames the first scroll needs (the decode window) in order first.
+    const queue = loadOrder(set.count, wide ? windowSize : 0)
     let pending = 0
     // How many frames may start: the coarse set first, all of them after the first scroll.
     let allowed = 0
@@ -357,7 +419,9 @@ export function PrintOnScroll({
     // load event and the poster's first paint (two animation frames), only the coarse set:
     // every 8th frame, about an eighth of the bytes, so a visitor who never scrolls does not
     // pay for the whole video. The first scroll asks for all of them; the coarse frames stand
-    // in (nearestLoaded) until the others arrive.
+    // in (nearestLoaded) until the others arrive. Wide screens load all of them after the
+    // first paint (3.7 MB): with the coarse set only, the first scroll found frames 1 … 7
+    // missing, and the picture stood still, then jumped (2026-11-03).
     const loadCoarse = () => {
       allowed = Math.max(allowed, coarseCount(set.count, COARSE_STEP))
       loadNext()
@@ -369,7 +433,8 @@ export function PrintOnScroll({
       allowed = set.count
       loadNext()
     }
-    const afterFirstPaint = () => requestAnimationFrame(() => requestAnimationFrame(loadCoarse))
+    const afterFirstPaint = () =>
+      requestAnimationFrame(() => requestAnimationFrame(wide ? loadAll : loadCoarse))
 
     measure()
     // A reload in the middle of the section starts there, without a sweep from frame 0.
@@ -406,13 +471,26 @@ export function PrintOnScroll({
       downloads.abort()
       for (const bitmap of decoded) bitmap?.close()
     }
-  }, [frames, mobileFrames, mobileQuery, smoothing, minSpeed, playSeconds, focus])
+  }, [
+    frames,
+    mobileFrames,
+    mobileQuery,
+    smoothing,
+    mobileSmoothing,
+    minSpeed,
+    maxSpeed,
+    playSeconds,
+    mobilePlaySeconds,
+    focus,
+  ])
 
   const sectionStyle = {
     '--print-length': length,
+    '--print-length-mobile': mobileLength,
     '--ar': frames.width / frames.height,
     '--crop-bottom': cropBottom,
     '--room': headerRoom,
+    '--room-mobile': mobileHeaderRoom,
     '--intro-out': PHASES.introOut,
     '--outro-in': PHASES.outroIn,
   } as CSSProperties
@@ -484,7 +562,7 @@ export function PrintOnScroll({
           className="print-scroll__shade absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/0 lg:bg-linear-to-tr lg:from-black/85 lg:via-black/25 lg:to-black/0"
         />
 
-        <div className="on-dark absolute inset-0 grid content-end p-4 text-white sm:p-6 md:p-8">
+        <div className={`on-dark absolute inset-0 grid content-end text-white ${contentClassName}`}>
           <div className="print-scroll__intro">
             {intro}
             {hint && (

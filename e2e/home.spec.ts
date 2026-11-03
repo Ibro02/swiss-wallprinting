@@ -32,11 +32,39 @@ const shownFrame = (page: Page) =>
     Number(document.querySelector<HTMLElement>('.print-scroll__canvas')?.dataset.frame ?? -1),
   )
 
-test('one scroll plays the print, a scroll back rewinds it', async ({ page, isMobile }) => {
+/** Waits until the canvas shows a frame within two of `frame`. */
+const expectFrameNear = (page: Page, frame: number) =>
+  expect.poll(async () => Math.abs((await shownFrame(page)) - frame)).toBeLessThanOrEqual(2)
+
+test('on a desktop the print follows the scroll, forwards and back', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'phones play the whole print after one scroll (next test)')
+  await page.goto('/it')
+  const { distance } = await heroRange(page)
+  const { count } = heroFrames.desktop
+  const stage = page.locator('.print-scroll__stage')
+
+  // Half way down, the printer stands half way: no play to the end.
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 2)
+  await expectFrameNear(page, (count - 1) / 2)
+  await expect(stage).not.toHaveAttribute('data-done')
+
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 4)
+  await expectFrameNear(page, (count - 1) / 4)
+
+  await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance)
+  await expect.poll(() => progress(page)).toBe(1)
+  await expect(stage).toHaveAttribute('data-done', '')
+})
+
+test('on a phone one scroll plays the print, a scroll back rewinds it', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, 'desktops follow the scroll (test before)')
   await page.goto('/it')
   expect(await progress(page)).toBe(0)
   const { distance } = await heroRange(page)
-  const { count } = isMobile ? heroFrames.mobile : heroFrames.desktop
+  const { count } = heroFrames.mobile
   const stage = page.locator('.print-scroll__stage')
 
   // A short scroll forwards plays the whole print, up to the call to action.
@@ -47,9 +75,7 @@ test('one scroll plays the print, a scroll back rewinds it', async ({ page, isMo
   // Back: the picture follows the scroll back; the call to action goes. The step back is
   // larger than REWIND_PX (24 px) on every screen: a smaller one counts as no rewind.
   await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), distance / 8)
-  await expect
-    .poll(async () => Math.abs((await shownFrame(page)) - (count - 1) / 8))
-    .toBeLessThanOrEqual(2)
+  await expectFrameNear(page, (count - 1) / 8)
   await expect(stage).not.toHaveAttribute('data-done')
 
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
