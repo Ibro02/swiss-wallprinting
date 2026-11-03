@@ -143,6 +143,23 @@ describe('loadOrder', () => {
 })
 
 describe('coarseCount', () => {
+  it('counts the leading frames and the coarse frames after them, which loadOrder puts first', () => {
+    for (const [count, step, leading] of [
+      [78, 8, 18],
+      [78, 8, 16],
+      [10, 8, 20],
+      [121, 8, 0],
+    ] as const) {
+      const start = loadOrder(count, leading).slice(0, coarseCount(count, step, leading))
+      const expected = new Set(
+        Array.from({ length: count }, (_, index) => index).filter(
+          (index) => index < leading || index % step === 0 || index === count - 1,
+        ),
+      )
+      expect(new Set(start), `${count}/${step}/${leading}`).toEqual(expected)
+    }
+  })
+
   it('counts every step-th frame and the last one, which loadOrder puts first', () => {
     for (const [count, step] of [
       [121, 8],

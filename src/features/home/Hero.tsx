@@ -51,28 +51,25 @@ export async function Hero() {
       labelledBy="hero-title"
       frames={heroVideo.frames.desktop}
       mobileFrames={heroVideo.frames.mobile}
-      // Desktops: the scroll drives the printer, forwards and backwards, over one screen of
-      // scroll (the author, 2026-11-03: "scroll back printing image to the wall, playing
-      // around with printer"); playSeconds 0, so the print ends where the scroll ends.
+      // The scroll drives the printer, forwards and backwards (the author, 2026-11-03: "scroll
+      // back printing image to the wall, playing around with printer"), and the print ends
+      // where the scroll ends: no idle scroll after it. Desktops: one screen of scroll.
       length="200vh"
-      // Phones: about 0.4 of a screen pinned (355 px at 768 px high), and one scroll plays the
-      // print (mobilePlaySeconds), so a longer section only left an idle scroll after it (the
-      // author, 2026-11-01: "too much scroll after animation is done"). A faster scroll than
-      // the play speeds the print up to the scroll (playTowards).
-      mobileLength="140vh"
-      // Desktops follow the scroll quickly; the canvas blends the frames, so it stays smooth.
+      // Phones: about 0.7 of a screen (590 px at 839 px high), so a swipe prints most of the
+      // wall and the printer follows the finger, without a long way to the next section (the
+      // author, 2026-11-03: "fast but not TOO FAST"; 140vh, 0.4 of a screen, was too short
+      // to control, and 200vh left an idle scroll, 2026-11-01).
+      mobileLength="170vh"
+      // The picture follows the scroll quickly; the canvas blends the frames, so it stays smooth.
       smoothing={0.2}
-      mobileSmoothing={0.12}
       // At least half of the print per second: the picture does not crawl over the last frames
       // of a swipe (the author, 2026-11-01: "I would like it faster so it can be smoother").
       minSpeed={0.5}
       // Desktops: at most about one video frame per 60 Hz screen frame (the whole print in 1.3 s
       // at the least), so every step is a blend of two neighbours, never a jump (2026-11-03).
       maxSpeed={0.8}
-      playSeconds={0}
-      // One scroll plays the whole print, in 2 s: a little faster than the video (78 frames at
-      // 30 fps, 2.6 s), so the printer moves as filmed, without dropped frames (the author).
-      mobilePlaySeconds={2}
+      // Phones: a fling glides on, so the printer keeps up a little faster (1 s at the least).
+      mobileMaxSpeed={1}
       focus={heroVideo.focus}
       cropBottom={heroVideo.cropBottom}
       headerRoom={0}
