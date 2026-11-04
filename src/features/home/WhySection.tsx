@@ -43,21 +43,26 @@ export async function WhySection() {
           <p>{t('intro')}</p>
         </SectionHeading>
 
-        {/* Phones: two by two, each card as tall as its text, so the section fits one screen. */}
+        {/* Phones: two by two, each card as tall as its text, so the section fits one screen.
+            The text is centred there: the word below breaks onto two lines in a half-width
+            card, and centred lines read as one block (the author, 2026-11-04). */}
         <dl className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <div
               key={stat.key}
               data-reveal={String(index + 1)}
-              className="@container flex flex-col-reverse justify-end gap-2 rounded-2xl bg-white/[0.05] p-4 ring-1 ring-white/10 ring-inset sm:min-h-40 sm:justify-between sm:gap-5 sm:p-6"
+              className="@container flex flex-col-reverse justify-end gap-2 rounded-2xl bg-white/[0.05] p-4 text-center ring-1 ring-white/10 ring-inset sm:min-h-40 sm:justify-between sm:gap-5 sm:p-6 sm:text-left"
             >
               <dt className="max-w-[16rem] text-[0.8125rem] leading-snug text-mute-dark sm:text-sm sm:leading-relaxed">
                 {t(`stats.${stat.key}`)}
               </dt>
-              {/* A word ("Lebenslang") is longer than a number: it shrinks to the card's
-                  width (a phone's half-width card), the numbers keep their size. */}
+              {/* A word is longer than a number. It never gets smaller than a fifth of the
+                  card (20cqi), and where it is still too long it breaks onto a second line:
+                  at a space ("Lunga durata"), a hyphen ("Long-lasting"), or a soft hyphen in
+                  the message ("Lang-anhaltend"), never inside a word. CSS only, so the first
+                  paint is already right (no script measures and resizes it). */}
               <dd
-                className={`text-stat font-medium whitespace-nowrap text-lime ${stat.word ? 'text-[length:min(var(--text-stat),20cqi)]' : ''}`}
+                className={`text-stat font-medium text-lime ${stat.word ? 'text-[length:min(var(--text-stat),20cqi)] leading-[1.05] text-balance' : 'whitespace-nowrap'}`}
               >
                 {stat.value}
               </dd>

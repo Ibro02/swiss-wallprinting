@@ -19,7 +19,8 @@ This folder records each prompt that the author gives to an AI agent, and the re
 > [!summary] For the next agent
 > Read this section first. Update it after each prompt.
 >
-> - **Latest (2026-11-04, [[2026-11-04 04 - e2e, commit and push]]):** the BHS work (entries 01 to 03) passed the full e2e suite (141 passed, 0 failed, 49 skipped) and is committed and pushed to `main` as one commit. CI to confirm.
+> - **Latest (2026-11-04, [[2026-11-04 05 - Long words in the why cards]], committed and pushed to `main`):** the durability word of the why cards ran past its card on phones (IT, DE, EN) and on desktops at 1024 to 1280 px (IT). It keeps its size and now breaks onto a second line at a space, a hyphen, or a soft hyphen ("Lang­anhaltend", "Dugo­trajno" in the messages); the four cards are centred on phones in every language. CSS only (no flash). `vp check` and `vp test` pass; e2e and Firefox not run.
+> - **Before that (2026-11-04, [[2026-11-04 04 - e2e, commit and push]]):** the BHS work (entries 01 to 03) passed the full e2e suite (141 passed, 0 failed, 49 skipped) and is committed and pushed to `main` as one commit. CI to confirm.
 > - **Before that (2026-11-04, [[2026-11-04 03 - Bos Hrv Srp in the language menu]], committed and pushed with entry 04):** the language menu lists BHS as "Bos / Hrv / Srp" with the code BHS beside it (as "English EN"); the header button shows BHS. `LANGUAGES.bs.name` in `languages.ts`.
 > - **Before that (2026-11-04, [[2026-11-04 02 - Remove the language suggestion]], committed and pushed with entry 04):** the language suggestion of entry 01 is removed (the card, `/api/language-hint`, the stored choice, its texts, and the privacy sentence): the site has no language detection, and every address opens its own language. BHS itself stays as in entry 01. Full e2e 141 passed; projects 160.21 KB of first-load JS (guard 160).
 > - **Before that (2026-11-04, [[2026-11-04 01 - BHS and international SEO]], committed and pushed with entry 04):** the Bosnian version is now **BHS**, one Latin-script version for Bosnia and Herzegovina, Croatia, and Serbia at `/bhs/…` (`<html lang="bs-Latn">`, hreflang `bs`, `hr`, `sr` on one URL, x-default Italian; old `/bs/…` addresses redirect with 308). The internal locale stays `bs` (Intl formats with it; `bhs` is no Intl locale). Every language fact is in `src/i18n/languages.ts` ([[ADR/0003-bhs-one-language]]). A language suggestion card (saved choice, then browser languages, then the IP country through `/api/language-hint`) replaces any redirect; the choice is kept in `localStorage`, and the privacy text says so. next-intl's hreflang `Link` header is off; the imprint has its own description; robots.txt closes `/api/`. e2e runs with the browser language `fr-CH`. Open: a native speaker reviews the BHS texts; the domains (P8).
@@ -101,6 +102,7 @@ This folder records each prompt that the author gives to an AI agent, and the re
 
 | Date | No. | Title | Status |
 |---|---|---|---|
+| 2026-11-04 | 05 | [[2026-11-04 05 - Long words in the why cards]] | Done (committed, pushed) |
 | 2026-11-04 | 04 | [[2026-11-04 04 - e2e, commit and push]] | Done (committed, pushed) |
 | 2026-11-04 | 03 | [[2026-11-04 03 - Bos Hrv Srp in the language menu]] | Done (committed, pushed) |
 | 2026-11-04 | 02 | [[2026-11-04 02 - Remove the language suggestion]] | Done (committed, pushed) |
