@@ -5,5 +5,5 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   it: 'Italiano',
   de: 'Deutsch',
   en: 'English',
-  bs: 'B/H/S',
+  bs: 'Bos / Hrv / Srp',
 }

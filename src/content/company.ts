@@ -16,8 +16,8 @@ export const company: Company = {
   hours: { opens: '08:00', closes: '18:00' },
   email: 'swisswallprinting@gmail.com',
   phones: [
-    { e164: '+41764115506', display: '+41 76 411 55 06', languages: 'IT' },
-    { e164: '+41793500885', display: '+41 79 350 08 85', languages: 'IT - DE - CH' },
+    { e164: '+41764115506', display: '+41 76 411 55 06', languages: 'IT - B/H/S' },
+    { e164: '+41793500885', display: '+41 79 350 08 85', languages: 'IT - DE - CH - B/H/S' },
   ],
   // The client's WhatsApp number (the author, 2026-11-01).
   whatsapp: '+41764115506',

@@ -60,7 +60,9 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
         }
       >
         {LOCALE_NAMES[target]}
-        {variant === 'menu' && <span className="text-xs uppercase opacity-60">{target}</span>}
+        {variant === 'menu' && (
+          <span className="text-xs uppercase opacity-60">{target == 'bs' ? 'BHS' : target}</span>
+        )}
       </a>
     </li>
   ))
