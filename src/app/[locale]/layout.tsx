@@ -8,6 +8,7 @@ import { SiteFooter } from '@/components/site/SiteFooter.tsx'
 import { SiteHeader } from '@/components/site/SiteHeader.tsx'
 import { WhatsAppButton } from '@/components/site/WhatsAppButton.tsx'
 import { company } from '@/content/company.ts'
+import { LANGUAGES } from '@/i18n/languages.ts'
 import { routing } from '@/i18n/routing.ts'
 import { PageChangeMark } from '@/islands/PageChangeMark.tsx'
 import { siteUrl } from '@/lib/site.ts'
@@ -70,8 +71,9 @@ export default async function LocaleLayout({ children, params }: Props) {
     // data-scroll-behavior: Next.js turns the root's smooth scrolling (globals.css, for in-page
     // anchors) off while it puts a new page at the top; without it every page change scrolled
     // up for 0.6–0.8 s (the author's Firefox profile, 2026-11-01).
+    // lang: the text's language tag (languages.ts), `bs-Latn` for BHS, not the locale.
     <html
-      lang={locale}
+      lang={LANGUAGES[locale].htmlLang}
       className={`${sans.variable} ${serif.variable}`}
       data-theme={THEME_CHOICE ? undefined : FIXED_THEME}
       data-scroll-behavior="smooth"

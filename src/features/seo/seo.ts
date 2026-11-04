@@ -4,14 +4,25 @@
 // contact page.
 
 import type { Company } from '@/content/schema.ts'
+import { hreflangAlternates, LANGUAGES } from '@/i18n/languages.ts'
 import { PAGES, type PageKey } from '@/i18n/pages.ts'
 import { type Locale, routing } from '@/i18n/routing.ts'
 
-/** The path of a page in a locale: `/it/chi-siamo`, `/de` for the home page. */
+/** The path of a page in a locale: `/it/chi-siamo`, `/de` for the home page, `/bhs/o-nama`. */
 export function localizedPath(locale: Locale, page: PageKey): string {
   const pathname = routing.pathnames[PAGES[page]]
   const localized = typeof pathname === 'string' ? pathname : pathname[locale]
-  return localized === '/' ? `/${locale}` : `/${locale}${localized}`
+  const { prefix } = LANGUAGES[locale]
+  return localized === '/' ? prefix : `${prefix}${localized}`
+}
+
+/**
+ * The hreflang alternates of a page: `it`, `de`, `en`, the three BHS tags `bs`, `hr`, `sr`
+ * (one URL), and x-default (Italian). `base` makes them absolute (the sitemap); the pages give
+ * them relative and Next.js adds `metadataBase`.
+ */
+export function pageAlternates(page: PageKey, base = ''): Record<string, string> {
+  return hreflangAlternates((locale) => `${base}${localizedPath(locale, page)}`)
 }
 
 export interface SitemapEntry {
@@ -22,10 +33,7 @@ export interface SitemapEntry {
 /** Every page in every locale, each with all its language versions and x-default (Italian). */
 export function sitemapEntries(baseUrl: string): SitemapEntry[] {
   return (Object.keys(PAGES) as PageKey[]).flatMap((page) => {
-    const languages: Record<string, string> = Object.fromEntries(
-      routing.locales.map((locale) => [locale, `${baseUrl}${localizedPath(locale, page)}`]),
-    )
-    languages['x-default'] = `${baseUrl}${localizedPath(routing.defaultLocale, page)}`
+    const languages = pageAlternates(page, baseUrl)
     return routing.locales.map((locale) => ({
       url: `${baseUrl}${localizedPath(locale, page)}`,
       alternates: { languages },

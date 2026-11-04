@@ -18,6 +18,7 @@ import {
   type QuoteField,
   type QuoteValues,
 } from './fields.ts'
+import { localeCode } from '@/i18n/languages.ts'
 
 const PHONE = /^\+?[\d\s().-]{6,}$/
 
@@ -186,7 +187,7 @@ export function quoteMail(
     `E-mail: ${contact.email}`,
     `Telefono: ${contact.phone || '-'}`,
     `Località: ${contact.place || '-'}`,
-    `Lingua del sito: ${meta.locale.toUpperCase()}`,
+    `Lingua del sito: ${localeCode(meta.locale)}`,
     '',
     `Parete: ${m(placement.wall.width)} × ${m(placement.wall.height)} m (${WALL_NAME[config.wall]})`,
     `Stanza: ${m(config.room.width)} × ${m(config.room.length)} × ${m(config.room.height)} m`,

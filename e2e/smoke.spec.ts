@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { collectErrors, PAGES } from './pages.ts'
+import { collectErrors, htmlLangOf, PAGES } from './pages.ts'
 
 // Every page opens with status 200, one h1, the right language, no horizontal scroll, and
 // no error in the console; the global navigation works on desktops and phones.
@@ -9,7 +9,7 @@ for (const { name, path } of PAGES) {
     const errors = collectErrors(page)
     const response = await page.goto(path)
     expect(response?.status()).toBe(200)
-    await expect(page.locator('html')).toHaveAttribute('lang', path.split('/')[1] ?? '')
+    await expect(page.locator('html')).toHaveAttribute('lang', htmlLangOf(path) ?? '')
     await expect(page.locator('h1')).toHaveCount(1)
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

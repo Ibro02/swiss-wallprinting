@@ -25,7 +25,7 @@ Success criteria:
 | Speed (configurator) | 60 FPS on a mid-range phone (iPhone 12, Pixel 6a class), first frame ≤ 4 s on 4G |
 | JavaScript | No three.js on marketing pages. ≤ 150 KB gzip first-load JS on the home page |
 | Accessibility | WCAG 2.2 AA. The configurator works with keyboard and without pointing in 3D |
-| Languages | Italian (default), German, English on `.ch`; plus Bosnian on `.com` |
+| Languages | Italian (default), German, English, and BHS (Bosnian, Croatian, Serbian as one language, Latin script, at `/bhs`; [[ADR/0003-bhs-one-language]]). The domains (`.ch`, `.com`) are open (P8) |
 
 ---
 
@@ -160,6 +160,8 @@ interface ConfiguratorState {
 | Legal | Imprint and privacy policy per locale | Static |
 
 Localized paths come from next-intl `pathnames`. Each page has `hreflang` alternates and is in `sitemap.xml`.
+
+**2026-11-04, BHS** ([[ADR/0003-bhs-one-language]], [[2026-11-04 01 - BHS and international SEO]]): the Bosnian version became **BHS**, one shared version for Bosnia and Herzegovina, Croatia, and Serbia at `/bhs/…` (`<html lang="bs-Latn">`, hreflang `bs`, `hr`, `sr` on one URL, x-default Italian). The internal locale stays `bs` (Intl formats with it). Old `/bs/…` addresses redirect. No language detection: every address opens its own language, whatever the browser or the country. All language facts are in `src/i18n/languages.ts`.
 
 **2026-10-22, the client's brief** ([[Specs/Client brief]], [[2026-10-22 12 - Client brief, projects and FAQ]]): the Gallery tab became **Projects** (the client's "gallery of finished projects", with their stories), and **FAQ** is a new tab (the client's ten questions; three of the four reference sites have one). Navigation: About, Services, Projects, FAQ, Contact, and the configurator button.
 

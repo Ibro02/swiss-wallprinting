@@ -3,21 +3,23 @@ import { company } from '../../../content/company.ts'
 import { PAGES } from '../../../i18n/pages.ts'
 import { routing } from '../../../i18n/routing.ts'
 import { siteUrl } from '../../../lib/site.ts'
-import { localBusinessJsonLd, localizedPath, sitemapEntries } from '../seo.ts'
+import { type PageKey } from '../../../i18n/pages.ts'
+import { localBusinessJsonLd, localizedPath, pageAlternates, sitemapEntries } from '../seo.ts'
 
 const BASE = 'https://example.ch'
 
 describe('localizedPath', () => {
-  it('uses the localized slug of each locale', () => {
+  it('uses the localized slug of each locale, under its address prefix', () => {
     expect(localizedPath('it', 'about')).toBe('/it/chi-siamo')
     expect(localizedPath('de', 'tryYourWall')).toBe('/de/wand-testen')
-    expect(localizedPath('bs', 'privacy')).toBe('/bs/privatnost')
+    expect(localizedPath('bs', 'privacy')).toBe('/bhs/privatnost')
     expect(localizedPath('it', 'projects')).toBe('/it/progetti')
     expect(localizedPath('de', 'faq')).toBe('/de/haeufige-fragen')
   })
 
-  it('gives the home page as the bare locale', () => {
+  it('gives the home page as the bare prefix', () => {
     expect(localizedPath('en', 'home')).toBe('/en')
+    expect(localizedPath('bs', 'home')).toBe('/bhs')
   })
 })
 
@@ -35,9 +37,29 @@ describe('sitemapEntries', () => {
       it: `${BASE}/it/chi-siamo`,
       de: `${BASE}/de/ueber-uns`,
       en: `${BASE}/en/about`,
-      bs: `${BASE}/bs/o-nama`,
+      bs: `${BASE}/bhs/o-nama`,
+      hr: `${BASE}/bhs/o-nama`,
+      sr: `${BASE}/bhs/o-nama`,
       'x-default': `${BASE}/it/chi-siamo`,
     })
+  })
+
+  it('gives every version of a page the same set, which names the version itself', () => {
+    for (const page of Object.keys(PAGES) as PageKey[]) {
+      for (const locale of routing.locales) {
+        const url = `${BASE}${localizedPath(locale, page)}`
+        const entry = entries.find((candidate) => candidate.url === url)
+        expect(entry?.alternates.languages, url).toEqual(pageAlternates(page, BASE))
+        expect(Object.values(entry?.alternates.languages ?? {}), url).toContain(url)
+      }
+    }
+  })
+
+  it('has no BHS page outside /bhs, and never the made-up tag "bhs"', () => {
+    for (const entry of entries) {
+      expect(entry.url).not.toMatch(/\.ch\/(bs|hr|sr)(\/|$)/)
+      expect(Object.keys(entry.alternates.languages)).not.toContain('bhs')
+    }
   })
 })
 

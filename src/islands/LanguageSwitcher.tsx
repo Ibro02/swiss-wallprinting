@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useRef } from 'react'
 import { ChevronDownIcon, GlobeIcon } from '@/components/icons.tsx'
-import { LOCALE_NAMES } from '@/i18n/locale-names.ts'
+import { LANGUAGES } from '@/i18n/languages.ts'
 import { getPathname, usePathname } from '@/i18n/navigation.ts'
 import { routing } from '@/i18n/routing.ts'
 
@@ -50,8 +50,8 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
     <li key={target}>
       <a
         href={getPathname({ href: pathname, locale: target })}
-        hrefLang={target}
-        lang={target}
+        hrefLang={LANGUAGES[target].htmlLang}
+        lang={LANGUAGES[target].htmlLang}
         aria-current={target === locale ? 'true' : undefined}
         className={
           variant === 'menu'
@@ -59,10 +59,8 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
             : 'inline-flex h-11 items-center rounded-xl px-4 text-sm font-medium ring-1 ring-ink/12 ring-inset aria-[current]:bg-lime aria-[current]:text-graphite aria-[current]:ring-lime'
         }
       >
-        {LOCALE_NAMES[target]}
-        {variant === 'menu' && (
-          <span className="text-xs uppercase opacity-60">{target == 'bs' ? 'BHS' : target}</span>
-        )}
+        {LANGUAGES[target].name}
+        {variant === 'menu' && <span className="text-xs opacity-60">{LANGUAGES[target].code}</span>}
       </a>
     </li>
   ))
@@ -80,10 +78,10 @@ export function LanguageSwitcher({ variant = 'menu' }: { variant?: 'menu' | 'lis
       <summary
         className="flex h-10 cursor-pointer list-none items-center gap-1.5 rounded-xl px-3 text-sm font-medium text-ink/75 transition-colors duration-150 hover:bg-ink/6 hover:text-ink [&::-webkit-details-marker]:hidden"
         // The visible code ("IT") is part of the name, for voice control (WCAG 2.5.3).
-        aria-label={`${locale.toUpperCase()}, ${t('language')}: ${LOCALE_NAMES[locale]}`}
+        aria-label={`${LANGUAGES[locale].code}, ${t('language')}: ${LANGUAGES[locale].name}`}
       >
         <GlobeIcon className="size-4" />
-        <span className="uppercase">{locale}</span>
+        <span>{LANGUAGES[locale].code}</span>
         <ChevronDownIcon className="size-3.5 transition-transform group-open:rotate-180 motion-reduce:transition-none" />
       </summary>
       {/* Grows from the button's corner as it opens (`.menu-pop` in globals.css, no script):

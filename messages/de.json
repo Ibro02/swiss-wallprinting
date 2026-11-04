@@ -438,6 +438,7 @@
   "Imprint": {
     "eyebrow": "Impressum",
     "title": "Impressum",
+    "description": "Angaben zum Betreiber der Website von Swiss Wall Printing und Kontakt, mit Hinweisen zu Haftung, Links und Urheberrecht.",
     "operator": "Betreiber der Website",
     "fields": {
       "name": "Firma",

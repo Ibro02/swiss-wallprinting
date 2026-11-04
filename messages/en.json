@@ -438,6 +438,7 @@
   "Imprint": {
     "eyebrow": "Imprint",
     "title": "Imprint",
+    "description": "Who runs the Swiss Wall Printing website and how to reach us, with notes on liability, links, and copyright.",
     "operator": "Website operator",
     "fields": {
       "name": "Company",

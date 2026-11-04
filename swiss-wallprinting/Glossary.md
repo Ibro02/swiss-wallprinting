@@ -18,3 +18,9 @@ _Avoid_: constraint, validation
 **Share link**:
 The address that carries a configuration, so the visitor can send it or come back to it. It never carries an uploaded image.
 _Avoid_: permalink, deep link
+
+## Languages
+
+**BHS**:
+One language version of the site for Bosnian, Croatian, and Serbian readers: one text, Latin script, at `/bhs`. In code its locale is `bs` (the formatting locale); its language tag is `bs-Latn`.
+_Avoid_: Bosnian version, `bhs` as a language tag, separate hr or sr versions

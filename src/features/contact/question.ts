@@ -15,6 +15,7 @@ import {
   type QuestionValues,
   SPAM_FIELDS,
 } from './fields.ts'
+import { localeCode } from '@/i18n/languages.ts'
 
 export { LIMITS, MIN_FILL_MS, OTHER_AREA, SPAM_FIELDS }
 export type { FieldError, Question, QuestionField, QuestionValues }
@@ -124,7 +125,7 @@ export function questionMail(
     `E-mail: ${question.email}`,
     `Telefono: ${question.phone || '-'}`,
     `Spazio: ${question.areas.map(areaName).join(', ') || '-'}`,
-    `Lingua del sito: ${meta.locale.toUpperCase()}`,
+    `Lingua del sito: ${localeCode(meta.locale)}`,
     `Pagina: ${meta.page}`,
     '',
     question.message,

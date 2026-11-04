@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Swiss Wall Printing – Direktna štampa na zid",
-    "description": "Štampamo slike direktno na unutrašnje zidove, bez folije i bez ljepila. Do 3,80 m visine, neograničena širina. Camignolo, Ticino."
+    "title": "Swiss Wall Printing – Direktna štampa i print na zid",
+    "description": "Direktna štampa i print slika na unutrašnje zidove, bez folije i ljepila, do 3,80 m visine. Camignolo, Ticino, Švicarska. Govorimo bosanski, hrvatski i srpski."
   },
   "Nav": {
     "label": "Glavna navigacija",
@@ -438,6 +438,7 @@
   "Imprint": {
     "eyebrow": "Impresum",
     "title": "Impresum",
+    "description": "Podaci o vlasniku stranice Swiss Wall Printing i kontakt, uz napomene o odgovornosti, linkovima i autorskim pravima.",
     "operator": "Vlasnik stranice",
     "fields": {
       "name": "Firma",

@@ -438,6 +438,7 @@
   "Imprint": {
     "eyebrow": "Note legali",
     "title": "Note legali",
+    "description": "Dati del gestore del sito Swiss Wall Printing e contatti, con le note su responsabilità, link e diritti d’autore.",
     "operator": "Gestore del sito",
     "fields": {
       "name": "Azienda",
